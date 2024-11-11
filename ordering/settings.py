@@ -83,8 +83,12 @@ WSGI_APPLICATION = 'ordering.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        
+        'NAME': 'mydb',
+        'USER': 'root',
+        'PASSWORD': 'Iqbal@1234',
+        'HOST':'localhost',
+        'PORT':'3306',
     }
 }
 
