@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <!-- Link to the Admin Dashboard CSS -->
+    <link rel="stylesheet" href="{% static 'travel/adminDashboard.css' %}">
+</head>
+<body>
+    {% block content %}
+    <div class="admin-dashboard-container">
+        <h1>Admin Dashboard</h1>
+        
+        <!-- Admin Navigation -->
+        <nav>
+            <ul>
+                <li><a href="#">Manage Users</a></li>
+                <li><a href="#">Assign Roles</a></li>
+                <li><a href="#">Edit Responsibilities</a></li>
+                <li><a href="#">Manage Permissions</a></li>
+                <li><a href="{% url 'admin_logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Admin Dashboard Main Content -->
+        <div class="admin-dashboard-content">
+            <h2>Welcome, Admin!</h2>
+            <p>Use the links above to manage user data, assign roles, and manage permissions.</p>
+            
+            <!-- Example section for managing users -->
+            <section class="manage-users">
+                <h3>Manage Users</h3>
+                <p>Here you can view and manage all registered users.</p>
+                <!-- Example table for user data -->
+                <table>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tr>
+                        <td>user1</td>
+                        <td>user1@example.com</td>
+                        <td>
+                            <button>Edit</button>
+                            <button>Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>user2</td>
+                        <td>user2@example.com</td>
+                        <td>
+                            <button>Edit</button>
+                            <button>Delete</button>
+                        </td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </table>
+            </section>
+
+            <!-- Example section for managing roles -->
+            <section class="manage-roles">
+                <h3>Manage Roles</h3>
+                <p>Here you can assign or edit roles for users.</p>
+                <!-- Example for roles -->
+                <select>
+                    <option>Admin</option>
+                    <option>Editor</option>
+                    <option>Viewer</option>
+                </select>
+                <button>Assign Role</button>
+            </section>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>
