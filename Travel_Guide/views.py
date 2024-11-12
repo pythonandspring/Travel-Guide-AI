@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render 
 from django.contrib.auth.hashers import make_password
-from Travel_Guide.models import Customer
+from Travel_Guide.model import Customer
 
 
 def index_view(request):
@@ -20,6 +20,6 @@ def insert_data_view(request):
             password=password,
         )
 
-        return redirect('index.html')  #change
+        # return redirect('index.html')  #change
 
-    return render(request, 'insert_data.html') #change
+    # return render(request, 'insert_data.html') #change
