@@ -1,12 +1,15 @@
-from django.shortcuts import render
-from django.shortcuts import render, get_object_or_404
-from .models import Student
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import EditProfileForm
 
+@login_required  
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile') 
+    else:
+        form = EditProfileForm(instance=request.user)
 
-# def student_list(request):
-#     students = Student.objects.all()
-#     return render(request, 'home/student_list.html', {'students': students})
-
-# def student_detail(request, student_id):
-#     student = get_object_or_404(Student, id=student_id)
-#     return render(request, 'home/student_detail.html', {'student': student})
+    return render(request, 'edit_profile.html', {'form': form})
