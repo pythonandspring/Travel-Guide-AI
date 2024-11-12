@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image:url('bg1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+    background-color: rgba(164, 239, 243, 0.8); /* 0.8 controls the transparency */
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .error {
+            color: #ff4d4d;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Customer Registration</h2>
+    <form name="form1" onsubmit="return Validateuser()">
+        <label>Username:</label>
+        <input type="text" name="text1" placeholder="Enter username">
+        <div id="userError" class="error">Username must be 3-15 characters (letters and numbers only).</div>
+
+        <label>Email ID:</label>
+        <input type="text" name="text2" placeholder="Enter email">
+        <div id="emailError" class="error">Enter a valid email address.</div>
+
+        <label>Password:</label>
+        <input type="password" name="text3" placeholder="Enter password">
+        <div id="passwordError" class="error">Password must be at least 8 characters, including an uppercase letter, a number, and a special character.</div>
+
+        <input type="submit" value="Register">
+    </form>
+</div>
+
+<script>
+    function Validateuser() {
+        let user = document.form1.text1.value;
+        let email = document.form1.text2.value;
+        let password = document.form1.text3.value;
+
+        const userre = /^[a-zA-Z0-9]{3,15}$/;
+        const emailre = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const passwordre = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+
+        let result1 = userre.test(user);
+        let result2 = emailre.test(email);
+        let result3 = passwordre.test(password);
+
+        document.getElementById("userError").style.display = result1 ? "none" : "block";
+        document.getElementById("emailError").style.display = result2 ? "none" : "block";
+        document.getElementById("passwordError").style.display = result3 ? "none" : "block";
+
+        return result1 && result2 && result3;
+    }
+</script>
+
+</body>
+</html>
