@@ -62,9 +62,7 @@ SETTINGS_PATH = os.path.normpath(os.path.dirname(__file__))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(SETTINGS_PATH, 'templates'),
-                 'templates',
-                 ],
+        'DIRS': [os.path.join(SETTINGS_PATH, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,31 +130,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    "customer/static/travel/",
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'my_files')
-
-
-import os
-
-# Define STATIC_URL and STATICFILES_DIRS
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # This is where Django will look for additional static files
-]
-
-# Define STATIC_ROOT for production (collectstatic will put all static files here)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Typically used in production, when `collectstatic` is run
-
-
-
-#media access!
-import os
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'customer/media')
-
-
 
 
 # Default primary key field type
