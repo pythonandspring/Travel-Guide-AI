@@ -19,11 +19,18 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from django.urls import path
+from django.contrib import admin  
+from . import views
+
 
 urlpatterns = [
     # path('admin/', include('teacher.urls')),
     # path('customer/', include('student.urls')),
     path('', views.home, name='blog-home'),
+     path('', views.index_view, name='index'),  #change    
+    path('insert-data/', views.insert_data_view, name='insert_data'), #change
+
 ]
 
 if settings.DEBUG:

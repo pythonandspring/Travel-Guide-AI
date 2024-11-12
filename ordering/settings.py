@@ -83,12 +83,12 @@ WSGI_APPLICATION = 'ordering.wsgi.application'
 
 DATABASES = {
     'default': {
-        
-        'NAME': 'mydb',
-        'USER': 'root',
-        'PASSWORD': 'Iqbal@1234',
-        'HOST':'localhost',
-        'PORT':'3306',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'user',
+        'USER': 'root',                
+        'PASSWORD': 'Iqbal@1234',            
+        'HOST': '127.0.0.1',                    
+        'PORT': '3306',   
     }
 }
 
