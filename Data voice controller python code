@@ -1,5 +1,5 @@
 Requirements: Speech recognition library-version 3.11.0 (SPEECH TO TEXT)
-pip install setuptools,pip packages(INSTALL IN VS CODE)
+pip install setuptools-version 24.3.1,pip packages(INSTALL IN VS CODE)
 PYTHON CODE FOR DATA VOICE CONTROLLER:
 import speech_recognition as sr
 def speech_to_text():
