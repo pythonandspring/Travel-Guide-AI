@@ -22,7 +22,8 @@ from . import views
 
 urlpatterns = [
     # path('admin/', include('teacher.urls')),
-    path('customer/', include('customer.urls')),
+    path('user/', include('customer.urls')),
+    path('user/', include('django.contrib.auth.urls')),
     path('', views.home, name='blog-home'),
 ]
 

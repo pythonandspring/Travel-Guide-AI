@@ -1,17 +1,16 @@
-from django.db import models
-from datetime import date, timedelta
+from django.contrib.auth.models import User
 from django.db import models
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-class Customer(models.Model):
-    
-    user_id = models.IntegerField(primary_key=True)  
-    user_role_id = models.IntegerField() 
-    user_name = models.CharField(max_length=100)  
-    user_email = models.EmailField(unique=True)  
-    user_dob = models.DateField()  
-    user_address = models.CharField(max_length=255) 
-    
+    location = models.CharField(max_length=100, blank=True, null=True)
+    birth_date = models.DateField(blank=True, null=True)
+    travel_preferences = models.JSONField(blank=True, null=True)  
+    favorite_destinations = models.TextField(blank=True, null=True)  
+    languages_spoken = models.CharField(max_length=255, blank=True, null=True) 
+    budget_range = models.CharField(max_length=50, blank=True, null=True) 
+    interests = models.CharField(max_length=255, blank=True, null=True)  
+
     def __str__(self):
-        return f"{self.user_id} - {self.user_name}"
-
+        return f"{self.user.username}'s profile"
