@@ -2,7 +2,7 @@ import streamlit as st
 import sqlite3
 import pandas as pd
 
-# Create a SQLite database and a table to store user data
+# Connect to SQLite database and create a table if it doesn't exist
 conn = sqlite3.connect('user_data.db')
 cursor = conn.cursor()
 
@@ -13,7 +13,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS users (
                     place TEXT,
                     password TEXT)''')
 
-# Admin credentials (these can be stored in the database too)
+# Admin credentials
 ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "admin123"
 
@@ -28,15 +28,19 @@ def get_users():
     users = cursor.fetchall()
     return users
 
-# Function to check admin login
-def admin_login(username, password):
-    if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-        return True
-    else:
-        return False
+# Function to update user details
+def update_user(user_id, name, place):
+    cursor.execute("UPDATE users SET name = ?, place = ? WHERE id = ?", (name, place, user_id))
+    conn.commit()
 
 # Streamlit page layout
 st.title("User Authentication System")
+
+# Initialize session state for admin login
+if "admin_logged_in" not in st.session_state:
+    st.session_state.admin_logged_in = False
+if "selected_user" not in st.session_state:
+    st.session_state.selected_user = None
 
 # Sidebar for navigation
 option = st.sidebar.selectbox("Choose Option", ("Login", "Signup", "Admin Login"))
@@ -44,8 +48,6 @@ option = st.sidebar.selectbox("Choose Option", ("Login", "Signup", "Admin Login"
 # Signup Page
 if option == "Signup":
     st.subheader("Signup Form")
-
-    # Collect user input
     name = st.text_input("Enter your Name")
     place = st.text_input("Enter your Place")
     password = st.text_input("Enter your Password", type="password")
@@ -53,21 +55,19 @@ if option == "Signup":
     if st.button("Sign Up"):
         if name and place and password:
             add_user(name, place, password)
-            st.success("YOU HAVE SUCCESSFULLY SIGNED UP")
+            st.success("You have successfully signed up.")
         else:
             st.warning("Please fill in all the details.")
 
 # Login Page
 elif option == "Login":
     st.subheader("Login Form")
-
     username = st.text_input("Enter your Name")
     password = st.text_input("Enter your Password", type="password")
 
     if st.button("Login"):
         cursor.execute("SELECT * FROM users WHERE name=? AND password=?", (username, password))
         user = cursor.fetchone()
-
         if user:
             st.success(f"Welcome {username}!")
         else:
@@ -77,33 +77,50 @@ elif option == "Login":
 elif option == "Admin Login":
     st.subheader("Admin Login")
 
-    admin_username = st.text_input("Admin Username")
-    admin_password = st.text_input("Admin Password", type="password")
+    # Admin login form only appears if not already logged in
+    if not st.session_state.admin_logged_in:
+        admin_username = st.text_input("Admin Username")
+        admin_password = st.text_input("Admin Password", type="password")
 
-    if st.button("Login as Admin"):
-        if admin_login(admin_username, admin_password):
-            st.success("Logged in as Admin")
+        if st.button("Login as Admin"):
+            if admin_username == ADMIN_USERNAME and admin_password == ADMIN_PASSWORD:
+                st.session_state.admin_logged_in = True
+                st.success("Logged in as Admin")
+            else:
+                st.error("Invalid admin credentials. Please try again.")
+    else:
+        # Display admin actions once logged in
+        st.success("Logged in as Admin")
+        
+        # Show the user details table
+        users = get_users()
+        if users:
+            df = pd.DataFrame(users, columns=["ID", "Name", "Place"])
+            st.dataframe(df)
+
+            # Select a user to update
+            user_id = st.selectbox("Select User ID to Update", [user[0] for user in users])
             
-            # Show the user details table
-            users = get_users()
-            if users:
-                df = pd.DataFrame(users, columns=["ID", "Name", "Place"])
-                st.dataframe(df)
+            # Fetch current details of the selected user and store in session state
+            selected_user = next((user for user in users if user[0] == user_id), None)
+            if selected_user:
+                st.session_state.selected_user = selected_user
 
-            # Admin can update user details (name or place)
-            user_id = st.selectbox("Select User to Update", [user[0] for user in users])
-            user_name = st.text_input("New Name")
-            user_place = st.text_input("New Place")
+            # Show update fields if a user is selected
+            if st.session_state.selected_user:
+                new_name = st.text_input("New Name", st.session_state.selected_user[1])
+                new_place = st.text_input("New Place", st.session_state.selected_user[2])
 
-            if st.button("Update User"):
-                if user_name or user_place:
-                    if user_name:
-                        cursor.execute("UPDATE users SET name=? WHERE id=?", (user_name, user_id))
-                    if user_place:
-                        cursor.execute("UPDATE users SET place=? WHERE id=?", (user_place, user_id))
-                    conn.commit()
-                    st.success("User details updated successfully!")
-                else:
-                    st.warning("Please enter new details to update.")
-        else:
-            st.error("Invalid admin credentials. Please try again.")
+                if st.button("Update User"):
+                    if new_name and new_place:
+                        update_user(st.session_state.selected_user[0], new_name, new_place)
+                        st.success("User details updated successfully!")
+                        st.experimental_rerun()  # Refresh page to show updated data
+                    else:
+                        st.warning("Please enter new details to update.")
+
+        # Logout button for admin
+        if st.button("Logout"):
+            st.session_state.admin_logged_in = False
+            st.session_state.selected_user = None
+            st.experimental_rerun()
