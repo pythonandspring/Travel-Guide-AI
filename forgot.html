@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevent the default form submission
+            const email = document.getElementById('email').value; // Get the email input value
+            if (email) {
+                alert(`A password reset link has been sent to ${email}`); // Simulate sending the reset link
+                // Here you can add code to actually send the reset link using an API
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        }
+    </script>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-image: url(image/for3.jpg); background-size: cover; height: 100vh; display: flex; justify-content: center; align-items: center;">
+
+    <div style="background: rgba(255, 255, 255, 0.8); border-radius: 10px; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); width: 90%; max-width: 400px; text-align: center;">
+        <h2 style="margin-bottom: 20px;">Forgot Password</h2>
+        <p style="margin-bottom: 20px;">Enter your email address to receive a password reset link.</p>
+        <form onsubmit="handleSubmit(event);">
+            <input type="email" id="email" placeholder="Email Address" required style="width: 90%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px;">
+            <button type="submit" style="width: 100%; padding: 10px; background-color: #4e0d3a; color: white; border: none; border-radius: 5px; cursor: pointer;">Send Reset Link</button>
+        </form>
+        <p style="margin-top: 20px;">Remembered your password? <a href="login.html" style="color: #4e0d3a; text-decoration: none;">Login</a></p>
+    </div>
+
+</body>
+</html>

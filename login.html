@@ -1,0 +1,211 @@
+
+<html>
+<head>
+    <title>Sign In</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #4e0d3a, #ff7e5f);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url(image/background.jpg) ;
+            
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            background: rgba(117, 112, 112, 0.68);
+            backdrop-filter: blur (10px);
+            padding: 40px;
+            /* border: 2px solid rgba(72, 68, 68, 0.8); */
+            border-radius: 15px ;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+        }
+
+        /* .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgb(176, 104, 104);
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            z-index: -1;
+            transform: translate(10px, 10px);
+        } */
+
+        .container h2 {
+            margin: 0 0 20px;
+            color: #000000;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px 40px;
+            border: 1px solid #ffffff;
+            background: rgba(255, 255, 255, 0.582);
+            backdrop-filter: blur (10px);
+            border-radius: 15px;
+            font-size: 16px;
+        }
+
+        .input-group i {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: #474a6e;
+        }
+
+        .input-group a {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            color: #ff0000;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn {
+            background: #e89da4;
+            color: rgb(89, 102, 136);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            background: #59e655;
+            color: rgb(0, 72, 255)
+        }
+
+        .signup-link {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: #ff3300;
+            text-decoration: none;
+        }
+
+
+        * {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+button {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #005f73;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    main {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>SIGN IN</h2>
+        <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="User name">
+        </div>
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Password">
+            <a href="forgot.html">Forgot?</a>
+        </div>
+        <button class="btn">SIGN IN</button>
+        <div class="signup-link">
+            Don't have an account? <a href="signup.html">Signup</a>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<script>
+    document.getElementById("button1").addEventListener("click", function() {
+    alert("Button 1 clicked!");
+});
+
+document.getElementById("button2").addEventListener("click", function() {
+    alert("Button 2 clicked!");
+});
+
+document.getElementById("button3").addEventListener("click", function() {
+    alert("Button 3 clicked!");
+});
+</script>
