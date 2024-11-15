@@ -38,7 +38,7 @@
 
         <!-- Login Form (Visible by Default) -->
         <div id="login" class="tab-content" style="display: block;">
-            <form action="#" method="post">
+            <form action="{% url 'mainPage' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="username">Enter Username:</label>

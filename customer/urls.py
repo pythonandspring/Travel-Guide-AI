@@ -11,6 +11,7 @@ urlpatterns = [
     path('customer/', views.customer, name='customer'),
     path('privacy_policy/', views.privacy_policy, name='privacy_policy'),
     path('terms_conditions/', views.terms_conditions, name='terms_conditions'),
+    path('mainPage/', views.mainPage, name='mainPage'),
 
 
     path('admin-login/', views.admin_login, name='admin_login'),

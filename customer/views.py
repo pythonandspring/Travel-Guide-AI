@@ -119,3 +119,9 @@ def terms_conditions(request):
         'MEDIA_URL': settings.MEDIA_URL,
     }
     return render(request,'travel/terms_conditions.html',context)
+
+def mainPage(request):
+    context = {
+        'MEDIA_URL': settings.MEDIA_URL,
+    }
+    return render(request,'travel/mainPage.html',context)
