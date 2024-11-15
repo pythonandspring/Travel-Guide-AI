@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'livereload',
     'django.contrib.staticfiles',
 ]
 
@@ -51,7 +52,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'livereload.middleware.LiveReloadScript',
 ]
+
+AUTO_RELOAD = {
+    "WATCH_FILES": True,  # Watch all template and static files
+    "WATCH_STATIC_FILES": True,  # Watch files in the STATICFILES_DIRS
+    "WATCH_TEMPLATES_FILES": True,  # Watch files in TEMPLATES_DIR
+}
+
 
 ROOT_URLCONF = 'ordering.urls'
 LOGOUT_REDIRECT_URL = '/'
