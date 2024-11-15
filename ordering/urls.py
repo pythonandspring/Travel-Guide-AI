@@ -23,7 +23,9 @@ from . import views
 urlpatterns = [
     # path('admin/', include('teacher.urls')),
     # path('customer/', include('student.urls')),
-    path('', views.home, name='blog-home'),
+    # path('', views.home, name='blog-home'),
+    path('',include('customer.urls'))
+
 ]
 
 if settings.DEBUG:
