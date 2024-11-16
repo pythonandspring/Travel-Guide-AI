@@ -1,17 +1,64 @@
 from django.shortcuts import render,redirect
-
-#to view response on browser
 from django.http import HttpResponse
-
-# To use Django's messaging system
 from django.contrib import messages  
-
-# Create your views here.
-#REVERSE - AVOID HARDCODING THE URLS 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import User 
 from django.urls import reverse
-
-#for image!
 from django.conf import settings
+
+
+
+class UserList(APIView):
+    def get(self, request):
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Retrieve, update, or delete a specific user
+class UserDetail(APIView):
+    def get_object(self, user_id):
+        try:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None
+
+    def get(self, request, user_id):
+        user = self.get_object(user_id)
+        if user:
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
+        return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, user_id):
+        user = self.get_object(user_id)
+        if user:
+            serializer = UserSerializer(user, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    def delete(self, request, user_id):
+        user = self.get_object(user_id)
+        if user:
+            user.delete()
+            return Response({'message': 'User deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
 
 def test(request):
     return HttpResponse("ok.")
