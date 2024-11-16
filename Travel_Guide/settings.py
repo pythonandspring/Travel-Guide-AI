@@ -41,7 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "customer"
 ]
+# settings.py
+AUTH_USER_MODEL = 'customer.CustomUser'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,7 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'ordering.urls'
+ROOT_URLCONF = 'customer.urls'
 LOGOUT_REDIRECT_URL = '/'
 
 # AUTH_USER_MODEL = 'teacher.CustomUser'
@@ -75,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ordering.wsgi.application'
+WSGI_APPLICATION = 'customer.wsgi.application'
 
 
 # Database
@@ -91,6 +95,8 @@ DATABASES = {
         'PORT': '3306',   
     }
 }
+# travel_guide/settings.py
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 # Password validation

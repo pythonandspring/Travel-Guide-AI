@@ -1,48 +1,38 @@
-from django.db import models
-from datetime import date, timedelta
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, username, password=None, **extra_fields):
+        if not email:
+            raise ValueError("The Email field must be set")
+        email = self.normalize_email(email)
+        user = self.model(email=email, username=username, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-class User(models.Model):
-    
-    user_id = models.IntegerField(primary_key=True)  
-    user_role_id = models.IntegerField() 
-    user_name = models.CharField(max_length=100)  
-    user_email = models.EmailField(unique=True)  
-    user_dob = models.DateField()  
-    user_address = models.CharField(max_length=255) 
-    
+    def create_superuser(self, email, username, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
+
+        return self.create_user(email, username, password, **extra_fields)
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(unique=True)
+    username = models.CharField(max_length=150, unique=True)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+
     def __str__(self):
-        return f"{self.user_id} - {self.user_name}"
-
-# class Student(models.Model):
-
-#     CLASS_CHOICES = [
-#         ('nursery', 'Nursery'),
-#         ('lkg', 'LKG'),
-#         ('ukg', 'UKG'),
-#         ('1st', '1st Class'),
-#         ('2nd', '2nd Class'),
-#     ]
-
-#     first_name = models.CharField(max_length=255)
-#     last_name = models.CharField(max_length=255)
-#     father_name = models.CharField(max_length=255)
-#     mother_name = models.CharField(max_length=255)
-#     student_class = models.CharField(max_length=10, choices=CLASS_CHOICES)
-#     phone_number = models.CharField(max_length=15)  # Assuming a simple phone number field
-#     class_teacher = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
-#     address = models.TextField()
-#     email = models.EmailField(unique=True)
-#     date_of_join = models.CharField(max_length=15)
-#     date_of_leaving = models.CharField(max_length=15)
-#     second_phone_number = models.CharField(max_length=15, blank=True, null=True)
-#     photo = models.ImageField(upload_to='static/images/', blank=True, null=True)
-#     identity_marks = models.TextField(blank=True)
-#     aadhar_number = models.CharField(max_length=20, blank=True)
-#     birth_certificate_number = models.CharField(max_length=20, blank=True)
-
-#     def __str__(self):
-#         return f'{self.first_name} {self.last_name}'
-
-
+        return self.email
