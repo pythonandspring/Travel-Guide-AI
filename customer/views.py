@@ -7,6 +7,8 @@ import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
+from customer.serializers import UserSerializer
 from .models import User 
 from django.urls import reverse
 from django.conf import settings
