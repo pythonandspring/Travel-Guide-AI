@@ -12,10 +12,10 @@
         <!-- Admin Navigation -->
         <nav>
             <ul>
-                <li><a href="#">Manage Users</a></li>
+                {% comment %} <li><a href="#">Manage Users</a></li>
                 <li><a href="#">Assign Roles</a></li>
                 <li><a href="#">Edit Responsibilities</a></li>
-                <li><a href="#">Manage Permissions</a></li>
+                <li><a href="#">Manage Permissions</a></li> {% endcomment %}
                 <li><a href="{% url 'admin_logout' %}">Logout</a></li>
             </ul>
         </nav>
@@ -23,51 +23,37 @@
         <!-- Admin Dashboard Main Content -->
         <div class="admin-dashboard-content">
             <h2>Welcome, Admin!</h2>
-            <p>Use the links above to manage user data, assign roles, and manage permissions.</p>
-            
-            <!-- Example section for managing users -->
-            <section class="manage-users">
-                <h3>Manage Users</h3>
-                <p>Here you can view and manage all registered users.</p>
-                <!-- Example table for user data -->
-                <table>
-                    <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Actions</th>
-                    </tr>
-                    <tr>
-                        <td>user1</td>
-                        <td>user1@example.com</td>
-                        <td>
-                            <button>Edit</button>
-                            <button>Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>user2</td>
-                        <td>user2@example.com</td>
-                        <td>
-                            <button>Edit</button>
-                            <button>Delete</button>
-                        </td>
-                    </tr>
-                    <!-- Add more rows as needed -->
-                </table>
-            </section>
 
-            <!-- Example section for managing roles -->
-            <section class="manage-roles">
-                <h3>Manage Roles</h3>
-                <p>Here you can assign or edit roles for users.</p>
-                <!-- Example for roles -->
-                <select>
-                    <option>Admin</option>
-                    <option>Editor</option>
-                    <option>Viewer</option>
-                </select>
-                <button>Assign Role</button>
-            </section>
+            
+               <!-- User Profiles Section -->
+    <section class="manage-users">
+        <h3>All User Profiles</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>
+                            <a href="{% url 'edit_user' user.id %}">Edit</a> |
+                            <a href="{% url 'delete_user' user.id %}" onclick="return confirm('Are you sure?');">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
         </div>
     </div>
     {% endblock %}

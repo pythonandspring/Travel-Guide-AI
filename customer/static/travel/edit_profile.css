@@ -1,0 +1,134 @@
+/* Profile Edit Container */
+.profile-edit-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Label Styling */
+label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* Input Fields */
+input, select, textarea {
+    width: 100%;  /* Center the fields */
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 5px;
+    text-align: left; /* Centers the text inside the input fields */
+}
+
+/* Focus State for Inputs */
+input:focus, select:focus, textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Error Messages */
+.errors p {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* Form Buttons */
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;  /* Space between buttons */
+}
+
+.btn-save, .btn-cancel {
+    padding: 5px 5px;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;  /* Makes the buttons full width */
+    max-width: 200px;  /* Limits the button width */
+}
+
+.btn-save {
+    background-color: #28a745;
+    transition: background-color 0.3s ease;
+}
+
+.btn-save:hover {
+    background-color: #218838;
+}
+
+.btn-cancel {
+    background-color: #dc3545;
+    text-decoration: none;
+    /* display: inline-block; */
+}
+
+.btn-cancel:hover {
+    background-color: #c82333;
+}
+
+
+
+/* General Button Styles */
+button {
+    background-color: #007bff; /* Blue background */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 15px; /* Padding for a clickable area */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin: 5px; /* Space between buttons */
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+/* Link inside Button */
+button a {
+    color: white; /* White text */
+    text-decoration: none; /* Remove underline */
+    font-family: Arial, sans-serif; /* Font style */
+}
+
+/* Hover Effect */
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+button a:hover {
+    color: #f1f1f1; /* Slightly lighter text on hover */
+}
+
+/* Custom Class for Edit Button */
+.btn-edit {
+    background-color: #28a745; /* Green background */
+}
+
+.btn-edit:hover {
+    background-color: #218838; /* Darker green on hover */
+}

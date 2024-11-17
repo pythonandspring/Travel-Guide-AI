@@ -94,8 +94,12 @@ WSGI_APPLICATION = 'ordering.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'user',
+        'USER': 'root',                
+        'PASSWORD': 'killer',            
+        'HOST': '127.0.0.1',                    
+        'PORT': '3306',   
     }
 }
 
@@ -155,3 +159,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'customer/media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+
+
+
+# Session settings
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Use database-backed sessions (default)
+SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Keep session after closing the browser
+SESSION_COOKIE_NAME = 'sessionid'  # This is the default session cookie name
+
+
+LOGIN_URL = '/admin-login/'  # Replace with the correct path for your login page

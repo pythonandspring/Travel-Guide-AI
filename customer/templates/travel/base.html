@@ -31,13 +31,22 @@
                 <div class="col px-3">
                     <div class="d-flex justify-content-center gap-3">
                         <a class="text-light text-decoration-none" href="{% url 'home' %}">Home</a>
-                        <a class="text-light text-decoration-none" href="{% url 'accomodations' %}">Accommodations</a>
                         <a class="text-light text-decoration-none" href="{% url 'gallery' %}">Gallery</a>
                         <a class="text-light text-decoration-none" href="{% url 'feedback' %}">Feedback</a>
                         <a class="text-light text-decoration-none" href="{% url 'agentRegistration' %}">Agent Registeration</a>
-                        <a class="text-light text-decoration-none" href="{% url 'customer' %}">Customer Login/Reg</a>
+
+                        {% if user.is_authenticated %}
+                            <a class="text-light text-decoration-none" href="{% url 'accomodations' %}">Accommodations</a>
+
+                            <a class="text-light text-decoration-none" href="{% url 'profile' %}">Profile</a>
+                        {% else %}
+                            <a class="text-light text-decoration-none" href="{% url 'login' %}">SignUp/SignIn</a>
+                            <a class="text-light text-decoration-none" href="{% url 'admin_login' %}">Admin</a>
+                        {% endif %}
+
+                        {% comment %} <a class="text-light text-decoration-none" href="{% url 'login' %}">SignUp/SignIn</a> {% endcomment %}
                         <a class="text-light text-decoration-none" href="{% url 'contact' %}">Contact</a>
-                        <a class="text-light text-decoration-none" href="{% url 'admin_login' %}">Admin</a>
+                        
                     </div>
                 </div>
             </div>
