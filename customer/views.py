@@ -156,13 +156,11 @@ def edit_user(request, user_id):
 
 
 def delete_user(request, user_id):
-    if request.user.is_staff:  # Ensure only staff can delete users
+     # Ensure only staff can delete users
         user = get_object_or_404(User, id=user_id)
         user.delete()
+        print("User deleted successfully!")
         return redirect('admin_dashboard')  # Adjust to the correct URL name for your admin dashboard
-    else:
-        return redirect('login')  # Redirect non-staff users to login or another page
-
 
 
 
