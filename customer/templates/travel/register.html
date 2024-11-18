@@ -1,0 +1,36 @@
+{% extends 'travel/base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'travel/register.css' %}">
+</head>
+
+<div class="register-container">
+    <h1>Customer Register</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+        <div class="form-group">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+        </div>
+        <div class="form-group">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+        </div>
+        {% if field.errors %}
+            <div class="error">{{ field.errors|striptags }}</div>
+        {% endif %}
+        <button type="submit" class="btn-submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+</div>
+{% endblock %}
