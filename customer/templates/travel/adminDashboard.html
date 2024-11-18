@@ -49,7 +49,14 @@
                         <td>{{ user.is_staff }}</td>
                         <td>
                             <a href="{% url 'edit_user' user.id %}">Edit</a> |
-                            <a href="{% url 'delete_user' user.id %}" onclick="return confirm('Are you sure?');">Delete</a>
+                            <a href="{% url 'delete_user' user.id %}" onclick="return confirm('Are you sure?');">Delete</a> | 
+                            <a href="{% url 'toggle_staff' user.id %}">
+                                {% if user.is_staff %}
+                                    Remove Staff
+                                {% else %}
+                                    Make Staff
+                                {% endif %}
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

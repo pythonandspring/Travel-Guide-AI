@@ -356,3 +356,19 @@ def search_voice(request):
         print(f"Error: {e}")
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
+
+def toggle_staff_status(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    
+    # Debugging: Print current status of the user
+    print(f"Before toggle: User {user.username} is {'staff' if user.is_staff else 'not staff'}")
+    
+    # Toggle the is_staff status
+    user.is_staff = not user.is_staff
+    user.save()
+
+    # Debugging: Confirm if it was toggled correctly
+    print(f"After toggle: User {user.username} is {'staff' if user.is_staff else 'not staff'}")
+    
+    # Redirect back to the previous page
+    return redirect(request.META.get('HTTP_REFERER', 'admin_dashboard'))

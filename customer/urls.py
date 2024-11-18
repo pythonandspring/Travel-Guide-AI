@@ -18,7 +18,7 @@ urlpatterns = [
     path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('search_voice/', views.search_voice, name='search_voice'),
-
+    path('toggle-staff/<int:user_id>/', views.toggle_staff_status, name='toggle_staff'),
     # for admin use
     path('edit_user/<int:user_id>/', views.edit_user, name='edit_user'),
     path('delete-user/<int:user_id>/', views.delete_user, name='delete_user'),
