@@ -137,17 +137,13 @@
             const modal = document.getElementById('voiceModal');
             const closeBtn = document.getElementById('closeModal');
             const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-
             modal.style.display = 'flex';
-
             recognition.lang = 'en-US';
             recognition.start();
-
             recognition.onresult = function (event) {
                 const transcript = event.results[0][0].transcript;
                 document.getElementById('searchBar').value = transcript;
                 filterCards();
-
                 fetch('/search_voice/', {
                     method: 'POST',
                     headers: {
@@ -166,25 +162,20 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
-
                 modal.style.display = 'none';
             };
-
             recognition.onerror = function (event) {
                 console.error('Speech recognition error:', event.error);
                 modal.style.display = 'none';
             };
-
             recognition.onspeechend = function () {
                 recognition.stop();
             };
-
             closeBtn.onclick = function () {
                 modal.style.display = 'none';
                 recognition.abort();
             };
         }
-
         function openPlaceDetails(placeName, placeLocation, placeDescription, placeImage) {
             const modal = document.getElementById('placeDetailsModal');
             document.getElementById('placeName').textContent = placeName;
@@ -193,21 +184,19 @@
             document.getElementById('placeImage').src = placeImage;
             modal.style.display = 'flex';
         }
-
         function closePlaceDetailsModal() {
             document.getElementById('placeDetailsModal').style.display = 'none';
         }
     </script>
 </head>
 
-<div class="gallery-container">
-    <h1>Explore Beautiful Destinations</h1>
-    <div class="search-container">
-        <input type="text" id="searchBar" class="search-bar" placeholder="Search for a place..." onkeyup="filterCards()">
-        <button id="startVoiceButton" onclick="startVoiceSearch()">🎤</button>
+    <div class="gallery-container">
+        <h1>Explore Beautiful Destinations</h1>
+        <div class="search-container">
+            <input type="text" id="searchBar" class="search-bar" placeholder="Search for a place..." onkeyup="filterCards()">
+            <button id="startVoiceButton" onclick="startVoiceSearch()">🎤</button>
     </div>
 
-    <!-- Voice Modal -->
     <div id="voiceModal" class="modal">
         <div class="modal-content">
             <p>Please speak now...</p>
@@ -215,7 +204,6 @@
         </div>
     </div>
 
-    <!-- Cards -->
     <div class="card-container">
         {% for place in places %}
         <div class="card" onclick="openPlaceDetails('{{ place.name|escapejs }}', '{{ place.location|escapejs }}', '{{ place.description|escapejs }}', '{% static place.image %}')">
@@ -226,7 +214,6 @@
     </div>
 </div>
 
-<!-- Place Details Modal -->
 <div id="placeDetailsModal" class="modal">
     <div class="modal-content">
         <h2 id="placeName"></h2>

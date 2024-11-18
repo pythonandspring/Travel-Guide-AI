@@ -1,4 +1,3 @@
-/* Container styling */
 .edit-user-container {
     width: 100%;
     max-width: 600px;
@@ -9,7 +8,6 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Header styling */
 .edit-user-container h1 {
     font-size: 24px;
     margin-bottom: 20px;
@@ -17,10 +15,9 @@
     color: #333;
 }
 
-/* Form field styling */
 .edit-user-container form {
     display: flex;
-    flex-direction: column; /* Changed to column to stack form groups */
+    flex-direction: column;
 }
 
 .edit-user-container form .form-group {
@@ -52,7 +49,6 @@
     outline: none;
 }
 
-/* Button styling */
 .edit-user-container form .btn-save,
 .edit-user-container form .btn-cancel {
     background-color: #007bff;
@@ -63,7 +59,7 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    width: 30%; /* Makes the buttons take up almost equal width */
+    width: 30%; 
 }
 
 .edit-user-container form .btn-save:hover {
@@ -81,14 +77,12 @@
     background-color: #d32f2f;
 }
 
-/* Flexbox to make buttons sit side by side */
 .edit-user-container form .button-container {
     display: flex;
     justify-content: space-between;
     gap: 10px;
 }
 
-/* Responsive styling */
 @media (max-width: 768px) {
     .edit-user-container {
         padding: 15px;
@@ -107,6 +101,6 @@
     .edit-user-container form .btn-save,
     .edit-user-container form .btn-cancel {
         font-size: 14px;
-        width: 100%; /* Buttons take full width on smaller screens */
+        width: 100%;
     }
 }

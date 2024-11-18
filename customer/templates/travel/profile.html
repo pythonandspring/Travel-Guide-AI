@@ -18,11 +18,8 @@
     <p><strong>Languages Spoken:</strong> {{ profile.languages_spoken }}</p>
     <p><strong>Budget Range:</strong> {{ profile.budget_range }}</p>
     <p><strong>Interests:</strong> {{ profile.interests }}</p>
-
-
-
+    
     <button class="btn-lg"><a href="{% url 'logout' %}">Logout</a></button>
-    <!-- Corrected Edit Profile Button -->
     <button class="btn-edit"><a href="{% url 'edit_profile' %}">Edit Profile</a></button>
 </div>
 

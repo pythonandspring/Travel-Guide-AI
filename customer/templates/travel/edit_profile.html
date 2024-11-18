@@ -11,11 +11,8 @@
 
 <div class="profile-edit-container">
     <h2>Edit Profile</h2>
-
     <form method="POST" enctype="multipart/form-data" class="form-gp">
         {% csrf_token %}
-        
-        <!-- Loop through form fields and render them -->
         <div class="form-group">
             <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
             {{ form.first_name }}
@@ -27,7 +24,6 @@
                 </div>
             {% endif %}
         </div>
-
         <div class="form-group">
             <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
             {{ form.last_name }}
@@ -39,7 +35,6 @@
                 </div>
             {% endif %}
         </div>
-
         <div class="form-group">
             <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
             {{ form.email }}
@@ -51,8 +46,6 @@
                 </div>
             {% endif %}
         </div>
-
-        <!-- Profile fields -->
         <div class="form-group">
             <label for="{{ form.location.id_for_label }}">{{ form.location.label }}</label>
             {{ form.location }}
@@ -64,7 +57,6 @@
                 </div>
             {% endif %}
         </div>
-
         <div class="form-group">
             <label for="{{ form.birth_date.id_for_label }}">{{ form.birth_date.label }}</label>
             {{ form.birth_date }}
@@ -76,7 +68,6 @@
                 </div>
             {% endif %}
         </div>
-
         <div class="form-group">
             <label for="travel_preferences">Travel Preferences</label>
             <input 
@@ -107,7 +98,6 @@
                 document.getElementById('travel_preferences_hidden').value = JSON.stringify(preferencesArray);
             });
         </script>
-
         <div class="form-group">
             <label for="{{ form.favorite_destinations.id_for_label }}">{{ form.favorite_destinations.label }}</label>
             {{ form.favorite_destinations }}
@@ -119,7 +109,6 @@
                 </div>
             {% endif %}
         </div>
-
         <div class="form-group">
             <label for="{{ form.languages_spoken.id_for_label }}">{{ form.languages_spoken.label }}</label>
             {{ form.languages_spoken }}
@@ -131,7 +120,6 @@
                 </div>
             {% endif %}
         </div>
-
         <div class="form-group">
             <label for="{{ form.budget_range.id_for_label }}">{{ form.budget_range.label }}</label>
             {{ form.budget_range }}
@@ -143,7 +131,6 @@
                 </div>
             {% endif %}
         </div>
-
         <div class="form-group">
             <label for="{{ form.interests.id_for_label }}">{{ form.interests.label }}</label>
             {{ form.interests }}
@@ -155,7 +142,6 @@
                 </div>
             {% endif %}
         </div>
-
         <div class="form-buttons">
             <button type="submit" class="btn-save">Save Changes</button>
             <a href="{% url 'profile' %}" class="btn-cancel">Cancel</a>

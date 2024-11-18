@@ -1,4 +1,3 @@
-/* Profile Edit Container */
 .profile-edit-container {
     max-width: 400px;
     margin: 0 auto;
@@ -15,7 +14,6 @@ h2 {
     color: #333;
 }
 
-/* Form Group */
 .form-group {
     margin-bottom: 15px;
     text-align: left;
@@ -24,7 +22,6 @@ h2 {
     align-items: flex-start;
 }
 
-/* Label Styling */
 label {
     display: block;
     font-size: 14px;
@@ -32,37 +29,33 @@ label {
     margin-bottom: 5px;
 }
 
-/* Input Fields */
 input, select, textarea {
-    width: 100%;  /* Center the fields */
+    width: 100%;
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     margin-top: 5px;
-    text-align: left; /* Centers the text inside the input fields */
+    text-align: left; 
 }
 
-/* Focus State for Inputs */
 input:focus, select:focus, textarea:focus {
     border-color: #007bff;
     outline: none;
 }
 
-/* Error Messages */
 .errors p {
     color: #e74c3c;
     font-size: 12px;
     margin-top: 5px;
 }
 
-/* Form Buttons */
 .form-buttons {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-    gap: 20px;  /* Space between buttons */
+    gap: 20px;
 }
 
 .btn-save, .btn-cancel {
@@ -72,8 +65,8 @@ input:focus, select:focus, textarea:focus {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    width: 100%;  /* Makes the buttons full width */
-    max-width: 200px;  /* Limits the button width */
+    width: 100%;
+    max-width: 200px;
 }
 
 .btn-save {
@@ -88,47 +81,40 @@ input:focus, select:focus, textarea:focus {
 .btn-cancel {
     background-color: #dc3545;
     text-decoration: none;
-    /* display: inline-block; */
 }
 
 .btn-cancel:hover {
     background-color: #c82333;
 }
 
-
-
-/* General Button Styles */
 button {
-    background-color: #007bff; /* Blue background */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px 15px; /* Padding for a clickable area */
-    cursor: pointer; /* Pointer cursor on hover */
-    margin: 5px; /* Space between buttons */
-    transition: background-color 0.3s ease; /* Smooth transition for hover */
+    background-color: #007bff; 
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer; 
+    margin: 5px; 
+    transition: background-color 0.3s ease; 
 }
 
-/* Link inside Button */
 button a {
-    color: white; /* White text */
-    text-decoration: none; /* Remove underline */
-    font-family: Arial, sans-serif; /* Font style */
+    color: white; 
+    text-decoration: none; 
+    font-family: Arial, sans-serif;
 }
 
-/* Hover Effect */
 button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3;
 }
 
 button a:hover {
-    color: #f1f1f1; /* Slightly lighter text on hover */
+    color: #f1f1f1;
 }
 
-/* Custom Class for Edit Button */
 .btn-edit {
-    background-color: #28a745; /* Green background */
+    background-color: #28a745; 
 }
 
 .btn-edit:hover {
-    background-color: #218838; /* Darker green on hover */
+    background-color: #218838;
 }
