@@ -28,11 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-
-
 # Application definition
-
 INSTALLED_APPS = [
     'customer.apps.CustomerConfig',
     'django.contrib.admin',
@@ -56,11 +52,10 @@ MIDDLEWARE = [
 ]
 
 AUTO_RELOAD = {
-    "WATCH_FILES": True,  # Watch all template and static files
-    "WATCH_STATIC_FILES": True,  # Watch files in the STATICFILES_DIRS
-    "WATCH_TEMPLATES_FILES": True,  # Watch files in TEMPLATES_DIR
+    "WATCH_FILES": True,
+    "WATCH_STATIC_FILES": True,
+    "WATCH_TEMPLATES_FILES": True,
 }
-
 
 ROOT_URLCONF = 'ordering.urls'
 LOGOUT_REDIRECT_URL = '/'
@@ -104,6 +99,7 @@ DATABASES = {
 }
 
 
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -145,8 +141,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-
-# Define STATIC_ROOT for production (collectstatic will put all static files here)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
 
 
@@ -159,18 +153,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'customer/media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-
-
-
-
-
-# Session settings
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Use database-backed sessions (default)
-SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Keep session after closing the browser
-SESSION_COOKIE_NAME = 'sessionid'  # This is the default session cookie name
-
-
-LOGIN_URL = '/admin-login/'  # Replace with the correct path for your login page
+SESSION_ENGINE = 'django.contrib.sessions.backends.db' 
+SESSION_COOKIE_AGE = 1209600
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_NAME = 'sessionid'
+LOGIN_URL = '/admin-login/'

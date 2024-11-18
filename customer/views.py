@@ -1,15 +1,16 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib import messages  
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import login_required,user_passes_test
-from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib.auth.models import User
 from .forms import EditProfileForm, UserRegistrationForm
 from .models import Profile
 from .forms import EditProfileForm, UserRegistrationForm
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 def test(request):
     return HttpResponse("ok.")
@@ -24,22 +25,18 @@ def admin_login(request):
     context = {
         'MEDIA_URL': settings.MEDIA_URL,
     }
-
-    # Debugging session expiry
     print(f"Session expiry before login: {request.session.get_expiry_date()}")
 
-    # If the user is already logged in as admin, redirect to dashboard
     if request.user.is_authenticated or request.session.get('is_admin'):
         print("Admin is already logged in.")
         messages.success(request, "Admin is already logged in.")
 
-        return redirect('admin_dashboard')  # Redirect to dashboard if logged in as admin
+        return redirect('admin_dashboard') 
 
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        # Check if both fields have a minimum of 4 characters
         if len(username) >= 4 and len(password) >= 4:
             if username == 'admin' and password == 'admin':
                     request.session['is_admin'] = True
@@ -55,19 +52,16 @@ def admin_login(request):
     return render(request, 'travel/adminPage.html', context)
 
 def admin_dashboard(request):
-    # Print session data on every request
     print(f"Session data on dashboard page: {request.session.items()}")
 
-    # Check if the user is logged in as admin
     if not request.session.get('is_admin'):
         messages.error(request, 'You need to log in as an admin first.')
-        return redirect('admin_login')  # Redirect to login page if not an admin
+        return redirect('admin_login')
     
     users = User.objects.all()
     profiles = Profile.objects.all()
     messages.success(request,"Profiles Retrieved successfully!")
 
-    # Render the admin dashboard
     return render(
         request, 
         'travel/adminDashboard.html', 
@@ -75,13 +69,9 @@ def admin_dashboard(request):
     )
 
 def admin_logout(request):
-    # If using Django's User model for authentication
-
     print(f"Session before logout: {request.session.items()}")
 
-    logout(request)  # This will clear the session data
-    
-    # Clear the admin-specific session if manually set
+    logout(request)
     if 'is_admin' in request.session:
         del request.session['is_admin']
         print("Admin session deleted.")
@@ -142,12 +132,11 @@ def edit_user(request, user_id):
     return render(request, 'travel/edit_user.html', {'form': form, 'user': user,'MEDIA_URL': settings.MEDIA_URL})
 
 def delete_user(request, user_id):
-     # Ensure only staff can delete users
         user = get_object_or_404(User, id=user_id)
         user.delete()
         print("User deleted successfully!")
         messages.success(request,"User deleted successfully!")
-        return redirect('admin_dashboard')  # Adjust to the correct URL name for your admin dashboard
+        return redirect('admin_dashboard') 
 
 def gallery(request):
     places = [
@@ -267,8 +256,6 @@ def register(request):
         if form.is_valid():
             print("DEBUG: Form is valid")
             print("DEBUG: Form data -", form.cleaned_data)
-            # form.save()  .
-
             user = form.save()
             Profile.objects.create(user=user)
 
@@ -350,9 +337,22 @@ def user_profile(request):
         {
             'profile': profile,
             'MEDIA_URL': settings.MEDIA_URL,
-            'user': request.user,  # Pass the user directly
+            'user': request.user, 
         }
     )
-    # profile = Profile.objects.get(user=request.user)
     
+@csrf_exempt
+def search_voice(request):
+    try:
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            query = data.get('query', '')
+            print(f"Voice Search Query: {query}")
+            return JsonResponse({'status': 'success', 'query': query})
+
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=400)
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 

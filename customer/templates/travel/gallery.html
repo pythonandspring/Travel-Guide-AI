@@ -3,19 +3,18 @@
 
 {% block content %}
 <head>
-    <link rel="stylesheet" href="{% static 'travel/gallery.css' %}">
     <style>
         .gallery-container {
             text-align: center;
             padding: 20px;
         }
-
+        
         .search-container {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
         }
-
+        
         .search-bar {
             width: 50%;
             padding: 10px;
@@ -23,60 +22,68 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-
+        
         #voiceBtn {
             padding: 10px;
             margin-left: 10px;
             font-size: 18px;
             cursor: pointer;
-            background-color: #ffffff;
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 4px;
         }
-
+        
         #voiceBtn:hover {
-            background-color: #ced4d4;
+            background-color: #0056b3;
         }
-
+        
         .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 20px;
+            justify-items: center;
+            padding: 20px;
         }
-
+        
         .card {
-            width: 250px;
+            width: 150px;
             border: 1px solid #ddd;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            cursor: pointer; /* Add cursor to indicate clickable */
+            text-align: center;
+            background-color: #fff;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
+        
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        
         .card img {
             width: 100%;
-            height: 150px;
+            height: 100px;
             object-fit: cover;
         }
-
+        
         .card h2 {
-            font-size: 18px;
+            font-size: 16px;
             margin: 10px;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-
+        
         .card p {
             font-size: 14px;
-            margin: 5px 10px;
+            margin: 5px;
+            color: #666;
         }
-
-        .card strong {
-            font-weight: bold;
-        }
-
-        /* Modal Styles for Place Details */
+        
         .modal {
             display: none;
             position: fixed;
@@ -88,7 +95,7 @@
             justify-content: center;
             align-items: center;
         }
-
+        
         .modal-content {
             background-color: white;
             padding: 20px;
@@ -96,7 +103,7 @@
             text-align: center;
             width: 300px;
         }
-
+        
         .close-btn {
             background-color: red;
             color: white;
@@ -105,129 +112,102 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
+        
         .close-btn:hover {
             background-color: darkred;
         }
+        
     </style>
     <script>
-        // Function to filter the cards based on the search input
         function filterCards() {
             const searchValue = document.getElementById('searchBar').value.toLowerCase();
             const cards = document.querySelectorAll('.card');
-        
             cards.forEach(card => {
-                // Safely access the child elements
                 const titleElement = card.querySelector('h2');
                 const descriptionElement = card.querySelector('p');
                 const cardContent = 
                     (titleElement ? titleElement.textContent.toLowerCase() : '') +
                     ' ' +
                     (descriptionElement ? descriptionElement.textContent.toLowerCase() : '');
-        
-                // Show/hide cards based on the search value
                 card.style.display = cardContent.includes(searchValue) ? '' : 'none';
             });
         }
-        
-        // Function to start voice search
+
         function startVoiceSearch() {
             const modal = document.getElementById('voiceModal');
             const closeBtn = document.getElementById('closeModal');
             const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        
-            // Open the modal asking the user to speak
+
             modal.style.display = 'flex';
-        
-            // Start speech recognition
+
             recognition.lang = 'en-US';
             recognition.start();
-        
+
             recognition.onresult = function (event) {
                 const transcript = event.results[0][0].transcript;
                 document.getElementById('searchBar').value = transcript;
-        
-                // Trigger the filterCards function immediately after setting the search value
                 filterCards();
-        
-                // Send the voice input to the backend
-                fetch('http://localhost:5000/search_voice', {
+
+                fetch('/search_voice/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        query: transcript,  // Send the speech input as 'query'
-                    }),
+                    body: JSON.stringify({ query: transcript }),
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
                         console.log(`Voice input processed: ${data.query}`);
                     } else {
-                        console.log('Error:', data.message);
+                        console.error('Error:', data.message);
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
-        
-                modal.style.display = 'none';  // Close the modal after speech input
+
+                modal.style.display = 'none';
             };
-        
+
             recognition.onerror = function (event) {
                 console.error('Speech recognition error:', event.error);
-                modal.style.display = 'none'; // Close the modal if there's an error
+                modal.style.display = 'none';
             };
-        
+
             recognition.onspeechend = function () {
-                recognition.stop(); // Stop recognition when the user stops speaking
+                recognition.stop();
             };
-        
-            // Close the modal when the user clicks the close button
+
             closeBtn.onclick = function () {
                 modal.style.display = 'none';
-                recognition.abort(); // Stop recognition if the user closes the modal
+                recognition.abort();
             };
         }
 
-        // Function to open the modal with the place details
         function openPlaceDetails(placeName, placeLocation, placeDescription, placeImage) {
             const modal = document.getElementById('placeDetailsModal');
-            const placeNameElement = document.getElementById('placeName');
-            const placeLocationElement = document.getElementById('placeLocation');
-            const placeDescriptionElement = document.getElementById('placeDescription');
-            const placeImageElement = document.getElementById('placeImage');
-
-            // Set modal content based on the clicked place
-            placeNameElement.textContent = placeName;
-            placeLocationElement.textContent = `Location: ${placeLocation}`;
-            placeDescriptionElement.textContent = placeDescription;
-            placeImageElement.src = placeImage;
-
-            // Show the modal
+            document.getElementById('placeName').textContent = placeName;
+            document.getElementById('placeLocation').textContent = `Location: ${placeLocation}`;
+            document.getElementById('placeDescription').textContent = placeDescription;
+            document.getElementById('placeImage').src = placeImage;
             modal.style.display = 'flex';
         }
 
-        // Close the modal when the user clicks the close button
         function closePlaceDetailsModal() {
-            const modal = document.getElementById('placeDetailsModal');
-            modal.style.display = 'none';
+            document.getElementById('placeDetailsModal').style.display = 'none';
         }
     </script>
 </head>
 
 <div class="gallery-container">
     <h1>Explore Beautiful Destinations</h1>
-
-    <!-- Search bar and voice button -->
     <div class="search-container">
         <input type="text" id="searchBar" class="search-bar" placeholder="Search for a place..." onkeyup="filterCards()">
-        <button id="clearButton" class="clear-btn" style="display: none;">&times;</button>
-        <button id="voiceBtn" onclick="startVoiceSearch()">🎤</button>
+        <button id="startVoiceButton" onclick="startVoiceSearch()">🎤</button>
     </div>
 
-    <!-- Modal for voice search -->
+    <!-- Voice Modal -->
     <div id="voiceModal" class="modal">
         <div class="modal-content">
             <p>Please speak now...</p>
@@ -235,30 +215,25 @@
         </div>
     </div>
 
-    <!-- Gallery Cards -->
+    <!-- Cards -->
     <div class="card-container">
         {% for place in places %}
-        <div class="card" onclick="openPlaceDetails('{{ place.name }}', '{{ place.location }}', '{{ place.description }}', '{% static place.image %}')">
+        <div class="card" onclick="openPlaceDetails('{{ place.name|escapejs }}', '{{ place.location|escapejs }}', '{{ place.description|escapejs }}', '{% static place.image %}')">
             <img src="{% static place.image %}" alt="{{ place.name }}">
             <h2>{{ place.name }}</h2>
-            {% comment %} <p><strong>Location:</strong> {{ place.location }}</p> {% endcomment %}
-            {% comment %} <p>{{ place.description }}</p> {% endcomment %}
         </div>
         {% endfor %}
     </div>
 </div>
 
-<!-- Modal for Place Details -->
+<!-- Place Details Modal -->
 <div id="placeDetailsModal" class="modal">
     <div class="modal-content">
         <h2 id="placeName"></h2>
-        <img id="placeImage" style="width: 100%; height:150px; object-fit: cover;" />
-        <br>
+        <img id="placeImage" alt="Place Image" style="width: 100%; height: 150px; object-fit: cover;">
         <p id="placeLocation"></p>
         <p id="placeDescription"></p>
-       
         <button class="close-btn" onclick="closePlaceDetailsModal()">Close</button>
     </div>
 </div>
-
 {% endblock %}
