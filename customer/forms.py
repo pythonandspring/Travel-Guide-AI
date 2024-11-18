@@ -1,7 +1,16 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
 from django import forms
-from .models import Profile
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+
+class UserRegistrationForm(UserCreationForm):
+    email = forms.EmailField(required=True, help_text="Enter a valid email address.")
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']  
 
 
 class EditProfileForm(UserChangeForm):
@@ -13,19 +22,19 @@ class EditProfileForm(UserChangeForm):
             'email', 
         ]
 
-    location = forms.CharField(max_length=100, required=False)
-    birth_date = forms.DateField(required=False)
-    travel_preferences = forms.JSONField(required=False)
-    favorite_destinations = forms.CharField(widget=forms.Textarea, required=False)
-    languages_spoken = forms.CharField(max_length=255, required=False)
-    budget_range = forms.CharField(max_length=50, required=False)
-    interests = forms.CharField(max_length=255, required=False)
+    location = forms.CharField(max_length=100, required=False, label='Location')
+    birth_date = forms.DateField(required=False, label='Birth Date', widget=forms.SelectDateWidget(years=range(1900, 2025)))
+    travel_preferences = forms.JSONField(required=False, label='Travel Preferences', widget=forms.Textarea)
+    favorite_destinations = forms.CharField(widget=forms.Textarea, required=False, label='Favorite Destinations')
+    languages_spoken = forms.CharField(max_length=255, required=False, label='Languages Spoken')
+    budget_range = forms.CharField(max_length=50, required=False, label='Budget Range')
+    interests = forms.CharField(max_length=255, required=False, label='Interests')
 
     def __init__(self, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
-    
+     
         if self.instance.pk:  
-            profile = self.instance.profile  
+            profile = self.instance.profile  # Access profile using related_name
             self.fields['location'].initial = profile.location
             self.fields['birth_date'].initial = profile.birth_date
             self.fields['travel_preferences'].initial = profile.travel_preferences
@@ -39,7 +48,7 @@ class EditProfileForm(UserChangeForm):
         
         if commit:
             user.save()
-            profile = user.profile 
+            profile = user.profile  # Access profile using related_name
             profile.location = self.cleaned_data.get('location')
             profile.birth_date = self.cleaned_data.get('birth_date')
             profile.travel_preferences = self.cleaned_data.get('travel_preferences')
@@ -50,4 +59,7 @@ class EditProfileForm(UserChangeForm):
             profile.save()
 
         return user
+
+
+
 
