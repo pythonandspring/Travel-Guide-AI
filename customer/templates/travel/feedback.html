@@ -41,5 +41,25 @@
 
         <button type="submit">Submit</button>
     </form>
+    
 </div>
+
+<!-- Add this script to show notifications -->
+<script>
+    // Check if there are any Django messages
+    alertify.set('notifier', 'position', 'top-right');
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                alertify.success("{{ message|escapejs }}");
+            {% elif message.tags == 'error' %}
+                alertify.error("{{ message|escapejs }}");
+            {% elif message.tags == 'warning' %}
+                alertify.warning("{{ message|escapejs }}");
+            {% else %}
+                alertify.message("{{ message|escapejs }}");
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</script>
 {% endblock %}

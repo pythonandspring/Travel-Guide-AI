@@ -6,13 +6,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.urls import reverse
 from django.conf import settings
-
 from django.contrib.auth.models import User
-
 from .forms import EditProfileForm, UserRegistrationForm
 from .models import Profile
-
-
 from .forms import EditProfileForm, UserRegistrationForm
 
 def test(request):
@@ -23,9 +19,6 @@ def guide(request):
         'MEDIA_URL': settings.MEDIA_URL,
     }
     return render(request, 'travel/home.html',context)
-
-
-
 
 def admin_login(request):
     context = {
@@ -38,6 +31,8 @@ def admin_login(request):
     # If the user is already logged in as admin, redirect to dashboard
     if request.user.is_authenticated or request.session.get('is_admin'):
         print("Admin is already logged in.")
+        messages.success(request, "Admin is already logged in.")
+
         return redirect('admin_dashboard')  # Redirect to dashboard if logged in as admin
 
     if request.method == 'POST':
@@ -48,6 +43,7 @@ def admin_login(request):
         if len(username) >= 4 and len(password) >= 4:
             if username == 'admin' and password == 'admin':
                     request.session['is_admin'] = True
+                    messages.success(request,"Welcome back, Admin!")
                     print(f"Session data after setting is_admin: {request.session.items()}")
                     print(f"Session expiry after login: {request.session.get_expiry_date()}")
                     return redirect('admin_dashboard')  # Redirect to dashboard
@@ -57,9 +53,6 @@ def admin_login(request):
             messages.error(request, 'Both username and password must be at least 4 characters long.')
 
     return render(request, 'travel/adminPage.html', context)
-
-
-
 
 def admin_dashboard(request):
     # Print session data on every request
@@ -72,6 +65,7 @@ def admin_dashboard(request):
     
     users = User.objects.all()
     profiles = Profile.objects.all()
+    messages.success(request,"Profiles Retrieved successfully!")
 
     # Render the admin dashboard
     return render(
@@ -79,7 +73,6 @@ def admin_dashboard(request):
         'travel/adminDashboard.html', 
         {'users': users, 'profiles': profiles,'MEDIA_URL': settings.MEDIA_URL},
     )
-
 
 def admin_logout(request):
     # If using Django's User model for authentication
@@ -98,11 +91,6 @@ def admin_logout(request):
     
     messages.success(request, 'You have logged out successfully.')
     return redirect('admin_login')
-
-
-
-
-
 
 def is_admin_user(user):
     return user.is_authenticated and user.is_staff
@@ -133,6 +121,8 @@ def edit_user(request, user_id):
             profile.budget_range = form.cleaned_data.get('budget_range')
             profile.interests = form.cleaned_data.get('interests')
             profile.save()
+            messages.success(request,"User profile updated successfully.")
+
             print("[DEBUG] User profile updated successfully.")
             return redirect('admin_dashboard')
     else:
@@ -145,34 +135,19 @@ def edit_user(request, user_id):
         form.fields['languages_spoken'].initial = profile.languages_spoken
         form.fields['budget_range'].initial = profile.budget_range
         form.fields['interests'].initial = profile.interests
-        print("[DEBUG] Rendering edit form.")
+        messages.success(request,"Rendering edit form.")
+
+        print("[DEBUG] Rendered edit form.")
 
     return render(request, 'travel/edit_user.html', {'form': form, 'user': user,'MEDIA_URL': settings.MEDIA_URL})
-
-
-
-
-
-
 
 def delete_user(request, user_id):
      # Ensure only staff can delete users
         user = get_object_or_404(User, id=user_id)
         user.delete()
         print("User deleted successfully!")
+        messages.success(request,"User deleted successfully!")
         return redirect('admin_dashboard')  # Adjust to the correct URL name for your admin dashboard
-
-
-
-
-
-
-
-
-
-
-
-
 
 def gallery(request):
     places = [
@@ -194,34 +169,50 @@ def gallery(request):
         {"name": "Berlin", "location": "Germany", "description": "Known for its historical landmarks such as the Berlin Wall and Brandenburg Gate.", "image": "images/berlin.jpg"},
         {"name": "Athens", "location": "Greece", "description": "Famous for ancient monuments like the Acropolis and Parthenon.", "image": "images/athens.jpg"}
     ]
+
+    messages.warning(request,"Loading assets, please hold on")
+
     context = {"places": places, 'MEDIA_URL': settings.MEDIA_URL}
     return render(request, 'travel/gallery.html', context)
 
 def feedback(request):
+    if request.method == 'POST':
+        feedback_text = request.POST.get('feedback')
+        messages.success(request, "Thank you for your feedback!")
+        return redirect('feedback')
+    
     context = {
         'MEDIA_URL': settings.MEDIA_URL,
     }
+
     return render(request,'travel/feedback.html',context)
 
 def accomodations(request):
+    if request.method == 'POST':
+        feedback_text = request.POST.get('accomodations')
+        messages.success(request, "Accomodations request has been sent!")
+        return redirect('accomodations')
     context = {
         'MEDIA_URL': settings.MEDIA_URL,
     }
     return render(request,'travel/accomodations.html',context)
 
 def agentRegistration(request):
+    if request.method == 'POST':
+        feedback_text = request.POST.get('agentRegistration')
+        messages.success(request, "Agent Registration request has been sent!")
+        return redirect('agentRegistration')
+    
     context = {
         'MEDIA_URL': settings.MEDIA_URL,
     }
     return render(request,'travel/agentRegistration.html',context)
 
-def contact(request):
+def contact(request):    
     context = {
         'MEDIA_URL': settings.MEDIA_URL,
     }
     return render(request,'travel/contact.html',context)
-
-
 
 def privacy_policy(request):
     context = {
@@ -235,31 +226,9 @@ def terms_conditions(request):
     }
     return render(request,'travel/terms_conditions.html',context)
 
-
-
-
-#login, register (only for customer...)
-# def customer(request):
-#     context = {
-#         'MEDIA_URL': settings.MEDIA_URL,
-#     }
-#     return render(request,'travel/customer.html',context)
-
-
-
-# #after login,
-# def mainPage(request):
-#     context = {
-#         'MEDIA_URL': settings.MEDIA_URL,
-#     }
-#     return render(request,'travel/mainPage.html',context)
-
-
-
-
-#login
 def user_login(request):
     if request.user.is_authenticated: 
+        messages.success(request, "User is already authenticated, redirecting to profile..")
         return redirect('profile') 
     
     if request.method == 'POST':
@@ -275,7 +244,7 @@ def user_login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 print("DEBUG: Authentication successful for user:", user.username)
-
+                messages.success(request, "Authentication successful for user!")
                 login(request, user)
                 return redirect('profile')  
             else:
@@ -292,7 +261,6 @@ def user_login(request):
 
     return render(request, 'travel/login.html', {'form': form,'MEDIA_URL': settings.MEDIA_URL})
 
-#register
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -308,6 +276,7 @@ def register(request):
             print("DEBUG: User registration successful")  
             return redirect('login')  
         else:
+            messages.error(request, "A user with that username already exists.")
             print("DEBUG: Form is invalid")
             print("DEBUG: Errors -", form.errors)
     else:
@@ -315,7 +284,6 @@ def register(request):
         form = UserRegistrationForm()
 
     return render(request, 'travel/register.html', {'form': form,'MEDIA_URL': settings.MEDIA_URL})
-
 
 @login_required
 def edit_profile(request):
@@ -349,6 +317,7 @@ def edit_profile(request):
                     budget_range=form.cleaned_data.get('budget_range'),
                     interests=form.cleaned_data.get('interests')
                 )
+            messages.success(request, "Profile edited successfully!")
             return redirect('profile')  
     else:
 
@@ -364,8 +333,6 @@ def edit_profile(request):
 
 
     return render(request, 'travel/edit_profile.html', {'form': form,'MEDIA_URL': settings.MEDIA_URL})
-
-
 @login_required
 def user_profile(request):
 
