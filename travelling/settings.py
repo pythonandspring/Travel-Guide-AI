@@ -57,7 +57,8 @@ AUTO_RELOAD = {
     "WATCH_TEMPLATES_FILES": True,
 }
 
-ROOT_URLCONF = 'ordering.urls'
+ROOT_URLCONF = 'travelling.urls'
+
 LOGOUT_REDIRECT_URL = '/'
 
 # AUTH_USER_MODEL = 'teacher.CustomUser'
@@ -81,7 +82,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ordering.wsgi.application'
+WSGI_APPLICATION = 'travelling.wsgi.application'
 
 
 # Database
