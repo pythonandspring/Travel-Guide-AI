@@ -1,9 +1,9 @@
-{% extends 'travel/base.html' %}
+{% extends 'home/base.html' %}
 {% load static %}
 
 {% block content %}
 <head>
-    <link rel="stylesheet" href="{% static 'travel/agentRegistration.css' %}">
+    <link rel="stylesheet" href="{% static 'css/agentRegistration.css' %}">
 </head>
 
 <div class="registration-container">
@@ -11,7 +11,7 @@
     <p>Please fill in the following details to register as an agent with us.</p>
 
     <!-- Agent Registration Form -->
-    <form action="#" method="post">
+    <form method="post">
         {% csrf_token %}
         
         <div class="form-group">

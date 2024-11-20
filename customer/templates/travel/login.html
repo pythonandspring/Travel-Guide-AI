@@ -1,28 +1,46 @@
-{% extends 'travel/base.html' %}
+{% extends 'home/base.html' %}
 {% load static %}
 
 {% block content %}
 <head>
-    <link rel="stylesheet" href="{% static 'travel/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 
 <div class="login-container">
     <h1>Customer Login</h1>
     <form method="post">
         {% csrf_token %}
+
         <div class="form-group">
-            {{ form.username.label_tag }}
+            <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
             {{ form.username }}
+            {% if form.username.errors %}
+                <div class="errors">
+                    {% for error in form.username.errors %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
+
         <div class="form-group">
-            {{ form.password.label_tag }}
+            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
             {{ form.password }}
+            {% if form.password.errors %}
+                <div class="errors">
+                    {% for error in form.password.errors %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
-        {% if field.errors %}
-            <div class="error">{{ field.errors|striptags }}</div>
-        {% endif %}
+
         <button type="submit" class="btn-submit">Login</button>
     </form>
+    
     <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    <p><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
 </div>
+
 {% endblock %}
+
