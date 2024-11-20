@@ -85,7 +85,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'travelling.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -94,13 +93,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'user',
         'USER': 'root',                
-        'PASSWORD': 'root',            
+        'PASSWORD': 'gd456nds',            
         'HOST': '127.0.0.1',                    
         'PORT': '3306',   
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
