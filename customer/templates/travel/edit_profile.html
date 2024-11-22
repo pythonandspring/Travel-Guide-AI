@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
 </head>
 
+<div  style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
 <div class="profile-edit-container">
     <h2>Edit Profile</h2>
     <form method="POST" enctype="multipart/form-data" class="form-gp">
@@ -147,6 +148,7 @@
             <a href="{% url 'profile' %}" class="btn-cancel">Cancel</a>
         </div>
     </form>
+</div>
 </div>
 
 {% endblock %}
