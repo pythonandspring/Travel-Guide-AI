@@ -1,88 +1,96 @@
-# Travel# Guide# AI
+Travel Guide AI
+===============
 
-# <--------------    Module 01:    ------------------->
+Module 01: Overview
+--------------------
 
-# Frontend Team :-  
+Frontend Team
+-------------
+Members:
+1. Jayandhan Rajendran (Lead)
+2. Rohan Mondal
+3. Komal Kadu Pandit
+4. Nithya Lakshmi
+5. CharithaSree Vanamala
 
-# Members :-
-# 1. Jayandhan Rajendran (Lead), 2. Rohan Mondal  
-# 3. Komal Kadu Pandit, 4. Nithya Lakshmi, 5. CharithaSree Vanamala  
+Team Contributions:
 
-# Team Contributions:  
+1. Jayandhan Rajendran:
+   - Designed Admin Login, Dashboard, and Integration.
+   - Created views and routes for related pages.
+   - Added staff assignment functionality for admin CRUD operations on user profiles.
+   - Developed a `base.html` template with reusable header and footer components.
+   - Integrated Alertify.js for notification popups.
 
-# 1. Jayandhan Rajendran : 
-#  Designed Admin Login, Dashboard, and Integration.  
-#  Managed to create Views and Routes for related pages.  
-#  Added staff assignment functionality, allowing the admin 
-#  to perform CRUD operations on user profiles.  
-#  Developed a Base.html template with reusable Header and Footer components.  
-#  Utilized Alertify.js for notification popups on the UI.  
+2. Rohan Mondal:
+   - Implemented password update functionality for users who forgot passwords.
+   - Added authentication features with strong password validation.
 
-# 2. Rohan Mondal:  
-#  Implemented the feature to update passwords if users forget them.  
-#  Added authentication and ensured strong password combinations during updates.  
+3. Nithya Lakshmi:
+   - Designed and developed the following pages:
+       * home.html
+       * accommodations.html
+       * contact.html
+       * customer.html
+       * edit_profile.html
+       * edit_user.html
+       * feedback.html
+       * privacy_policy.html
+       * profile.html
+       * terms_conditions.html
+   - Styled the pages with clean, user-friendly stylesheets.
 
-# 3. Nithya Lakshmi:
-#  Created the following pages:  
-#  home.html, accommodations.html, contact.html, customer.html, edit_profile.html,    edit_user.html, feedback.html, privacy_policy.html, profile.html, and terms_conditions.html.  
-#  Styled the pages with appropriate stylesheets to ensure a clean and user# friendly UI.  
+4. Komal Kadu Pandit:
+   - Designed Admin Login Page and Dashboard.
+   - Created a Gallery Page.
+   - Contributed to the `base.html` file design.
 
-# 4. Komal Kadu Pandit:  
-#  Designed the Admin Login Page and Dashboard.  
-#  Created a Gallery Page and contributed to the Base.html file.  
+5. CharithaSree Vanamala:
+   - Designed Customer Registration Page.
+   - Added input validations for user registration.
 
-# 5. CharithaSree Vanamala:  
-#  Designed the Customer Registration Page.  
-#  Added validations for user input on the registration page.  
+Backend Team
+------------
+Members:
+1. Rajeshwari Ch
+2. Gaurav Desai
+3. Hareesh J
+4. Rama Tulasi Akula
+5. Raunak Mishra
+6. Kusuma
 
+Team Contributions:
 
-# Backendend Team:
+1. Rajeshwari Ch:
+   - Implemented user registration and login functionality.
+   - Created views for login, logout, and register.
+   - Used Django's built-in forms to handle user changes.
+   - Configured routing in `urls.py` within the `customer` folder.
 
-# Members:# 
-# 1. Rajeshwari Ch, 2. Gaurav Desai, 3. Hareesh J, 4. Rama Tulasi Akula, 
-# 5. Raunak Mishra, 6. Kusuma
+2. Gaurav Desai:
+   - Created views for `user_profile` and `edit_profile`.
+   - Developed forms using the Profile model for editing user details.
+   - Added password reset functionality with strong validations.
+   - Configured paths in `urls.py` for routing views and forms.
 
-# Team Contributions: 
-# 1. Rajeshwari Ch:
-# Task ( User should registered successfully in the system  and able to login )
-# Created views login, logout, register views related User.
-# Created forms using inbuilt forms to change user.
-# Created paths in urls.py file in the customer folder for routing this views and forms.
-# Helped to connecting with frontend.
+3. Hareesh J:
+   - Added a custom `myadmin` app.
+   - Implemented admin login, logout, and staff toggle functionalities in `myadmin.views`.
+   - Configured routing in the `myadmin` app and integrated with the frontend.
 
-# 2. Gaurav Desai:
-# Task ( user should able to make changes in the profile ).
-# Created views user_profile, edit_profile.
-# Created forms using db model profile to edit profile.
-# Created paths in urls.py file in the customer folder for routing this views and forms.
-# Created User Forgot Password Fuctionality.
-# Using inbuilt change user detail funcationality of the Django.
-# Helped to connecting to the frontend.
+4. Rama Tulasi Akula, Raunak Mishra, and Kusuma:
+   - Utilized the Speech Recognition library for converting speech to text.
+   - Used PyAudio for microphone access.
+   - Integrated the functionality with Django and the frontend.
 
-# 3. Hareesh J:
-# Added app myadmin
-# Created admin login, admin logout, toggle staff views in the myadmin.views.
-# Updated urls in myadmin code to update
-# Connected with frontend.
+Database Team
+-------------
+Members:
+1. Iqbal
 
-# 4. Rama Tulasi Akula: 
-# 5. Raunak Mishra: 
-# 6. Kusuma:
-# we used the speech recognition library to convert the speech to text.
-# py audio library for the microphone access
-# Then we used the setuptools to allow easily and to distribute the packages.
-# The code is integrated with the  Django 
-# implemented in Frontend .
+Team Contributions:
 
-
-# Database Team:
-
-# Members:
-# 1. Iqbal
-
-# Team Contributions:
-# 1. Iqbal
-# Created user db in data base.
-# use User model inbuilt inside the django.
-# Created Profile model in models.py extending the User model.
-# Created OneToOne Relation ship with User model.
+1. Iqbal:
+   - Created user database using Django's inbuilt User model.
+   - Extended the User model with a custom Profile model in `models.py`.
+   - Established a `OneToOneField` relationship with the User model.
