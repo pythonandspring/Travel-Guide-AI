@@ -1,7 +1,5 @@
 from django.db import models
 
-from django.db import models
-
 class HotelOwner(models.Model):
 
     name = models.CharField(max_length=255)
@@ -20,6 +18,7 @@ class HotelOwner(models.Model):
     available_non_ac_rooms = models.PositiveIntegerField(default=0)  
     price_per_ac_room = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)  
     price_per_non_ac_room = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)  
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
