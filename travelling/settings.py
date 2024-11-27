@@ -85,7 +85,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'travelling.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -94,13 +93,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'user_new',
         'USER': 'root',                
+<<<<<<< HEAD
         'PASSWORD': 'Iqbal@1234',            
+=======
+        'PASSWORD': 'gd456nds',            
+>>>>>>> 730368fd57efd312f48ecb3969af689e84cafb5f
         'HOST': '127.0.0.1',                    
         'PORT': '3306',   
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -165,7 +166,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'desaigaurav87@gmail.com'
-EMAIL_HOST_PASSWORD = 'azgubvsmjxfwsvfd'  
-DEFAULT_FROM_EMAIL = 'desaigaurav87@gmail.com'
+EMAIL_HOST_USER = 'enter your email'
+EMAIL_HOST_PASSWORD = 'enter you password'  
+DEFAULT_FROM_EMAIL = 'enter default email to send mail from.'
 

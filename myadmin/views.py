@@ -12,9 +12,6 @@ from django.core.exceptions import PermissionDenied
 
 
 def admin_login(request):
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
     print(f"Session expiry before login: {request.session.get_expiry_date()}")
 
     if request.method == 'POST':
@@ -22,7 +19,7 @@ def admin_login(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('admin_dashboard')  # Redirect to the custom admin dashboard
+            return redirect('admin_dashboard')  
     else:
         form = AuthenticationForm()
     return render(request, 'adminPage.html', {'form': form, 'MEDIA_URL': settings.MEDIA_URL})
@@ -108,7 +105,6 @@ def admin_logout(request):
     if 'is_admin' in request.session:
         del request.session['is_admin']
         print("Admin session deleted.")
-
 
     print(f"Session after logout: {request.session.items()}")  
     
