@@ -13,7 +13,7 @@ from .views import (
 
 urlpatterns = [
 
-    path("", travel_views.home,),    
+    path("", travel_views.home),    
 
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),

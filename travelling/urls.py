@@ -23,7 +23,8 @@ from . import views
 urlpatterns = [
     path('admin/', include('myadmin.urls')),
     path("", views.home, name="home"),
-    path("customer/",include("customer.urls"), name="customer")
+    path("customer/", include("customer.urls"), name="customer"),
+    path("accommodation", include("accommodation.urls"), name="accommodation")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
