@@ -75,5 +75,171 @@
                     
             }
         }
-    }
+    },
+    
+    "Madhya Pradesh": {
+            "Bhopal": {
+                "Sanchi Stupa": {
+                    "name": "Ancient Buddhist Monument",
+                    "other_information": "UNESCO World Heritage Site built during Emperor Ashoka's reign."
+                }
+            },
+            "Indore": {
+                "Rajwada Palace": {
+                    "name": "Historic Royal Residence",
+                    "other_information": "A mix of Maratha and Mughal architectural styles."
+                }
+            },
+            "Gwalior": {
+                "Gwalior Fort": {
+                    "name": "Hilltop Fort",
+                    "other_information": "Known for its stunning architecture and history."
+                }
+            }
+        },
+        "Uttarakhand": {
+            "Dehradun": {
+                "Robber's Cave": {
+                    "name": "River Cave",
+                    "other_information": "A natural cave formation with a stream flowing through it."
+                }
+            },
+            "Nainital": {
+                "Naini Lake": {
+                    "name": "Scenic Freshwater Lake",
+                    "other_information": "Heart of Nainital, ideal for boating and sightseeing."
+                }
+            },
+            "Rishikesh": {
+                "Laxman Jhula": {
+                    "name": "Hanging Bridge",
+                    "other_information": "A suspension bridge over the Ganges with religious significance."
+                }
+            }
+        },
+        "West Bengal": {
+            "Kolkata": {
+                "Victoria Memorial": {
+                    "name": "Colonial Monument",
+                    "other_information": "Dedicated to Queen Victoria, surrounded by beautiful gardens."
+                }
+            },
+            "Darjeeling": {
+                "Tiger Hill": {
+                    "name": "Sunrise Point",
+                    "other_information": "Famous for panoramic views of Mount Everest and Kanchenjunga."
+                }
+            },
+            "Sundarbans": {
+                "Sundarbans National Park": {
+                    "name": "Mangrove Forest",
+                    "other_information": "Home to the Royal Bengal Tiger and a UNESCO World Heritage Site."
+                }
+            }
+        },
+        
+         "Tamil Nadu": {
+                "Chennai": {
+                    "Marina Beach": {
+                        "name": "Longest Urban Beach",
+                        "other_information": "Known for its scenic beauty and historic monuments."
+                    }
+                },
+                "Madurai": {
+                    "Meenakshi Temple": {
+                        "name": "Dravidian Architecture Temple",
+                        "other_information": "Dedicated to Goddess Meenakshi and Lord Sundareswarar."
+                    }
+                },
+                "Coimbatore": {
+                    "Isha Yoga Center": {
+                        "name": "Spiritual Center",
+                        "other_information": "Famous for the iconic Adiyogi Shiva statue."
+                    }
+                }
+            },
+            "Karnataka": {
+                "Bengaluru": {
+                    "Lalbagh Botanical Garden": {
+                        "name": "Historic Garden",
+                        "other_information": "Houses a diverse collection of flora and glasshouses."
+                    }
+                },
+                "Mysuru": {
+                    "Mysore Palace": {
+                        "name": "Royal Heritage Palace",
+                        "other_information": "Famous for its Dussehra celebrations and intricate architecture."
+                    }
+                },
+                "Hampi": {
+                    "Virupaksha Temple": {
+                        "name": "Historic Temple",
+                        "other_information": "Dedicated to Lord Shiva and part of the Vijayanagara ruins."
+                    }
+                }
+            },
+            "Uttar Pradesh": {
+                "Agra": {
+                    "Taj Mahal": {
+                        "name": "White Marble Mausoleum",
+                        "other_information": "One of the Seven Wonders of the World, built by Shah Jahan."
+                    }
+                },
+                "Varanasi": {
+                    "Dashashwamedh Ghat": {
+                        "name": "Sacred Ghat",
+                        "other_information": "Known for Ganga Aarti and spiritual significance."
+                    }
+                },
+                "Lucknow": {
+                    "Bara Imambara": {
+                        "name": "Historic Monument",
+                        "other_information": "Built by Asaf-ud-Daula, famous for its labyrinth."
+                    }
+                }
+            },
+            "Punjab": {
+                "Amritsar": {
+                    "Golden Temple": {
+                        "name": "Sikh Holy Shrine",
+                        "other_information": "Known for its gold-plated structure and serene surroundings."
+                    }
+                },
+                "Ludhiana": {
+                    "Rakh Bagh Park": {
+                        "name": "Urban Park",
+                        "other_information": "Popular spot for family outings and picnics."
+                    }
+                },
+                "Patiala": {
+                    "Qila Mubarak": {
+                        "name": "Historic Fort",
+                        "other_information": "Showcases the grandeur of Sikh architecture."
+                    }
+                }
+            },
+            "Jharkhand": {
+                "Ranchi": {
+                    "Hundru Falls": {
+                        "name": "Waterfall",
+                        "other_information": "A scenic spot for nature lovers."
+                    }
+                },
+                "Jamshedpur": {
+                    "Jubilee Park": {
+                        "name": "Urban Park",
+                        "other_information": "Known as the 'Mughal Garden of Jamshedpur.'"
+                    }
+                },
+                "Dhanbad": {
+                    "Maithon Dam": {
+                        "name": "Hydro Power Dam",
+                        "other_information": "Famous for its reservoir and picturesque surroundings."
+                    }
+                }
+            }
+        
+        
+    
+
 }
