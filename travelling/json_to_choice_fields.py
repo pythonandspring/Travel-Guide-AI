@@ -31,6 +31,7 @@ df = pd.DataFrame(flatten_json(data))
 
 def extract_state():
     global df
+    print(df)
 
     states = [state for state in df['state'].unique()]
     return states

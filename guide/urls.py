@@ -7,4 +7,5 @@ urlpatterns = [
     path('login/', views.guide_login, name='guide_login'),
     path("contact_support", views.contact_support, name='contact_support'),
     path("", travel_views.home),
+    
 ]

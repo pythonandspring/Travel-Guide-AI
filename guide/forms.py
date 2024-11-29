@@ -2,7 +2,6 @@ from django import forms
 from .models import Guide
 from travelling.json_to_choice_fields import extract_state, extract_cities, extract_place
 
-
 print(extract_state())
 
 
@@ -29,10 +28,13 @@ class GuideRegistrationForm(forms.ModelForm):
             raise forms.ValidationError("Passwords do not match.")
         return cleaned_data
     
-    def _init_(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         state = kwargs.pop('state', None)
         city = kwargs.pop('city', None)
-        super()._init_(*args, **kwargs)
+        super().__init__(*args, **kwargs)
+
+        states = extract_state()
+        print("States:", states)
 
         self.fields['state'].choices = [(state_option, state_option) for state_option in extract_state()]
         self.fields['state'].initial = state
@@ -58,10 +60,13 @@ class GuideLoginForm(forms.Form):
         label="Password"
     )
 
-    def _init_(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         state = kwargs.pop('state', None)
         city = kwargs.pop('city', None)
-        super()._init_(*args, **kwargs)
+        super().__init__(*args, **kwargs)
+
+        states = extract_state()
+        print("States:", states)
 
         self.fields['state'].choices = [(state_option, state_option) for state_option in extract_state()]
         self.fields['state'].initial = state
