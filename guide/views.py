@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
 from .forms import GuideRegistrationForm, GuideLoginForm
 from .models import Guide
+from django.conf import settings
 
 def guide_registration(request):
     if request.method == 'POST':
@@ -23,7 +24,7 @@ def guide_registration(request):
     else:
         form = GuideRegistrationForm()
 
-    return render(request, 'guide_registration.html', {'form': form})
+    return render(request, 'guide_register.html', {'form': form,'MEDIA_URL': settings.MEDIA_URL})
 
 def guide_login(request):
     if request.method == "POST":
@@ -46,4 +47,9 @@ def guide_login(request):
     else:
         form = GuideLoginForm()
 
-    return render(request, 'guide_login.html', {'form': form})
+    return render(request, 'guide_login.html', {'form': form,'MEDIA_URL': settings.MEDIA_URL})
+
+
+
+def contact_support(request):    
+    return render(request, 'contact.html', {'MEDIA_URL': settings.MEDIA_URL})

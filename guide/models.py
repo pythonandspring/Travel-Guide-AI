@@ -15,8 +15,8 @@ class Place(models.Model):
     by_road_distances = models.TextField()  
     images = models.ImageField(upload_to='place_images/')
 
-    super_guide = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='supervised_places')
-    related_guides = models.ManyToManyField(User, related_name='accessible_places')
+    # super_guide = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='supervised_places')
+    # related_guides = models.ManyToManyField(User, related_name='accessible_places')
 
     def __str__(self):
         return self.name
@@ -28,25 +28,20 @@ class Guide(models.Model):
     password = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
     is_super_guide = models.BooleanField(default=False)
-    assigned_place = models.OneToOneField('Place', on_delete=models.SET_NULL, null=True, blank=True, related_name='super_guide')
-    # associate_touring_place =
-
-
-    # state = models.CharField(max_length=50, choices=)
-    # city = models.CharField(max_length=50, choices=)
-    # place = models.CharField(max_length=50, choices=)
+    state = models.CharField(max_length=50, choices=[])
+    city = models.CharField(max_length=50, choices=[])
+    place = models.CharField(max_length=50, choices=[])
 
     def __str__(self):
         return f"{self.name} - {'Super Guide' if self.is_super_guide else 'Guide'}"
     
 class Doctor(models.Model):
+    guide = models.ForeignKey("app.Model", verbose_name=(""), on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     specialty = models.CharField(max_length=100)
     contact = models.CharField(max_length=15)
     availability = models.CharField(max_length=100, help_text="E.g., Mon-Fri, 9 AM - 5 PM")
     guide = models.ForeignKey(Guide, on_delete=models.CASCADE, related_name="doctors")
-    # associate_touring_place =
 
     def __str__(self):
         return f"{self.name} - {self.specialty}"
-

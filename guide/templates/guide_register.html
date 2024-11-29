@@ -1,28 +1,185 @@
-{% extends 'home/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
+{% block styling %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+
+{% endblock styling %}
+
 {% block content %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guide Registration</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-</head>
 <body>
 
-<div class="container">
     <div id="registration-form">
-        <h2>Guide Registration</h2>
+        <h1>Guide Registration</h1>
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Register</button>
+
+            <h2>Guide's Information: </h2>
+            
+            <!-- Name Field -->
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    class="form-control" 
+                    placeholder="Full Name" 
+                    value="{{ form.name.value|default:'' }}">
+                {{ form.name.errors }}
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    class="form-control" 
+                    placeholder="Email Address" 
+                    value="{{ form.email.value|default:'' }}">
+                {{ form.email.errors }}
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    class="form-control" 
+                    placeholder="Enter your password">
+                {{ form.password.errors }}
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input 
+                    type="password" 
+                    id="confirm_password" 
+                    name="confirm_password" 
+                    class="form-control" 
+                    placeholder="Confirm your password">
+                {{ form.confirm_password.errors }}
+            </div>
+
+            <!-- Phone Field -->
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input 
+                    type="text" 
+                    id="phone" 
+                    name="phone" 
+                    class="form-control" 
+                    placeholder="Phone Number" 
+                    value="{{ form.phone.value|default:'' }}">
+                {{ form.phone.errors }}
+            </div>
+
+            <hr>
+            <h2>Guide's Associated Destination: </h2>
+
+            <!-- State Field -->
+            <div class="form-group">
+                <label for="state">State</label>
+                {{ form.state }}
+                {{ form.state.errors }}
+            </div>
+
+            
+            <!-- City Field -->
+            <div class="form-group">
+                <label for="city">City</label>
+                {{ form.city }}
+                {{ form.city.errors }}
+            </div>
+
+            <!-- Place Field -->
+            <div class="form-group">
+                <label for="place">Place</label>
+                {{ form.place }}
+                {{ form.place.errors }}
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Register</button>
         </form>
+
         <p>Already have an account? <a href="{% url 'guide_login' %}">Login here</a></p>
     </div>
-</div>
 
 </body>
+
+
+<script>
+    document.getElementById("id_state").addEventListener("change", function () {
+        const state = this.value;
+
+        fetch(/get-cities/?state=${state})
+            .then((response) => response.json())
+            .then((data) => {
+                const cityField = document.getElementById("id_city");
+                cityField.innerHTML = "";
+                if (data.cities.length > 0) {
+                    const defaultOption = document.createElement("option");
+                    defaultOption.textContent = "Select a city";
+                    defaultOption.disabled = true;
+                    defaultOption.selected = true;
+                    cityField.appendChild(defaultOption);
+                    
+
+                    data.cities.forEach((city) => {
+                        const option = document.createElement("option");
+                        option.value = city;
+                        option.textContent = city;
+                        cityField.appendChild(option);
+                    });
+                }
+            });
+    });
+    
+    document.getElementById("id_city").addEventListener("change", function () {
+        const state = document.getElementById("id_state").value;
+        const city = this.value;
+        // Fetch places based on selected state and city
+        fetch(/get-places/?state=${state}&city=${city})
+            .then((response) => response.json())
+            .then((data) => {
+                const placeField = document.getElementById("id_place");
+                placeField.innerHTML = ""; // Clear current options
+                if (data.places.length > 0) {
+                    // Add a default "Select" option
+                    const defaultOption = document.createElement("option");
+                    defaultOption.textContent = "Select a place";
+                    defaultOption.disabled = true;
+                    defaultOption.selected = true;
+                    placeField.appendChild(defaultOption);
+                    
+                    // Populate places dropdown with fetched data
+                    data.places.forEach((place) => {
+                        const option = document.createElement("option");
+                        option.value = place;
+                        option.textContent = place;
+                        placeField.appendChild(option);
+                    });
+                }
+            });
+    });
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const stateField = document.getElementById("id_state");
+        if (stateField) {
+            const defaultStateOption = document.createElement("option");
+            defaultStateOption.textContent = "Select a state";
+            defaultStateOption.disabled = true;
+            defaultStateOption.selected = true;
+            stateField.insertBefore(defaultStateOption, stateField.firstChild);
+        }
+    });
+</script>
+
 {% endblock %}
 

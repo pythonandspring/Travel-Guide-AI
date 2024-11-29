@@ -23,7 +23,9 @@ from . import views
 urlpatterns = [
     path('admin/', include('myadmin.urls')),
     path("", views.home, name="home"),
-    path("customer/",include("customer.urls"), name="customer")
+    path("customer/",include("customer.urls"), name="customer"),
+    path("get-cities/", views.get_cities, name="get_cities"),
+    path("get-places/", views.get_places, name="get_places"),
     path('guide/',include('guide.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
