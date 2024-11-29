@@ -3,6 +3,9 @@ from django.shortcuts import render
 from .json_to_choice_fields import extract_cities, extract_place
 from django.http import JsonResponse
 
+from travelling.json_to_choice_fields import extract_cities, extract_place
+from django.http import JsonResponse
+
 def home(request):
     return render(request, 'home/home.html', {'MEDIA_URL': settings.MEDIA_URL})
 
