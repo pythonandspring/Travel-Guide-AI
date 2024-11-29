@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.hashers import make_password, check_password
 from .models import HotelOwner
 from .forms import HotelOwnerRegistrationForm, HotelOwnerLoginForm
+from django.conf import settings
 
 
 def hotel_owner_registration(request):
@@ -24,7 +25,7 @@ def hotel_owner_registration(request):
     else:
         form = HotelOwnerRegistrationForm()
 
-    return render(request, 'registration.html', {'form': form})
+    return render(request, 'hotel_owner_register.html', {'form': form, 'MEDIA_URL': settings.MEDIA_URL})
 
 
 def hotel_owner_login(request):
@@ -47,3 +48,39 @@ def hotel_owner_login(request):
             messages.error(request, "Errors in the form.")
     else:         
         return render(request, 'hotel_owner_login.html', {'form':form})
+
+
+
+
+
+def contact_support(request):    
+    return render(request, 'contact.html', {'MEDIA_URL': settings.MEDIA_URL})
+
+
+
+
+
+
+
+
+
+
+
+
+# <-------------------------------------- Working with json for input field ----------->
+# def flatten_json(nested_dict, parent_key="", sep=" > "):
+#     """
+#     Recursively flatten a nested JSON object.
+#     """
+#     items = []
+#     for key, value in nested_dict.items():
+#         new_key = f"{parent_key}{sep}{key}" if parent_key else key
+#         if isinstance(value, dict) and value:
+#             items.extend(flatten_json(value, new_key, sep=sep).items())
+#         else:
+#             items.append((new_key, value))
+#     return dict(items)
+
+# # Flatten the nested JSON
+# flattened_data = flatten_json(nested_json)
+

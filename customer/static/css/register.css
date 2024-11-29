@@ -8,6 +8,24 @@
     text-align: center;
 }
 
+.registerhotel-container{
+    width: 800px;
+    margin: 10px auto;
+    padding: 5px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.registerhotel-container h2{
+    font-size: 15px;
+    margin-bottom: 5px ;
+    text-align: left;
+    color: grey;
+    text-decoration-line: underline;
+}
+
 h1 {
     font-size: 24px;
     margin-bottom: 20px;

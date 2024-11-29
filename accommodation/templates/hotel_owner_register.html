@@ -1,0 +1,313 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styling %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock styling %}
+
+{% block content %}
+<div class="registerhotel-container">
+    <h1>Hotel Registration</h1>
+    <form method="POST">
+        {% csrf_token %}
+
+        <h2>Hotel Owner's Details:</h2>
+        <div class="form-group hotel_owner_name">
+            <label for="{{ form.hotel_owner_name.id_for_label }}">{{ form.hotel_owner_name.label }}:</label>
+            {{ form.hotel_owner_name }}
+            {% if form.hotel_owner_name.errors %}
+                <div class="errors">
+                    {% for error in form.hotel_owner_name.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Owner Phone Number -->
+        <div class="form-group owner_phone_number">
+            <label for="{{ form.owner_phone_number.id_for_label }}">{{ form.owner_phone_number.label }}:</label>
+            {{ form.owner_phone_number }}
+            {% if form.owner_phone_number.errors %}
+                <div class="errors">
+                    {% for error in form.owner_phone_number.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Owner Email -->
+        <div class="form-group owner_email">
+            <label for="{{ form.owner_email.id_for_label }}">{{ form.owner_email.label }}:</label>
+            {{ form.owner_email }}
+            {% if form.owner_email.errors %}
+                <div class="errors">
+                    {% for error in form.owner_email.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <hr>
+        <h2>Hotel Details:</h2>
+        <!-- Hotel Name -->
+        <div class="form-group hotel_name">
+            <label for="{{ form.hotel_name.id_for_label }}">{{ form.hotel_name.label }}:</label>
+            {{ form.hotel_name }}
+            {% if form.hotel_name.errors %}
+                <div class="errors">
+                    {% for error in form.hotel_name.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Hotel Phone Number -->
+        <div class="form-group hotel_phone_number">
+            <label for="{{ form.hotel_phone_number.id_for_label }}">{{ form.hotel_phone_number.label }}:</label>
+            {{ form.hotel_phone_number }}
+            {% if form.hotel_phone_number.errors %}
+                <div class="errors">
+                    {% for error in form.hotel_phone_number.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Hotel Email -->
+        <div class="form-group hotel_email">
+            <label for="{{ form.hotel_email.id_for_label }}">{{ form.hotel_email.label }}:</label>
+            {{ form.hotel_email }}
+            {% if form.hotel_email.errors %}
+                <div class="errors">
+                    {% for error in form.hotel_email.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Hotel Address -->
+        <div class="form-group hotel_address">
+            <label for="{{ form.hotel_address.id_for_label }}">{{ form.hotel_address.label }}:</label>
+            {{ form.hotel_address }}
+            {% if form.hotel_address.errors %}
+                <div class="errors">
+                    {% for error in form.hotel_address.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Description -->
+        <div class="form-group description">
+            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}:</label>
+            {{ form.description }}
+            {% if form.description.errors %}
+                <div class="errors">
+                    {% for error in form.description.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <hr>
+        <h2>Accommodation Options and Pricing Details:</h2>
+        <!-- Total AC Rooms -->
+        <div class="form-group total_ac_rooms">
+            <label for="{{ form.total_ac_rooms.id_for_label }}">{{ form.total_ac_rooms.label }}:</label>
+            {{ form.total_ac_rooms }}
+            {% if form.total_ac_rooms.errors %}
+                <div class="errors">
+                    {% for error in form.total_ac_rooms.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Price Per AC Room -->
+        <div class="form-group price_per_ac_room">
+            <label for="{{ form.price_per_ac_room.id_for_label }}">{{ form.price_per_ac_room.label }}:</label>
+            {{ form.price_per_ac_room }}
+            {% if form.price_per_ac_room.errors %}
+                <div class="errors">
+                    {% for error in form.price_per_ac_room.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Total Non-AC Rooms -->
+        <div class="form-group total_non_ac_rooms">
+            <label for="{{ form.total_non_ac_rooms.id_for_label }}">{{ form.total_non_ac_rooms.label }}:</label>
+            {{ form.total_non_ac_rooms }}
+            {% if form.total_non_ac_rooms.errors %}
+                <div class="errors">
+                    {% for error in form.total_non_ac_rooms.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Price Per Non-AC Room -->
+        <div class="form-group price_per_non_ac_room">
+            <label for="{{ form.price_per_non_ac_room.id_for_label }}">{{ form.price_per_non_ac_room.label }}:</label>
+            {{ form.price_per_non_ac_room }}
+            {% if form.price_per_non_ac_room.errors %}
+                <div class="errors">
+                    {% for error in form.price_per_non_ac_room.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <hr>
+        <h2>Hotel's Associated Destination:</h2>
+        <!-- State -->
+        <div class="form-group state">
+            <label for="{{ form.state.id_for_label }}">{{ form.state.label }}:</label>
+            {{ form.state }}
+            {% if form.state.errors %}
+                <div class="errors">
+                    {% for error in form.state.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- City -->
+        <div class="form-group city">
+            <label for="{{ form.city.id_for_label }}">{{ form.city.label }}:</label>
+            {{ form.city }}
+            {% if form.city.errors %}
+                <div class="errors">
+                    {% for error in form.city.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Place -->
+        <div class="form-group place">
+            <label for="{{ form.place.id_for_label }}">{{ form.place.label }}:</label>
+            {{ form.place }}
+            {% if form.place.errors %}
+                <div class="errors">
+                    {% for error in form.place.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <hr>
+        <h2>Protect your account:</h2>
+        <!-- Password -->
+        <div class="form-group password">
+            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}:</label>
+            {{ form.password }}
+            {% if form.password.errors %}
+                <div class="errors">
+                    {% for error in form.password.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group confirm_password">
+            <label for="{{ form.confirm_password.id_for_label }}">{{ form.confirm_password.label }}:</label>
+            {{ form.confirm_password }}
+            {% if form.confirm_password.errors %}
+                <div class="errors">
+                    {% for error in form.confirm_password.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-submit">Register</button>
+    </form>
+
+    <p class="form-text">
+        Already Registered? <a href="{% url 'login' %}">Login here</a>
+    </p>
+</div>
+
+<script>
+    document.getElementById("id_state").addEventListener("change", function () {
+        const state = this.value;
+
+        fetch(`/get-cities/?state=${state}`)
+            .then((response) => response.json())
+            .then((data) => {
+                const cityField = document.getElementById("id_city");
+                cityField.innerHTML = "";
+                if (data.cities.length > 0) {
+                    const defaultOption = document.createElement("option");
+                    defaultOption.textContent = "Select a city";
+                    defaultOption.disabled = true;
+                    defaultOption.selected = true;
+                    cityField.appendChild(defaultOption);
+                    
+
+                    data.cities.forEach((city) => {
+                        const option = document.createElement("option");
+                        option.value = city;
+                        option.textContent = city;
+                        cityField.appendChild(option);
+                    });
+                }
+            });
+    });
+    
+    document.getElementById("id_city").addEventListener("change", function () {
+        const state = document.getElementById("id_state").value;
+        const city = this.value;
+        fetch(`/get-places/?state=${state}&city=${city}`)
+            .then((response) => response.json())
+            .then((data) => {
+                const placeField = document.getElementById("id_place");
+                placeField.innerHTML = ""; 
+                if (data.places.length > 0) {
+
+                    const defaultOption = document.createElement("option");
+                    defaultOption.textContent = "Select a place";
+                    defaultOption.disabled = true;
+                    defaultOption.selected = true;
+                    placeField.appendChild(defaultOption);
+                    
+                    // Populate places dropdown with fetched data
+                    data.places.forEach((place) => {
+                        const option = document.createElement("option");
+                        option.value = place;
+                        option.textContent = place;
+                        placeField.appendChild(option);
+                    });
+                }
+            });
+    });
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const stateField = document.getElementById("id_state");
+        if (stateField) {
+            const defaultStateOption = document.createElement("option");
+            defaultStateOption.textContent = "Select a state";
+            defaultStateOption.disabled = true;
+            defaultStateOption.selected = true;
+            stateField.insertBefore(defaultStateOption, stateField.firstChild);
+        }
+    });
+</script>
+{% endblock %}

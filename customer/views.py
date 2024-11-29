@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages  
 from django.contrib.auth import authenticate, login, logout
@@ -38,7 +38,7 @@ def user_login(request):
         print("DEBUG: GET request received for login")
         form = AuthenticationForm()  
 
-    return render(request, 'travel/login.html', {'form': form,'MEDIA_URL': settings.MEDIA_URL})
+    return render(request, 'travel/login.html', {'form': form, 'MEDIA_URL': settings.MEDIA_URL})
 
 
 def register(request):
@@ -164,6 +164,34 @@ class CustomPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
         return context
 
 
+def accomodations(request):
+    if request.method == 'POST':
+        feedback_text = request.POST.get('accomodations')
+        messages.success(request, "Accomodations request has been sent!")
+        return redirect('accomodations')
+    context = {
+        'MEDIA_URL': settings.MEDIA_URL,
+    }
+    return render(request,'travel/accomodations.html',context)
+
+
+def agentRegistration(request):
+    if request.method == 'POST':
+        feedback_text = request.POST.get('agentRegistration')
+        messages.success(request, "Agent Registration request has been sent!")
+        return redirect('agentRegistration')
+    
+    context = {
+        'MEDIA_URL': settings.MEDIA_URL,
+    }
+    return render(request,'travel/agentRegistration.html',context)
+
+
+def contact(request):    
+    context = {
+        'MEDIA_URL': settings.MEDIA_URL,
+    }
+    return render(request,'travel/contact.html',context)
 
 
 #  From this section till end those are upcoming modules views. we have to add multiple apps to implement this.
@@ -205,32 +233,7 @@ def feedback(request):
 
     return render(request,'travel/feedback.html',context)
 
-def accomodations(request):
-    if request.method == 'POST':
-        feedback_text = request.POST.get('accomodations')
-        messages.success(request, "Accomodations request has been sent!")
-        return redirect('accomodations')
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/accomodations.html',context)
 
-def agentRegistration(request):
-    if request.method == 'POST':
-        feedback_text = request.POST.get('agentRegistration')
-        messages.success(request, "Agent Registration request has been sent!")
-        return redirect('agentRegistration')
-    
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/agentRegistration.html',context)
-
-def contact(request):    
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/contact.html',context)
 
 def privacy_policy(request):
     context = {

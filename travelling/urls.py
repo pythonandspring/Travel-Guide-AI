@@ -24,7 +24,11 @@ urlpatterns = [
     path('admin/', include('myadmin.urls')),
     path("", views.home, name="home"),
     path("customer/", include("customer.urls"), name="customer"),
-    path("accommodation", include("accommodation.urls"), name="accommodation")
+    path("guide/", include("guide.urls"), name='guide'),
+    path("accommodation/", include("accommodation.urls"), name="accommodation"),
+
+    path("get-cities/", views.get_cities, name="get_cities"),
+    path("get-places/", views.get_places, name="get_places"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
