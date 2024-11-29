@@ -6,7 +6,7 @@
 {% block content %}
     <div class="content-padding">
         <!-- Hero Section -->
-        <section class="hero bg-dark text-white text-center py-5">
+        <section class="hero bg-dark text-white text-center py-5" >
             <div class="container">
                 <h1 class="display-4">Welcome to Your Travel Guide</h1>
                 <p class="lead">Discover the best destinations and accommodations for your next adventure.</p>
@@ -15,26 +15,36 @@
         </section>
 
         <!-- Special Offers Section -->
-        <section class="special-offers py-5 bg-light">
-            <div class="container">
-                <h2 class="text-center mb-4">Special Offers</h2>
-                <ul class="list-group text-center">
-                    <li class="list-group-item">Rs 3000 - Rs 5000 (2 nights - 3 days)</li>
-                    <li class="list-group-item">Rs 2000 - Rs 4000 (3 nights - 4 days)</li>
-                    <li class="list-group-item">Rs 4000 - Rs 8000 (5 nights - 8 days)</li>
-                    <li class="list-group-item">Rs 5000 - Rs 10000 (7 nights - 10 days)</li>
+        <section class="special-offers py-5 bg-light" style="background: url('{% static "images/bg.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="container" style="background: rgba(255, 255, 255, 0.2); padding: 2rem; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
+                <h2 class="text-center mb-4" style="color: #333; font-weight: bold;">Special Offers</h2>
+                <ul class="list-group text-center" style="font-size: 1.1rem; font-weight: 500;">
+                    <li class="list-group-item" style="background: rgba(255, 255, 255, 0.2); border: 1px solid #ddd; margin-bottom: 0.5rem;">
+                        Rs 3000 - Rs 5000 (2 nights - 3 days)
+                    </li>
+                    <li class="list-group-item" style="background: rgba(255, 255, 255, 0.2); border: 1px solid #ddd; margin-bottom: 0.5rem;">
+                        Rs 2000 - Rs 4000 (3 nights - 4 days)
+                    </li>
+                    <li class="list-group-item" style="background: rgba(255, 255, 255, 0.2); border: 1px solid #ddd; margin-bottom: 0.5rem;">
+                        Rs 4000 - Rs 8000 (5 nights - 8 days)
+                    </li>
+                    <li class="list-group-item" style="background: rgba(255, 255, 255, 0.2); border: 1px solid #ddd;">
+                        Rs 5000 - Rs 10000 (7 nights - 10 days)
+                    </li>
                 </ul>
-                <p class="text-center mt-4">
+                <p class="text-center mt-4" style="color: #555; font-size: 1.2rem;">
                     <strong>Special Offer:</strong> Discover our exclusive packages for an unforgettable experience!
                 </p>
             </div>
         </section>
+        
+        
 
 
         <!-- New Destinations Section -->
-    <section class="new-destinations py-5">
+    <section class="new-destinations py-5" style="background: url('{% static "images/bg-y.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
         <div class="container">
-            <h2 class="text-center mb-4">New Destinations with Special Offers</h2>
+            <h2 class="text-center mb-4 " style="color: white;">New Destinations with Special Offers</h2>
             <div class="row">
                 <!-- Destination: Mysore -->
                 <div class="col-md-6 col-lg-3 mb-4">
@@ -100,7 +110,7 @@
     </section>
 
         <!-- Booking Instructions Section -->
-        <section class="booking-instructions py-5">
+        <section class="booking-instructions py-5" style="background: url('{% static "images/bg-w.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
             <div class="container">
                 <h2 class="text-center mb-4">How to Book Your Holidays</h2>
                 <p class="text-center">
@@ -113,9 +123,9 @@
         </section>
 
         <!-- Featured Destinations Section -->
-        <section class="featured-destinations py-5">
+        <section class="featured-destinations py-5" style="background: url('{% static "images/bg-y.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
             <div class="container">
-                <h2 class="text-center mb-4">Featured Destinations</h2>
+                <h2 class="text-center mb-4" style="color:white;">Featured Destinations</h2>
                 <div class="row">
                     <!-- Destination 1 -->
                     <div class="col-md-4 mb-4">
@@ -156,7 +166,7 @@
         </section>
 
         <!-- Travel Tips Section -->
-        <section class="travel-tips bg-light py-5">
+        <section class="travel-tips bg-light py-5" style="background: url('{% static "images/bg-w.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
             <div class="container">
                 <h2 class="text-center mb-4">Travel Tips</h2>
                 <div class="row">
