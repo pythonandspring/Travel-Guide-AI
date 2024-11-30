@@ -10,6 +10,7 @@ from django.contrib.auth import views as auth_views
 from .models import Profile
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.contrib.auth import logout
 
 
 def user_login(request):

@@ -1,46 +1,26 @@
-{% extends 'base.html' %}
+{% extends 'hotel_base/base.html' %}
 {% load static %}
 
 {% block styling %}
-<link rel="stylesheet" href="{% static 'css/register.css' %}">
+  <link rel="stylesheet" href="{% static "css/accommodation_style.css" %}">
 {% endblock styling %}
 
 {% block content %}
-
-<div class="login-container">
-    <h1>Hotel Owner Login</h1>
-    <form method="post">
-        {% csrf_token %}
-
-        <div class="form-group">
-            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-            {{ form.email }}
-            {% if form.email.errors %}
-                <div class="errors">
-                    {% for error in form.email.errors %}
-                        <p style="color: red;">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
-            {{ form.password }}
-            {% if form.password.errors %}
-                <div class="errors">
-                    {% for error in form.password.errors %}
-                        <p style="color: red;">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-
-        <button type="submit" class="btn-submit">Login</button>
-    </form>
-    
-    <p>Don't have an account? <a href="{% url 'hotel_owner_register' %}">Register here</a></p>
-    <p><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
+<div class="auth-container">
+<h2>Hotel Owner Login</h2>
+<form class="auth-form">
+    <div class="form-group">
+    <label for="email">Email Address</label>
+    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+    </div>
+    <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+    </div>
+    <div class="form-group">
+    <button type="submit" class="btn">Login</button>
+    </div>
+    <p class="form-text">Don't have an account? <a href="{% url 'hotel_registration' %}">Register here</a>.</p>
+</form>
 </div>
-
 {% endblock %}

@@ -46,17 +46,16 @@ def hotel_owner_login(request):
                 messages.error(request, "profile doesn't exists.")
         else:
             messages.error(request, "Errors in the form.")
-    else:         
-        return render(request, 'hotel_owner_login.html', {'form':form})
-
-
-
+    else:     
+        form = HotelOwnerLoginForm()
+    return render(request, 'hotel_owner_login.html', {'form':form, 'MEDIA_URL': settings.MEDIA_URL})
 
 
 def contact_support(request):    
     return render(request, 'contact.html', {'MEDIA_URL': settings.MEDIA_URL})
 
-
+def get_dashboard(request):
+    return render(request, 'hotel_dashboard.html', {'MEDIA_URL': settings.MEDIA_URL})
 
 
 

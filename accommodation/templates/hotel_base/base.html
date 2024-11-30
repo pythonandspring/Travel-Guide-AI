@@ -25,9 +25,10 @@
                         <a class="text-light text-decoration-none" href="{% url 'home' %}">Home</a>
                         <a class="text-light text-decoration-none" href="{% url 'feedback' %}">Feedback</a>
                         {% if authenticated %}
-                            <a class="text-light text-decoration-none" href="{% url 'room_availability' %}">Room Availability</a>
+                            <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Bookings</a>
+                            <a class="text-light text-decoration-none" href="{% url 'room_availability' %}">Rooms Availability</a>
                             <a class="text-light text-decoration-none" href="{% url 'images' %}">Images</a>
-                            <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Hotal Dashboard</a>
+                            <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Dashboard</a>
                         {% else %}
                             <a class="text-light text-decoration-none" href="{% url 'hotel_registration' %}">New Registration</a>
                             <a class="text-light text-decoration-none" href="{% url 'hotel_login' %}">Login</a>
