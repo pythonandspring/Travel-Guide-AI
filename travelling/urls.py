@@ -21,9 +21,19 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('admin/', include('myadmin.urls')),
     path("", views.home, name="home"),
-    path("customer/", include("customer.urls"), name="customer"),
+    path("", include("customer.urls"), name="customer"),
+
+    path('gallery/', views.gallery, name='gallery'),
+    path('agentRegistration/', views.agentRegistration, name='agentRegistration'),
+    path('feedback/', views.feedback, name='gen_feedback'),
+    path('agentRegistration/', views.agentRegistration, name='agentRegistration'),
+    path('contact/', views.contact, name="contact"),
+    path('privacy_policy/', views.privacy_policy, name='privacy_policy'),
+    path('terms_conditions/', views.terms_conditions, name='terms_conditions'),
+    # path('search_voice/', views.search_voice, name='search_voice'),
+
+    path('admin/', include('myadmin.urls')),
     path("guide/", include("guide.urls"), name='guide'),
     path("accommodation/", include("accommodation.urls"), name="accommodation"),
 

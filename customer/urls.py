@@ -23,13 +23,9 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', CustomPasswordResetCompleteView.as_view(), name='password_reset_complete'),
  
-    path('gallery/', views.gallery, name='gallery'),
-    path('feedback/', views.feedback, name='feedback'),
+    path('feedback/', views.feedback, name='cust_feedback'),
     path('accomodations/', views.accomodations, name='accomodations'),
-    path('agentRegistration/', views.agentRegistration, name='agentRegistration'),
-    path('contact/', views.contact, name='contact'),
-    path('privacy_policy/', views.privacy_policy, name='privacy_policy'),
-    path('terms_conditions/', views.terms_conditions, name='terms_conditions'),
-    path('search_voice/', views.search_voice, name='search_voice'),
+    
+
 
 ]

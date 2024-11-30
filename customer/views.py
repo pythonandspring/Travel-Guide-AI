@@ -165,6 +165,9 @@ class CustomPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
         return context
 
 
+# <<<<<<<<<<<<<<< ACCOMMODATION WE NEED TO WORK ON THIS FOR CUSTOMER >>>>>>>>>>>>>>>>>>>>>
+# <<<<<<< this view is just for testing >>>>>>>
+
 def accomodations(request):
     if request.method == 'POST':
         feedback_text = request.POST.get('accomodations')
@@ -174,53 +177,6 @@ def accomodations(request):
         'MEDIA_URL': settings.MEDIA_URL,
     }
     return render(request,'travel/accomodations.html',context)
-
-
-def agentRegistration(request):
-    if request.method == 'POST':
-        feedback_text = request.POST.get('agentRegistration')
-        messages.success(request, "Agent Registration request has been sent!")
-        return redirect('agentRegistration')
-    
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/agentRegistration.html',context)
-
-
-def contact(request):    
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/contact.html',context)
-
-
-#  From this section till end those are upcoming modules views. we have to add multiple apps to implement this.
-def gallery(request):
-    places = [
-        {"name": "Paris", "location": "France", "description": "Known for the Eiffel Tower, art, and its romantic ambiance.", "image": "images/paris.jpg"},
-        {"name": "Kyoto", "location": "Japan", "description": "Famous for its temples, traditional tea houses, and cherry blossoms.", "image": "images/kyoto.jpg"},
-        {"name": "Rome", "location": "Italy", "description": "Known for the Colosseum, rich history, and Italian cuisine.", "image": "images/rome.jpg"},
-        {"name": "Cape Town", "location": "South Africa", "description": "Famous for Table Mountain, beaches, and stunning landscapes.", "image": "images/cape_town.jpg"},
-        {"name": "Sydney", "location": "Australia", "description": "Home to the iconic Opera House and beautiful harbor views.", "image": "images/sydney.jpg"},
-        {"name": "New York City", "location": "USA", "description": "Famous for the Statue of Liberty, Times Square, and Central Park.", "image": "images/new_york.jpg"},
-        {"name": "Dubai", "location": "UAE", "description": "Known for luxury shopping, ultramodern architecture, and lively nightlife.", "image": "images/dubai.jpg"},
-        {"name": "Venice", "location": "Italy", "description": "Unique for its canals, gondolas, and beautiful architecture.", "image": "images/venice.jpg"},
-
-        {"name": "London", "location": "United Kingdom", "description": "Known for the Big Ben, Buckingham Palace, and the River Thames.", "image": "images/london.jpg"},
-        {"name": "Bangkok", "location": "Thailand", "description": "Famous for vibrant street life, cultural landmarks, and grand palaces.", "image": "images/bangkok.jpg"},
-        {"name": "Barcelona", "location": "Spain", "description": "Known for the architecture of Antoni Gaudí, including the Sagrada Familia.", "image": "images/barcelona.jpg"},
-        {"name": "Machu Picchu", "location": "Peru", "description": "Ancient Inca city set high in the Andes Mountains, known for its stunning views.", "image": "images/machu_picchu.jpg"},
-        {"name": "Istanbul", "location": "Turkey", "description": "Known for its historic sites such as the Hagia Sophia and Blue Mosque.", "image": "images/istanbul.jpg"},
-        {"name": "Santorini", "location": "Greece", "description": "Famous for its whitewashed buildings, crystal-clear waters, and sunsets.", "image": "images/santorini.jpg"},
-        {"name": "Berlin", "location": "Germany", "description": "Known for its historical landmarks such as the Berlin Wall and Brandenburg Gate.", "image": "images/berlin.jpg"},
-        {"name": "Athens", "location": "Greece", "description": "Famous for ancient monuments like the Acropolis and Parthenon.", "image": "images/athens.jpg"}
-    ]
-
-    messages.warning(request,"Loading assets, please hold on")
-
-    context = {"places": places, 'MEDIA_URL': settings.MEDIA_URL}
-    return render(request, 'travel/gallery.html', context)
 
 def feedback(request):
     if request.method == 'POST':
@@ -234,22 +190,8 @@ def feedback(request):
 
     return render(request,'travel/feedback.html',context)
 
+#  From this section till end those are upcoming modules views. we have to add multiple apps to implement this.
 
-
-def privacy_policy(request):
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/privacy_policy.html',context)
-
-def terms_conditions(request):
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/terms_conditions.html',context)
-
-
-    
 @csrf_exempt
 def search_voice(request):
     try:
