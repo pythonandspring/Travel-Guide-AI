@@ -6,6 +6,7 @@ class HotelOwner(models.Model):
     owner_email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)  
 
+    country = models.CharField(max_length=50, choices=[], null=False)
     state = models.CharField(max_length=50, choices=[], null=False)
     city = models.CharField(max_length=50, choices=[], null=False)
     place = models.CharField(max_length=50, choices=[], null=False)
