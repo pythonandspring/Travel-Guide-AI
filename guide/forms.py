@@ -2,9 +2,6 @@ from django import forms
 from .models import Guide
 from travelling.json_to_choice_fields import extract_state, extract_cities, extract_place
 
-print(extract_state())
-
-
 class GuideRegistrationForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder': 'Enter your password', 'class': 'form-control'}),
