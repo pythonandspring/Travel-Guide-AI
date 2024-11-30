@@ -1,0 +1,66 @@
+{% extends 'guide_tem/base.html' %}
+{% load static %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'guide/css/guide_dashboard.css' %}">
+{% endblock styling %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard">
+        <h2>Welcome to Your Dashboard, {{ guide.username }}!</h2>
+        
+        <!-- Edit Profile Section -->
+        <div class="dashboard-section">
+            <h3>Edit Your Profile</h3>
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+        </div>
+
+        <!-- View Doctor Profiles Section -->
+        <div class="dashboard-section">
+            <h3>Manage Doctor Profiles</h3>
+            <a href="" class="btn btn-secondary">View Doctor Profiles</a>
+        </div>
+
+        <!-- CRUD Operations on Doctors -->
+        <div class="dashboard-section">
+            <h3>Doctor Profile CRUD Operations</h3>
+            <a href="" class="btn btn-success">Add New Doctor</a>
+            <a href="" class="btn btn-warning">Update Doctor Profile</a>
+            <a href="" class="btn btn-danger">Delete Doctor Profile</a>
+        </div>
+
+        <!-- Display Doctor List -->
+        <div class="doctor-list">
+            <h3>List of Doctors</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Specialty</th>
+                        <th>Contact</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doctor in doctors %}
+                        <tr>
+                            <td>{{ doctor.name }}</td>
+                            <td>{{ doctor.specialty }}</td>
+                            <td>{{ doctor.contact }}</td>
+                            <td>
+                                <a href="{% url 'edit_doctor' doctor.id %}" class="btn btn-info">Edit</a>
+                                <a href="{% url 'delete_doctor' doctor.id %}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">No doctor profiles available.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

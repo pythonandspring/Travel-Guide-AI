@@ -53,3 +53,14 @@ def guide_login(request):
 
 def contact_support(request):    
     return render(request, 'contact.html', {'MEDIA_URL': settings.MEDIA_URL})
+
+
+def guide_dashboard(request):
+    return render(request, 'guide_dashboard.html', {'MEDIA_URL': settings.MEDIA_URL})
+
+def guide_edit_profile(request):
+    return render(request, 'guide_edit_profile.html',  {'MEDIA_URL': settings.MEDIA_URL})
+
+def guide_edit_doctor_profile(request):
+    return render(request, 'guide_edit_doctor_profile.html', {'MEDIA_URL': settings.MEDIA_URL})
+

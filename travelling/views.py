@@ -9,7 +9,7 @@ from django.core.cache import cache
 
 
 def home(request):
-    return render(request, 'home.html', {'MEDIA_URL': settings.MEDIA_URL})
+    return render(request, 'home.html')
 
 
 def agentRegistration(request):
@@ -18,17 +18,10 @@ def agentRegistration(request):
         messages.success(request, "Agent Registration request has been sent!")
         return redirect('agentRegistration')
     
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request, 'agentRegistration.html',context)
+    return render(request, 'agentRegistration.html')
 
 
-def contact(request):    
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request, 'travel/contact.html',context)
+
 
 
 def gallery(request):
@@ -52,9 +45,7 @@ def gallery(request):
     ]
 
     # messages.warning(request,"Loading assets, please hold on")
-
-    context = {"places": places, 'MEDIA_URL': settings.MEDIA_URL}
-    return render(request, 'gallery.html', context)
+    return render(request, 'gallery.html')
 
 
 def feedback(request):
@@ -64,21 +55,18 @@ def feedback(request):
         messages.success(request, "Thank you for your feedback!")
         return redirect('gen_feedback')
 
-    return render(request, 'feedback.html', {'MEDIA_URL': settings.MEDIA_URL})
+    return render(request, 'feedback.html')
+
+def gen_contact(request):    
+    return render(request, 'gen_contact.html')
 
 
 def privacy_policy(request):
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request, 'privacy_policy.html',context)
+    return render(request, 'privacy_policy.html')
 
 
 def terms_conditions(request):
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/terms_conditions.html',context)
+    return render(request,'travel/terms_conditions.html')
 
 
 def get_cities(request):

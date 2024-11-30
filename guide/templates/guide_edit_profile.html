@@ -1,0 +1,45 @@
+{% extends 'guide_tem/base.html' %}
+{% load static %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'guide/css/guide_edit_profile.css' %}">
+{% endblock styling %}
+
+{% block content %}
+<div class="container">
+    <div class="edit-profile">
+        <h2>Edit Your Profile, {{ guide.username }}</h2>
+        
+        <!-- Edit Profile Form -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Guide's Basic Profile Information -->
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="{{ guide.name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="{{ guide.email }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Leave empty to keep current password">
+            </div>
+
+            <div class="form-group">
+                <label for="profile_picture">Profile Picture:</label>
+                <input type="file" id="profile_picture" name="profile_picture">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+
+        <a href="{% url 'guide_dashboard' %}" class="btn-back-dashboard">Back to Dashboard</a>
+
+    </div>
+</div>
+{% endblock %}

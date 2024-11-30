@@ -56,24 +56,3 @@ class GuideLoginForm(forms.Form):
         widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}),
         label="Password"
     )
-
-    def __init__(self, *args, **kwargs):
-        state = kwargs.pop('state', None)
-        city = kwargs.pop('city', None)
-        super().__init__(*args, **kwargs)
-
-        states = extract_state()
-        print("States:", states)
-
-        self.fields['state'].choices = [(state_option, state_option) for state_option in extract_state()]
-        self.fields['state'].initial = state
-    
-        if state:
-            self.fields['city'].choices = [(city_option, city_option) for city_option in extract_cities(state)]
-        else:
-            self.fields['city'].choices = []
-
-        if state and city:
-            self.fields['place'].choices = [(place_option, place_option) for place_option in extract_place(city)]
-        else:
-            self.fields['place'].choices = []

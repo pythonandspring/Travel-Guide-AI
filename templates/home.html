@@ -15,7 +15,7 @@
         </section>
 
         <!-- Special Offers Section -->
-        <section class="special-offers py-5 bg-light" style="background: url('{{ MEDIA_URL }}images/bg.jpg') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
+        <section class="special-offers py-5 bg-light" style="background: url('{% static "images/bg.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
             <div class="container" style="background: rgba(255, 255, 255, 0.2); padding: 2rem; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
                 <h2 class="text-center mb-4" style="color: #333; font-weight: bold;">Special Offers</h2>
                 <ul class="list-group text-center" style="font-size: 1.1rem; font-weight: 500;">
@@ -42,14 +42,14 @@
 
 
         <!-- New Destinations Section -->
-    <section class="new-destinations py-5" style="background: url('{{ MEDIA_URL }}images/bg-y.jpg') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
+    <section class="new-destinations py-5" style="background: url('{% static "images/bg-y.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
         <div class="container">
             <h2 class="text-center mb-4 " style="color: white;">New Destinations with Special Offers</h2>
             <div class="row">
                 <!-- Destination: Mysore -->
                 <div class="col-md-6 col-lg-3 mb-4">
                     <div class="card border-primary">
-                        <img src="{{ MEDIA_URL }}images/mysore.jpg" class="card-img-top" alt="Mysore">
+                        <img src="{% static 'images/mysore.jpg'%}" class="card-img-top" alt="Mysore">
                         <div class="card-body text-center">
                             <h5 class="card-title">Mysore</h5>
                             <p class="card-text">
@@ -64,7 +64,7 @@
                 <!-- Destination: Delhi -->
                 <div class="col-md-6 col-lg-3 mb-4">
                     <div class="card border-primary">
-                        <img src="{{ MEDIA_URL }}images/delhi.jpg" class="card-img-top" alt="Delhi">
+                        <img src="{% static 'images/delhi.jpg'%}" class="card-img-top" alt="Delhi">
                         <div class="card-body text-center">
                             <h5 class="card-title">New Delhi</h5>
                             <p class="card-text">
@@ -79,7 +79,7 @@
                 <!-- Destination: Agra -->
                 <div class="col-md-6 col-lg-3 mb-4">
                     <div class="card border-primary">
-                        <img src="{{ MEDIA_URL }}images/agra.jpg" class="card-img-top" alt="Agra">
+                        <img src="{% static 'images/agra.jpg'%}" class="card-img-top" alt="Agra">
                         <div class="card-body text-center">
                             <h5 class="card-title">Agra</h5>
                             <p class="card-text">
@@ -94,7 +94,7 @@
                 <!-- Destination: Manali -->
                 <div class="col-md-6 col-lg-3 mb-4">
                     <div class="card border-primary">
-                        <img src="{{ MEDIA_URL }}images/manali.jpg" class="card-img-top" alt="Manali">
+                        <img src="{% static 'images/manali.jpg'%}" class="card-img-top" alt="Manali">
                         <div class="card-body text-center">
                             <h5 class="card-title">Manali</h5>
                             <p class="card-text">
@@ -110,7 +110,7 @@
     </section>
 
         <!-- Booking Instructions Section -->
-        <section class="booking-instructions py-5" style="background: url('{{ MEDIA_URL }}images/bg-w.jpg') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
+        <section class="booking-instructions py-5" style="background: url('{% static "images/bg-w.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
             <div class="container">
                 <h2 class="text-center mb-4">How to Book Your Holidays</h2>
                 <p class="text-center">
@@ -123,14 +123,14 @@
         </section>
 
         <!-- Featured Destinations Section -->
-        <section class="featured-destinations py-5" style="background: url('{{ MEDIA_URL }}images/bg-y.jpg') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
+        <section class="featured-destinations py-5" style="background: url('{% static "images/bg-y.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
             <div class="container">
                 <h2 class="text-center mb-4" style="color:white;">Featured Destinations</h2>
                 <div class="row">
                     <!-- Destination 1 -->
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <img src="{{ MEDIA_URL }}images/dubai.jpg" class="card-img-top" alt="Dubai">
+                            <img src="{% static 'images/dubai.jpg'%}" class="card-img-top" alt="Dubai">
                             <div class="card-body">
                                 <h5 class="card-title">Dubai</h5>
                                 <p class="card-text">Discover the stunning skyline, luxury shopping, and vibrant culture of Dubai!</p>
@@ -142,7 +142,7 @@
                     <!-- Destination 2 -->
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <img src="{{ MEDIA_URL }}images/tokyo.jpg" class="card-img-top" alt="Destination 2">
+                            <img src="{% static 'images/tokyo.jpg'%}" class="card-img-top" alt="Destination 2">
                             <div class="card-body">
                                 <h5 class="card-title">Tokyo</h5>
                                 <p class="card-text">Explore the blend of tradition and technology in the vibrant city of Tokyo.</p>
@@ -153,7 +153,7 @@
                     <!-- Destination 3 -->
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <img src="{{ MEDIA_URL }}images/new_york.jpg" class="card-img-top" alt="Destination 3">
+                            <img src="{% static 'images/new_york.jpg'%}" class="card-img-top" alt="Destination 3">
                             <div class="card-body">
                                 <h5 class="card-title">New York</h5>
                                 <p class="card-text">The city that never sleeps! Visit Times Square, Central Park, and more.</p>
@@ -166,7 +166,7 @@
         </section>
 
         <!-- Travel Tips Section -->
-        <section class="travel-tips bg-light py-5" style="background: url('{{ MEDIA_URL }}images/bg-w.jpg') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
+        <section class="travel-tips bg-light py-5" style="background:url('{% static "images/bg-w.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
             <div class="container">
                 <h2 class="text-center mb-4">Travel Tips</h2>
                 <div class="row">

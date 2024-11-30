@@ -7,7 +7,7 @@
 
 
 {% block content %}
-    <div class="gallery-container" style="background: url('{{ MEDIA_URL }}images/bg.jpg') no-repeat center center/cover; padding-top: 6rem; padding-bottom: 4rem;">
+    <div class="gallery-container" style="background: url('{% static "images/bg.jpg" %}') no-repeat center center/cover; padding-top: 6rem; padding-bottom: 4rem;">
         <h1>Explore Beautiful Destinations</h1>
         <div class="search-container">
             <input type="text" id="searchBar" class="search-bar" placeholder="Search for a place..." onkeyup="filterCards()">
@@ -24,7 +24,7 @@
     <div class="card-container">
         {% for place in places %}
         <div class="card" onclick="openPlaceDetails('{{ place.name|escapejs }}', '{{ place.location|escapejs }}', '{{ place.description|escapejs }}', '{{ place.image }}')">
-            <img src="{{ place.image }}" alt="{{ place.name }}">
+            <img src="{% static place.image %}" alt="{{ place.name }}">
             <h2>{{ place.name }}</h2>
         </div>
         {% endfor %}

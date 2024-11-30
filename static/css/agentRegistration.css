@@ -1,10 +1,26 @@
+/* General body and page styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #f4f4f4; /* Adjust background color */
+}
+
+html, body {
+    height: 100%;
+}
+
+/* Make background stretch to full page */
 .registration-container {
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
     text-align: center;
+    flex: 1; /* Allow container to grow */
 }
 
+/* Header styling */
 h1 {
     font-size: 50px;
     margin-bottom: 10px;
@@ -17,6 +33,7 @@ p {
     margin-bottom: 20px;
 }
 
+/* Form styling */
 .form-group {
     margin-bottom: 15px;
     text-align: left;
@@ -38,6 +55,7 @@ input {
     box-sizing: border-box;
 }
 
+/* Button styling */
 button {
     margin-top: 20px;
     padding: 10px 20px;
@@ -53,3 +71,33 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+/* Footer Styling */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Ensure content stretches and footer stays at bottom */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
