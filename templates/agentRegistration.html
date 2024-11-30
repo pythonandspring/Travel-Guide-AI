@@ -1,12 +1,16 @@
 {% extends 'home/base.html' %}
 {% load static %}
 
-{% block content %}
-<head>
+{% block styling %}
     <link rel="stylesheet" href="{% static 'css/agentRegistration.css' %}">
-</head>
+{% endblock styling %}
 
-<div style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
+
+
+{% block content %}
+
+
+<div style="background: url('{{MEDIA_URL}}images/bg-table.jpg') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
     <div class="options-container">
         <h1>Who Are You?</h1>
         <p>Select your role to proceed:</p>

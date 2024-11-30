@@ -1,12 +1,12 @@
 {% extends 'home/base.html' %}
 {% load static %}
 
-{% block content %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
-</head>
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'customer/css/login.css' %}">
+{% endblock styling %}
 
-<div  style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 6rem; padding-bottom: 2rem;">
+{% block content %}
+<div  style="background: url('{{MEDIA_URL}}images/bg-table.jpg') no-repeat center center/cover; padding-top: 6rem; padding-bottom: 2rem;">
 <div class="login-container">
     <h1>User Login</h1>
     <form method="post">
@@ -45,3 +45,8 @@
 </div>
 {% endblock %}
 
+{% block javascript %}
+<script>
+    
+</script>
+{% endblock javascript %}
