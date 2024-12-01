@@ -37,6 +37,7 @@ urlpatterns = [
     path("guide/", include("guide.urls"), name='guide'),
     path("accommodation/", include("accommodation.urls"), name="accommodation"),
 
+    path('get-states/', views.get_states, name="get_states"),
     path("get-cities/", views.get_cities, name="get_cities"),
     path("get-places/", views.get_places, name="get_places"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

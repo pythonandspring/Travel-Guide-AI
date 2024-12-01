@@ -29,7 +29,7 @@ def user_login(request):
             if user is not None:
                 messages.success(request, "Authentication successful for user!")
                 login(request, user)
-                return redirect('profile')  
+                return redirect('home')  
             else:
                 messages.error(request, "user doesn't exists.")
                 return redirect('register')

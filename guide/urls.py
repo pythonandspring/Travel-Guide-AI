@@ -10,6 +10,6 @@ urlpatterns = [
     path('edit-profile/', views.guide_edit_profile, name='guide_edit_profile'),
     path('edit-doctor/', views.guide_edit_doctor_profile, name='guide_edit_doctor_profile'),
 
-    path("contact_support", views.contact_support, name='contact_support'),
+    path("contact_support/", views.contact_support, name='contact_support'),
     path("", travel_views.home),
 ]

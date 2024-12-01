@@ -2,8 +2,9 @@
 {% load static %}
 
 {% block styling %}
-<link rel="stylesheet" href="{% static 'css/register.css' %}">
+<link rel="stylesheet" href="{% static 'customer/css/register.css' %}">
 {% endblock styling %}
+
 
 {% block content %}
 <div class="registerhotel-container">
@@ -24,7 +25,6 @@
             {% endif %}
         </div>
 
-        <!-- Owner Phone Number -->
         <div class="form-group owner_phone_number">
             <label for="{{ form.owner_phone_number.id_for_label }}">{{ form.owner_phone_number.label }}:</label>
             {{ form.owner_phone_number }}
@@ -37,7 +37,6 @@
             {% endif %}
         </div>
 
-        <!-- Owner Email -->
         <div class="form-group owner_email">
             <label for="{{ form.owner_email.id_for_label }}">{{ form.owner_email.label }}:</label>
             {{ form.owner_email }}
@@ -49,9 +48,9 @@
                 </div>
             {% endif %}
         </div>
+
         <hr>
         <h2>Hotel Details:</h2>
-        <!-- Hotel Name -->
         <div class="form-group hotel_name">
             <label for="{{ form.hotel_name.id_for_label }}">{{ form.hotel_name.label }}:</label>
             {{ form.hotel_name }}
@@ -64,7 +63,6 @@
             {% endif %}
         </div>
 
-        <!-- Hotel Phone Number -->
         <div class="form-group hotel_phone_number">
             <label for="{{ form.hotel_phone_number.id_for_label }}">{{ form.hotel_phone_number.label }}:</label>
             {{ form.hotel_phone_number }}
@@ -77,7 +75,6 @@
             {% endif %}
         </div>
 
-        <!-- Hotel Email -->
         <div class="form-group hotel_email">
             <label for="{{ form.hotel_email.id_for_label }}">{{ form.hotel_email.label }}:</label>
             {{ form.hotel_email }}
@@ -90,7 +87,6 @@
             {% endif %}
         </div>
 
-        <!-- Hotel Address -->
         <div class="form-group hotel_address">
             <label for="{{ form.hotel_address.id_for_label }}">{{ form.hotel_address.label }}:</label>
             {{ form.hotel_address }}
@@ -103,7 +99,18 @@
             {% endif %}
         </div>
 
-        <!-- Description -->
+        <div class="form-group location_on_map">
+            <label for="{{ form.location_on_map.id_for_label }}">{{ form.location_on_map.label }}:</label>
+            {{ form.location_on_map }}
+            {% if form.location_on_map.errors %}
+                <div class="errors">
+                    {% for error in form.location_on_map.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
         <div class="form-group description">
             <label for="{{ form.description.id_for_label }}">{{ form.description.label }}:</label>
             {{ form.description }}
@@ -115,62 +122,21 @@
                 </div>
             {% endif %}
         </div>
+
         <hr>
-        <h2>Accommodation Options and Pricing Details:</h2>
-        <!-- Total AC Rooms -->
-        <div class="form-group total_ac_rooms">
-            <label for="{{ form.total_ac_rooms.id_for_label }}">{{ form.total_ac_rooms.label }}:</label>
-            {{ form.total_ac_rooms }}
-            {% if form.total_ac_rooms.errors %}
+        <h2>Location Details:</h2>
+        <div class="form-group country">
+            <label for="{{ form.country.id_for_label }}">{{ form.country.label }}:</label>
+            {{ form.country }}
+            {% if form.country.errors %}
                 <div class="errors">
-                    {% for error in form.total_ac_rooms.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        
-        <!-- Price Per AC Room -->
-        <div class="form-group price_per_ac_room">
-            <label for="{{ form.price_per_ac_room.id_for_label }}">{{ form.price_per_ac_room.label }}:</label>
-            {{ form.price_per_ac_room }}
-            {% if form.price_per_ac_room.errors %}
-                <div class="errors">
-                    {% for error in form.price_per_ac_room.errors %}
+                    {% for error in form.country.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
                 </div>
             {% endif %}
         </div>
 
-        <!-- Total Non-AC Rooms -->
-        <div class="form-group total_non_ac_rooms">
-            <label for="{{ form.total_non_ac_rooms.id_for_label }}">{{ form.total_non_ac_rooms.label }}:</label>
-            {{ form.total_non_ac_rooms }}
-            {% if form.total_non_ac_rooms.errors %}
-                <div class="errors">
-                    {% for error in form.total_non_ac_rooms.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-
-        <!-- Price Per Non-AC Room -->
-        <div class="form-group price_per_non_ac_room">
-            <label for="{{ form.price_per_non_ac_room.id_for_label }}">{{ form.price_per_non_ac_room.label }}:</label>
-            {{ form.price_per_non_ac_room }}
-            {% if form.price_per_non_ac_room.errors %}
-                <div class="errors">
-                    {% for error in form.price_per_non_ac_room.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <hr>
-        <h2>Hotel's Associated Destination:</h2>
-        <!-- State -->
         <div class="form-group state">
             <label for="{{ form.state.id_for_label }}">{{ form.state.label }}:</label>
             {{ form.state }}
@@ -183,7 +149,6 @@
             {% endif %}
         </div>
 
-        <!-- City -->
         <div class="form-group city">
             <label for="{{ form.city.id_for_label }}">{{ form.city.label }}:</label>
             {{ form.city }}
@@ -196,7 +161,6 @@
             {% endif %}
         </div>
 
-        <!-- Place -->
         <div class="form-group place">
             <label for="{{ form.place.id_for_label }}">{{ form.place.label }}:</label>
             {{ form.place }}
@@ -208,9 +172,83 @@
                 </div>
             {% endif %}
         </div>
+
+        <hr>
+        <h2>Operating Details:</h2>
+        <div class="form-group weekly_closed_on">
+            <label for="{{ form.weekly_closed_on.id_for_label }}">{{ form.weekly_closed_on.label }}:</label>
+            {{ form.weekly_closed_on }}
+            {% if form.weekly_closed_on.errors %}
+                <div class="errors">
+                    {% for error in form.weekly_closed_on.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group special_closed_dates">
+            <label for="{{ form.special_closed_dates.id_for_label }}">{{ form.special_closed_dates.label }}:</label>
+            {{ form.special_closed_dates }}
+            {% if form.special_closed_dates.errors %}
+                <div class="errors">
+                    {% for error in form.special_closed_dates.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group week_days_opening_time">
+            <label for="{{ form.week_days_opening_time.id_for_label }}">{{ form.week_days_opening_time.label }}:</label>
+            <input type="time" name="week_days_opening_time" id="{{ form.week_days_opening_time.id_for_label }}" value="{{ form.week_days_opening_time.value }}">
+            {% if form.week_days_opening_time.errors %}
+                <div class="errors">
+                    {% for error in form.week_days_opening_time.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group week_days_closing_time">
+            <label for="{{ form.week_days_closing_time.id_for_label }}">{{ form.week_days_closing_time.label }}:</label>
+            <input type="time" name="week_days_closing_time" id="{{ form.week_days_closing_time.id_for_label }}" value="{{ form.week_days_closing_time.value }}">
+            {% if form.week_days_closing_time.errors %}
+                <div class="errors">
+                    {% for error in form.week_days_closing_time.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group weekends_opening_time">
+            <label for="{{ form.weekends_opening_time.id_for_label }}">{{ form.weekends_opening_time.label }}:</label>
+            <input type="time" name="weekends_opening_time" id="{{ form.weekends_opening_time.id_for_label }}" value="{{ form.weekends_opening_time.value }}">
+            {% if form.weekends_opening_time.errors %}
+                <div class="errors">
+                    {% for error in form.weekends_opening_time.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group weekends_closing_time">
+            <label for="{{ form.weekends_closing_time.id_for_label }}">{{ form.weekends_closing_time.label }}:</label>
+            <input type="time" name="weekends_closing_time" id="{{ form.weekends_closing_time.id_for_label }}" value="{{ form.weekends_closing_time.value }}">
+            {% if form.weekends_closing_time.errors %}
+                <div class="errors">
+                    {% for error in form.weekends_closing_time.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>        
+
         <hr>
         <h2>Protect your account:</h2>
-        <!-- Password -->
         <div class="form-group password">
             <label for="{{ form.password.id_for_label }}">{{ form.password.label }}:</label>
             {{ form.password }}
@@ -222,8 +260,7 @@
                 </div>
             {% endif %}
         </div>
-
-        <!-- Confirm Password -->
+        
         <div class="form-group confirm_password">
             <label for="{{ form.confirm_password.id_for_label }}">{{ form.confirm_password.label }}:</label>
             {{ form.confirm_password }}
@@ -235,8 +272,8 @@
                 </div>
             {% endif %}
         </div>
+        
 
-        <!-- Submit Button -->
         <button type="submit" class="btn-submit">Register</button>
     </form>
 
@@ -245,22 +282,53 @@
     </p>
 </div>
 
+{% endblock %}
+
+
+
+
+{% block javascript %}
 <script>
+    document.getElementById("id_country").addEventListener("change", function () {
+        const country = this.value;
+
+        fetch(`/get-states/?country=${country}`)
+            .then((response) => response.json())
+            .then((data) => {
+                const stateField = document.getElementById("id_state");
+                stateField.innerHTML = ""; // Clear the current state options
+                if (data.states.length > 0) {
+                    const defaultStateOption = document.createElement("option");
+                    defaultStateOption.textContent = "Select a state";
+                    defaultStateOption.disabled = true;
+                    defaultStateOption.selected = true;
+                    stateField.appendChild(defaultStateOption);
+
+                    data.states.forEach((state) => {
+                        const option = document.createElement("option");
+                        option.value = state;
+                        option.textContent = state;
+                        stateField.appendChild(option);
+                    });
+                }
+            });
+    });
+
     document.getElementById("id_state").addEventListener("change", function () {
+        const country = document.getElementById("id_country").value;
         const state = this.value;
 
-        fetch(`/get-cities/?state=${state}`)
+        fetch(`/get-cities/?country=${country}&state=${state}`)
             .then((response) => response.json())
             .then((data) => {
                 const cityField = document.getElementById("id_city");
-                cityField.innerHTML = "";
+                cityField.innerHTML = ""; // Clear the current city options
                 if (data.cities.length > 0) {
-                    const defaultOption = document.createElement("option");
-                    defaultOption.textContent = "Select a city";
-                    defaultOption.disabled = true;
-                    defaultOption.selected = true;
-                    cityField.appendChild(defaultOption);
-                    
+                    const defaultCityOption = document.createElement("option");
+                    defaultCityOption.textContent = "Select a city";
+                    defaultCityOption.disabled = true;
+                    defaultCityOption.selected = true;
+                    cityField.appendChild(defaultCityOption);
 
                     data.cities.forEach((city) => {
                         const option = document.createElement("option");
@@ -271,24 +339,24 @@
                 }
             });
     });
-    
+
     document.getElementById("id_city").addEventListener("change", function () {
+        const country = document.getElementById("id_country").value;
         const state = document.getElementById("id_state").value;
         const city = this.value;
-        fetch(`/get-places/?state=${state}&city=${city}`)
+
+        fetch(`/get-places/?country=${country}&state=${state}&city=${city}`)
             .then((response) => response.json())
             .then((data) => {
                 const placeField = document.getElementById("id_place");
-                placeField.innerHTML = ""; 
+                placeField.innerHTML = ""; // Clear the current place options
                 if (data.places.length > 0) {
+                    const defaultPlaceOption = document.createElement("option");
+                    defaultPlaceOption.textContent = "Select a place";
+                    defaultPlaceOption.disabled = true;
+                    defaultPlaceOption.selected = true;
+                    placeField.appendChild(defaultPlaceOption);
 
-                    const defaultOption = document.createElement("option");
-                    defaultOption.textContent = "Select a place";
-                    defaultOption.disabled = true;
-                    defaultOption.selected = true;
-                    placeField.appendChild(defaultOption);
-                    
-                    // Populate places dropdown with fetched data
                     data.places.forEach((place) => {
                         const option = document.createElement("option");
                         option.value = place;
@@ -298,16 +366,17 @@
                 }
             });
     });
-    
-    document.addEventListener("DOMContentLoaded", function() {
-        const stateField = document.getElementById("id_state");
-        if (stateField) {
-            const defaultStateOption = document.createElement("option");
-            defaultStateOption.textContent = "Select a state";
-            defaultStateOption.disabled = true;
-            defaultStateOption.selected = true;
-            stateField.insertBefore(defaultStateOption, stateField.firstChild);
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const countryField = document.getElementById("id_country");
+        if (countryField) {
+            const defaultCountryOption = document.createElement("option");
+            defaultCountryOption.textContent = "Select a country";
+            defaultCountryOption.disabled = true;
+            defaultCountryOption.selected = true;
+            countryField.insertBefore(defaultCountryOption, countryField.firstChild);
         }
     });
 </script>
-{% endblock %}
+{% endblock javascript %}
+

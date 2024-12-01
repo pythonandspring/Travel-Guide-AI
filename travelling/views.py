@@ -1,10 +1,8 @@
 from django.conf import settings
 from django.shortcuts import render, redirect
-from .json_to_choice_fields import extract_cities, extract_place
 from django.http import JsonResponse
 from pyexpat.errors import messages
-from travelling.json_to_choice_fields import extract_cities, extract_place
-from django.http import JsonResponse
+from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places
 from django.core.cache import cache
 
 
@@ -19,9 +17,6 @@ def agentRegistration(request):
         return redirect('agentRegistration')
     
     return render(request, 'agentRegistration.html')
-
-
-
 
 
 def gallery(request):
@@ -47,11 +42,15 @@ def gallery(request):
     # messages.warning(request,'Loading assets, please hold on')
     return render(request, 'gallery.html', {'places': places})
 
+
+
 def contact(request):    
     context = {
         'MEDIA_URL': settings.MEDIA_URL,
     }
     return render(request,'contact.html',context)
+
+
 
 def feedback(request):
     cache.clear()
@@ -61,6 +60,8 @@ def feedback(request):
         return redirect('gen_feedback')
 
     return render(request, 'feedback.html')
+
+
 
 def gen_contact(request):    
     return render(request, 'gen_contact.html')
@@ -74,6 +75,12 @@ def terms_conditions(request):
     return render(request,'travel/terms_conditions.html')
 
 
+def get_states(request):
+    country = request.GET.get('country')
+    states = extract_states(country)
+    return JsonResponse({'states': states})
+
+
 def get_cities(request):
     state = request.GET.get('state')
     cities = extract_cities(state)
@@ -82,5 +89,5 @@ def get_cities(request):
 
 def get_places(request):
     city = request.GET.get('city')
-    places = extract_place(city)
+    places = extract_places(city)
     return JsonResponse({'places': places})

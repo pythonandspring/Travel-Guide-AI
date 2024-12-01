@@ -127,7 +127,7 @@ class Guide(models.Model):
 
     is_super_guide = models.BooleanField(default=False)
 
-    country = models.CharField(max_length=255)
+    country = models.CharField(max_length=255, choices=[])
     state = models.CharField(max_length=50, choices=[])
     city = models.CharField(max_length=50, choices=[])
     place = models.CharField(max_length=50, choices=[])

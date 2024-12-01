@@ -25,7 +25,5 @@ urlpatterns = [
  
     path('feedback/', views.feedback, name='cust_feedback'),
     path('accomodations/', views.accomodations, name='accomodations'),
-    
-
 
 ]

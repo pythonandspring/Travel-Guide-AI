@@ -1,6 +1,6 @@
 from django import forms
 from .models import Guide
-from travelling.json_to_choice_fields import extract_state, extract_cities, extract_place
+from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places, extract_countries
 
 class GuideRegistrationForm(forms.ModelForm):
     password = forms.CharField(
@@ -14,7 +14,7 @@ class GuideRegistrationForm(forms.ModelForm):
 
     class Meta:
         model = Guide
-        fields = ['name', 'email', 'password', 'phone', 'is_super_guide', 'state', 'city', 'place']
+        fields = ['name', 'email', 'password', 'phone', 'is_super_guide', 'country', 'state', 'city', 'place']
         
     def clean(self):
         cleaned_data = super().clean()
@@ -26,25 +26,29 @@ class GuideRegistrationForm(forms.ModelForm):
         return cleaned_data
     
     def __init__(self, *args, **kwargs):
+        country = kwargs.pop('country', None)
         state = kwargs.pop('state', None)
         city = kwargs.pop('city', None)
         super().__init__(*args, **kwargs)
 
-        states = extract_state()
-        print("States:", states)
+        self.fields['country'].choices = [(country_option, country_option) for country_option in extract_countries()]
+        # self.fields['country'].initial = country
 
-        self.fields['state'].choices = [(state_option, state_option) for state_option in extract_state()]
-        self.fields['state'].initial = state
-    
+        if country:
+            self.fields['state'].choices = [(state_option, state_option) for state_option in extract_states(country)]
+        else:
+            self.fields['state'].choices = []
+
         if state:
             self.fields['city'].choices = [(city_option, city_option) for city_option in extract_cities(state)]
         else:
             self.fields['city'].choices = []
 
         if state and city:
-            self.fields['place'].choices = [(place_option, place_option) for place_option in extract_place(city)]
+            self.fields['place'].choices = [(place_option, place_option) for place_option in extract_places(city)]
         else:
             self.fields['place'].choices = []
+
 
 class GuideLoginForm(forms.Form):
     email = forms.EmailField(
