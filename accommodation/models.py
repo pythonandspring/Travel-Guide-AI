@@ -1,4 +1,13 @@
 from django.db import models
+import os
+
+def place_image_upload_to(instance, filename):
+    """
+    Constructs the upload path for place images.
+    Images are stored in a folder named after the Place name within the 'place_images' directory.
+    """
+    return os.path.join('place_images', instance.place.name.replace(' ', '_'), filename)
+
 
 class HotelOwner(models.Model):
     hotel_owner_name = models.CharField(max_length=255)
@@ -28,6 +37,13 @@ class HotelOwner(models.Model):
         return f"{self.hotel_name} - Owned by {self.name}"
 
 
+
+class Image(models.Model):
+    place = models.ForeignKey(HotelOwner, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=place_image_upload_to)
+
+    def __str__(self):
+        return f"Image for {self.place.name}"
  
 
 
