@@ -1,5 +1,5 @@
 from django import forms
-from .models import HotelOwner
+from .models import Hotel
 from travelling.json_to_choice_fields import extract_state, extract_cities, extract_place
 
 class HotelOwnerRegistrationForm(forms.ModelForm):
@@ -13,7 +13,7 @@ class HotelOwnerRegistrationForm(forms.ModelForm):
     )
 
     class Meta:
-        model = HotelOwner
+        model = Hotel
         fields = [
             "hotel_owner_name",
             "owner_phone_number",
@@ -23,10 +23,6 @@ class HotelOwnerRegistrationForm(forms.ModelForm):
             "hotel_email",
             "hotel_address",
             "description",
-            "total_ac_rooms",
-            "total_non_ac_rooms",
-            "price_per_ac_room",
-            "price_per_non_ac_room",
             "state",
             "city",
             "place",

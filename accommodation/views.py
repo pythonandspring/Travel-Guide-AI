@@ -1,7 +1,7 @@
 from pyexpat.errors import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth.hashers import make_password, check_password
-from .models import HotelOwner
+from .models import Hotel
 from .forms import HotelOwnerRegistrationForm, HotelOwnerLoginForm
 from django.conf import settings
 
@@ -35,7 +35,7 @@ def hotel_owner_login(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             try:
-                hotel_owner = HotelOwner.objects.get(email=email)   
+                hotel_owner = Hotel.objects.get(email=email)   
                 if check_password(password, hotel_owner.password):
                     request.session['hotel_owner_id'] = hotel_owner.id 
                     messages.success(request, "Login successful!")
@@ -57,29 +57,4 @@ def contact_support(request):
 def get_dashboard(request):
     return render(request, 'hotel_dashboard.html', {'MEDIA_URL': settings.MEDIA_URL})
 
-
-
-
-
-
-
-
-
-
-# <-------------------------------------- Working with json for input field ----------->
-# def flatten_json(nested_dict, parent_key="", sep=" > "):
-#     """
-#     Recursively flatten a nested JSON object.
-#     """
-#     items = []
-#     for key, value in nested_dict.items():
-#         new_key = f"{parent_key}{sep}{key}" if parent_key else key
-#         if isinstance(value, dict) and value:
-#             items.extend(flatten_json(value, new_key, sep=sep).items())
-#         else:
-#             items.append((new_key, value))
-#     return dict(items)
-
-# # Flatten the nested JSON
-# flattened_data = flatten_json(nested_json)
 
