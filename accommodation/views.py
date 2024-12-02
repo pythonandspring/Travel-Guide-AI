@@ -51,15 +51,17 @@ def hotel_login(request):
         form = HotelLoginForm()
     return render(request, 'hotel_login.html', {'form':form})
 
-
 def contact_support(request):    
     return render(request, 'contact_support.html')
 
+
 def hotel_dashboard(request):
     if request.session['hotel_owner_id']:
-        return render(request, 'hotel_dashboard.html')
+        hotel_owner = Hotel.objects.get(id = request.session['hotel_owner_id'])
+        return render(request, 'hotel_dashboard.html', {'hotel_owner': hotel_owner})
     else:
         return render(request, 'hotel_login')
+
 
 def hotel_logout(request):
     if request.session['hotel_owner_id']:
@@ -67,4 +69,7 @@ def hotel_logout(request):
         request.session['is_logged_in'] = False
         messages.success(request, "You have been logged out successfully.")  
     return redirect('hotel_login')
+
+
+
 

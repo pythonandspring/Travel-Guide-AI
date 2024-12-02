@@ -3,14 +3,6 @@ import os
 from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places, extract_countries
 
 
-def hotel_image_upload_to(instance, filename):
-    """
-    Constructs the upload path for place images.
-    Images are stored in a folder named after the Place name within the 'place_images' directory.
-    """
-    return os.path.join('hotel_images', instance.place.name.replace(' ', '_'), filename)
-
-
 class Hotel(models.Model):
     country_choice = [(state_option, state_option) for state_option in extract_countries()]
     state_choice = [(city_option, city_option) for city_option in extract_states()]
@@ -101,6 +93,13 @@ class HotelRoom(models.Model):
     def __str__(self):
         return f"{self.room_category} - {self.room_type} - Total: {self.total_rooms}, Available: {self.available_rooms}, Price per 6hrs: {self.price_per_6hrs} - Hotel: {self.hotel.name}"
 
+
+def hotel_image_upload_to(instance, filename):
+    """
+    Constructs the upload path for place images.
+    Images are stored in a folder named after the Place name within the 'place_images' directory.
+    """
+    return os.path.join('hotel_images', instance.place.name.replace(' ', '_'), filename)
 
 
 class HotelImage(models.Model):
