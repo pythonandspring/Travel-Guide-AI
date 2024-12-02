@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.hashers import make_password, check_password
 from .models import Hotel, HotelImage, HotelRoom
 from .forms import HotelOwnerRegistrationForm, HotelLoginForm, HotelImageForm
@@ -86,7 +86,23 @@ def add_hotel_images(request):
     else:
         return redirect('hotel_login')
 
-# def delete_hotel_image(request):
+
+def delete_hotel_image(request, image_id):
+    if 'hotel_owner_id' not in request.session:
+        messages.error(request, "You must be logged in to perform this action.")
+        return redirect('hotel_login')
+
+    hotel_id = request.session['hotel_owner_id']
+    image = get_object_or_404(HotelImage, id=image_id, hotel_id=hotel_id)
+
+    try:
+        image.delete()
+        messages.success(request, "Image deleted successfully.")
+    except Exception as e:
+        messages.error(request, f"An error occurred while deleting the image: {e}")
+
+    return redirect('hotel_login')
+
 
 def hotel_logout(request):
     if request.session['hotel_owner_id']:
