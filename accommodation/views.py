@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.hashers import make_password, check_password
 from .models import Hotel, HotelImage, HotelRoom
 from .forms import HotelOwnerRegistrationForm, HotelLoginForm, HotelImageForm
+from time import sleep
 
 def hotel_owner_registration(request):
     if request.method == 'POST':
@@ -35,7 +36,7 @@ def hotel_login(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             try:
-                hotel_owner = Hotel.objects.get(hotel_email=email)   
+                hotel_owner = get_object_or_404(Hotel, hotel_email=email)  
                 if check_password(password, hotel_owner.password):
                     request.session['hotel_owner_id'] = hotel_owner.id 
                     request.session['is_logged_in'] = True
@@ -50,6 +51,7 @@ def hotel_login(request):
     else:     
         form = HotelLoginForm()
     return render(request, 'hotel_login.html', {'form':form})
+
 
 def contact_support(request):    
     return render(request, 'contact_support.html')

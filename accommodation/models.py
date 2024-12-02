@@ -32,7 +32,7 @@ class Hotel(models.Model):
     hotel_email = models.EmailField(unique=True)
     hotel_address = models.TextField()
     ratings = models.FloatField()
-    ratings = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(10.0)],help_text="Enter a rating between 0 and 10.")
+    ratings = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(10.0)],help_text="Enter a rating between 0 and 10.", null=True)
     location_on_map = models.URLField()
     description = models.TextField(blank=True, null=True) 
 
