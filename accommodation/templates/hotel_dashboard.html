@@ -9,6 +9,17 @@
 <section class="profile">
   <div class="profile-header">
     <h2>Welcome, [Hotel Owner Name]</h2>
+
+
+    <div class="logout">
+      <form method="post" action="{% url 'hotel_logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+      </form>
+    </div>
+
+    
+
     <button>Edit Profile</button>
   </div>
   <div class="hotel-info">
