@@ -86,7 +86,8 @@ def add_hotel_images(request):
     else:
         return redirect('hotel_login')
 
-# def delete_hotel_image(request):
+def delete_hotel_image(request):
+    pass
 
 def hotel_logout(request):
     if request.session['hotel_owner_id']:
