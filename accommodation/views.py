@@ -112,4 +112,3 @@ def hotel_logout(request):
         request.session['is_logged_in'] = False
         messages.success(request, "You have been logged out successfully.")  
     return redirect('hotel_login')
-

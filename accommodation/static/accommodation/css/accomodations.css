@@ -1,55 +1,114 @@
-.accommodation-container {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-}
-
-h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
     color: #333;
 }
 
-p {
-    font-size: 16px;
-    color: #666;
+/* Section Styling */
+.profile {
+    max-width: 800px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* Header Styling */
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
 }
 
-.form-group {
-    margin-bottom: 15px;
+.profile-header h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.profile-header button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.profile-header button:hover {
+    background-color: #0056b3;
+}
+
+.logout form {
+    margin: 0;
+}
+
+.logout button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.logout button:hover {
+    background-color: #c82333;
+}
+
+/* Hotel Info Section */
+.hotel-info, .rooms-info, .contact-info {
+    margin-bottom: 20px;
+}
+
+.hotel-info h3,
+.rooms-info h3,
+.contact-info h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.hotel-info p,
+.contact-info p {
+    margin: 5px 0;
+}
+
+/* Table Styling */
+.rooms-info table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.rooms-info table th,
+.rooms-info table td {
+    border: 1px solid #ddd;
+    padding: 10px;
     text-align: left;
 }
 
-label {
-    display: block;
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 5px;
-}
-
-input, select {
-    width: 100%;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
+.rooms-info table th {
     background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%;
+    color: #fff;
+    font-weight: bold;
 }
 
-button:hover {
-    background-color: #0056b3;
+.rooms-info table td {
+    background-color: #f9f9f9;
+}
+
+.rooms-info table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Button Styling */
+button {
+    transition: background-color 0.3s ease;
 }

@@ -27,7 +27,7 @@
                         {% if request.session.is_logged_in %}
                             <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Bookings</a>
                             <a class="text-light text-decoration-none" href="#">Rooms Availability</a>
-                            <a class="text-light text-decoration-none" href="#">Hotel Images</a>
+                            <a class="text-light text-decoration-none" href="{% url 'hotel_images' %}">Hotel Images</a>
                             <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Dashboard</a>
                             <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>  
                         {% else %}
