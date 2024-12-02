@@ -3,7 +3,6 @@ import os
 from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places, extract_countries
 
 
-
 def hotel_image_upload_to(instance, filename):
     """
     Constructs the upload path for place images.

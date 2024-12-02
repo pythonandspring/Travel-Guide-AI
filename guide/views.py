@@ -28,7 +28,7 @@ def guide_registration(request):
                 hotel_owner.password = make_password(password)  
                 hotel_owner.save()
                 messages.success(request, "Registration successful!")
-                return redirect('hotel_login')  
+                return redirect('guide_login')  
         else:
             messages.error(request, "Please correct the errors below.")
     else:

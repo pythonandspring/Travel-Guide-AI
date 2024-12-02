@@ -57,7 +57,7 @@ def hotel_login(request):
         else:
             messages.error(request, "Errors in the form.")
     else:     
-        form = HotelOwnerLoginForm()
+        form = HotelLoginForm()
     return render(request, 'hotel_owner_login.html', {'form':form})
 
 
