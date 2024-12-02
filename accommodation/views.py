@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth.hashers import make_password, check_password
-from .models import Hotel
-from .forms import HotelOwnerRegistrationForm, HotelLoginForm
+from .models import Hotel, HotelImage, HotelRoom
+from .forms import HotelOwnerRegistrationForm, HotelLoginForm, HotelImageForm
 
 def hotel_owner_registration(request):
     if request.method == 'POST':
@@ -63,13 +63,34 @@ def hotel_dashboard(request):
         return render(request, 'hotel_login')
 
 
+def hotel_images(request):
+    if request.session['hotel_owner_id']:
+        hotel_images = HotelImage.objects.get(hotel_id = request.session['hotel_owner_id'])
+        return (request, "hotel_images", {'hotel_images': hotel_images})
+
+
+def add_hotel_images(request):
+    if request.session['hotel_owner_id']:
+        hotel_id = request.session.get('hotel_owner_id')
+        if request.method == "POST":
+            form = HotelImageForm(request.POST, request.FILES, hotel_id=hotel_id)
+            if form.is_valid:
+                form.save()
+                messages.success(request, "You have added new image")
+                return redirect('hotel_image')
+            else:
+                messages.success(request, "Please enter correct input.")
+        else:
+            form = HotelImageForm(hotel_id=hotel_id)
+        return render(request, 'hotel_image_upload', {form:form})
+    else:
+        return redirect('hotel_login')
+
+# def delete_hotel_image(request):
+
 def hotel_logout(request):
     if request.session['hotel_owner_id']:
         del request.session['hotel_owner_id']
         request.session['is_logged_in'] = False
         messages.success(request, "You have been logged out successfully.")  
     return redirect('hotel_login')
-
-def hotel_images(request):
-    # images = HotelImage.objects.all()
-    return render(request, 'hotel_images.html')

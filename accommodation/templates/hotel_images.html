@@ -24,9 +24,12 @@
 <div id="imagePopup" class="modal" style="display: none;">
     <div class="modal-content">
         <h2>Upload Image</h2>
-        <input type="file" id="fileInput" accept="image/*">
-        <button id="uploadButton" onclick="uploadImage()">Upload File</button>
-        <button id="closePopupButton" class="close-btn" onclick="closePopup()">Close</button>
+        <form id="imageUploadForm" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" id="fileInput" name="image" accept="image/*" required>
+            <button id="uploadButton" type="submit">Upload Image</button>
+            <button id="closePopupButton" class="close-btn" onclick="closePopup()">Close</button>
+        </form>
     </div>
 </div>
 
@@ -37,6 +40,7 @@
     const imageGallery = document.getElementById('imageGallery');
     const popup = document.getElementById('imagePopup');
     const fileInput = document.getElementById('fileInput');
+    const imageUploadForm = document.getElementById('imageUploadForm');
 
     // Open the popup
     function openPopup() {
@@ -44,7 +48,8 @@
     }
 
     // Close the popup
-    function closePopup() {
+    function closePopup(event) {
+        event.preventDefault();
         popup.style.display = 'none';
         fileInput.value = ''; // Clear the file input
     }
@@ -71,36 +76,32 @@
         return card;
     }
 
-    // Upload Image
-    function uploadImage() {
-        const file = fileInput.files[0];
-        if (file) {
-            const formData = new FormData();
-            formData.append('image', file);
+    // Upload Image (on form submit)
+    imageUploadForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
-            // Replace '/upload-image/' with your actual upload endpoint
-            fetch('/upload-image/', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    const newCard = createImageCard(data.image_url, data.image_id); // Use returned image URL and ID
-                    imageGallery.appendChild(newCard);
-                    closePopup(); // Close popup after successful upload
-                } else {
-                    alert('Failed to upload image.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error uploading image.');
-            });
-        } else {
-            alert('Please select an image to upload.');
-        }
-    }
+        const formData = new FormData(imageUploadForm);
+
+        // Replace '/upload-image/' with your actual upload endpoint
+        fetch('/upload-image/', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                const newCard = createImageCard(data.image_url, data.image_id); // Use returned image URL and ID
+                imageGallery.appendChild(newCard);
+                closePopup(event); // Close popup after successful upload
+            } else {
+                alert('Failed to upload image.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error uploading image.');
+        });
+    });
 
     // Delete Image
     function deleteImage(button, imageId) {
