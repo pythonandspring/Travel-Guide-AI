@@ -6,16 +6,8 @@ from .models import Guide
 
 
 def guide_registration(request):
-    country = None
-    state = None
-    city = None
-
     if request.method == 'POST':
-        country = request.POST.get('country')
-        state = request.POST.get('state')
-        city = request.POST.get('city')
-
-        form = GuideRegistrationForm(request.POST, country=country, state=state, city=city)
+        form = GuideRegistrationForm(request.POST)
 
         if form.is_valid():
             password = form.cleaned_data.get('password')
@@ -32,9 +24,7 @@ def guide_registration(request):
         else:
             messages.error(request, "Please correct the errors below.")
     else:
-        form = GuideRegistrationForm(country=country, state=state, city=city)
-
-    print(f"Country: {country}, State: {state}, City: {city}")
+        form = GuideRegistrationForm()
 
     return render(request, 'guide_register.html', {'form': form})
 

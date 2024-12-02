@@ -5,16 +5,8 @@ from .models import Hotel
 from .forms import HotelOwnerRegistrationForm, HotelLoginForm
 
 def hotel_owner_registration(request):
-    country = None
-    state = None
-    city = None
-
     if request.method == 'POST':
-        country = request.POST.get('country')
-        state = request.POST.get('state')
-        city = request.POST.get('city')
-
-        form = HotelOwnerRegistrationForm(request.POST, country=country, state=state, city=city)
+        form = HotelOwnerRegistrationForm(request.POST)
 
         if form.is_valid():
             password = form.cleaned_data.get('password')
@@ -31,11 +23,9 @@ def hotel_owner_registration(request):
         else:
             messages.error(request, "Please correct the errors below.")
     else:
-        form = HotelOwnerRegistrationForm(country=country, state=state, city=city)
+        form = HotelOwnerRegistrationForm()
 
-    print(f"Country: {country}, State: {state}, City: {city}")
-
-    return render(request, 'hotel_owner_register.html', {'form': form})
+    return render(request, 'hotel_register.html', {'form': form})
 
 
 def hotel_login(request):
@@ -58,7 +48,7 @@ def hotel_login(request):
             messages.error(request, "Errors in the form.")
     else:     
         form = HotelLoginForm()
-    return render(request, 'hotel_owner_login.html', {'form':form})
+    return render(request, 'hotel_login.html', {'form':form})
 
 
 def contact_support(request):    
@@ -66,4 +56,3 @@ def contact_support(request):
 
 def get_dashboard(request):
     return render(request, 'hotel_dashboard.html')
-

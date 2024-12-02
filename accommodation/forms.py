@@ -41,48 +41,6 @@ class HotelOwnerRegistrationForm(forms.ModelForm):
             "hotel_address": forms.Textarea(attrs={"rows": 3, "placeholder": "Hotel address"}),
         }
 
-    def __init__(self, *args, **kwargs):
-        # Extract specific data from kwargs
-        self.country = kwargs.pop('country', None)
-        self.state = kwargs.pop('state', None)
-        self.city = kwargs.pop('city', None)
-
-        # Call the parent constructor
-        super().__init__(*args, **kwargs)
-
-        # Ensure fields exist before accessing them
-        if 'country' in self.fields:
-            self.fields['country'].choices = [
-                (country_option, country_option) for country_option in extract_countries()
-            ]
-
-        if 'state' in self.fields and self.country:
-            self.fields['state'].choices = [
-                (state_option, state_option) for state_option in extract_states(self.country)
-            ]
-        else:
-            self.fields['state'].choices = []
-
-        if 'city' in self.fields and self.state:
-            self.fields['city'].choices = [
-                (city_option, city_option) for city_option in extract_cities(self.state)
-            ]
-        else:
-            self.fields['city'].choices = []
-
-        if 'place' in self.fields and self.city:
-            self.fields['place'].choices = [
-                (place_option, place_option) for place_option in extract_places(self.city)
-            ]
-        else:
-            self.fields['place'].choices = []
-
-        # Debugging output for troubleshooting
-        print(f"Country provided: {self.country}, State provided: {self.state}, City provided: {self.city}")
-        print(f"Fetching states for country: {self.country}")
-        print(f"Fetching cities for state: {self.state}")
-        print(f"Fetching places for city: {self.city}")
-        
 
 
 class HotelLoginForm(forms.Form):
