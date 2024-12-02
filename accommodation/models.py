@@ -1,7 +1,7 @@
 from django.db import models
 import os
 from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places, extract_countries
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Hotel(models.Model):
     country_choice = [(state_option, state_option) for state_option in extract_countries()]
@@ -31,6 +31,8 @@ class Hotel(models.Model):
     hotel_phone_number = models.CharField(max_length=11, unique=True)
     hotel_email = models.EmailField(unique=True)
     hotel_address = models.TextField()
+    ratings = models.FloatField()
+    ratings = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(10.0)],help_text="Enter a rating between 0 and 10.")
     location_on_map = models.URLField()
     description = models.TextField(blank=True, null=True) 
 
