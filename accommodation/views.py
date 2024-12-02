@@ -70,6 +70,6 @@ def hotel_logout(request):
         messages.success(request, "You have been logged out successfully.")  
     return redirect('hotel_login')
 
-
-
-
+def hotel_images(request):
+    # images = HotelImage.objects.all()
+    return render(request, 'hotel_images.html')
