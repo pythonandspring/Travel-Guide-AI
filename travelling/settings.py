@@ -151,7 +151,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db' 
-SESSION_COOKIE_AGE = 1800
+SESSION_COOKIE_AGE = 120000
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_NAME = 'sessionid'
 LOGIN_URL = '/admin-login/'
