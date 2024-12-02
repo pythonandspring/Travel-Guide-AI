@@ -23,17 +23,18 @@
                 <div class="col px-3">
                     <div class="d-flex justify-content-center gap-3">
                         <a class="text-light text-decoration-none" href="{% url 'home' %}">Home</a>
-                        {% comment %} <a class="text-light text-decoration-none" href="{% url 'feedback' %}">Feedback</a> {% endcomment %}
-                        {% if authenticated %}
+                        <a class="text-light text-decoration-none" href="{% url 'gallery' %}">Gallery</a>
+                        {% if request.session.is_logged_in %}
                             <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Bookings</a>
-                            <a class="text-light text-decoration-none" href="{% url 'room_availability' %}">Rooms Availability</a>
-                            <a class="text-light text-decoration-none" href="{% url 'images' %}">Images</a>
+                            <a class="text-light text-decoration-none" href="#">Rooms Availability</a>
+                            <a class="text-light text-decoration-none" href="#">Hotel Images</a>
                             <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Dashboard</a>
+                            <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>  
                         {% else %}
                             <a class="text-light text-decoration-none" href="{% url 'hotel_registration' %}">New Registration</a>
                             <a class="text-light text-decoration-none" href="{% url 'hotel_login' %}">Login</a>
                         {% endif %}
-                        <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>   
+                         
                     </div>
                 </div>
             </div>

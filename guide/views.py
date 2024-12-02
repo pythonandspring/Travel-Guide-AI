@@ -38,7 +38,11 @@ def guide_login(request):
             try:
                 guide = Guide.objects.get(email=email)  
                 if check_password(password, guide.password):
-                    request.session['guide_id'] = guide.id  
+                    if guide.is_super_guide:
+                        request.session['super_guide_id'] = guide.id 
+                    else:
+                        request.session['guide_id'] = guide.id  
+                    request.session['is_logged_in'] = True
                     messages.success(request, "Login successful!")
                     return redirect('guide_dashboard')  
                 else:
@@ -51,6 +55,17 @@ def guide_login(request):
         form = GuideLoginForm()
 
     return render(request, 'guide_login.html', {'form': form})
+
+
+def guide_logout(request):
+    if request.session['guide_id']:
+        del request.session['guide_id']
+        messages.success(request, "You have been logged out successfully.")  
+    elif request.session['super_guide_id']:
+        del request.session['super_guide_id']
+        messages.success(request, "You have been logged out successfully.")
+    request.session['is_logged_in'] = False
+    return redirect('guide_login')
 
 
 def contact_support(request):    

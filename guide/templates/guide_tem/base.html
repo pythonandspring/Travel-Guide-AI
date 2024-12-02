@@ -23,16 +23,20 @@
                 <div class="col px-3">
                     <div class="d-flex justify-content-center gap-3">
                         <a class="text-light text-decoration-none" href="{% url 'home' %}">Home</a>
-                        <a class="text-light text-decoration-none" href="{% url 'gen_feedback' %}">Feedback</a>
-                        {% if authenticated %}
-                            {% comment %} <a class="text-light text-decoration-none" href="{% url 'room_availability' %}">Room Availability</a>
+                        <a class="text-light text-decoration-none" href="{% url 'gallery' %}">Gallery</a>
+                        {% if request.session.super_guide_id %}
                             <a class="text-light text-decoration-none" href="{% url 'images' %}">Images</a>
-                            <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Hotal Dashboard</a> {% endcomment %}
+                            <a class="text-light text-decoration-none" href="#">update doctor</a>
+                            <a class="text-light text-decoration-none" href="{% url 'guide_dashboard' %}">Guide Dashboard</a>
+                            <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>   
+                        {% elif request.session.guide_id %}
+                            <a class="text-light text-decoration-none" href="#">update doctor</a>
+                            <a class="text-light text-decoration-none" href="{% url 'guide_dashboard' %}">Guide Dashboard</a>
+                            <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>   
                         {% else %}
                             <a class="text-light text-decoration-none" href="{% url 'guide_registration' %}">New Registration</a>
                             <a class="text-light text-decoration-none" href="{% url 'guide_login' %}">Login</a>
                         {% endif %}
-                        <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>   
                     </div>
                 </div>
             </div>

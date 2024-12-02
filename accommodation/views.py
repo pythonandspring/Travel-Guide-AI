@@ -38,6 +38,7 @@ def hotel_login(request):
                 hotel_owner = Hotel.objects.get(hotel_email=email)   
                 if check_password(password, hotel_owner.password):
                     request.session['hotel_owner_id'] = hotel_owner.id 
+                    request.session['is_logged_in'] = True
                     messages.success(request, "Login successful!")
                     return redirect('hotel_dashboard')
                 else:
@@ -52,7 +53,18 @@ def hotel_login(request):
 
 
 def contact_support(request):    
-    return render(request, 'contact.html')
+    return render(request, 'contact_support.html')
 
-def get_dashboard(request):
-    return render(request, 'hotel_dashboard.html')
+def hotel_dashboard(request):
+    if request.session['hotel_owner_id']:
+        return render(request, 'hotel_dashboard.html')
+    else:
+        return render(request, 'hotel_login')
+
+def hotel_logout(request):
+    if request.session['hotel_owner_id']:
+        del request.session['hotel_owner_id']
+        request.session['is_logged_in'] = False
+        messages.success(request, "You have been logged out successfully.")  
+    return redirect('hotel_login')
+
