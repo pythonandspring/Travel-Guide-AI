@@ -15,40 +15,49 @@ class GuideRegistrationForm(forms.ModelForm):
     class Meta:
         model = Guide
         fields = ['name', 'email', 'password', 'phone', 'is_super_guide', 'country', 'state', 'city', 'place']
-        
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get('password')
-        confirm_password = cleaned_data.get('confirm_password')
-
-        if password and confirm_password and password != confirm_password:
-            raise forms.ValidationError("Passwords do not match.")
-        return cleaned_data
     
     def __init__(self, *args, **kwargs):
-        country = kwargs.pop('country', None)
-        state = kwargs.pop('state', None)
-        city = kwargs.pop('city', None)
+        # Extract specific data from kwargs
+        self.country = kwargs.pop('country', None)
+        self.state = kwargs.pop('state', None)
+        self.city = kwargs.pop('city', None)
+
+        # Call the parent constructor
         super().__init__(*args, **kwargs)
 
-        self.fields['country'].choices = [(country_option, country_option) for country_option in extract_countries()]
-        # self.fields['country'].initial = country
+        # Ensure fields exist before accessing them
+        if 'country' in self.fields:
+            self.fields['country'].choices = [
+                (country_option, country_option) for country_option in extract_countries()
+            ]
 
-        if country:
-            self.fields['state'].choices = [(state_option, state_option) for state_option in extract_states(country)]
+        if 'state' in self.fields and self.country:
+            self.fields['state'].choices = [
+                (state_option, state_option) for state_option in extract_states(self.country)
+            ]
         else:
             self.fields['state'].choices = []
 
-        if state:
-            self.fields['city'].choices = [(city_option, city_option) for city_option in extract_cities(state)]
+        if 'city' in self.fields and self.state:
+            self.fields['city'].choices = [
+                (city_option, city_option) for city_option in extract_cities(self.state)
+            ]
         else:
             self.fields['city'].choices = []
 
-        if state and city:
-            self.fields['place'].choices = [(place_option, place_option) for place_option in extract_places(city)]
+        if 'place' in self.fields and self.city:
+            self.fields['place'].choices = [
+                (place_option, place_option) for place_option in extract_places(self.city)
+            ]
         else:
             self.fields['place'].choices = []
 
+        # Debugging output for troubleshooting
+        print(f"Country provided: {self.country}, State provided: {self.state}, City provided: {self.city}")
+        print(f"Fetching states for country: {self.country}")
+        print(f"Fetching cities for state: {self.state}")
+        print(f"Fetching places for city: {self.city}")
+        
 
 class GuideLoginForm(forms.Form):
     email = forms.EmailField(

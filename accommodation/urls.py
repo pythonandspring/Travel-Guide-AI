@@ -7,7 +7,7 @@ urlpatterns = [
     path("", travel_views.home),    
 
     path('registration/', views.hotel_owner_registration, name='hotel_registration'),
-    path('login/', views.hotel_owner_login, name='hotel_login'),
+    path('login/', views.hotel_login, name='hotel_login'),
 
     path('dashboard/', views.get_dashboard, name='dashboard'),
     path("contact_support", views.contact_support, name='contact_support')

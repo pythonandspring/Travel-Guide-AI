@@ -1,5 +1,7 @@
 from django.db import models
 import os
+from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places, extract_countries
+
 
 def place_image_upload_to(instance, filename):
     """
@@ -119,6 +121,11 @@ class Image(models.Model):
 
 
 class Guide(models.Model):
+    country_choice = [(state_option, state_option) for state_option in extract_countries()]
+    state_choice = [(city_option, city_option) for city_option in extract_states()]
+    city_choice = [(city_option, city_option) for city_option in extract_cities()]
+    place_choice = [(place_option, place_option) for place_option in extract_places()]
+
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
@@ -127,10 +134,10 @@ class Guide(models.Model):
 
     is_super_guide = models.BooleanField(default=False)
 
-    country = models.CharField(max_length=255, choices=[])
-    state = models.CharField(max_length=50, choices=[])
-    city = models.CharField(max_length=50, choices=[])
-    place = models.CharField(max_length=50, choices=[])
+    country = models.CharField(max_length=50, choices=country_choice, null=False)
+    state = models.CharField(max_length=50, choices=state_choice, null=False)
+    city = models.CharField(max_length=50, choices=city_choice, null=False)
+    place = models.CharField(max_length=50, choices=place_choice, null=False)
     
     def __str__(self):
         return f"{self.name} - {'Super Guide' if self.is_super_guide else 'Guide'}"

@@ -32,33 +32,55 @@ def flatten_json(data):
 df = pd.DataFrame(flatten_json(data))
 
 
-def extract_countries():
+def extract_countries() -> list:
     global df
     countries = [country for country in df['country'].unique()]
     return countries
 
-
-def extract_states(country: str) -> list:
+def extract_states(country: str = None) -> list:
     global df
-    states = df[df['country'] == country]['state'].unique()
+    if country:
+        # Filter states by the provided country
+        states = df[df['country'] == country]['state'].unique()
+    else:
+        # Return all unique states if no country is provided
+        states = df['state'].unique()
+    
     states = [state for state in states]
     return states
 
 
-def extract_cities(state: str) -> list:
+def extract_cities(state: str = None) -> list:
     global df
-    cities = df[df['state'] == state]['city'].unique()
+    if state:
+        # Filter cities by the provided state
+        cities = df[df['state'] == state]['city'].unique()
+    else:
+        # Return all unique cities if no state is provided
+        cities = df['city'].unique()
+    
     cities = [city for city in cities]
     return cities
 
 
-def extract_places(city: str) -> list:
+def extract_places(city: str = None) -> list:
     global df
-    places = df[df['city'] == city]['place'].unique()
+    if city:
+        # Filter by city if provided
+        places = df[df['city'] == city]['place'].unique()
+    else:
+        # Get all unique places if no city is provided
+        places = df['place'].unique()
+    
+    # Convert to list
     places = [place for place in places]
     return places
 
-
+# # print(df)
+# print(extract_countries())
+# print(extract_states('India'))
+# print(extract_cities('Andhra Pradesh'))
+# print(extract_places('Visakhapatnam'))
 
 
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.contrib import messages  
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -39,7 +39,7 @@ def user_login(request):
         print("DEBUG: GET request received for login")
         form = AuthenticationForm()  
 
-    return render(request, 'travel/login.html', {'form': form, 'MEDIA_URL': settings.MEDIA_URL})
+    return render(request, 'travel/login.html', {'form': form})
 
 
 def register(request):
@@ -48,7 +48,6 @@ def register(request):
         if form.is_valid():
             user = form.save()
             Profile.objects.create(user=user)
-
             messages.success(request, "Your account has been created. You can now log in.")
             return redirect('login')  
         else:
@@ -57,7 +56,7 @@ def register(request):
         print("DEBUG: GET request received for register") 
         form = UserRegistrationForm()
 
-    return render(request, 'travel/register.html', {'form': form,'MEDIA_URL': settings.MEDIA_URL})
+    return render(request, 'travel/register.html', {'form': form})
 
 
 @login_required
@@ -94,7 +93,6 @@ def edit_profile(request):
             messages.success(request, "Profile edited successfully!")
             return redirect('profile')  
     else:
-
         form = EditProfileForm(instance=request.user)
         if user_profile:
             form.fields['location'].initial = user_profile.location
@@ -105,8 +103,7 @@ def edit_profile(request):
             form.fields['budget_range'].initial = user_profile.budget_range
             form.fields['interests'].initial = user_profile.interests
 
-
-    return render(request, 'travel/edit_profile.html', {'form': form,'MEDIA_URL': settings.MEDIA_URL})
+    return render(request, 'travel/edit_profile.html', {'form': form})
 
 
 @login_required
@@ -129,6 +126,7 @@ def user_profile(request):
         }
     )
 
+
 def user_logout(request):
     if request.user.is_authenticated:
         logout(request)  
@@ -143,6 +141,7 @@ class CustomPasswordResetView(auth_views.PasswordResetView):
         context['MEDIA_URL'] = settings.MEDIA_URL
         return context
 
+
 class CustomPasswordResetDoneView(auth_views.PasswordResetDoneView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -150,12 +149,14 @@ class CustomPasswordResetDoneView(auth_views.PasswordResetDoneView):
         context['MEDIA_URL'] = settings.MEDIA_URL
         return context
 
+
 class CustomPasswordResetConfirmView(auth_views.PasswordResetConfirmView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         print(settings.MEDIA_URL)  
         context['MEDIA_URL'] = settings.MEDIA_URL
         return context
+
 
 class CustomPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
     def get_context_data(self, **kwargs):
@@ -168,15 +169,15 @@ class CustomPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
 # <<<<<<<<<<<<<<< ACCOMMODATION WE NEED TO WORK ON THIS FOR CUSTOMER >>>>>>>>>>>>>>>>>>>>>
 # <<<<<<< this view is just for testing >>>>>>>
 
+
 def accomodations(request):
     if request.method == 'POST':
         feedback_text = request.POST.get('accomodations')
         messages.success(request, "Accomodations request has been sent!")
         return redirect('accomodations')
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/accomodations.html',context)
+
+    return render(request,'travel/accomodations.html')
+
 
 def feedback(request):
     if request.method == 'POST':
@@ -184,13 +185,11 @@ def feedback(request):
         messages.success(request, "Thank you for your feedback!")
         return redirect('feedback')
     
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
+    return render(request,'travel/feedback.html')
 
-    return render(request,'travel/feedback.html',context)
 
 #  From this section till end those are upcoming modules views. we have to add multiple apps to implement this.
+
 
 @csrf_exempt
 def search_voice(request):
@@ -206,5 +205,4 @@ def search_voice(request):
     except Exception as e:
         print(f"Error: {e}")
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-
 

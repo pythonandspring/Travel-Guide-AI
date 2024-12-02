@@ -1,5 +1,8 @@
 from django.db import models
 import os
+from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places, extract_countries
+
+
 
 def hotel_image_upload_to(instance, filename):
     """
@@ -10,6 +13,11 @@ def hotel_image_upload_to(instance, filename):
 
 
 class Hotel(models.Model):
+    country_choice = [(state_option, state_option) for state_option in extract_countries()]
+    state_choice = [(city_option, city_option) for city_option in extract_states()]
+    city_choice = [(city_option, city_option) for city_option in extract_cities()]
+    place_choice = [(place_option, place_option) for place_option in extract_places()]
+    
 
     DAYS_OF_WEEK = [
             ('MON', 'Monday'),
@@ -36,10 +44,10 @@ class Hotel(models.Model):
     description = models.TextField(blank=True, null=True) 
 
     # hotel's associated destination
-    country = models.CharField(max_length=50, choices=[], null=False)
-    state = models.CharField(max_length=50, choices=[], null=False)
-    city = models.CharField(max_length=50, choices=[], null=False)
-    place = models.CharField(max_length=50, choices=[], null=False)
+    country = models.CharField(max_length=50, choices=country_choice, null=False)
+    state = models.CharField(max_length=50, choices=state_choice, null=False)
+    city = models.CharField(max_length=50, choices=city_choice, null=False)
+    place = models.CharField(max_length=50, choices=place_choice, null=False)
 
     # opening and closing days and timings
     weekly_closed_on = models.CharField(
