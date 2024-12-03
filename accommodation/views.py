@@ -19,6 +19,7 @@ def hotel_owner_registration(request):
                 hotel_owner = form.save(commit=False)
                 hotel_owner.password = make_password(password)  
                 hotel_owner.save()
+                
                 messages.success(request, "Registration successful!")
                 return redirect('hotel_login')  
         else:
