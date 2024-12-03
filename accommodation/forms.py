@@ -1,6 +1,7 @@
 from django import forms
 from .models import Hotel, HotelImage, HotelRoom
 
+
 class HotelOwnerRegistrationForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={"placeholder": "Enter your password"}),
@@ -66,8 +67,6 @@ class HotelImageForm(forms.ModelForm):
 
     def save(self, commit=True):
         instance = super().save(commit=False)
-
-        from .models import Hotel  
         instance.hotel = Hotel.objects.get(id=self.hotel_id)
 
         if commit:
@@ -103,10 +102,47 @@ class HotelRoomForm(forms.ModelForm):
     def save(self, commit=True):
         instance = super().save(commit=False)
 
-        from .models import Hotel  
         instance.hotel = Hotel.objects.get(id=self.hotel_id)
 
         if commit:
             instance.save()
         return instance
+
+
+class HotelRoomUpdateForm(forms.ModelForm):
+    
+    class Meta:
+        model = HotelRoom
+        fields = [
+            'total_rooms',
+            'available_rooms',
+            'price_per_6hrs',
+        ]
+
+
+class HotelDetailsUpdateForm(forms.ModelForm):
+    
+    class Meta:
+        model = Hotel
+        fields = [         
+
+            "hotel_name",
+            "hotel_phone_number",
+            "hotel_email",
+
+            "hotel_address",
+            "location_on_map",
+            "description",
+
+            "weekly_closed_on",
+            "special_closed_dates",
+            "week_days_opening_time",
+            "week_days_closing_time",
+            "weekends_opening_time",
+            "weekends_closing_time",
+            
+        ]
+
+
+
 

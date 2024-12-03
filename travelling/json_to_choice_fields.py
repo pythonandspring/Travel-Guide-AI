@@ -1,8 +1,8 @@
 import pandas as pd
 import json
 
-# file_path = r"c:\Users\desai\OneDrive\Documents\Travel Guide Using AI\Travel-Guide-AI\travelling\Data\Location.json"
-file_path = r"F:\____INFY_____\Travel-Guide-AI\travelling\Data\Location.json"
+file_path = r"c:\Users\desai\OneDrive\Documents\Travel Guide Using AI\Travel-Guide-AI\travelling\Data\Location.json"
+# file_path = r"F:\____INFY_____\Travel-Guide-AI\travelling\Data\Location.json"
 
 
 with open(file_path, mode='r') as file:
@@ -76,11 +76,6 @@ def extract_places(city: str = None) -> list:
     places = [place for place in places]
     return places
 
-# # print(df)
-# print(extract_countries())
-# print(extract_states('India'))
-# print(extract_cities('Andhra Pradesh'))
-# print(extract_places('Visakhapatnam'))
 
 
 

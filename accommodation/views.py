@@ -2,8 +2,9 @@ from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.hashers import make_password, check_password
 from .models import Hotel, HotelImage, HotelRoom
-from .forms import HotelOwnerRegistrationForm, HotelLoginForm, HotelImageForm, HotelRoomForm
+from .forms import HotelOwnerRegistrationForm, HotelLoginForm, HotelImageForm, HotelRoomForm, HotelRoomUpdateForm, HotelDetailsUpdateForm
 from django.urls import reverse
+
 
 def hotel_owner_registration(request):
     if request.method == 'POST':
@@ -19,7 +20,6 @@ def hotel_owner_registration(request):
                 hotel_owner = form.save(commit=False)
                 hotel_owner.password = make_password(password)
                 hotel_owner.save()
-
                 messages.success(request, "Registration successful!")
                 return redirect('hotel_login')
         else:
@@ -70,7 +70,7 @@ def hotel_images(request):
     if 'hotel_owner_id' in request.session:
         try:
             hotel_images = HotelImage.objects.get(
-                hotel_id=request.session['hotel_owner_id'])
+            hotel_id=request.session['hotel_owner_id'])
             return render(request, "hotel_images.html", {'hotel_images': hotel_images})
         except HotelImage.DoesNotExist:
             return render(request, "hotel_images.html", {'no_image': True})
@@ -95,6 +95,7 @@ def add_hotel_images(request):
     else:
         return redirect('hotel_login')
     
+
 def delete_hotel_image(request, image_id):
     if 'hotel_owner_id' not in request.session:
         messages.error(
@@ -108,10 +109,10 @@ def delete_hotel_image(request, image_id):
         image.delete()
         messages.success(request, "Image deleted successfully.")
     except Exception as e:
-        messages.error(
-            request, f"An error occurred while deleting the image: {e}")
+        messages.error(request, f"An error occurred while deleting the image: {e}")
 
     return redirect('hotel_login')
+
 
 def hotel_logout(request):
     if request.session['hotel_owner_id']:
@@ -141,20 +142,25 @@ def add_room_type(request):
             form = HotelRoomForm(request.POST, hotel_id=hotel_id)
         
             if form.is_valid():
-        
+
+                total_rooms = form.cleaned_data.get('total_rooms')
+                available_rooms = form.cleaned_data.get('available_rooms')
                 room_category = form.cleaned_data.get('room_category')
                 room_type = form.cleaned_data.get('room_type')   
 
                 try:
                     existing_room = HotelRoom.objects.get(room_category=room_category, room_type=room_type)
                     messages.success(request, "room category already present please update if you want to modify.")
-                    return redirect(reverse('update_room', args=[existing_room.id]))
+                    return redirect(reverse('update_room_details', args=[existing_room.id]))
                 
                 except HotelRoom.DoesNotExist:
-                    form.save()
-                    messages.success(request, "You have added new room category.")
-                    return redirect('hotel_rooms')
 
+                    if total_rooms >= available_rooms:
+                        form.save()
+                        messages.success(request, "You have added new room category.")
+                        return redirect('hotel_rooms')
+                    else:
+                        messages.error(request, "available rooms are greater than total rooms")
             else:
                 messages.error(request, "you should enter valid details.")
         else:
@@ -162,4 +168,54 @@ def add_room_type(request):
             return render(request, 'hotel_add_room.html', {'hotel_room_form': form})
     else:
         return redirect('hotel_login')
+
+
+def delete_room_type(request, room_id):
+    if request.session['hotel_owner_id']:
+        room = get_object_or_404(HotelRoom, id=room_id)
+        room.delete()
+        messages.success(request, f'you have deleted {room.room_category}, {room.room_type} room.')
+        return redirect('available_rooms')
+
+
+def update_room(request, room_id):
+    if request.session['hotel_owner_id']:
+        try:
+            room = HotelRoom.objects.get(id=room_id)
+        except HotelRoom.DoesNotExist:
+            return redirect('available_rooms')
+        
+        if request.method == 'POST':
+            form = HotelRoomUpdateForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, f"details for{room.room_category},{room.room_type}")
+                return redirect('available_rooms')
+        else:
+            form = HotelRoomUpdateForm()
+        return render(request, 'update_room_details.html', {'update_form': form, "room_obj":room})
+    else:
+        return redirect('hotel_login')
                 
+
+def update_hotel_details(request):
+    if request.session['hotel_owner_id']:
+        try:
+            hotel = Hotel.objects.get(id=request.session('hotel_owner_id'))
+        except Hotel.DoesNotExist:
+            return redirect('hotel_login')
+
+        if request.method == "POST":
+            form = HotelDetailsUpdateForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success("details updated successfully.")
+                return redirect('hotel_dashboard')
+            else:
+                messages.error("please enter valid details")
+        else:
+            form = HotelDetailsUpdateForm()
+            return render(request, 'update_hotel_details.html', {'hotel_datails_form':form, 'hotel_details': hotel})
+    else:
+        return redirect('hotel_login')
+    
