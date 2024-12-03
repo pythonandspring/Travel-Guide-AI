@@ -72,7 +72,7 @@ def hotel_images(request):
             hotel_images = HotelImage.objects.get(hotel_id=request.session['hotel_owner_id'])
             return render(request, "hotel_images.html", {'hotel_images': hotel_images}) 
         except HotelImage.DoesNotExist: 
-            return redirect('add_image_hotel')  
+            return render(request, "hotel_images.html", {'no_image': True}) 
     else:
         return redirect('login')
         
@@ -90,7 +90,7 @@ def add_hotel_images(request):
                 messages.success(request, "Please enter correct input.")
         else:
             form = HotelImageForm(hotel_id=hotel_id)
-        return render(request, 'hotel_image_upload.html', {'upload_form':form})
+        return render(request, 'hotel_image_upload.html', {'upload_form' :form})
     else:
         return redirect('hotel_login')
     
