@@ -67,12 +67,14 @@ def hotel_dashboard(request):
 
 
 def hotel_images(request):
-    if request.session['hotel_owner_id']:
+    if 'hotel_owner_id' in request.session:  
         try:
-            hotel_images = HotelImage.objects.get(hotel_id = request.session['hotel_owner_id'])
-            return (request, "hotel_images", {'hotel_images': hotel_images})
-        except:
-            return redirect('add_image_hotel')
+            hotel_images = HotelImage.objects.get(hotel_id=request.session['hotel_owner_id'])
+            return render(request, "hotel_images.html", {'hotel_images': hotel_images}) 
+        except HotelImage.DoesNotExist: 
+            return redirect('add_image_hotel')  
+    else:
+        return redirect('login')
         
 
 def add_hotel_images(request):
@@ -88,7 +90,7 @@ def add_hotel_images(request):
                 messages.success(request, "Please enter correct input.")
         else:
             form = HotelImageForm(hotel_id=hotel_id)
-        return render(request, 'hotel_image_upload', {form:form})
+        return render(request, 'hotel_image_upload.html', {form:form})
     else:
         return redirect('hotel_login')
 
