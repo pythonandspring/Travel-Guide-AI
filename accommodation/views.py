@@ -19,6 +19,7 @@ def hotel_owner_registration(request):
                 hotel_owner = form.save(commit=False)
                 hotel_owner.password = make_password(password)  
                 hotel_owner.save()
+                
                 messages.success(request, "Registration successful!")
                 return redirect('hotel_login')  
         else:
@@ -67,9 +68,12 @@ def hotel_dashboard(request):
 
 def hotel_images(request):
     if request.session['hotel_owner_id']:
-        hotel_images = HotelImage.objects.get(hotel_id = request.session['hotel_owner_id'])
-        return (request, "hotel_images", {'hotel_images': hotel_images})
-
+        try:
+            hotel_images = HotelImage.objects.get(hotel_id = request.session['hotel_owner_id'])
+            return (request, "hotel_images", {'hotel_images': hotel_images})
+        except:
+            return redirect('add_image_hotel')
+        
 
 def add_hotel_images(request):
     if request.session['hotel_owner_id']:

@@ -105,7 +105,7 @@ def hotel_image_upload_to(instance, filename):
 
 class HotelImage(models.Model):
     hotel = models.ForeignKey(Hotel, related_name='images', on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, null=False)
+    name = models.CharField(max_length=100, null=False, default="hotel_image")
     image = models.ImageField(upload_to=hotel_image_upload_to)
 
     def __str__(self):
