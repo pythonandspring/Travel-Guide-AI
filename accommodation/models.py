@@ -31,7 +31,7 @@ class Hotel(models.Model):
     hotel_phone_number = models.CharField(max_length=11, unique=True)
     hotel_email = models.EmailField(unique=True)
     hotel_address = models.TextField()
-    ratings = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(10.0)],help_text="Enter a rating between 0 and 10.",null=True)
+    ratings = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(10.0)],help_text="Enter a rating between 0 and 10.", null=True)
     location_on_map = models.URLField()
     description = models.TextField(blank=True, null=True) 
 
@@ -104,8 +104,8 @@ def hotel_image_upload_to(instance, filename):
 
 
 class HotelImage(models.Model):
-
     hotel = models.ForeignKey(Hotel, related_name='images', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, null=False,default="hotel_image")
     image = models.ImageField(upload_to=hotel_image_upload_to)
 
     def __str__(self):

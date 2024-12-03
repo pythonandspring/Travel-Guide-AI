@@ -57,7 +57,7 @@ class HotelLoginForm(forms.Form):
 class HotelImageForm(forms.ModelForm):
     class Meta:
         model = HotelImage
-        fields = ['image']  # Exclude the hotel field from the form
+        fields = ['name', 'image']  
 
     def __init__(self, *args, **kwargs):
         self.hotel_id = kwargs.pop('hotel_id', None)  
@@ -69,8 +69,7 @@ class HotelImageForm(forms.ModelForm):
     def save(self, commit=True):
         instance = super().save(commit=False)
 
-        # Assign the hotel from the session
-        from .models import Hotel  # Import inside to avoid circular import
+        from .models import Hotel  
         instance.hotel = Hotel.objects.get(id=self.hotel_id)
 
         if commit:

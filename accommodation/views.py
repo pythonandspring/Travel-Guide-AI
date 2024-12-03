@@ -67,9 +67,11 @@ def hotel_dashboard(request):
 
 def hotel_images(request):
     if request.session['hotel_owner_id']:
-        hotel_images = HotelImage.objects.get(hotel_id = request.session['hotel_owner_id'])
-        return (request, "hotel_images", {'hotel_images': hotel_images})
-
+        try:
+            hotel_images = HotelImage.objects.get(hotel_id = request.session['hotel_owner_id'])
+            return (request, "hotel_images.html", {'hotel_images': hotel_images})
+        except:
+            return redirect('add_hotel_image')
 
 def add_hotel_images(request):
     if request.session['hotel_owner_id']:
@@ -79,14 +81,16 @@ def add_hotel_images(request):
             if form.is_valid:
                 form.save()
                 messages.success(request, "You have added new image")
-                return redirect('hotel_image')
+                return redirect('hotel_image.html')
             else:
                 messages.success(request, "Please enter correct input.")
         else:
             form = HotelImageForm(hotel_id=hotel_id)
-        return render(request, 'hotel_image_upload', {form:form})
+        return render(request, 'hotel_image_upload.html', {form:form})
     else:
         return redirect('hotel_login')
+    
+
 
 
 def delete_hotel_image(request, image_id):
