@@ -1,10 +1,12 @@
 {% extends 'home/base.html' %}
 {% load static %}
 
-{% block content %}
-<head>
+{% block styling %}
     <link rel="stylesheet" href="{% static 'css/contact.css' %}">
-</head>
+{% endblock styling %}
+
+
+{% block content %}
 
 <div  style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
 <div class="contact-container">
