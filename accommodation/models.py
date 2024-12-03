@@ -109,7 +109,7 @@ class HotelImage(models.Model):
     image = models.ImageField(upload_to=hotel_image_upload_to)
 
     def __str__(self):
-        return f"Image for {self.place.name}"
+        return f"Image for {self.HotelImage.name}"
  
 
 

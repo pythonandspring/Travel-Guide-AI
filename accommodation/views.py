@@ -2,8 +2,8 @@ from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.hashers import make_password, check_password
 from .models import Hotel, HotelImage, HotelRoom
-from .forms import HotelOwnerRegistrationForm, HotelLoginForm, HotelImageForm
-from time import sleep
+from .forms import HotelOwnerRegistrationForm, HotelLoginForm, HotelImageForm, HotelRoomForm
+from django.urls import reverse
 
 def hotel_owner_registration(request):
     if request.method == 'POST':
@@ -17,11 +17,11 @@ def hotel_owner_registration(request):
                 messages.error(request, "Passwords do not match!")
             else:
                 hotel_owner = form.save(commit=False)
-                hotel_owner.password = make_password(password)  
+                hotel_owner.password = make_password(password)
                 hotel_owner.save()
-                
+
                 messages.success(request, "Registration successful!")
-                return redirect('hotel_login')  
+                return redirect('hotel_login')
         else:
             messages.error(request, "Please correct the errors below.")
     else:
@@ -37,9 +37,9 @@ def hotel_login(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             try:
-                hotel_owner = get_object_or_404(Hotel, hotel_email=email)  
+                hotel_owner = get_object_or_404(Hotel, hotel_email=email)
                 if check_password(password, hotel_owner.password):
-                    request.session['hotel_owner_id'] = hotel_owner.id 
+                    request.session['hotel_owner_id'] = hotel_owner.id
                     request.session['is_logged_in'] = True
                     messages.success(request, "Login successful!")
                     return redirect('hotel_dashboard')
@@ -49,33 +49,34 @@ def hotel_login(request):
                 messages.error(request, "profile doesn't exists.")
         else:
             messages.error(request, "Errors in the form.")
-    else:     
+    else:
         form = HotelLoginForm()
-    return render(request, 'hotel_login.html', {'form':form})
+    return render(request, 'hotel_login.html', {'form': form})
 
 
-def contact_support(request):    
+def contact_support(request):
     return render(request, 'contact_support.html')
 
 
 def hotel_dashboard(request):
     if request.session['hotel_owner_id']:
-        hotel_owner = Hotel.objects.get(id = request.session['hotel_owner_id'])
+        hotel_owner = Hotel.objects.get(id=request.session['hotel_owner_id'])
         return render(request, 'hotel_dashboard.html', {'hotel_owner': hotel_owner})
     else:
         return render(request, 'hotel_login')
 
 
 def hotel_images(request):
-    if 'hotel_owner_id' in request.session:  
+    if 'hotel_owner_id' in request.session:
         try:
-            hotel_images = HotelImage.objects.get(hotel_id=request.session['hotel_owner_id'])
-            return render(request, "hotel_images.html", {'hotel_images': hotel_images}) 
-        except HotelImage.DoesNotExist: 
-            return render(request, "hotel_images.html", {'no_image': True}) 
+            hotel_images = HotelImage.objects.get(
+                hotel_id=request.session['hotel_owner_id'])
+            return render(request, "hotel_images.html", {'hotel_images': hotel_images})
+        except HotelImage.DoesNotExist:
+            return render(request, "hotel_images.html", {'no_image': True})
     else:
         return redirect('login')
-        
+
 
 def add_hotel_images(request):
     if request.session['hotel_owner_id']:
@@ -90,14 +91,15 @@ def add_hotel_images(request):
                 messages.success(request, "Please enter correct input.")
         else:
             form = HotelImageForm(hotel_id=hotel_id)
-        return render(request, 'hotel_image_upload.html', {'upload_form' :form})
+        return render(request, 'hotel_image_upload.html', {'upload_form': form})
     else:
         return redirect('hotel_login')
 
 
 def delete_hotel_image(request, image_id):
     if 'hotel_owner_id' not in request.session:
-        messages.error(request, "You must be logged in to perform this action.")
+        messages.error(
+            request, "You must be logged in to perform this action.")
         return redirect('hotel_login')
 
     hotel_id = request.session['hotel_owner_id']
@@ -107,7 +109,8 @@ def delete_hotel_image(request, image_id):
         image.delete()
         messages.success(request, "Image deleted successfully.")
     except Exception as e:
-        messages.error(request, f"An error occurred while deleting the image: {e}")
+        messages.error(
+            request, f"An error occurred while deleting the image: {e}")
 
     return redirect('hotel_login')
 
@@ -116,5 +119,49 @@ def hotel_logout(request):
     if request.session['hotel_owner_id']:
         del request.session['hotel_owner_id']
         request.session['is_logged_in'] = False
-        messages.success(request, "You have been logged out successfully.")  
+        messages.success(request, "You have been logged out successfully.")
     return redirect('hotel_login')
+
+
+def available_rooms(request):
+    if request.session['hotel_owner_id']:
+        hotel_id = request.session['hotel_owner_id']
+        try:
+            rooms = HotelRoom.objects.get(hotel=hotel_id)
+            return render(request, 'hotel_rooms.html', {'rooms': rooms})
+        except HotelRoom.DoesNotExist:
+            return render(request, 'hotel_rooms.html', {'no_rooms': True})
+    else:
+        return redirect('hotel_login')
+    
+
+def add_room_type(request):
+    if request.session['hotel_owner_id']:
+        hotel_id = request.session['hotel_owner_id']
+
+        if request.method == "POST":
+            form = HotelRoomForm(request.POST, hotel_id=hotel_id)
+        
+            if form.is_valid():
+        
+                room_category = form.cleaned_data.get('room_category')
+                room_type = form.cleaned_data.get('room_type')   
+
+                try:
+                    existing_room = HotelRoom.objects.get(room_category=room_category, room_type=room_type)
+                    messages.success(request, "room category already present please update if you want to modify.")
+                    return redirect(reverse('update_room', args=[existing_room.id]))
+                
+                except HotelRoom.DoesNotExist:
+                    form.save()
+                    messages.success(request, "You have added new room category.")
+                    return redirect('hotel_rooms')
+
+            else:
+                messages.error(request, "you should enter valid details.")
+        else:
+            form = HotelRoomForm(hotel_id=hotel_id)
+            return render(request, 'hotel_add_room.html', {'hotel_room_form': form})
+    else:
+        return redirect('hotel_login')
+                
