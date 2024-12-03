@@ -1,7 +1,5 @@
 from django import forms
 from .models import Hotel, HotelImage, HotelRoom
-from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places, extract_countries
-
 
 class HotelOwnerRegistrationForm(forms.ModelForm):
     password = forms.CharField(
@@ -81,7 +79,6 @@ class HotelRoomForm(forms.ModelForm):
     class Meta:
         model = HotelRoom
         fields = [
-            'hotel',
             'room_category',
             'room_type',
             'total_rooms',
@@ -95,4 +92,21 @@ class HotelRoomForm(forms.ModelForm):
             'available_rooms': forms.NumberInput(attrs={'class': 'form-control', 'min': 0}),
             'price_per_6hrs': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        self.hotel_id = kwargs.pop('hotel_id', None)  
+        super().__init__(*args, **kwargs)
+
+        if not self.hotel_id:
+            raise ValueError("Hotel ID must be provided through the session.")
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        from .models import Hotel  
+        instance.hotel = Hotel.objects.get(id=self.hotel_id)
+
+        if commit:
+            instance.save()
+        return instance
 
