@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
-from .forms import GuideRegistrationForm, GuideLoginForm
-from .models import Guide
+from .forms import GuideRegistrationForm, GuideLoginForm, GuideEditProfileForm
+from .models import Guide, Doctor
 
 
 def guide_registration(request):
@@ -68,17 +68,49 @@ def guide_logout(request):
     return redirect('guide_login')
 
 
-def contact_support(request):    
-    return render(request, 'contact.html')
-
-
 def guide_dashboard(request):
-    return render(request, 'guide_dashboard.html')
+    if (request.session['super_guide_id'] or request.session['guide_id']) and request.session['is_login']:
+        try:
+            guide = Guide.objects.get(id=request.session['guide_id'])
+        except Guide.DoesNotExist:
+            guide = Guide.objects.get(id=request.session['super_guide_id'])
+        return render(request, 'guide_dashboard.html', {'guide_info': guide})
+    else:
+        return redirect('guide_login')
 
 
 def guide_edit_profile(request):
-    return render(request, 'guide_edit_profile.html')
+    if (request.session['super_guide_id'] or request.session['guide_id']) and request.session['is_login']:
+        if request.method == "POST":
+            form = GuideEditProfileForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'profile updated successfully.')
+                return redirect('guide_dashboard')
+        else:
+            form = GuideEditProfileForm()
+        return render(request, 'guide_edit_profile.html', {'update_details_form': form})
+    else:
+        return redirect('guide_login')
+    
 
+def get_doctors(request):
+    if request.session['super_guide_id'] and request.session['is_login']:
+        doctors = get_object_or_404(Doctor, guide=request.session['super_guide_id'])
+        return render(request, 'get_doctors.html', {'get_all_doctors': doctors})
+    
+    elif request.session['guide_id'] and request.session['is_login']:
+        doctors = get_object_or_404(Doctor, guide=request.session['guide_id'])
+        return render(request, 'get_doctors.html', {'get_all_doctors': doctors})
+    
+    else:
+        return redirect('guide_login')
+    
+
+# def update
+
+def contact_support(request):    
+    return render(request, 'contact.html')
 
 def guide_edit_doctor_profile(request):
     return render(request, 'guide_edit_doctor_profile.html')

@@ -179,43 +179,49 @@ def delete_room_type(request, room_id):
 
 
 def update_room(request, room_id):
-    if request.session['hotel_owner_id']:
+    if request.session.get('hotel_owner_id'): 
         try:
             room = HotelRoom.objects.get(id=room_id)
         except HotelRoom.DoesNotExist:
+            messages.error(request, "The room does not exist.")
             return redirect('available_rooms')
-        
+
         if request.method == 'POST':
-            form = HotelRoomUpdateForm(request.POST)
+            form = HotelRoomUpdateForm(request.POST, instance=room)
             if form.is_valid():
                 form.save()
-                messages.success(request, f"details for{room.room_category},{room.room_type}")
+                messages.success(request, f"Details updated for {room.room_category}, {room.room_type}.")
                 return redirect('available_rooms')
+            else:
+                messages.error(
+                    request, "Please correct the errors in the form.")
         else:
-            form = HotelRoomUpdateForm()
-        return render(request, 'update_room_details.html', {'update_form': form, "room_obj":room})
+            form = HotelRoomUpdateForm(instance=room)
+
+        return render(request, 'update_room_details.html', {'update_form': form, "room_obj": room})
     else:
+        messages.error(request, "You need to log in first.")
         return redirect('hotel_login')
+
                 
 
 def update_hotel_details(request):
-    if request.session['hotel_owner_id']:
-        try:
-            hotel = Hotel.objects.get(id=request.session('hotel_owner_id'))
-        except Hotel.DoesNotExist:
-            return redirect('hotel_login')
-
-        if request.method == "POST":
-            form = HotelDetailsUpdateForm(request.POST)
-            if form.is_valid():
-                form.save()
-                messages.success("details updated successfully.")
-                return redirect('hotel_dashboard')
-            else:
-                messages.error("please enter valid details")
-        else:
-            form = HotelDetailsUpdateForm()
-            return render(request, 'update_hotel_details.html', {'hotel_datails_form':form, 'hotel_details': hotel})
-    else:
+    hotel_owner_id = request.session.get('hotel_owner_id')
+    if not hotel_owner_id:
         return redirect('hotel_login')
+
+    hotel = get_object_or_404(Hotel, id=hotel_owner_id)
+
+    if request.method == "POST":
+        form = HotelDetailsUpdateForm(request.POST, instance=hotel)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Details updated successfully.")
+            return redirect('hotel_dashboard')
+        else:
+            messages.error(request, "Please enter valid details.")
+    else:
+        form = HotelDetailsUpdateForm(instance=hotel)
+
+    return render(request, 'update_hotel_details.html', {'hotel_details_form': form, 'hotel_details': hotel})
     
