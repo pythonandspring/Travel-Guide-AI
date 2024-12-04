@@ -124,12 +124,11 @@ def hotel_logout(request):
     return redirect('hotel_login')
 
 
-#work
 def available_rooms(request):
     if request.session['hotel_owner_id']:
         hotel_id = request.session['hotel_owner_id']
         try:
-            rooms = HotelRoom.objects.get(hotel=hotel_id)
+            rooms = HotelRoom.objects.filter(hotel=hotel_id)
             return render(request, 'hotel_rooms.html', {'rooms': rooms})
         except HotelRoom.DoesNotExist:
             return render(request, 'hotel_rooms.html', {'no_rooms': True})
@@ -158,18 +157,23 @@ def add_room_type(request):
                     )
                     return redirect(reverse('update_room_details', args=[existing_room.id]))
                 except HotelRoom.DoesNotExist:
-                    form.save()
-                    messages.success(
-                        request, "You have added a new room category.")
-                    return redirect('hotel_rooms')
+                    if total_rooms >= available_rooms:
+                        form.save()
+                        messages.success(request, "You have added a new room category.")
+                        return redirect('available_rooms')
+                    else:
+                        messages.error(request, 'you have added available rooms greater than total rooms.')
+                        return redirect('available_rooms')
             else:
                 messages.error(request, "You should enter valid details.")
+                return redirect('available_rooms')
         else:
             form = HotelRoomForm(hotel_id=hotel_id)
             return render(request, 'hotel_add_room.html', {'hotel_room_form': form})
 
     else:
         return redirect('hotel_login')
+
 
 def delete_room_type(request, room_id):
     if request.session['hotel_owner_id']:
