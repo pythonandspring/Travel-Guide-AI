@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from .models import Hotel, HotelImage, HotelRoom
 from .forms import HotelOwnerRegistrationForm, HotelLoginForm, HotelImageForm, HotelRoomForm, HotelRoomUpdateForm, HotelDetailsUpdateForm
 from django.urls import reverse
-
+from django.http import JsonResponse
 
 def hotel_owner_registration(request):
     if request.method == 'POST':
@@ -113,7 +113,49 @@ def delete_hotel_image(request, image_id):
     except Exception as e:
         messages.error(request, f"An error occurred while deleting the image: {e}")
 
-    return redirect('hotel_login')
+    return redirect('hotel_images')
+
+def rename_hotel_image(request, image_id):
+    if 'hotel_owner_id' not in request.session:
+        messages.error(request, "You must be logged in to perform this action.")
+        return redirect('hotel_login')
+
+    hotel_id = request.session.get('hotel_owner_id')
+    image = get_object_or_404(HotelImage, id=image_id, hotel_id=hotel_id)
+
+    if request.method == 'POST':
+        try:
+            # Get the new name from the request body
+            new_name = request.POST.get('new_name')
+
+            # Update the image name
+            image.name = new_name
+            image.save()
+
+            # Success message
+            messages.success(request, "Image renamed successfully.")
+
+            # Redirect back to the hotel images page
+            return redirect('hotel_images')  # Replace with the correct URL name for the hotel images page
+
+        except Exception as e:
+            # Error message
+            messages.error(request, f"An error occurred while renaming the image: {e}")
+            return redirect('hotel_images')  # Redirect back even on error for better UX
+
+    # If request method is not POST, handle it gracefully
+    return redirect('hotel_images')
+
+
+def hotel_image_popup(request, image_id):
+    if 'hotel_owner_id' not in request.session:
+        messages.error(request, "You must be logged in to perform this action.")
+        return redirect('hotel_login')
+
+    hotel_id = request.session.get('hotel_owner_id')
+    image = get_object_or_404(HotelImage, id=image_id, hotel_id=hotel_id)
+
+    return render(request, 'hotel_image_popup.html', {'image': image})
 
 
 def hotel_logout(request):

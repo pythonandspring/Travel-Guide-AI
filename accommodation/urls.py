@@ -15,6 +15,8 @@ urlpatterns = [
     path('images/', views.hotel_images, name="hotel_images"),
     path('image-upload/', views.add_hotel_images, name="add_image_hotel"),
     path('image-delete/<int:image_id>', views.delete_hotel_image, name="delete_image_hotel"),
+    path('image-rename/<int:image_id>', views.rename_hotel_image, name="rename_image_hotel"),
+    path('image-popup/<int:image_id>/', views.hotel_image_popup, name="hotel_image_popup"), 
 
     path('rooms', views.available_rooms, name='availabe_rooms'),
     path('add_room_type', views.add_room_type, name='add_room_type'),
