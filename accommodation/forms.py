@@ -103,9 +103,9 @@ class HotelRoomForm(forms.ModelForm):
             'price_per_6hrs': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }
 
-    def _init_(self, hotel_id=None,*args, **kwargs):
+    def __init__(self, hotel_id=None, * args, **kwargs):
         self.hotel_id = hotel_id
-        super()._init_(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         if not self.hotel_id:
             raise ValueError("Hotel ID must be provided through the session.")

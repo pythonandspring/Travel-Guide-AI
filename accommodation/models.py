@@ -63,7 +63,7 @@ class Hotel(models.Model):
 
    
     def __str__(self):
-        return f"{self.hotel_name} - Owned by {self.name}"
+        return f"{self.hotel_name} - Owned by {self.hotel_owner_namename}"
 
 
 class HotelRoom(models.Model):

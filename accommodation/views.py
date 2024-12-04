@@ -159,7 +159,8 @@ def add_room_type(request):
                     return redirect(reverse('update_room_details', args=[existing_room.id]))
                 except HotelRoom.DoesNotExist:
                     form.save()
-                    messages.success(request, "You have added a new room category.")
+                    messages.success(
+                        request, "You have added a new room category.")
                     return redirect('hotel_rooms')
             else:
                 messages.error(request, "You should enter valid details.")
