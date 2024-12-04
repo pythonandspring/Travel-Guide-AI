@@ -17,8 +17,26 @@
       </form>
     </div>
 
-    <button>Edit Profile</button>
+    <a href="{% url 'update_dashboard' %}" class="btn-edit-profile">Edit Profile</a>
+
   </div>
+  <style>
+    .btn-edit-profile {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #007BFF;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .btn-edit-profile:hover {
+        background-color: #0056b3;
+    }
+</style>
+
 
   <div class="hotel-info">
     <h3>Hotel Information</h3>
