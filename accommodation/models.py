@@ -100,7 +100,7 @@ def hotel_image_upload_to(instance, filename):
     Constructs the upload path for place images.
     Images are stored in a folder named after the Place name within the 'place_images' directory.
     """
-    return os.path.join('hotel_images', instance.name.replace(' ', '_'), filename)
+    return os.path.join('hotel_images', instance.hotel.hotel_name.replace(' ', '_'), filename)
 
 
 class HotelImage(models.Model):
