@@ -8,7 +8,6 @@ class Hotel(models.Model):
     state_choice = [(city_option, city_option) for city_option in extract_states()]
     city_choice = [(city_option, city_option) for city_option in extract_cities()]
     place_choice = [(place_option, place_option) for place_option in extract_places()]
-    
 
     DAYS_OF_WEEK = [
             ('MON', 'Monday'),

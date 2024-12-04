@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Rooms</title>
+    <link rel="stylesheet" href="{% static 'travel/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Hotel Rooms</h1>
+            <a href="#" class="add-room-btn">Add Room</a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Room Category</th>
+                    <th>Room Type</th>
+                    <th>Total Rooms</th>
+                    <th>Available Rooms</th>
+                    <th>Price (per 6 hrs)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                <tr>
+                    <td>{{ room.room_category }}</td>
+                    <td>{{ room.room_type }}</td>
+                    <td>{{ room.total_rooms }}</td>
+                    <td>{{ room.available_rooms }}</td>
+                    <td>{{ room.price_per_6hrs }}</td>
+                    <td>
+                        <a href="{% url 'edit_room' room.id %}" class="action-btn edit-btn">Edit</a>
+                        <a href="{% url 'delete_room' room.id %}" class="action-btn delete-btn">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No rooms available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

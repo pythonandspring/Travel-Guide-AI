@@ -122,6 +122,7 @@ def hotel_logout(request):
     return redirect('hotel_login')
 
 
+#work
 def available_rooms(request):
     if request.session['hotel_owner_id']:
         hotel_id = request.session['hotel_owner_id']
