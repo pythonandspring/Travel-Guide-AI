@@ -26,3 +26,9 @@ class GuideLoginForm(forms.Form):
         widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}),
         label="Password"
     )
+
+class GuideEditProfileForm(forms.ModelForm):
+    
+    class Meta:
+        model = Guide
+        fields = ['name', 'email', 'phone', 'password', 'country', 'state', 'city', 'place']
