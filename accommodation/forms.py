@@ -1,6 +1,6 @@
 from django import forms
 from .models import Hotel, HotelImage, HotelRoom
-
+from django.core.exceptions import ValidationError
 
 class HotelOwnerRegistrationForm(forms.ModelForm):
     password = forms.CharField(
@@ -103,32 +103,29 @@ class HotelRoomForm(forms.ModelForm):
             'price_per_6hrs': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }
 
-    def __init__(self, *args, **kwargs):
-        self.hotel_id = kwargs.pop('hotel_id', None)
-        super().__init__(*args, **kwargs)
+    def _init_(self, hotel_id=None,*args, **kwargs):
+        self.hotel_id = hotel_id
+        super()._init_(*args, **kwargs)
 
         if not self.hotel_id:
             raise ValueError("Hotel ID must be provided through the session.")
 
-    def clean(self):
-        cleaned_data = super().clean()
-        if not self.hotel_id:
-            raise forms.ValidationError("A valid Hotel ID is required.")
-        return cleaned_data
-
     def save(self, commit=True):
         instance = super().save(commit=False)
-
+        
+        # Assign the hotel instance
         try:
             instance.hotel = Hotel.objects.get(id=self.hotel_id)
         except Hotel.DoesNotExist:
-            raise ValueError("The provided Hotel ID does not exist.")
+            raise ValidationError("The provided Hotel ID does not exist.")
 
+        # Save the instance if commit is True
         if commit:
             instance.save()
         return instance
+    
 
-
+    
 class HotelRoomUpdateForm(forms.ModelForm):
     class Meta:
         model = HotelRoom
