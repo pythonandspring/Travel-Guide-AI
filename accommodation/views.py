@@ -203,9 +203,7 @@ def update_room(request, room_id):
     else:
         messages.error(request, "You need to log in first.")
         return redirect('hotel_login')
-
                 
-
 def update_hotel_details(request):
     hotel_owner_id = request.session.get('hotel_owner_id')
     if not hotel_owner_id:
