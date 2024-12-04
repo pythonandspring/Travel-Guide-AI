@@ -1,0 +1,121 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% comment %} CSS {% endcomment %}
+{% block styling %}
+<link rel="stylesheet" href="{% static 'css/travel_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+{% endblock styling %}
+
+
+{% comment %} BODY {% endcomment %}
+{% block content %}
+    <div class="gallery-container" style="background: url('{% static "images/bg.jpg" %}') no-repeat center center/cover; padding-top: 6rem; padding-bottom: 4rem;">
+        <h1>Explore Beautiful Destinations</h1>
+        <div class="search-container">
+            <input type="text" id="searchBar" class="search-bar" placeholder="Search for a place..." onkeyup="filterCards()">
+            <button id="startVoiceButton" onclick="startVoiceSearch()">🎤</button>
+    </div>
+
+    <div id="voiceModal" class="modal">
+        <div class="modal-content">
+            <p>Please speak now...</p>
+            <button id="closeModal" class="close-btn">Close</button>
+        </div>
+    </div>
+
+    <div class="card-container">
+        {% for place in places %}
+        <div class="card" onclick="openPlaceDetails('{{ place.name|escapejs }}', '{{ place.location|escapejs }}', '{{ place.description|escapejs }}', '{% static place.image %}')">
+            <img src="{% static place.image %}" alt="{{ place.name }}">
+            <h2>{{ place.name }}</h2>
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+
+    <div id="placeDetailsModal" class="modal">
+    <div class="modal-content">
+        <h2 id="placeName"></h2>
+        <img id="placeImage" alt="Place Image" style="width: 100%; height: 150px; object-fit: cover;">
+        <p id="placeLocation"></p>
+        <p id="placeDescription"></p>
+        <button class="close-btn" onclick="closePlaceDetailsModal()">Close</button>
+    </div>
+    </div>
+{% endblock %}
+
+
+{% comment %} JAVASCRIPT {% endcomment %}
+{% block javascript %}
+<script>
+    function filterCards() {
+        const searchValue = document.getElementById('searchBar').value.toLowerCase();
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            const titleElement = card.querySelector('h2');
+            const descriptionElement = card.querySelector('p');
+            const cardContent = 
+                (titleElement ? titleElement.textContent.toLowerCase() : '') +
+                ' ' +
+                (descriptionElement ? descriptionElement.textContent.toLowerCase() : '');
+            card.style.display = cardContent.includes(searchValue) ? '' : 'none';
+        });
+    }
+
+    function startVoiceSearch() {
+        const modal = document.getElementById('voiceModal');
+        const closeBtn = document.getElementById('closeModal');
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        modal.style.display = 'flex';
+        recognition.lang = 'en-US';
+        recognition.start();
+        recognition.onresult = function (event) {
+            const transcript = event.results[0][0].transcript;
+            document.getElementById('searchBar').value = transcript;
+            filterCards();
+            fetch('/search_voice/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query: transcript }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    console.log(`Voice input processed: ${data.query}`);
+                } else {
+                    console.error('Error:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+            modal.style.display = 'none';
+        };
+        recognition.onerror = function (event) {
+            console.error('Speech recognition error:', event.error);
+            modal.style.display = 'none';
+        };
+        recognition.onspeechend = function () {
+            recognition.stop();
+        };
+        closeBtn.onclick = function () {
+            modal.style.display = 'none';
+            recognition.abort();
+        };
+    }
+    function openPlaceDetails(placeName, placeLocation, placeDescription, placeImage) {
+        const modal = document.getElementById('placeDetailsModal');
+        document.getElementById('placeName').textContent = placeName;
+        document.getElementById('placeLocation').textContent = `Location: ${placeLocation}`;
+        document.getElementById('placeDescription').textContent = placeDescription;
+        document.getElementById('placeImage').src = placeImage;
+        modal.style.display = 'flex';
+    }
+    function closePlaceDetailsModal() {
+        document.getElementById('placeDetailsModal').style.display = 'none';
+    }
+</script>
+{% endblock javascript %}

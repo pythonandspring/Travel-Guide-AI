@@ -1,0 +1,115 @@
+/* General reset and typography */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  /* Header */
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header .logo h1 {
+    font-size: 1.8rem;
+  }
+  header nav ul {
+    list-style-type: none;
+    display: flex;
+  }
+  header nav ul li {
+    margin-left: 2rem;
+  }
+  header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  header nav ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Profile section */
+  .profile {
+    background-color: #fff;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 900px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .profile-header h2 {
+    font-size: 1.8rem;
+    color: #333;
+  }
+  .profile-header button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .profile-header button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Hotel Info */
+  .hotel-info, .rooms-info, .contact-info {
+    margin-top: 2rem;
+  }
+  h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  p {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Room table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  table th, table td {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  table th {
+    background-color: #007bff;
+    color: white;
+  }
+  table td {
+    background-color: #f9f9f9;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #333333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+  }
