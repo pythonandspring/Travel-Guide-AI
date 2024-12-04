@@ -103,8 +103,8 @@ class HotelRoomForm(forms.ModelForm):
             'price_per_6hrs': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }
 
-    def __init__(self, *args, **kwargs):
-        self.hotel_id = kwargs.pop('hotel_id', None)
+    def __init__(self, hotel_id=None, * args, **kwargs):
+        self.hotel_id = hotel_id
         super().__init__(*args, **kwargs)
 
         if not self.hotel_id:

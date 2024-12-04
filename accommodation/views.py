@@ -137,40 +137,38 @@ def available_rooms(request):
     
 
 def add_room_type(request):
-    if request.session['hotel_owner_id']:
+    if 'hotel_owner_id' in request.session:
         hotel_id = request.session['hotel_owner_id']
 
         if request.method == "POST":
             form = HotelRoomForm(request.POST, hotel_id=hotel_id)
-        
             if form.is_valid():
-
                 total_rooms = form.cleaned_data.get('total_rooms')
                 available_rooms = form.cleaned_data.get('available_rooms')
                 room_category = form.cleaned_data.get('room_category')
-                room_type = form.cleaned_data.get('room_type')   
+                room_type = form.cleaned_data.get('room_type')
 
                 try:
-                    existing_room = HotelRoom.objects.get(room_category=room_category, room_type=room_type)
-                    messages.success(request, "room category already present please update if you want to modify.")
+                    existing_room = HotelRoom.objects.get(
+                        hotel_id=hotel_id, room_category=room_category, room_type=room_type
+                    )
+                    messages.success(
+                        request, "Room category already present. Please update if you want to modify."
+                    )
                     return redirect(reverse('update_room_details', args=[existing_room.id]))
-                
                 except HotelRoom.DoesNotExist:
-
-                    if total_rooms >= available_rooms:
-                        form.save()
-                        messages.success(request, "You have added new room category.")
-                        return redirect('hotel_rooms')
-                    else:
-                        messages.error(request, "available rooms are greater than total rooms")
+                    form.save()
+                    messages.success(
+                        request, "You have added a new room category.")
+                    return redirect('hotel_rooms')
             else:
-                messages.error(request, "you should enter valid details.")
+                messages.error(request, "You should enter valid details.")
         else:
             form = HotelRoomForm(hotel_id=hotel_id)
             return render(request, 'hotel_add_room.html', {'hotel_room_form': form})
+
     else:
         return redirect('hotel_login')
-
 
 def delete_room_type(request, room_id):
     if request.session['hotel_owner_id']:
