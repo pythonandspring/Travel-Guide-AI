@@ -35,15 +35,142 @@
     .btn-edit-profile:hover {
         background-color: #0056b3;
     }
+
+    .operating-hours {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .operating-hours h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #333;
+      border-bottom: 2px solid #007BFF;
+      padding-bottom: 5px;
+  }
+  
+  .operating-hours p {
+      margin: 10px 0;
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.5;
+  }
+  
+  .operating-hours strong {
+      font-weight: bold;
+      color: #222;
+  }
+  
+  .operating-hours a {
+      color: #007BFF;
+      text-decoration: none;
+  }
+  
+  .operating-hours a:hover {
+      text-decoration: underline;
+      color: #0056b3;
+  }
+
+
+  .hotel-info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hotel-info h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+    border-bottom: 2px solid #007BFF;
+    padding-bottom: 5px;
+}
+
+.hotel-info p {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.hotel-info strong {
+    font-weight: bold;
+    color: #222;
+}
+.contact-info {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+  border-bottom: 2px solid #007BFF;
+  padding-bottom: 5px;
+}
+
+.contact-info p {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.contact-info strong {
+  font-weight: bold;
+  color: #222;
+}
+
+/* Footer Styles - Fixed to Bottom */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    z-index: 1000;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0 5px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+
+
+  
 </style>
 
 
   <div class="hotel-info">
     <h3>Hotel Information</h3>
     <p><strong>Hotel Name:</strong> {{ hotel_owner.hotel_name }}</p>
-    <p><strong>Location:</strong> {{ hotel_owner.city }}, {{ hotel_owner.country }}</p>
+    <p><strong>Contact Number:</strong> {{ hotel_owner.hotel_phone_number }}</p>
+    <p><strong>Email:</strong> {{ hotel_owner.hotel_email }}</p>
+    <p><strong>Address:</strong> {{ hotel_owner.hotel_address }}</p>
+    <p><strong>Location on Map:</strong> <a href="{{ hotel_owner.location_on_map }}" target="_blank">View on Map</a></p>
     <p><strong>Description:</strong> {{ hotel_owner.description }}</p>
-    <p><strong>Rating:</strong> {{ hotel_owner.rating|default:"N/A" }} Stars</p>
   </div>
 
   <div class="rooms-info">
@@ -75,6 +202,22 @@
       </tbody>
     </table>
   </div>
+
+
+  <div class="operating-hours">
+    <h3>Operating Hours</h3>
+    <p><strong>Weekdays:</strong> {{ hotel_owner.week_days_opening_time }} - {{ hotel_owner.week_days_closing_time }}</p>
+    <p><strong>Weekends:</strong> {{ hotel_owner.weekends_opening_time }} - {{ hotel_owner.weekends_closing_time }}</p>
+    <p><strong>Weekly Closed On:</strong> {{ hotel_owner.weekly_closed_on|default:"None" }}</p>
+    <p><strong>Special Closed Dates:</strong> 
+      {% if hotel_owner.special_closed_dates %}
+        {{ hotel_owner.special_closed_dates|join:", " }}
+      {% else %}
+        None
+      {% endif %}
+    </p>
+  </div>
+
 
   <div class="contact-info">
     <h3>Contact Information</h3>
