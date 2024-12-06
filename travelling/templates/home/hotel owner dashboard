@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Owner Profile</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>Hotel Dashboard</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Rooms</a></li>
+        <li><a href="#">Bookings</a></li>
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="profile">
+    <div class="profile-header">
+      <h2>Welcome, [Hotel Owner Name]</h2>
+      <button>Edit Profile</button>
+    </div>
+    <div class="hotel-info">
+      <h3>Hotel Information</h3>
+      <p><strong>Hotel Name:</strong> [Hotel Name]</p>
+      <p><strong>Location:</strong> [City, Country]</p>
+      <p><strong>Rating:</strong> [Hotel Rating] Stars</p>
+      <p><strong>Description:</strong> [Hotel Description]</p>
+    </div>
+
+    <div class="rooms-info">
+      <h3>Room Details</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Room Type</th>
+            <th>Price</th>
+            <th>Availability</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Deluxe Suite</td>
+            <td>$200 per night</td>
+            <td>Available</td>
+          </tr>
+          <tr>
+            <td>Standard Room</td>
+            <td>$100 per night</td>
+            <td>Booked</td>
+          </tr>
+          <!-- More rows can be added here -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="contact-info">
+      <h3>Contact Information</h3>
+      <p><strong>Email:</strong> [Hotel Email]</p>
+      <p><strong>Phone:</strong> [Hotel Phone Number]</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2024 Hotel Management System</p>
+  </footer>
+</body>
+</html>
