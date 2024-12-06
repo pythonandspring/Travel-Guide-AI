@@ -36,8 +36,8 @@
                             <a class="text-light text-decoration-none" href="{% url 'cust_feedback' %}">Feedback</a>
                         {% elif request.session.hotel_owner_id %}
                             <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Bookings</a>
-                            <a class="text-light text-decoration-none" href="#">Rooms Availability</a>
-                            <a class="text-light text-decoration-none" href="#">Hotel Images</a>
+                            <a class="text-light text-decoration-none" href="{% url 'available_rooms' %}">Rooms Availability</a>
+                            <a class="text-light text-decoration-none" href="{% url 'hotel_images' %}">Hotel Images</a>
                             <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Dashboard</a>
                             <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>  
                         {% else %}
@@ -50,10 +50,13 @@
             </div>
         </div>
     </header>
+
     <div class="content">
         {% block content %}
+        
         {% endblock %}
     </div>
+
     <footer class="bg-dark text-light p-4">
         <div class="row">
             <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-start mb-3 mb-md-0">

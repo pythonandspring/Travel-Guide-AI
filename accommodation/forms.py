@@ -1,7 +1,6 @@
 from django import forms
 from .models import Hotel, HotelImage, HotelRoom
-from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places, extract_countries
-
+from django.core.exceptions import ValidationError
 
 class HotelOwnerRegistrationForm(forms.ModelForm):
     password = forms.CharField(
@@ -57,21 +56,29 @@ class HotelLoginForm(forms.Form):
 class HotelImageForm(forms.ModelForm):
     class Meta:
         model = HotelImage
-        fields = ['image']  # Exclude the hotel field from the form
+        fields = ['name', 'image']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'image': forms.FileInput(attrs={'class': 'form-control'}),
+        }
 
     def __init__(self, *args, **kwargs):
-        self.hotel_id = kwargs.pop('hotel_id', None)  
+        self.hotel_id = kwargs.pop('hotel_id', None)
         super().__init__(*args, **kwargs)
 
+    def clean(self):
+        cleaned_data = super().clean()
         if not self.hotel_id:
-            raise ValueError("Hotel ID must be provided through the session.")
+            raise forms.ValidationError("A valid Hotel ID must be provided.")
+        return cleaned_data
 
     def save(self, commit=True):
         instance = super().save(commit=False)
 
-        # Assign the hotel from the session
-        from .models import Hotel  # Import inside to avoid circular import
-        instance.hotel = Hotel.objects.get(id=self.hotel_id)
+        try:
+            instance.hotel = Hotel.objects.get(id=self.hotel_id)
+        except Hotel.DoesNotExist:
+            raise ValueError("The specified Hotel does not exist.")
 
         if commit:
             instance.save()
@@ -82,7 +89,6 @@ class HotelRoomForm(forms.ModelForm):
     class Meta:
         model = HotelRoom
         fields = [
-            'hotel',
             'room_category',
             'room_type',
             'total_rooms',
@@ -96,4 +102,56 @@ class HotelRoomForm(forms.ModelForm):
             'available_rooms': forms.NumberInput(attrs={'class': 'form-control', 'min': 0}),
             'price_per_6hrs': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }
+
+    def __init__(self, * args, **kwargs):
+        self.hotel_id = kwargs.pop('hotel_id', None)
+        super().__init__(*args, **kwargs)
+
+        if not self.hotel_id:
+            raise ValueError("Hotel ID must be provided through the session.")
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        
+        # Assign the hotel instance
+        try:
+            instance.hotel = Hotel.objects.get(id=self.hotel_id)
+        except Hotel.DoesNotExist:
+            raise ValidationError("The provided Hotel ID does not exist.")
+
+        # Save the instance if commit is True
+        if commit:
+            instance.save()
+        return instance
+    
+
+class HotelRoomUpdateForm(forms.ModelForm):
+    class Meta:
+        model = HotelRoom
+        fields = [
+            'total_rooms',
+            'available_rooms',
+            'price_per_6hrs',
+        ]
+
+
+class HotelDetailsUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Hotel
+        fields = [
+            "hotel_name",
+            "hotel_phone_number",
+            "hotel_email",
+            "hotel_address",
+            "location_on_map",
+            "description",
+            "weekly_closed_on",
+            "special_closed_dates",
+            "week_days_opening_time",
+            "week_days_closing_time",
+            "weekends_opening_time",
+            "weekends_closing_time",
+        ]
+
+
 

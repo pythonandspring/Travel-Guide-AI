@@ -8,7 +8,6 @@ class Hotel(models.Model):
     state_choice = [(city_option, city_option) for city_option in extract_states()]
     city_choice = [(city_option, city_option) for city_option in extract_cities()]
     place_choice = [(place_option, place_option) for place_option in extract_places()]
-    
 
     DAYS_OF_WEEK = [
             ('MON', 'Monday'),
@@ -31,7 +30,6 @@ class Hotel(models.Model):
     hotel_phone_number = models.CharField(max_length=11, unique=True)
     hotel_email = models.EmailField(unique=True)
     hotel_address = models.TextField()
-    ratings = models.FloatField()
     ratings = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(10.0)],help_text="Enter a rating between 0 and 10.", null=True)
     location_on_map = models.URLField()
     description = models.TextField(blank=True, null=True) 
@@ -65,7 +63,7 @@ class Hotel(models.Model):
 
    
     def __str__(self):
-        return f"{self.hotel_name} - Owned by {self.name}"
+        return f"{self.hotel_name} - Owned by {self.hotel_owner_namename}"
 
 
 class HotelRoom(models.Model):
@@ -101,16 +99,16 @@ def hotel_image_upload_to(instance, filename):
     Constructs the upload path for place images.
     Images are stored in a folder named after the Place name within the 'place_images' directory.
     """
-    return os.path.join('hotel_images', instance.place.name.replace(' ', '_'), filename)
+    return os.path.join('hotel_images', instance.hotel.hotel_name.replace(' ', '_'), filename)
 
 
 class HotelImage(models.Model):
-
     hotel = models.ForeignKey(Hotel, related_name='images', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, null=False,default="hotel_image")
     image = models.ImageField(upload_to=hotel_image_upload_to)
 
     def __str__(self):
-        return f"Image for {self.place.name}"
+        return f"Image for {self.HotelImage.name}"
  
 
 

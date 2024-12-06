@@ -132,6 +132,7 @@ class Guide(models.Model):
     password = models.CharField(max_length=100)
     address = models.CharField(max_length=255)
 
+    is_occupied = models.BooleanField(default=False)
     is_super_guide = models.BooleanField(default=False)
 
     country = models.CharField(max_length=50, choices=country_choice, null=False)
@@ -144,6 +145,17 @@ class Guide(models.Model):
     
 
 class Doctor(models.Model):
+
+    DAYS_OF_WEEK = [
+        ('MON', 'Monday'),
+        ('TUE', 'Tuesday'),
+        ('WED', 'Wednesday'),
+        ('THU', 'Thursday'),
+        ('FRI', 'Friday'),
+        ('SAT', 'Saturday'),
+        ('SUN', 'Sunday'),
+    ]
+
     guide = models.ForeignKey(Guide, on_delete=models.CASCADE, related_name="doctors")
     name = models.CharField(max_length=100)
     speciality = models.CharField(max_length=100)
@@ -152,8 +164,14 @@ class Doctor(models.Model):
     email = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     
-    available_dates = models.CharField(max_length=100, help_text="E.g., Mon-Fri")
-    available_time = models.CharField(max_length=100, help_text="E.g., 9 AM - 5 PM")
+    weekly_closed_on = models.CharField(
+        max_length=20,
+        choices=DAYS_OF_WEEK,
+        null=True,
+        blank=True,
+        help_text="Day of the week when the tour place is regularly closed."
+    )
+    service_time = models.TimeField(auto_now=False, auto_now_add=False)
 
     def __str__(self):
         return f"{self.name} - {self.specialty}"

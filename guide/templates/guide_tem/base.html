@@ -26,7 +26,8 @@
                         <a class="text-light text-decoration-none" href="{% url 'gallery' %}">Gallery</a>
                         {% if request.session.super_guide_id %}
                             <a class="text-light text-decoration-none" href="{% url 'images' %}">Images</a>
-                            <a class="text-light text-decoration-none" href="#">update doctor</a>
+                            <a class="text-light text-decoration-none" href="#">Place</a
+                            <a class="text-light text-decoration-none" href="#">doctor</a>
                             <a class="text-light text-decoration-none" href="{% url 'guide_dashboard' %}">Guide Dashboard</a>
                             <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>   
                         {% elif request.session.guide_id %}
