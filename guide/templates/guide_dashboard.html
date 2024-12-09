@@ -6,61 +6,68 @@
 {% endblock styling %}
 
 {% block content %}
-<div class="container">
-    <div class="dashboard">
-        <h2>Welcome to Your Dashboard, {{ guide.username }}!</h2>
-        
-        <!-- Edit Profile Section -->
-        <div class="dashboard-section">
-            <h3>Edit Your Profile</h3>
-            <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
-        </div>
+<section class="profile">
+  <!-- Guide Header -->
+  <div class="profile-header">
+    <h2>Welcome, {{ guide.name }}</h2>
 
-        <!-- View Doctor Profiles Section -->
-        <div class="dashboard-section">
-            <h3>Manage Doctor Profiles</h3>
-            <a href="" class="btn btn-secondary">View Doctor Profiles</a>
-        </div>
-
-        <!-- CRUD Operations on Doctors -->
-        <div class="dashboard-section">
-            <h3>Doctor Profile CRUD Operations</h3>
-            <a href="" class="btn btn-success">Add New Doctor</a>
-            <a href="" class="btn btn-warning">Update Doctor Profile</a>
-            <a href="" class="btn btn-danger">Delete Doctor Profile</a>
-        </div>
-
-        <!-- Display Doctor List -->
-        <div class="doctor-list">
-            <h3>List of Doctors</h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Specialty</th>
-                        <th>Contact</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for doctor in doctors %}
-                        <tr>
-                            <td>{{ doctor.name }}</td>
-                            <td>{{ doctor.specialty }}</td>
-                            <td>{{ doctor.contact }}</td>
-                            <td>
-                                <a href="{% url 'edit_doctor' doctor.id %}" class="btn btn-info">Edit</a>
-                                <a href="{% url 'delete_doctor' doctor.id %}" class="btn btn-danger">Delete</a>
-                            </td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td colspan="4">No doctor profiles available.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <div class="logout">
+      <form method="post" action="{% url 'guide_logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+      </form>
     </div>
-</div>
+
+    <a href="{% url 'guide_edit_profile' %}" class="btn-edit-profile">Edit Profile</a>
+  </div>
+
+  <!-- Guide Information -->
+  <div class="guide-info">
+    <h3>Guide Information</h3>
+    <p><strong>Name:</strong> {{ guide.name }}</p>
+    <p><strong>Email:</strong> {{ guide.email }}</p>
+    <p><strong>Phone:</strong> {{ guide.phone }}</p>
+    <p><strong>Address:</strong> {{ guide.address }}</p>
+    <p><strong>Country:</strong> {{ guide.country }}</p>
+    <p><strong>State:</strong> {{ guide.state }}</p>
+    <p><strong>City:</strong> {{ guide.city }}</p>
+    <p><strong>Place:</strong> {{ guide.place }}</p>
+    <p><strong>Role:</strong> {{ guide.is_super_guide|yesno:"Super Guide,Guide" }}</p>
+  </div>
+
+  <!-- Doctor Information -->
+  <div class="doctors-info">
+    <h3>Doctor Details</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Speciality</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Weekly Closed On</th>
+          <th>Service Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for doctor in guide.doctors.all %}
+        <tr>
+          <td>{{ doctor.name }}</td>
+          <td>{{ doctor.speciality }}</td>
+          <td>{{ doctor.phone }}</td>
+          <td>{{ doctor.email }}</td>
+          <td>{{ doctor.address }}</td>
+          <td>{{ doctor.weekly_closed_on|default:"Not Closed" }}</td>
+          <td>{{ doctor.service_time }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7">No doctors assigned to this guide.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
 {% endblock %}

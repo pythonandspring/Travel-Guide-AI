@@ -33,7 +33,7 @@ class GuideDetailsUpdateForm(forms.ModelForm):
     
     class Meta:
         model = Guide
-        fields = ['name', 'email', 'phone', 'country', 'state', 'city', 'place']
+        fields = ['name', 'email', 'phone', 'address', 'country', 'state', 'city', 'place']
 
 
 class DoctorDetailsUpdateForm(forms.ModelForm):

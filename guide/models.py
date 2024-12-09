@@ -129,6 +129,7 @@ class Guide(models.Model):
     place_choice = [(place_option, place_option) for place_option in extract_places()]
 
     name = models.CharField(max_length=100)
+    profile_image = models.ImageField(upload_to=None, default=None)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
     password = models.CharField(max_length=100)
@@ -137,6 +138,7 @@ class Guide(models.Model):
     is_occupied = models.BooleanField(default=False)
     is_super_guide = models.BooleanField(default=False)
 
+    
     country = models.CharField(max_length=50, choices=country_choice, null=False)
     state = models.CharField(max_length=50, choices=state_choice, null=False)
     city = models.CharField(max_length=50, choices=city_choice, null=False)

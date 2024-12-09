@@ -112,20 +112,27 @@ def guide_logout(request, *args, **kwargs):
 @is_login
 def guide_dashboard(request, *args,**kwargs):
     guide_info = kwargs.pop('guide_info', None)
-    return render(request, 'guide_dashboard.html', {'guide_info': guide_info})
+    return render(request, 'guide_dashboard.html', {'guide': guide_info})
 
 
 @is_login
 def guide_edit_profile(request, *args, **kwargs):
-    if request.method == "POST":
-        form = GuideDetailsUpdateForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'profile updated successfully.')
-            return redirect('guide_dashboard')
-    else:
-        form = GuideDetailsUpdateForm()
-    return render(request, 'guide_edit_profile.html', {'update_details_form': form})
+    guide_info = kwargs.pop('guide_info', None)
+    try:
+        guide = Guide.objects.get(id=guide_info.id)
+        if request.method == "POST":
+            form = GuideDetailsUpdateForm(request.POST, instance=guide)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'profile updated successfully.')
+                return redirect('guide_dashboard')
+        else:
+            form = GuideDetailsUpdateForm(instance=guide)
+        return render(request, 'guide_edit_profile.html', {'form': form, 'guide':guide})
+    except:
+        return redirect('guide_login')
+    
+    
    
 
 # <---------------------DOCTOR------------------------------------->
