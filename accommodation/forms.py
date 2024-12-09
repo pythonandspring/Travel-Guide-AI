@@ -2,6 +2,7 @@ from django import forms
 from .models import Hotel, HotelImage, HotelRoom
 from django.core.exceptions import ValidationError
 
+
 class HotelOwnerRegistrationForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={"placeholder": "Enter your password"}),
@@ -39,6 +40,33 @@ class HotelOwnerRegistrationForm(forms.ModelForm):
             "description": forms.Textarea(attrs={"rows": 3, "placeholder": "Hotel description"}),
             "hotel_address": forms.Textarea(attrs={"rows": 3, "placeholder": "Hotel address"}),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        # Weekday time fields
+        week_days_opening_time = cleaned_data.get("week_days_opening_time")
+        week_days_closing_time = cleaned_data.get("week_days_closing_time")
+
+        # Weekend time fields
+        weekends_opening_time = cleaned_data.get("weekends_opening_time")
+        weekends_closing_time = cleaned_data.get("weekends_closing_time")
+
+        # Validate weekday times
+        if week_days_opening_time and week_days_closing_time:
+            if week_days_opening_time >= week_days_closing_time:
+                raise ValidationError(
+                    "Weekday opening time must be earlier than weekday closing time."
+                )
+
+        # Validate weekend times
+        if weekends_opening_time and weekends_closing_time:
+            if weekends_opening_time >= weekends_closing_time:
+                raise ValidationError(
+                    "Weekend opening time must be earlier than weekend closing time."
+                )
+
+        return cleaned_data
 
 
 class HotelLoginForm(forms.Form):
@@ -152,6 +180,32 @@ class HotelDetailsUpdateForm(forms.ModelForm):
             "weekends_opening_time",
             "weekends_closing_time",
         ]
+    def clean(self):
+        cleaned_data = super().clean()
+
+        # Weekday time fields
+        week_days_opening_time = cleaned_data.get("week_days_opening_time")
+        week_days_closing_time = cleaned_data.get("week_days_closing_time")
+
+        # Weekend time fields
+        weekends_opening_time = cleaned_data.get("weekends_opening_time")
+        weekends_closing_time = cleaned_data.get("weekends_closing_time")
+
+        # Validate weekday times
+        if week_days_opening_time and week_days_closing_time:
+            if week_days_opening_time >= week_days_closing_time:
+                raise ValidationError(
+                    "Weekday opening time must be earlier than weekday closing time."
+                )
+
+        # Validate weekend times
+        if weekends_opening_time and weekends_closing_time:
+            if weekends_opening_time >= weekends_closing_time:
+                raise ValidationError(
+                    "Weekend opening time must be earlier than weekend closing time."
+                )
+
+        return cleaned_data
 
 
 

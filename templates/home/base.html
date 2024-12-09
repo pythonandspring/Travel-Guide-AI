@@ -40,6 +40,15 @@
                             <a class="text-light text-decoration-none" href="{% url 'hotel_images' %}">Hotel Images</a>
                             <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Dashboard</a>
                             <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>  
+                        {% elif request.session.super_guide_id %}
+                            <a class="text-light text-decoration-none" href="#">Place</a>
+                            <a class="text-light text-decoration-none" href="#">Doctor</a>
+                            <a class="text-light text-decoration-none" href="{% url 'guide_dashboard' %}">Dashboard</a>
+                            <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>
+                        {% elif request.session.guide_id %}
+                            <a class="text-light text-decoration-none" href="#">Doctor</a>
+                            <a class="text-light text-decoration-none" href="{% url 'guide_dashboard' %}">Dashboard</a>
+                            <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>
                         {% else %}
                             <a class="text-light text-decoration-none" href="{% url 'agentRegistration' %}">Agents</a>
                             <a class="text-light text-decoration-none" href="{% url 'login' %}">SignUp / Login</a>

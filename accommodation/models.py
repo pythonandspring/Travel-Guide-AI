@@ -63,7 +63,7 @@ class Hotel(models.Model):
 
    
     def __str__(self):
-        return f"{self.hotel_name} - Owned by {self.hotel_owner_namename}"
+        return f"{self.hotel_name} - Owned by {self.hotel_owner_name}"
 
 
 class HotelRoom(models.Model):
@@ -91,7 +91,7 @@ class HotelRoom(models.Model):
 
 
     def __str__(self):
-        return f"{self.room_category} - {self.room_type} - Total: {self.total_rooms}, Available: {self.available_rooms}, Price per 6hrs: {self.price_per_6hrs} - Hotel: {self.hotel.name}"
+        return f"{self.room_category} - {self.room_type} - Total: {self.total_rooms}, Available: {self.available_rooms}, Price per 6hrs: {self.price_per_6hrs} - Hotel: {self.hotel.hotel_name}"
 
 
 def hotel_image_upload_to(instance, filename):
@@ -108,7 +108,7 @@ class HotelImage(models.Model):
     image = models.ImageField(upload_to=hotel_image_upload_to)
 
     def __str__(self):
-        return f"Image for {self.HotelImage.name}"
+        return f"Image for {self.hotel.hotel_name}"
  
 
 

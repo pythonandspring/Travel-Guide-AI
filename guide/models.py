@@ -61,6 +61,8 @@ class Place(models.Model):
         help_text="Add a brief, engaging description to attract and retain users."
     )
 
+    front_image = models.ImageField(upload_to=None, default="no picture")
+
     # nearest travelling options
     nearest_cities = models.TextField(
         help_text="List nearby cities, separated by commas."
@@ -171,7 +173,7 @@ class Doctor(models.Model):
         blank=True,
         help_text="Day of the week when the tour place is regularly closed."
     )
-    service_time = models.TimeField(auto_now=False, auto_now_add=False)
+    service_time = models.TimeField(auto_now=False, auto_now_add=False, default="10:00:00-17:00:00")
 
     def __str__(self):
         return f"{self.name} - {self.specialty}"
