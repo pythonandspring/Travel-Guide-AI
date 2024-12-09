@@ -100,6 +100,16 @@ except json.JSONDecodeError as e:
 
 
 # Function to flatten JSON data
+
+#  file_path = r"c:\Users\desai\OneDrive\Documents\Travel Guide Using AI\Travel-Guide-AI\travelling\Data\Location.json"
+# file_path = r"F:\____INFY_____\Travel-Guide-AI\travelling\Data\Location.json"
+file_path=r"C:\Users\Dell\Desktop\raunak\Travel-Guide-AI\travelling\Data\Location.json"
+
+
+with open(file_path, mode='r') as file:
+    data = json.load(file)
+
+
 def flatten_json(data):
     flatten_data = []
 
