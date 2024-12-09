@@ -1,5 +1,7 @@
+from .models import Doctor, Guide
 from django import forms
 from .models import Guide, Doctor, Place, Image
+from django.core.exceptions import ValidationError
 
 
 class GuideRegistrationForm(forms.ModelForm):
@@ -36,6 +38,42 @@ class GuideDetailsUpdateForm(forms.ModelForm):
         fields = ['name', 'email', 'phone', 'address', 'country', 'state', 'city', 'place']
 
 
+class DoctorForm(forms.ModelForm):
+
+    class Meta:
+        model = Doctor
+        fields = [
+            'name',
+            'speciality',
+            'phone',
+            'email',
+            'address',
+            'weekly_closed_on',
+            'open_time',
+        ]
+
+    def __init__(self, * args, **kwargs):
+        self.guide_id = kwargs.pop('guide_id', None)
+        super().__init__(*args, **kwargs)
+
+        if not self.guide_id:
+            raise ValueError("Guide ID must be provided through the session.")
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        # Assign the hotel instance
+        try:
+            instance.guide = Guide.objects.get(id=self.guide_id)
+        except Guide.DoesNotExist:
+            raise ValidationError("The provided Guide ID does not exist.")
+
+        # Save the instance if commit is True
+        if commit:
+            instance.save()
+        return instance
+
+
 class DoctorDetailsUpdateForm(forms.ModelForm):
     
     class Meta:
@@ -47,17 +85,15 @@ class DoctorDetailsUpdateForm(forms.ModelForm):
             'email',
             'address',
             'weekly_closed_on',
-            'service_time',
+            'open_time',
         ]
 
-
-
+        
 class PlaceDetailsUpdateForm(forms.ModelForm):
     
     class Meta:
         model = Place
         fields = [
-            'address',
             'area_size',
             'history',
             'speciality',
@@ -93,7 +129,7 @@ class PlaceImageForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         if not self.place_id:
-            raise forms.ValidationError("A valid Hotel ID must be provided.")
+            raise forms.ValidationError("A valid place ID must be provided.")
         return cleaned_data
 
     def save(self, commit=True):
@@ -102,7 +138,7 @@ class PlaceImageForm(forms.ModelForm):
         try:
             instance.hotel = Place.objects.get(id=self.place_id)
         except Place.DoesNotExist:
-            raise ValueError("The specified Hotel does not exist.")
+            raise ValueError("The specified place does not exist.")
 
         if commit:
             instance.save()

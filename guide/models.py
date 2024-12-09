@@ -175,7 +175,8 @@ class Doctor(models.Model):
         blank=True,
         help_text="Day of the week when the tour place is regularly closed."
     )
-    service_time = models.TimeField(auto_now=False, auto_now_add=False, default="10:00:00-17:00:00")
+    # service_time = models.TimeField(auto_now=False, auto_now_add=False, default="10:00:00-17:00:00")
+    open_time = models.CharField(max_length=500, default="10:00-17:00")
 
     def __str__(self):
-        return f"{self.name} - {self.specialty}"
+        return f"{self.name} - {self.speciality}"

@@ -59,11 +59,11 @@
           <td>{{ doctor.email }}</td>
           <td>{{ doctor.address }}</td>
           <td>{{ doctor.weekly_closed_on|default:"Not Closed" }}</td>
-          <td>{{ doctor.service_time }}</td>
+          <td>{{ doctor.open_time }}</td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="7">No doctors assigned to this guide.</td>
+          <td colspan="7">No doctors related to this guide.</td>
         </tr>
         {% endfor %}
       </tbody>
