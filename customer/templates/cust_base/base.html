@@ -26,7 +26,7 @@
                     <div class="d-flex justify-content-center gap-3">
                         <a class="text-light text-decoration-none" href="{% url 'home' %}">Home</a>
                         <a class="text-light text-decoration-none" href="{% url 'gallery' %}">Gallery</a>
-                        {% if user.is_authenticated %}
+                        {% if user.is_authenticated and not user.is_staff%}
                             <a class="text-light text-decoration-none" href="#">Guides</a>
                             <a class="text-light text-decoration-none" href="#">Hotels</a>
                             <a class="text-light text-decoration-none" href="{% url 'accomodations' %}">Accommodations</a>

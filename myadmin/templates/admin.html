@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <a href="{% url 'user_list' %}">Manage Users</a>
+    <a href="{% url 'hotel_list' %}">Manage Hotels</a>
+</body>

@@ -1,18 +1,27 @@
+
 .edit-user-container {
     width: 100%;
-    max-width: 600px;
+    max-width: 650px;
     margin: 50px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.edit-user-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 .edit-user-container h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 28px;
+    margin-bottom: 25px;
     text-align: center;
     color: #333;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 .edit-user-container form {
@@ -21,25 +30,27 @@
 }
 
 .edit-user-container form .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .edit-user-container form .form-group label {
-    font-size: 14px;
+    font-size: 16px;
     color: #555;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-weight: 500;
 }
 
 .edit-user-container form input,
 .edit-user-container form select,
 .edit-user-container form textarea {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #fafafa;
     color: #333;
+    transition: border 0.3s ease;
 }
 
 .edit-user-container form input:focus,
@@ -52,44 +63,46 @@
 .edit-user-container form .btn-save,
 .edit-user-container form .btn-cancel {
     background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
+    color: white;
+    padding: 12px 25px;
     font-size: 16px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    width: 30%; 
+    width: 48%;
+    transition: background-color 0.3s ease, transform 0.2s;
 }
 
 .edit-user-container form .btn-save:hover {
     background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 .edit-user-container form .btn-cancel {
     background-color: #f44336;
+    width: 48%;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
 }
 
 .edit-user-container form .btn-cancel:hover {
     background-color: #d32f2f;
+    transform: translateY(-2px);
 }
 
 .edit-user-container form .button-container {
     display: flex;
     justify-content: space-between;
-    gap: 10px;
+    gap: 20px;
 }
 
 @media (max-width: 768px) {
     .edit-user-container {
-        padding: 15px;
+        padding: 20px;
     }
 
     .edit-user-container h1 {
-        font-size: 20px;
+        font-size: 24px;
     }
 
     .edit-user-container form .form-group input,
