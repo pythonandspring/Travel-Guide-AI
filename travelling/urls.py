@@ -31,6 +31,8 @@ urlpatterns = [
     path('gen_contact/', views.gen_contact, name="gen_contact"),
     path('privacy_policy/', views.privacy_policy, name='privacy_policy'),
     path('terms_conditions/', views.terms_conditions, name='terms_conditions'),
+
+
     # path('search_voice/', views.search_voice, name='search_voice'),
     
     path('admin/', include('myadmin.urls')),

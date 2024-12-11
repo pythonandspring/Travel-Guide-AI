@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'myadmin',
     'guide',
     'accommodation',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -92,9 +93,9 @@ WSGI_APPLICATION = 'travelling.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'user',
+        'NAME': 'user1',
         'USER': 'root',                
-        'PASSWORD': 'killer',                       
+        'PASSWORD': 'Kusuma@1698',                       
         'HOST': '127.0.0.1',                    
         'PORT': '3306',   
     }
