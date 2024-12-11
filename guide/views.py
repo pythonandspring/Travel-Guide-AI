@@ -13,17 +13,30 @@ from django.shortcuts import redirect, render
 def is_login(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
-        if (request.session.get('super_guide_id') or request.session.get('guide_id')) and request.session.get('is_login'):
+        guide_id = kwargs.pop('guide_id', None)
+        if guide_id:
             try:
-                guide_id = request.session.get('guide_id') or request.session.get('super_guide_id')
                 guide = Guide.objects.get(id=guide_id)
             except Guide.DoesNotExist:
                 return redirect('guide_login')
-
-            return view_func(request, guide_info=guide, *args, **kwargs)
+            if guide.is_super_guide:
+                return view_func(request, guide_info=guide, *args, **kwargs)
+            else:
+                print("1st I'm here")
+                return redirect('guide_login')
         else:
-            return redirect('guide_login')
-
+            if request.session.get('super_guide_id') or request.session.get('guide_id'):
+                try:
+                    guide_id = request.session.get('super_guide_id')
+                    guide = Guide.objects.get(id=guide_id)
+                except Guide.DoesNotExist:
+                    guide_id = request.session.get('guide_id')
+                    guide = Guide.objects.get(id=guide_id)
+                finally:
+                    return view_func(request, guide_info=guide, *args, **kwargs)
+            else:
+                print("2nd I'm here")
+                return redirect('guide_login')
     return wrapper
 
 
@@ -96,14 +109,12 @@ def guide_login(request):
 
 @is_login
 def guide_logout(request, *args, **kwargs):
-    guide_info = kwargs.pop('guide_info', None)
-
-    if guide_info.is_super_guide:
+    try:
+        del request.session['guide_id']
+        messages.success(request, "You have been logged out successfully.")
+    except KeyError:
         del request.session['super_guide_id']
         messages.success(request, "You have been logged out successfully.")
-    else:
-        del request.session['guide_id']
-        messages.success(request, "You have been logged out successfully.")  
         
     request.session['is_login'] = False
     return redirect('guide_login')
@@ -141,17 +152,17 @@ def guide_edit_profile(request, *args, **kwargs):
 
 # <---------------------DOCTOR------------------------------------->
 
-@is_login
+@is_super_guide
 def get_doctors(request, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
     try:
         doctors = Doctor.objects.filter(guide=guide_info.id)
     except Doctor.DoesNotExist:
         return render(request, 'get_doctors.html', {'doctors': None})
-    return render(request, 'get_doctors.html', {'doctors': doctors})
+    return render(request, 'get_doctors.html', {'doctors': doctors, 'guide': guide_info})
 
 
-@is_login
+@is_super_guide
 def add_doctor(request, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
     if guide_info:
@@ -161,20 +172,19 @@ def add_doctor(request, *args, **kwargs):
             if form.is_valid():
                 form.save()
                 messages.success(request, 'You have added a new doctor.')
-                # Redirect to a page after successful form submission
                 return redirect('get_doctors')
             else:
                 messages.error(request, "Please provide valid details.")
         else:
             form = DoctorForm(guide_id=guide_id)
-        return render(request, 'add_doctor.html', {'doctor_form': form})
+        return render(request, 'add_doctor.html', {'doctor_form': form, 'guide': guide_info})
     else:
         messages.error(
             request, "You are not authorized to perform this action.")
         return redirect('login')
 
 
-@is_login
+@is_super_guide
 def update_doctor_details(request, doctor_id, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
     doctor = Doctor.objects.filter(id=doctor_id, guide=guide_info.id).first()
@@ -188,10 +198,10 @@ def update_doctor_details(request, doctor_id, *args, **kwargs):
             messages.error(request, 'please enter valid deatils')
     else:
         form = DoctorDetailsUpdateForm(instance=doctor)
-    return render(request, 'update_doctor.html', {'form':form, 'doctor_obj':doctor})
+    return render(request, 'update_doctor.html', {'form': form, 'doctor_obj': doctor, 'guide': guide_info})
     
 
-@is_login
+@is_super_guide
 def delete_doctor(request, doctor_id, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
     doctor = Doctor.objects.filter(id=doctor_id, guide=guide_info.id).first()
@@ -206,7 +216,7 @@ def delete_doctor(request, doctor_id, *args, **kwargs):
 
 # <---------------------PLACE------------------------------------->
 
-@is_super_guide
+@is_login
 def get_place_info(request, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
     place = Place.objects.filter(name=guide_info.place, city=guide_info.city, state=guide_info.state, country= guide_info.country).first()
@@ -215,14 +225,8 @@ def get_place_info(request, *args, **kwargs):
         return render(request, 'get_place_info.html', {'place_exist': True,'place': place, 'guide': guide_info})
     else:
         request.session['place_exist'] = False
-        guide_place_info = {
-            'place': guide_info.place,
-            'city': guide_info.city,
-            'state': guide_info.state,
-            'country': guide_info.country
-        }
-        messages.error(request, "place doesn't exist.")
-        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info})
+        messages.error(request, f"{guide_info.place} doesn't exist in database now.")
+        return render(request, 'get_place_info.html', {'place_exist': False, 'guide': guide_info})
 
 
 @is_super_guide
@@ -252,7 +256,7 @@ def update_place_info(request, place_id, *args, **kwargs):
             'country': guide_info.country
         }
         messages.error(request, "place doesn't exist.")
-        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info})
+        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
 
 
 @is_super_guide
@@ -275,7 +279,7 @@ def get_images(request, place_id ,*args, **kwargs):
             'country': guide_info.country
         }
         messages.error(request, "place doesn't exist.")
-        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info})
+        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
 
 
 @is_super_guide
@@ -294,7 +298,7 @@ def add_place_image(request, place_id, *args, **kwargs):
                 return redirect('get_images')
         else:
             form = PlaceImageForm(place_id=place.id)
-        return render(request, 'place_image.html', {'form': form})
+        return render(request, 'place_image.html', {'form': form, 'guide': guide_info})
     else:
         request.session['place_exist'] = False
         guide_place_info = {
@@ -304,7 +308,7 @@ def add_place_image(request, place_id, *args, **kwargs):
             'country': guide_info.country
         }
         messages.error(request, "place doesn't exist.")
-        return render(request, 'place/place_info', {'place_exist': False, 'guide_place_info': guide_place_info})
+        return render(request, 'place/place_info', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
 
 
 @is_super_guide
@@ -330,12 +334,13 @@ def delete_place_image(request, place_id, image_id, *args, **kwargs):
             'country': guide_info.country
         }
         messages.error(request, "place doesn't exist.")
-        return render(request, 'place/place_info', {'place_exist': False, 'guide_place_info': guide_place_info})
+        return render(request, 'place/place_info', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
 
     
  
 # <---------------------CONTACT------------------------------------->
-
-def contact_support(request):
-    return render(request, 'contact.html')
+@is_login
+def contact_support(request, *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    return render(request, 'contact.html', {'guide': guide_info})
 

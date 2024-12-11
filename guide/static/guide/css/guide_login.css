@@ -5,6 +5,13 @@ body {
     padding: 0;
 }
 
+.text-muted{
+    color: #0978d9;
+    font-size: 0.875rem;
+    opacity: 0.65;
+    text-align: left;
+}
+
 /* Login Form Container */
 #login-form {
     max-width: 500px;

@@ -1,167 +1,109 @@
 {% extends 'guide_tem/base.html' %}
+{% load static %}
 
 {% block styling %}
-<style>
-    .place-details {
-        font-family: Arial, sans-serif;
-        padding: 20px;
-        max-width: 900px;
-        margin: 0 auto;
-    }
-
-    .place-details h1 {
-        font-size: 32px;
-        margin-bottom: 20px;
-    }
-
-    .place-details h3 {
-        font-size: 24px;
-        margin-top: 30px;
-        color: #2c3e50;
-    }
-
-    .place-details h4 {
-        font-size: 18px;
-        margin-top: 20px;
-        color: #34495e;
-    }
-
-    .place-details p {
-        font-size: 16px;
-        line-height: 1.6;
-        margin-bottom: 10px;
-        color: #7f8c8d;
-    }
-
-    .place-details a {
-        color: #2980b9;
-        text-decoration: none;
-    }
-
-    .place-details img {
-        max-width: 100%;
-        height: auto;
-        margin-top: 15px;
-    }
-
-    .place-details .location, .place-details .area-size, .place-details .history,
-    .place-details .speciality, .place-details .best-months-to-visit, .place-details .appealing-text,
-    .place-details .transport-options, .place-details .opening-hours {
-        background-color: #ecf0f1;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-    }
-
-    .place-details .error-message {
-        color: red;
-        font-size: 14px;
-    }
-
-    .place-details .helper-text {
-        font-size: 14px;
-        color: #95a5a6;
-    }
-
-    .edit-button {
-        background-color: #3498db;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        text-decoration: none;
-    }
-
-    .edit-button:hover {
-        background-color: #2980b9;
-    }
-</style>
+    <link rel="stylesheet" href="{% static "guide/css/get_place.css" %}">
 {% endblock %}
 
 {% block content %}
 <div class="place-details">
-    <h1>{{ place.name }}</h1>
-    <div class="location">
-        <h3>Location</h3>
-        <p>{{ place.address }}</p>
-        <p><strong>Country:</strong> {{ place.country }}</p>
-        <p><strong>State:</strong> {{ place.state }}</p>
-        <p><strong>City:</strong> {{ place.city }}</p>
-        <a href="{{ place.location_on_map }}" target="_blank">View on Map</a>
-    </div>
+    {% if place_exist %}
+        <h1>{{ place.name }}</h1>
+        <div class="location">
+            <h3>Location Details</h3>
+            <p>{{ place.address }}</p>
+            <p><strong>Country:</strong> {{ place.country }}</p>
+            <p><strong>State:</strong> {{ place.state }}</p>
+            <p><strong>City:</strong> {{ place.city }}</p>
+            <iframe 
+                src="{{place.location_on_map}}" 
+                width="600" 
+                height="450" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
 
-    <div class="area-size">
-        <h3>Area Size</h3>
-        <p>{{ place.area_size }}</p>
-    </div>
+        <div class="area-size">
+            <h3>Area Size</h3>
+            <p>{{ place.area_size }}</p>
+        </div>
 
-    <div class="history">
-        <h3>History</h3>
-        <p>{{ place.history }}</p>
-    </div>
+        <div class="history">
+            <h3>History</h3>
+            <p>{{ place.history }}</p>
+        </div>
 
-    <div class="speciality">
-        <h3>Speciality</h3>
-        <p>{{ place.speciality }}</p>
-    </div>
+        <div class="speciality">
+            <h3>Speciality</h3>
+            <p>{{ place.speciality }}</p>
+        </div>
 
-    <div class="best-months-to-visit">
-        <h3>Best Months to Visit</h3>
-        <p>{{ place.best_months_to_visit }}</p>
-    </div>
+        <div class="best-months-to-visit">
+            <h3>Best Months to Visit</h3>
+            <p>{{ place.best_months_to_visit }}</p>
+        </div>
 
-    <div class="appealing-text">
-        <h3>Appealing Description</h3>
-        <p>{{ place.appealing_text }}</p>
-    </div>
+        <div class="appealing-text">
+            <h3>Appealing Description</h3>
+            <p>{{ place.appealing_text }}</p>
+        </div>
 
-    <div class="front-image">
-        <h3>Front Image</h3>
-        <img src="{{ place.front_image.url }}" alt="Front Image of {{ place.name }}" />
-    </div>
+        <div class="front-image">
+            <h3>Front Image</h3>
+            <img src="{{ place.front_image.url }}" alt="Front Image of {{ place.name }}" />
+        </div>
 
-    <div class="transport-options">
-        <h3>Nearest Traveling Options</h3>
-        <h4>Nearby Cities:</h4>
-        <p>{{ place.nearest_cities }}</p>
+        <div class="transport-options">
+            <h3>Nearest Traveling Options</h3>
+            <h4>Nearby Cities:</h4>
+            <p>{{ place.nearest_cities }}</p>
 
-        <h4>Nearby Airports:</h4>
-        <p>{{ place.airports }}</p>
+            <h4>Nearby Airports:</h4>
+            <p>{{ place.airports }}</p>
 
-        <h4>Nearby Railway Stations:</h4>
-        <p>{{ place.railway_stations }}</p>
+            <h4>Nearby Railway Stations:</h4>
+            <p>{{ place.railway_stations }}</p>
 
-        <h4>Road Distances from Railway Stations:</h4>
-        <p>{{ place.by_road_distances_from_railway_stations }}</p>
+            <h4>Road Distances from Railway Stations:</h4>
+            <p>{{ place.by_road_distances_from_railway_stations }}</p>
 
-        <h4>Road Distances from Airports:</h4>
-        <p>{{ place.by_road_distances_from_airports }}</p>
+            <h4>Road Distances from Airports:</h4>
+            <p>{{ place.by_road_distances_from_airports }}</p>
 
-        <h4>Road Distances from Nearby Cities:</h4>
-        <p>{{ place.by_road_distances_from_nearest_cities }}</p>
-    </div>
+            <h4>Road Distances from Nearby Cities:</h4>
+            <p>{{ place.by_road_distances_from_nearest_cities }}</p>
+        </div>
 
-    <div class="opening-hours">
-        <h3>Opening Hours</h3>
-        <h4>Weekly Closed On:</h4>
-        <p>{{ place.get_weekly_closed_on_display }}</p>
+        <div class="opening-hours">
+            <h3>Opening Hours</h3>
+            <h4>Weekly Closed On:</h4>
+            <p>{{ place.get_weekly_closed_on_display }}</p>
 
-        <h4>Weekdays Timing:</h4>
-        <p><strong>Opening Time:</strong> {{ place.week_days_opening_time }}</p>
-        <p><strong>Closing Time:</strong> {{ place.week_days_closing_time }}</p>
+            <h4>Weekdays Timing:</h4>
+            <p><strong>Opening Time:</strong> {{ place.week_days_opening_time }}</p>
+            <p><strong>Closing Time:</strong> {{ place.week_days_closing_time }}</p>
 
-        <h4>Weekends Timing:</h4>
-        <p><strong>Opening Time:</strong> {{ place.weekends_opening_time }}</p>
-        <p><strong>Closing Time:</strong> {{ place.weekends_closing_time }}</p>
+            <h4>Weekends Timing:</h4>
+            <p><strong>Opening Time:</strong> {{ place.weekends_opening_time }}</p>
+            <p><strong>Closing Time:</strong> {{ place.weekends_closing_time }}</p>
 
-        <h4>Special Closed Dates:</h4>
-        <p>{{ place.special_closed_dates }}</p>
-    </div>
+            <h4>Special Closed Dates:</h4>
+            <p>{{ place.special_closed_dates }}</p>
+        </div>
 
-    {% if request.session.super_guide_id %}
-        <a href="{% url 'update_place_info' place.id %}" class="edit-button">Edit</a>
-        <a href="{% url 'get_images' place.id %}" class="edit-button">See Images</a>
+        {% if guide.is_super_guide %}
+            <a href="{% url 'update_place_info' place.id %}" style="color:white;" class="edit-button">Edit</a>
+            <a href="{% url 'get_images' place.id %}" style="color:white;" class="edit-button">See Images</a>
+        {% endif %}
+    {% else %}
+        <h1>{{ guide.place }}</h1>
+        <div class="location">
+            <h3>Location Doesn't exist in Database</h3>
+            <p><strong>Country:</strong> {{ guide.country }}</p>
+            <p><strong>State:</strong> {{ guide.state }}</p>
+            <p><strong>City:</strong> {{ guide.city }}</p>
     {% endif %}
 </div>
 {% endblock %}

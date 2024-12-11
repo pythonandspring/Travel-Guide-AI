@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block styling %}
-    <link rel="stylesheet" href="{% static 'customer/css/register.css' %}">
+ <link rel="stylesheet" href="{% static 'customer/css/register.css' %}">
 {% endblock styling %}
 
 {% block content %}
 <div  style="background: url('{{MEDIA_URL}}images/bg-table.jpg') no-repeat center center/cover; padding-top: 1rem; padding-bottom: 2rem;">
 <div class="register-container">
-    <h1>User Register</h1>
+    <h1>Create account</h1>
     <form method="POST">
         {% csrf_token %}
         <div class="form-group">

@@ -3,11 +3,28 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from pyexpat.errors import messages
 from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places
+from guide.models import Place, Guide
+from accommodation.models import Hotel
 from django.core.cache import cache
 
 
 def home(request):
-    return render(request, 'home.html')
+    if request.session.get('super_guide_id') or request.session.get('guide_id'):
+        try:
+            guide_id = request.session.get('super_guide_id')
+            guide = Guide.objects.get(id=guide_id)
+        except Guide.DoesNotExist:
+            guide_id = request.session.get('guide_id')
+            guide = Guide.objects.get(id=guide_id)
+        finally:
+            return render(request, 'home.html', {'guide': guide})
+    elif request.session.get('hotel_owner_id'):
+        hotel_owner = Hotel.objects.get(id=request.session['hotel_owner_id'])
+        return render(request, 'home.html', {'hotel_owner': hotel_owner})
+    else: 
+        return render(request, 'home.html')
+
+
 
 
 def agentRegistration(request):
@@ -38,9 +55,21 @@ def gallery(request):
         {'name': 'Berlin', 'location': 'Germany', 'description': 'Known for its historical landmarks such as the Berlin Wall and Brandenburg Gate.', 'image': f'images/berlin.jpg'},
         {'name': 'Athens', 'location': 'Greece', 'description': 'Famous for ancient monuments like the Acropolis and Parthenon.', 'image': f'images/athens.jpg'}
     ]
+    if request.session.get('super_guide_id') or request.session.get('guide_id'):
+        try:
+            guide_id = request.session.get('super_guide_id')
+            guide = Guide.objects.get(id=guide_id)
+        except Guide.DoesNotExist:
+            guide_id = request.session.get('guide_id')
+            guide = Guide.objects.get(id=guide_id)
+        finally:
+            return render(request, 'gallery.html', {'places': places, 'guide': guide})
+    elif request.session.get('hotel_owner_id'):
+        hotel_owner = Hotel.objects.get(id=request.session['hotel_owner_id'])
+        return render(request, 'gallery.html', {'places': places, 'hotel_owner': hotel_owner})
+    else:
+        return render(request, 'gallery.html', {'places': places})
 
-    # messages.warning(request,'Loading assets, please hold on')
-    return render(request, 'gallery.html', {'places': places})
 
 
 

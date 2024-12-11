@@ -32,7 +32,7 @@ class Place(models.Model):
     city = models.CharField(max_length=255)
 
     address = models.TextField()
-    location_on_map = models.URLField()
+    location_on_map = models.URLField(max_length=1000)
 
     # Information about history, speciality, appealing_text, size
     area_size = models.CharField(

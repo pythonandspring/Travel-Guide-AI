@@ -28,7 +28,7 @@
                     <div class="d-flex justify-content-center gap-3">
                         <a class="text-light text-decoration-none" href="{% url 'home' %}">Home</a>
                         <a class="text-light text-decoration-none" href="{% url 'gallery' %}">Gallery</a>
-                        {% if user.is_authenticated %}
+                        {% if user.is_authenticated and not user.is_staff %}
                             <a class="text-light text-decoration-none" href="#">Guides</a>
                             <a class="text-light text-decoration-none" href="#">Hotels</a>
                             <a class="text-light text-decoration-none" href="{% url 'accomodations' %}">Accommodations</a>
@@ -40,13 +40,13 @@
                             <a class="text-light text-decoration-none" href="{% url 'hotel_images' %}">Hotel Images</a>
                             <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Dashboard</a>
                             <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>  
-                        {% elif request.session.super_guide_id %}
-                            <a class="text-light text-decoration-none" href="#">Place</a>
-                            <a class="text-light text-decoration-none" href="#">Doctor</a>
+                        {% elif guide.is_super_guide %}
+                            <a class="text-light text-decoration-none" href="{% url 'get_place_info' %}">Place</a>
+                            <a class="text-light text-decoration-none" href="{% url 'get_doctors' %}">Doctor</a>
                             <a class="text-light text-decoration-none" href="{% url 'guide_dashboard' %}">Dashboard</a>
                             <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>
                         {% elif request.session.guide_id %}
-                            <a class="text-light text-decoration-none" href="#">Doctor</a>
+                            <a class="text-light text-decoration-none" href="{% url 'get_place_info' %}">Place</a>
                             <a class="text-light text-decoration-none" href="{% url 'guide_dashboard' %}">Dashboard</a>
                             <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>
                         {% else %}
