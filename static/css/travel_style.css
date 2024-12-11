@@ -1,48 +1,52 @@
 /* Custom Navbar */
 .custom-navbar {
-    color: white; /* White text */
+    color: #FFFFFF; /* White text */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1030;
-    background-color: #0D1E4C;
+    z-index: 1030;  
+    background-color: #228B22; /* Forest Green background */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
 }
+
 .custom-navbar .nav-link {
-    color: white; /* Light grey text */
+    color: #FDF5E6; /* Soft Peach text */
 }
+
 .custom-navbar .nav-link:hover {
-    color: #00bcd4; /* Highlight color */
+    color: #98FB98; /* Mint Green highlight */
 }
 
 /* Custom Footer */
 .custom-footer {
-    background-color: #0D1E4C;
+    background-color: #228B22; /* Forest Green background */
     padding: 1rem 1rem;
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     z-index: 1030;
-    color: white;
+    color: #FDF5E6; /* Soft Peach text */
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
 }
+
 .custom-footer a {
-    color: #00bcd4; /* Link color */
+    color: #98FB98; /* Mint Green link color */
     text-decoration: none;
 }
+
 .custom-footer a:hover {
     text-decoration: underline;
 }
 
-
-/* Ensure the content does not overlap the fixed elements */
+/* Content adjustments */
 .content {
     padding-top: 60px; /* Adjust to match header height */
     padding-bottom: 60px; /* Adjust to match footer height */
 }
 
+/* Navbar brand styling */
 .navbar-brand img {
     width: 60px; /* Adjust logo size */
     height: auto;
@@ -52,24 +56,23 @@
 .navbar-brand span {
     font-size: 1.5rem; /* Adjust text size */
     font-weight: bold;
-    color: white;
+    color: #FDF5E6; /* Soft Peach */
 }
 
-
-.navbar-brand-container {
-    flex: 1; /* Allow space for centering */
-}
-
-.navbar-collapse {
-    flex: 2; /* Allocate more space for navbar items */
-    justify-content: center;
-}
-
-.navbar{
+/* Navbar general styles */
+.navbar {
     font-size: 1rem;
     padding: 1rem 1.5rem;
 }
 
-.btn{
-    color: white;
+/* Button styles */
+.btn {
+    color: #FFFFFF; /* White text */
+    background-color: #228B22; /* Forest Green */
+    border: none;
+}
+
+.btn:hover {
+    background-color: #98FB98; /* Mint Green */
+    color: #000000; /* Optional contrasting text */
 }
