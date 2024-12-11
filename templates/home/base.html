@@ -15,96 +15,45 @@
     {% endblock styling %}
 </head>
 <body>
-    <nav class="px-4 py-2 navbar navbar-expand-lg custom-navbar">
-        <div class="container-fluid">
-            <div class="navbar-brand-container d-flex align-items-center">
-            <a class="navbar-brand d-flex align-items-center" style="color:white;" href="#">
-                <img src="{% static 'images/travel_guide.png' %}" alt="Travel Guide Logo">
-                <span>TravelGuide</span>
-            </a>
-        </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Guides</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Hotels</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accomodations' %}">Accommodations</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'cust_feedback' %}">Feedback</a>
-                        </li>
-                    {% elif request.session.hotel_owner_id %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'hotel_dashboard' %}">Bookings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'available_rooms' %}">Rooms Availability</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'hotel_images' %}">Hotel Images</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'hotel_dashboard' %}">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'contact_support' %}">Contact</a>
-                        </li>
-                    {% elif request.session.super_guide_id %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Place</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Doctor</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'guide_dashboard' %}">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'contact_support' %}">Contact</a>
-                        </li>
-                    {% elif request.session.guide_id %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Doctor</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'guide_dashboard' %}">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'contact_support' %}">Contact</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'agentRegistration' %}">Agents</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">SignUp / Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'admin_login' %}">Admin</a>
-                        </li>
-                    {% endif %}
-                </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </form>
+    <header class="p-3 bg-dark text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <img src="{% static 'images/travel_guide.png' %}" alt="Travel Guide Logo" style="width: 80px; height: auto; margin-right: -10px;">
+                <div class="col">
+                    <h3>TravelGuide</h3>
+                </div>
+                <div class="col px-3">
+                    <div class="d-flex justify-content-center gap-3">
+                        <a class="text-light text-decoration-none" href="{% url 'home' %}">Home</a>
+                        <a class="text-light text-decoration-none" href="{% url 'gallery' %}">Gallery</a>
+                        {% if user.is_authenticated and not user.is_staff %}
+                            <a class="text-light text-decoration-none" href="#">Guides</a>
+                            <a class="text-light text-decoration-none" href="#">Hotels</a>
+                            <a class="text-light text-decoration-none" href="{% url 'accomodations' %}">Accommodations</a>
+                            <a class="text-light text-decoration-none" href="{% url 'profile' %}">Profile</a>
+                            <a class="text-light text-decoration-none" href="{% url 'cust_feedback' %}">Feedback</a>
+                        {% elif request.session.hotel_owner_id %}
+                            <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Bookings</a>
+                            <a class="text-light text-decoration-none" href="{% url 'available_rooms' %}">Rooms Availability</a>
+                            <a class="text-light text-decoration-none" href="{% url 'hotel_images' %}">Hotel Images</a>
+                            <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Dashboard</a>
+                            <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>  
+                        {% elif guide.is_super_guide %}
+                            <a class="text-light text-decoration-none" href="{% url 'get_place_info' %}">Place</a>
+                            <a class="text-light text-decoration-none" href="{% url 'get_doctors' %}">Doctor</a>
+                            <a class="text-light text-decoration-none" href="{% url 'guide_dashboard' %}">Dashboard</a>
+                            <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>
+                        {% elif request.session.guide_id %}
+                            <a class="text-light text-decoration-none" href="{% url 'get_place_info' %}">Place</a>
+                            <a class="text-light text-decoration-none" href="{% url 'guide_dashboard' %}">Dashboard</a>
+                            <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>
+                        {% else %}
+                            <a class="text-light text-decoration-none" href="{% url 'agentRegistration' %}">Agents</a>
+                            <a class="text-light text-decoration-none" href="{% url 'login' %}">SignUp / Login</a>
+                            <a class="text-light text-decoration-none" href="{% url 'admin_login' %}">Admin</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
