@@ -40,7 +40,14 @@ INSTALLED_APPS = [
     'myadmin',
     'guide',
     'accommodation',
+
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
+
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -94,7 +101,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'user',
         'USER': 'root',                
-        'PASSWORD': 'gd456nds',                       
+        'PASSWORD': 'killer',                       
         'HOST': '127.0.0.1',                    
         'PORT': '3306',   
     }

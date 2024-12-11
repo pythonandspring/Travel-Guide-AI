@@ -1,69 +1,75 @@
-/* General Body and Background */
-body {
-    background-color: #f4f7fc; /* Soft light background for a professional feel */
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+/* Custom Navbar */
+.custom-navbar {
+    color: white; /* White text */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1030;
+    background-color: #0D1E4C;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
+}
+.custom-navbar .nav-link {
+    color: white; /* Light grey text */
+}
+.custom-navbar .nav-link:hover {
+    color: #00bcd4; /* Highlight color */
 }
 
-/* Fixed Footer */
-footer {
+/* Custom Footer */
+.custom-footer {
+    background-color: #0D1E4C;
+    padding: 1rem 1rem;
     position: fixed;
     bottom: 0;
+    left: 0;
     width: 100%;
-    background-color: #333;
+    z-index: 1030;
     color: white;
-    text-align: center;
-    padding: 10px;
-    z-index: 10;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
+}
+.custom-footer a {
+    color: #00bcd4; /* Link color */
+    text-decoration: none;
+}
+.custom-footer a:hover {
+    text-decoration: underline;
 }
 
 
-/* Flex layout for header row */
-header .row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+/* Ensure the content does not overlap the fixed elements */
+.content {
+    padding-top: 60px; /* Adjust to match header height */
+    padding-bottom: 60px; /* Adjust to match footer height */
 }
 
-/* Grouping logo and title together */
-header .row img,
-header .row .col h3 {
-    display: inline-block;
-    vertical-align: middle;
-    margin: 0;
-}
-
-/* Spacing between logo and title */
-header .row img {
+.navbar-brand img {
+    width: 60px; /* Adjust logo size */
+    height: auto;
     margin-right: 10px;
 }
 
-/* Full width for the navigation section */
-header .col.px-3 {
-    flex: 1;
-    max-width: 70%; /* Allow more space for navigation */
-    /* right: -100px; */
-}
-
-/* Navigation container to prevent wrapping */
-header .col.px-3 .d-flex {
-    flex-wrap: nowrap; /* Prevent stacking */
-    justify-content: center; /* Center the navigation */
-    gap: 15px; /* Space between links */
-}
-
-/* Adjust link padding for single-line fit */
-header .col.px-3 .d-flex a {
-    padding: 0 8px;
-    font-size: 1.1rem; /* Adjust font size if needed */
-    white-space: nowrap; /* Prevent line breaks */
+.navbar-brand span {
+    font-size: 1.5rem; /* Adjust text size */
+    font-weight: bold;
+    color: white;
 }
 
 
-/* Content Padding for Body */
-.content {
-    padding-bottom: 60px; /* Added space for footer */
+.navbar-brand-container {
+    flex: 1; /* Allow space for centering */
 }
 
+.navbar-collapse {
+    flex: 2; /* Allocate more space for navbar items */
+    justify-content: center;
+}
 
+.navbar{
+    font-size: 1rem;
+    padding: 1rem 1.5rem;
+}
+
+.btn{
+    color: white;
+}
