@@ -1,0 +1,190 @@
+{% load static %}
+
+{% block styling %}
+<link rel="stylesheet" href="{% static 'accommodation/css/hotel_rooms.css' %}">
+<style>
+    /* Popup container */
+    .popup-container {
+        position: fixed; /* Fixed positioning to stay on the screen */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Dark background to highlight the popup */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999; /* Ensure it stays on top of other content */
+    }
+
+    /* Popup box */
+    .popup {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        max-width: 600px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .popup h2 {
+        margin-top: 0;
+        font-size: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        font-size: 1rem;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .form-actions .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .submit-btn {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .cancel-btn {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .helper-text {
+        font-size: 0.9rem;
+        color: #888;
+    }
+
+    .error-message p {
+        color: red;
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock styling %}
+
+{% block content %}
+<div class="popup-container">
+    <div class="popup">
+        <h2>Add Room</h2>
+        <form method="POST" action="{% url 'add_room_type' %}">
+            {% csrf_token %}
+        
+            <!-- Room Category Field -->
+            <div class="form-group">
+                <label for="id_room_category">Room Category</label>
+                <select name="room_category" id="id_room_category" class="form-control">
+                    <option value="AC" {% if hotel_room_form.room_category.value == 'AC' %}selected{% endif %}>AC</option>
+                    <option value="Non-AC" {% if hotel_room_form.room_category.value == 'Non-AC' %}selected{% endif %}>Non-AC</option>
+                </select>
+                {% if hotel_room_form.room_category.errors %}
+                    <div class="error-message">
+                        {% for error in hotel_room_form.room_category.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="helper-text">Select whether the room is AC or Non-AC.</p>
+            </div>
+        
+            <!-- Room Type Field -->
+            <div class="form-group">
+                <label for="id_room_type">Room Type</label>
+                <select name="room_type" id="id_room_type" class="form-control">
+                    <option value="Single Bed" {% if hotel_room_form.room_type.value == 'Single Bed' %}selected{% endif %}>Single Bed</option>
+                    <option value="Double Bed" {% if hotel_room_form.room_type.value == 'Double Bed' %}selected{% endif %}>Double Bed</option>
+                    <option value="Suite" {% if hotel_room_form.room_type.value == 'Suite' %}selected{% endif %}>Suite</option>
+                </select>
+                {% if hotel_room_form.room_type.errors %}
+                    <div class="error-message">
+                        {% for error in hotel_room_form.room_type.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="helper-text">Choose the type of room: Single, Double, or Suite.</p>
+            </div>
+        
+            <!-- Total Rooms Field -->
+            <div class="form-group">
+                <label for="id_total_rooms">Total Rooms</label>
+                <input type="number" name="total_rooms" id="id_total_rooms" class="form-control" value="{{ hotel_room_form.total_rooms.value }}" min="0">
+                {% if hotel_room_form.total_rooms.errors %}
+                    <div class="error-message">
+                        {% for error in hotel_room_form.total_rooms.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="helper-text">Enter the total number of rooms in this category.</p>
+            </div>
+        
+            <!-- Available Rooms Field -->
+            <div class="form-group">
+                <label for="id_available_rooms">Available Rooms</label>
+                <input type="number" name="available_rooms" id="id_available_rooms" class="form-control" value="{{ hotel_room_form.available_rooms.value }}" min="0">
+                {% if hotel_room_form.available_rooms.errors %}
+                    <div class="error-message">
+                        {% for error in hotel_room_form.available_rooms.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="helper-text">Enter the number of rooms available for booking.</p>
+            </div>
+        
+            <!-- Price Per 6 Hours Field -->
+            <div class="form-group">
+                <label for="id_price_per_6hrs">Price (Per 6 Hours)</label>
+                <input type="number" name="price_per_6hrs" id="id_price_per_6hrs" class="form-control" value="{{ hotel_room_form.price_per_6hrs.value }}" step="0.01">
+                {% if hotel_room_form.price_per_6hrs.errors %}
+                    <div class="error-message">
+                        {% for error in hotel_room_form.price_per_6hrs.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="helper-text">Enter the price for renting the room per 6 hours.</p>
+            </div>
+        
+            <div class="form-actions">
+                <button type="submit" class="btn submit-btn">Add Room</button>
+                <button type="button" class="btn cancel-btn" onclick="closePopup()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function closePopup() {
+        // Redirect to the available rooms page to close the popup
+        window.location.href = "{% url 'available_rooms' %}";
+    }
+</script>
+
+{% endblock content %}

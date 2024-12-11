@@ -1,13 +1,14 @@
-{% extends 'home/base.html' %}
+{% extends 'cust_base/base.html' %}
 {% load static %}
 
-{% block content %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
-</head>
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'customer/css/login.css' %}">
+{% endblock styling %}
 
+{% block content %}
+<div  style="background: url('{{MEDIA_URL}}images/bg-table.jpg') no-repeat center center/cover; padding-top: 6rem; padding-bottom: 2rem;">
 <div class="login-container">
-    <h1>Customer Login</h1>
+    <h1>User Login</h1>
     <form method="post">
         {% csrf_token %}
 
@@ -41,6 +42,11 @@
     <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
     <p><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
 </div>
-
+</div>
 {% endblock %}
 
+{% block javascript %}
+<script>
+    
+</script>
+{% endblock javascript %}

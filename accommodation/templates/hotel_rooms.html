@@ -1,0 +1,65 @@
+{% extends 'hotel_base/base.html' %}
+{% load static %}
+
+{% block styling %}
+<link rel="stylesheet" href="{% static 'accommodation/css/hotel_rooms.css' %}">
+{% endblock styling %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>Hotel Rooms</h1>
+        <!-- Button to trigger the popup -->
+        <a href="#" class="add-room-btn" onclick="openPopup()">Add Room</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Room Category</th>
+                <th>Room Type</th>
+                <th>Total Rooms</th>
+                <th>Available Rooms</th>
+                <th>Price (per 6 hrs)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+            <tr>
+                <td>{{ room.room_category }}</td>
+                <td>{{ room.room_type }}</td>
+                <td>{{ room.total_rooms }}</td>
+                <td>{{ room.available_rooms }}</td>
+                <td>{{ room.price_per_6hrs }}</td>
+                <td>
+                    <a href="{% url 'update_room_details' room.id %}" class="action-btn edit-btn">Edit</a>
+                    <a href="{% url 'delete_room' room.id %}" class="action-btn delete-btn">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No rooms available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Popup for adding a room -->
+<div id="addRoomPopup" class="popup-container" style="display: none;">
+    <div class="popup">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        {% include 'hotel_add_room.html' %}
+    </div>
+</div>
+
+<script>
+    function openPopup() {
+        document.getElementById("addRoomPopup").style.display = "flex";
+    }
+    function closePopup() {
+        document.getElementById("addRoomPopup").style.display = "none";
+    }
+</script>
+{% endblock content %}

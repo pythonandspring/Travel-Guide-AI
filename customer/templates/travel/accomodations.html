@@ -1,11 +1,12 @@
-{% extends 'home/base.html' %}
+{% extends 'cust_base/base.html' %}
 {% load static %}
 
-{% block content %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/accomodations.css' %}">
-</head>
+{% block styling %}
+<link rel="stylesheet" href="{% static 'customer/css/accommodation.css' %}">
+{% endblock styling %}
 
+{% block content %}
+<div  style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
 <div class="accommodation-container">
     <h1>Accommodation Details</h1>
     <p>Please fill in the following details to book your stay with us.</p>
@@ -46,5 +47,6 @@
 
         <button type="submit">Submit Accommodation Details</button>
     </form>
+</div>
 </div>
 {% endblock %}

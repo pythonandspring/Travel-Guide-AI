@@ -1,0 +1,75 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'css/agentRegistration.css' %}">
+{% endblock styling %}
+
+
+
+{% block content %}
+
+<div style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; 
+            padding-top: 2rem; padding-bottom: 2rem;
+            height: calc(100vh - 20px); /* Full viewport height minus header height */
+            width: 100%; /* Full width of the page */
+">    <div class="options-container">
+        <h1>Who Are You?</h1>
+        <p>Select your role to proceed:</p>
+        
+        <!-- Two options with vertical line -->
+        <div class="role-options">
+            <div class="role">
+                <h2>Are you a Hotel Owner?</h2>
+                <a href="{% url 'hotel_login' %}" class="btn">Click Here</a>
+            </div>
+            <div class="separator"></div>
+            <div class="role">
+                <h2>Are you a Guide?</h2>
+                <a href="{% url 'guide_login' %}" class="btn">Click Here</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .options-container {
+        text-align: center;
+        color: #333;
+    }
+
+    .role-options {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .role {
+        flex: 1;
+        text-align: center;
+    }
+
+    .separator {
+        width: 1px;
+        background-color: #ccc;
+        height: 100px;
+    }
+
+    .btn {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}

@@ -1,61 +1,65 @@
-{% extends 'home/base.html' %}
+{% extends 'cust_base/base.html' %}
 {% load static %}
 
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'customer/css/customer.css' %}">
+{% endblock styling %}
+
 {% block content %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/customer.css' %}">
-</head>
+<div  style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
+    <div class="customer-container">
+        <h1>Welcome to Travel Guide - Customer Portal</h1>
+        <p class="description">Please register or login to continue your travel journey with us.</p>
+        <div class="card">
+            <div class="tab-container">
+                <!-- Tabs for Registration and Login -->
+                <button class="tab-link" onclick="showTab('register')">Register</button>
+                <button class="tab-link active" onclick="showTab('login')">Login</button>
+            </div>
 
-<div class="customer-container">
-    <h1>Welcome to Travel Guide - Customer Portal</h1>
-    <p class="description">Please register or login to continue your travel journey with us.</p>
-    <div class="card">
-        <div class="tab-container">
-            <!-- Tabs for Registration and Login -->
-            <button class="tab-link" onclick="showTab('register')">Register</button>
-            <button class="tab-link active" onclick="showTab('login')">Login</button>
-        </div>
+            <!-- Registration Form (Hidden by Default) -->
+            <div id="register" class="tab-content" style="display: none;">
+                <form action="#" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email ID:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <button type="submit">Register</button>
+                </form>
+            </div>
 
-        <!-- Registration Form (Hidden by Default) -->
-        <div id="register" class="tab-content" style="display: none;">
-            <form action="#" method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email ID:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <button type="submit">Register</button>
-            </form>
-        </div>
-
-        <!-- Login Form (Visible by Default) -->
-        <div id="login" class="tab-content" style="display: block;">
-            <form action="{% url 'mainPage' %}" method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="username">Enter Username:</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="login-password">Enter Password:</label>
-                    <input type="password" id="login-password" name="login_password" required>
-                </div>
-                <button type="submit">Login</button>
-            </form>
+            <!-- Login Form (Visible by Default) -->
+            <div id="login" class="tab-content" style="display: block;">
+                <form action="{% url 'mainPage' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">Enter Username:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Enter Password:</label>
+                        <input type="password" id="login-password" name="login_password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+{% endblock %}
 
+
+{% block javascript %}
 <script>
-    // Function to toggle between Registration and Login forms
     function showTab(tabName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tab-content");
@@ -70,4 +74,4 @@
         event.currentTarget.className += " active";
     }
 </script>
-{% endblock %}
+{% endblock javascript %}

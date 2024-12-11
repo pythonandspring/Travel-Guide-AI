@@ -1,152 +1,152 @@
-{% extends 'home/base.html' %}
+{% extends 'cust_base/base.html' %}
 {% load static %}
 
 {% block title %}Edit Profile{% endblock %}
 
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'customer/css/edit_profile.css' %}">
+{% endblock styling %}
+
 {% block content %}
-
-<head>
-    <link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
-</head>
-
-<div class="profile-edit-container">
-    <h2>Edit Profile</h2>
-    <form method="POST" enctype="multipart/form-data" class="form-gp">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
-            {{ form.first_name }}
-            {% if form.first_name.errors %}
-                <div class="errors">
-                    {% for error in form.first_name.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
-            {{ form.last_name }}
-            {% if form.last_name.errors %}
-                <div class="errors">
-                    {% for error in form.last_name.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-            {{ form.email }}
-            {% if form.email.errors %}
-                <div class="errors">
-                    {% for error in form.email.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.location.id_for_label }}">{{ form.location.label }}</label>
-            {{ form.location }}
-            {% if form.location.errors %}
-                <div class="errors">
-                    {% for error in form.location.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.birth_date.id_for_label }}">{{ form.birth_date.label }}</label>
-            {{ form.birth_date }}
-            {% if form.birth_date.errors %}
-                <div class="errors">
-                    {% for error in form.birth_date.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="travel_preferences">Travel Preferences</label>
-            <input 
-                type="text" 
-                id="travel_preferences" 
-                name="travel_preferences_input" 
-                class="form-control" 
-                placeholder="Enter preferences separated by spaces" 
-            >
-            <input 
-                type="hidden" 
-                id="travel_preferences_hidden" 
-                name="travel_preferences" 
-                value="{{ form.travel_preferences.value|default:'' }}"
-            >
-            {% if form.travel_preferences.errors %}
-                <div class="errors">
-                    {% for error in form.travel_preferences.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <script>
-            document.getElementById('travel_preferences').addEventListener('input', function () {
-                const textInput = this.value.trim();
-                const preferencesArray = textInput.split(/\s+/); // Split by spaces
-                document.getElementById('travel_preferences_hidden').value = JSON.stringify(preferencesArray);
-            });
-        </script>
-        <div class="form-group">
-            <label for="{{ form.favorite_destinations.id_for_label }}">{{ form.favorite_destinations.label }}</label>
-            {{ form.favorite_destinations }}
-            {% if form.favorite_destinations.errors %}
-                <div class="errors">
-                    {% for error in form.favorite_destinations.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.languages_spoken.id_for_label }}">{{ form.languages_spoken.label }}</label>
-            {{ form.languages_spoken }}
-            {% if form.languages_spoken.errors %}
-                <div class="errors">
-                    {% for error in form.languages_spoken.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.budget_range.id_for_label }}">{{ form.budget_range.label }}</label>
-            {{ form.budget_range }}
-            {% if form.budget_range.errors %}
-                <div class="errors">
-                    {% for error in form.budget_range.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.interests.id_for_label }}">{{ form.interests.label }}</label>
-            {{ form.interests }}
-            {% if form.interests.errors %}
-                <div class="errors">
-                    {% for error in form.interests.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="form-buttons">
-            <button type="submit" class="btn-save">Save Changes</button>
-            <a href="{% url 'profile' %}" class="btn-cancel">Cancel</a>
-        </div>
-    </form>
+<div  style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
+    <div class="profile-edit-container">
+        <h2>Edit Profile</h2>
+        <form method="POST" enctype="multipart/form-data" class="form-gp">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                    <div class="errors">
+                        {% for error in form.first_name.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                    <div class="errors">
+                        {% for error in form.last_name.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="errors">
+                        {% for error in form.email.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.location.id_for_label }}">{{ form.location.label }}</label>
+                {{ form.location }}
+                {% if form.location.errors %}
+                    <div class="errors">
+                        {% for error in form.location.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.birth_date.id_for_label }}">{{ form.birth_date.label }}</label>
+                {{ form.birth_date }}
+                {% if form.birth_date.errors %}
+                    <div class="errors">
+                        {% for error in form.birth_date.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="travel_preferences">Travel Preferences</label>
+                <input 
+                    type="text" 
+                    id="travel_preferences" 
+                    name="travel_preferences_input" 
+                    class="form-control" 
+                    placeholder="Enter preferences separated by spaces" 
+                >
+                <input 
+                    type="hidden" 
+                    id="travel_preferences_hidden" 
+                    name="travel_preferences" 
+                    value="{{ form.travel_preferences.value|default:'' }}"
+                >
+                {% if form.travel_preferences.errors %}
+                    <div class="errors">
+                        {% for error in form.travel_preferences.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <script>
+                document.getElementById('travel_preferences').addEventListener('input', function () {
+                    const textInput = this.value.trim();
+                    const preferencesArray = textInput.split(/\s+/); // Split by spaces
+                    document.getElementById('travel_preferences_hidden').value = JSON.stringify(preferencesArray);
+                });
+            </script>
+            <div class="form-group">
+                <label for="{{ form.favorite_destinations.id_for_label }}">{{ form.favorite_destinations.label }}</label>
+                {{ form.favorite_destinations }}
+                {% if form.favorite_destinations.errors %}
+                    <div class="errors">
+                        {% for error in form.favorite_destinations.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.languages_spoken.id_for_label }}">{{ form.languages_spoken.label }}</label>
+                {{ form.languages_spoken }}
+                {% if form.languages_spoken.errors %}
+                    <div class="errors">
+                        {% for error in form.languages_spoken.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.budget_range.id_for_label }}">{{ form.budget_range.label }}</label>
+                {{ form.budget_range }}
+                {% if form.budget_range.errors %}
+                    <div class="errors">
+                        {% for error in form.budget_range.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.interests.id_for_label }}">{{ form.interests.label }}</label>
+                {{ form.interests }}
+                {% if form.interests.errors %}
+                    <div class="errors">
+                        {% for error in form.interests.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="btn-save">Save Changes</button>
+                <a href="{% url 'profile' %}" class="btn-cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
-
 {% endblock %}

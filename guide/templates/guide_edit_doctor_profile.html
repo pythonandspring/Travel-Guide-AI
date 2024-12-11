@@ -1,0 +1,43 @@
+{% extends 'guide_tem/base.html' %}
+{% load static %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'guide/css/guide_edit_doctor_profile.css' %}">
+{% endblock styling %}
+
+{% block content %}
+<div class="container">
+    <div class="edit-doctor-profile">
+        <h2>Edit Doctor Profile</h2>
+        
+        <!-- Edit Doctor's Information Form -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="name">Doctor's Name:</label>
+                <input type="text" id="name" name="name" value="{{ doctor.name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="specialty">Specialty:</label>
+                <input type="text" id="specialty" name="specialty" value="{{ doctor.specialty }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contact">Contact:</label>
+                <input type="text" id="contact" name="contact" value="{{ doctor.contact }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="profile_picture">Profile Picture:</label>
+                <input type="file" id="profile_picture" name="profile_picture">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+
+        <a href="{% url 'guide_dashboard' %}" class="btn-back-dashboard">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
