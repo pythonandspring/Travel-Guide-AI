@@ -4,7 +4,7 @@
 {% comment %} CSS {% endcomment %}
 {% block styling %}
 <link rel="stylesheet" href="{% static 'css/travel_style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+<link rel="stylesheet" href="{% static 'css/gallery.css' %}">
 {% endblock styling %}
 
 
@@ -15,33 +15,39 @@
         <div class="search-container">
             <input type="text" id="searchBar" class="search-bar" placeholder="Search for a place..." onkeyup="filterCards()">
             <button id="startVoiceButton" onclick="startVoiceSearch()">🎤</button>
-    </div>
-
-    <div id="voiceModal" class="modal">
-        <div class="modal-content">
-            <p>Please speak now...</p>
-            <button id="closeModal" class="close-btn">Close</button>
         </div>
-    </div>
-
-    <div class="card-container">
-        {% for place in places %}
-        <div class="card" onclick="openPlaceDetails('{{ place.name|escapejs }}', '{{ place.location|escapejs }}', '{{ place.description|escapejs }}', '{% static place.image %}')">
-            <img src="{% static place.image %}" alt="{{ place.name }}">
-            <h2>{{ place.name }}</h2>
+        <div id="results"></div>
+        <div id="voiceModal" class="modal">
+            <div class="modal-content">
+                <p>Please speak now...</p>
+                <button id="closeModal" class="close-btn">Close</button>
+            </div>
         </div>
-        {% endfor %}
+<div class="card-container">
+    {% for place in places %}
+    <div class="card" 
+         data-location="{{ place.location|escapejs }}" 
+         data-description="{{ place.description|escapejs }}" 
+         onclick="openPlaceDetails('{{ place.name|escapejs }}', '{{ place.location|escapejs }}', '{{ place.description|escapejs }}', '{% static place.image %}')">
+        <img src="{% static place.image %}" alt="{{ place.name }}">
+        <h2>{{ place.name }}</h2>
     </div>
+    {% endfor %}
+</div>
+
+</div>
+            
+
     </div>
 
     <div id="placeDetailsModal" class="modal">
-    <div class="modal-content">
-        <h2 id="placeName"></h2>
-        <img id="placeImage" alt="Place Image" style="width: 100%; height: 150px; object-fit: cover;">
-        <p id="placeLocation"></p>
-        <p id="placeDescription"></p>
-        <button class="close-btn" onclick="closePlaceDetailsModal()">Close</button>
-    </div>
+        <div class="modal-content">
+            <h2 id="placeName"></h2>
+            <img id="placeImage" alt="Place Image" style="width: 100%; height: 150px; object-fit: cover;">
+            <p id="placeLocation"></p>
+            <p id="placeDescription"></p>
+            <button class="close-btn" onclick="closePlaceDetailsModal()">Close</button>
+        </div>
     </div>
 {% endblock %}
 
@@ -50,18 +56,63 @@
 {% block javascript %}
 <script>
     function filterCards() {
-        const searchValue = document.getElementById('searchBar').value.toLowerCase();
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            const titleElement = card.querySelector('h2');
-            const descriptionElement = card.querySelector('p');
-            const cardContent = 
-                (titleElement ? titleElement.textContent.toLowerCase() : '') +
-                ' ' +
-                (descriptionElement ? descriptionElement.textContent.toLowerCase() : '');
-            card.style.display = cardContent.includes(searchValue) ? '' : 'none';
+    const searchValue = document.getElementById('searchBar').value.toLowerCase();
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        const titleElement = card.querySelector('h2');
+        const descriptionElement = card.querySelector('p');
+        const locationElement = card.getAttribute('data-location');
+        
+        const cardContent = 
+            (titleElement ? titleElement.textContent.toLowerCase() : '') +
+            ' ' +
+            (descriptionElement ? descriptionElement.textContent.toLowerCase() : '') +
+            ' ' +
+            (locationElement ? locationElement.toLowerCase() : '');
+        
+        card.style.display = cardContent.includes(searchValue) ? '' : 'none';
         });
     }
+    function initializeDefaultSearch(defaultQuery) {
+        const searchBar = document.getElementById('searchBar');
+        searchBar.value = defaultQuery; // Set default value
+        filterCards(); // Perform filtering
+    }
+    document.getElementById('search-bar').addEventListener('input', function(e) {
+            const query = e.target.value.trim();
+
+            if (query.length > 0) {
+                // Fetch data from the backend search API
+                fetch(`/search/?query=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const resultsDiv = document.getElementById('results');
+                        resultsDiv.innerHTML = ''; // Clear previous results
+
+                        if (data.length > 0) {
+                            // Display the results based on category and name
+                            data.forEach(result => {
+                                resultsDiv.innerHTML += `
+                                    <p><strong>${capitalizeFirstLetter(result.category)}:</strong> ${result.location}</p>
+                                    <hr>
+                                `;
+                            });
+                        } else {
+                            resultsDiv.innerHTML = '<p>No results found.</p>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching search results:', error);
+                    });
+            } else {
+                document.getElementById('results').innerHTML = ''; // Clear results if query is empty
+            }
+        });
+
+        // Helper function to capitalize the first letter of a string
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
 
     function startVoiceSearch() {
         const modal = document.getElementById('voiceModal');
@@ -106,6 +157,8 @@
             recognition.abort();
         };
     }
+
+
     function openPlaceDetails(placeName, placeLocation, placeDescription, placeImage) {
         const modal = document.getElementById('placeDetailsModal');
         document.getElementById('placeName').textContent = placeName;
@@ -114,8 +167,10 @@
         document.getElementById('placeImage').src = placeImage;
         modal.style.display = 'flex';
     }
+
     function closePlaceDetailsModal() {
         document.getElementById('placeDetailsModal').style.display = 'none';
     }
+    
 </script>
 {% endblock javascript %}

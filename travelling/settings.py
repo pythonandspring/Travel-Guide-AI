@@ -166,3 +166,10 @@ EMAIL_HOST_USER = 'enter your email'
 EMAIL_HOST_PASSWORD = 'enter you password'  
 DEFAULT_FROM_EMAIL = 'enter default email to send mail from.'
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

@@ -1,0 +1,71 @@
+{% extends "guide_tem/base.html" %}
+{% load static %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'guide/css/get_doctors.css' %}">
+{% endblock styling %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>Doctors</h1>
+        <!-- Button to trigger the popup -->
+        <a href="#" class="add-doctor-btn" onclick="openPopup()">Add Doctor</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Speciality</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Weekly Closed On</th>
+                <th>Service Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doctor in doctors %}
+            <tr>
+                <td>{{ doctor.name }}</td>
+                <td>{{ doctor.speciality }}</td>
+                <td>{{ doctor.phone }}</td>
+                <td>{{ doctor.email }}</td>
+                <td>{{ doctor.address }}</td>
+                <td>{{ doctor.get_weekly_closed_on_display }}</td>
+                <td>{{ doctor.open_time }}</td>
+                <td>
+                    <a href="{% url 'guide_edit_doctor' doctor.id %}" class="action-btn edit-btn">Edit</a>
+                    <a href="{% url 'delete_doctor' doctor.id %}" class="action-btn delete-btn">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">No doctors available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Popup Container for Adding Doctor -->
+<div id="addDoctorPopup" class="popup-container" style="display: none;">
+    <div class="popup">
+        <button class="close-btn" id="closeDoctorPopupBtn" aria-label="Close popup" onclick="closePopup()">&times;</button>
+        {% include 'add_doctor.html' %}
+    </div>
+</div>
+
+<script>
+    function openPopup() {
+        document.getElementById("addDoctorPopup").style.display = "flex";
+    }
+
+    function closePopup() {
+        document.getElementById("addDoctorPopup").style.display = "none";
+    }
+</script>
+
+{% endblock content %}

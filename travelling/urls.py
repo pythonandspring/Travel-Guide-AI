@@ -36,8 +36,13 @@ urlpatterns = [
     # path('search_voice/', views.search_voice, name='search_voice'),
     
     path('admin/', include('myadmin.urls')),
+    path('dj-admin/', admin.site.urls),
     path("guide/", include("guide.urls"), name='guide'),
     path("accommodation/", include("accommodation.urls"), name="accommodation"),
+    path('admin/', admin.site.urls),
+    path('', include('accommodation.urls')),
+    path('api/', include('travelling.api.urls')),
+
 
     path('get-states/', views.get_states, name="get_states"),
     path("get-cities/", views.get_cities, name="get_cities"),

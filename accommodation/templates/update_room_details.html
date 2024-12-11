@@ -95,7 +95,7 @@
         <form method="POST" action="{% url 'update_room_details' room_obj.id %}">
             {% csrf_token %}
         
-            <!-- Room Category Field (Disabled) -->
+            <!-- Room Category Field (Disabled) --> 
             <div class="form-group">
                 <label for="id_room_category">Room Category</label>
                 <select name="room_category" id="id_room_category" class="form-control" disabled>

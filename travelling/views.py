@@ -91,3 +91,4 @@ def get_places(request):
     city = request.GET.get('city')
     places = extract_places(city)
     return JsonResponse({'places': places})
+

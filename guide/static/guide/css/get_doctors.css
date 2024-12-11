@@ -1,0 +1,193 @@
+/* Basic Styles for Hotel Rooms Table */
+.table-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+td {
+    background-color: #fff;
+}
+
+button.add-room-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.add-room-btn:hover {
+    background-color: #45a049;
+}
+
+/* Popup Styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 50%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: popup-show 0.3s ease;
+}
+
+@keyframes popup-show {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.popup-content h2 {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+form input,
+form select,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+button.submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.submit-btn:hover {
+    background-color: #45a049;
+}
+
+button.cancel-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.cancel-btn:hover {
+    background-color: #e53935;
+}
+
+/* Responsive Design for Popup */
+@media (max-width: 768px) {
+    .popup-content {
+        width: 80%;
+    }
+}
+
+
+/* Footer Styles - Fixed to Bottom */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    z-index: 1000;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0 5px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+
+/* Add Room Button Styles */
+.add-room-btn {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    /* Green background */
+    color: #fff;
+    /* White text color */
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    /* Remove underline from <a> tag */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    /* Smooth transition effects */
+}
+
+.add-room-btn:hover {
+    background-color: #45a049;
+    /* Darker green when hovered */
+    transform: scale(1.05);
+    /* Slight zoom effect on hover */
+}
+
+.add-room-btn:active {
+    background-color: #388e3c;
+    /* Even darker green when clicked */
+    transform: scale(0.98);
+    /* Slight shrink effect when clicked */
+}
+
+/* Optional: Add spacing between the button and nearby elements */
+.add-room-btn {
+    margin-top: 20px;
+    /* Adds space above the button */
+}
