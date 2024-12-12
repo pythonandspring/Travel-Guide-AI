@@ -166,3 +166,12 @@ EMAIL_HOST_USER = 'enter your email'
 EMAIL_HOST_PASSWORD = 'enter you password'  
 DEFAULT_FROM_EMAIL = 'enter default email to send mail from.'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For console output
+
+# If you prefer saving emails to a file, use the file backend:
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = '/tmp/guide-emails'  # Specify a directory for email files
+
+EMAIL_HOST_USER = 'your_email@example.com'  # Optional for identification
+
+

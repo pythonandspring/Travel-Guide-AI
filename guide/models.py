@@ -32,7 +32,7 @@ class Place(models.Model):
     city = models.CharField(max_length=255)
 
     address = models.TextField()
-    location_on_map = models.URLField()
+    location_on_map = models.URLField(max_length=1000)
 
     # Information about history, speciality, appealing_text, size
     area_size = models.CharField(
@@ -60,6 +60,8 @@ class Place(models.Model):
         blank=True, 
         help_text="Add a brief, engaging description to attract and retain users."
     )
+
+    front_image = models.ImageField(upload_to=None, default="no picture")
 
     # nearest travelling options
     nearest_cities = models.TextField(
@@ -127,6 +129,7 @@ class Guide(models.Model):
     place_choice = [(place_option, place_option) for place_option in extract_places()]
 
     name = models.CharField(max_length=100)
+    profile_image = models.ImageField(upload_to=None, default=None)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
     password = models.CharField(max_length=100)
@@ -135,6 +138,7 @@ class Guide(models.Model):
     is_occupied = models.BooleanField(default=False)
     is_super_guide = models.BooleanField(default=False)
 
+    
     country = models.CharField(max_length=50, choices=country_choice, null=False)
     state = models.CharField(max_length=50, choices=state_choice, null=False)
     city = models.CharField(max_length=50, choices=city_choice, null=False)
@@ -171,7 +175,8 @@ class Doctor(models.Model):
         blank=True,
         help_text="Day of the week when the tour place is regularly closed."
     )
-    service_time = models.TimeField(auto_now=False, auto_now_add=False)
+    # service_time = models.TimeField(auto_now=False, auto_now_add=False, default="10:00:00-17:00:00")
+    open_time = models.CharField(max_length=500, default="10:00-17:00")
 
     def __str__(self):
-        return f"{self.name} - {self.specialty}"
+        return f"{self.name} - {self.speciality}"
