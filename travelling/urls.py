@@ -36,6 +36,7 @@ urlpatterns = [
     # path('search_voice/', views.search_voice, name='search_voice'),
     
     path('admin/', include('myadmin.urls')),
+    path('dj-admin/', admin.site.urls),
     path("guide/", include("guide.urls"), name='guide'),
     path("accommodation/", include("accommodation.urls"), name="accommodation"),
 

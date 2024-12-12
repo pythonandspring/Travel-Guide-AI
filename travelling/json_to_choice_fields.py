@@ -80,30 +80,8 @@ import pandas as pd
 import json
 import os
 
-# Resolve file path dynamically
-file_path = os.path.join(
-    os.path.dirname(__file__),
-    'Data',
-    'Location.json'
-)
-
-# Load JSON data with error handling
-try:
-    with open(file_path, mode='r') as file:
-        data = json.load(file)
-except FileNotFoundError:
-    print(f"Error: File not found at {file_path}")
-    exit(1)
-except json.JSONDecodeError as e:
-    print(f"Error decoding JSON: {e}")
-    exit(1)
-
-
-# Function to flatten JSON data
-
-#  file_path = r"c:\Users\desai\OneDrive\Documents\Travel Guide Using AI\Travel-Guide-AI\travelling\Data\Location.json"
+file_path = r"c:\Users\desai\OneDrive\Documents\Travel Guide Using AI\Travel-Guide-AI\travelling\Data\Location.json"
 # file_path = r"F:\____INFY_____\Travel-Guide-AI\travelling\Data\Location.json"
-file_path=r"C:\Users\Dell\Desktop\raunak\Travel-Guide-AI\travelling\Data\Location.json"
 
 
 with open(file_path, mode='r') as file:

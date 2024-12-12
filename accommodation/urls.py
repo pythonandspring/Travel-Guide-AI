@@ -18,10 +18,11 @@ urlpatterns = [
     path('image-rename/<int:image_id>', views.rename_hotel_image, name="rename_image_hotel"),
     path('image-popup/<int:image_id>/', views.hotel_image_popup, name="hotel_image_popup"), 
 
-    path('rooms', views.available_rooms, name='available_rooms'),
-    path('add_room_type', views.add_room_type, name='add_room_type'),
-    path('update_room_details/<int:room_id>', views.update_room, name='update_room_details'),
-    path('delete_room/<int:room_id>', views.delete_room_type, name="delete_room"),
+    path('rooms/', views.available_rooms, name='available_rooms'),
+    path('add_room_type/', views.add_room_type, name='add_room_type'),
+    path('update_room_details/<int:room_id>/', views.update_room, name='update_room_details'),
+    path('delete_room/<int:room_id>/', views.delete_room_type, name="delete_room"),
 
+    # path('delete_account/<int:hotel_id>/', ),
     path("contact_support", views.contact_support, name='contact_support')
 ]

@@ -4,7 +4,11 @@ from . import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 368f0cab03d642394047756cc90c7e8ed6494fda
     path("", travel_views.home),
 
     path('registration/', views.guide_registration, name='guide_registration'),
@@ -27,10 +31,13 @@ urlpatterns = [
 
     path("contact_support/", views.contact_support, name='contact_support'),
 
+<<<<<<< HEAD
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
 
+=======
+>>>>>>> 368f0cab03d642394047756cc90c7e8ed6494fda
 ]

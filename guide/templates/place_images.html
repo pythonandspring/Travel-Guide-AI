@@ -1,0 +1,116 @@
+{% extends 'guide_tem/base.html' %}
+
+{% block styling %}
+<style>
+    /* Popup styles */
+    .popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .popup-content {
+        background-color: white;
+        padding: 20px;
+        text-align: center;
+        max-width: 80%;
+        max-height: 80%;
+        overflow: hidden;
+    }
+
+    .popup-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .popup-actions {
+        margin-top: 10px;
+    }
+
+    .btn-close, .btn-delete {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .popup-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .popup-active {
+        overflow: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Place Images Gallery</h1>
+
+    <div class="image-gallery">
+        {% for image in images %}
+        <div class="image-container">
+            <img src="{{ image.image.url }}" alt="Image {{ forloop.counter }}" class="image-thumbnail"
+                 onclick="openPopup('{{ image.image.url }}', '{{ image.id }}')">
+        </div>
+        {% empty %}
+        <p>No images available for this place.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Image upload form -->
+    <div class="text-center">
+        <h2>Upload New Image</h2>
+        {% comment %} <form action="{% url 'get_images' place.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="image" required>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form> {% endcomment %}
+    </div>
+
+    <!-- Image popup -->
+    <div id="image-popup" class="popup">
+        <div class="popup-content">
+            <span class="popup-overlay" onclick="closePopup()">X</span>
+            <img id="popup-image" src="" alt="Popup Image" class="popup-image">
+            <div class="popup-actions">
+                <button class="btn-close" onclick="closePopup()">Close</button>
+                {% comment %} <form action="{% url 'delete_image' %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="image_id" id="image_id">
+                    <button type="submit" class="btn-delete">Delete</button>
+                </form> {% endcomment %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Open popup with the clicked image
+    function openPopup(imageUrl, imageId) {
+        document.getElementById('popup-image').src = imageUrl;
+        document.getElementById('image_id').value = imageId;
+        document.getElementById('image-popup').style.display = 'flex';
+        document.body.classList.add('popup-active');
+    }
+
+    // Close popup
+    function closePopup() {
+        document.getElementById('image-popup').style.display = 'none';
+        document.body.classList.remove('popup-active');
+    }
+</script>
+{% endblock %}

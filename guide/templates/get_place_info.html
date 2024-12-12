@@ -1,0 +1,109 @@
+{% extends 'guide_tem/base.html' %}
+{% load static %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static "guide/css/get_place.css" %}">
+{% endblock %}
+
+{% block content %}
+<div class="place-details">
+    {% if place_exist %}
+        <h1>{{ place.name }}</h1>
+        <div class="location">
+            <h3>Location Details</h3>
+            <p>{{ place.address }}</p>
+            <p><strong>Country:</strong> {{ place.country }}</p>
+            <p><strong>State:</strong> {{ place.state }}</p>
+            <p><strong>City:</strong> {{ place.city }}</p>
+            <iframe 
+                src="{{place.location_on_map}}" 
+                width="600" 
+                height="450" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
+
+        <div class="area-size">
+            <h3>Area Size</h3>
+            <p>{{ place.area_size }}</p>
+        </div>
+
+        <div class="history">
+            <h3>History</h3>
+            <p>{{ place.history }}</p>
+        </div>
+
+        <div class="speciality">
+            <h3>Speciality</h3>
+            <p>{{ place.speciality }}</p>
+        </div>
+
+        <div class="best-months-to-visit">
+            <h3>Best Months to Visit</h3>
+            <p>{{ place.best_months_to_visit }}</p>
+        </div>
+
+        <div class="appealing-text">
+            <h3>Appealing Description</h3>
+            <p>{{ place.appealing_text }}</p>
+        </div>
+
+        <div class="front-image">
+            <h3>Front Image</h3>
+            <img src="{{ place.front_image.url }}" alt="Front Image of {{ place.name }}" />
+        </div>
+
+        <div class="transport-options">
+            <h3>Nearest Traveling Options</h3>
+            <h4>Nearby Cities:</h4>
+            <p>{{ place.nearest_cities }}</p>
+
+            <h4>Nearby Airports:</h4>
+            <p>{{ place.airports }}</p>
+
+            <h4>Nearby Railway Stations:</h4>
+            <p>{{ place.railway_stations }}</p>
+
+            <h4>Road Distances from Railway Stations:</h4>
+            <p>{{ place.by_road_distances_from_railway_stations }}</p>
+
+            <h4>Road Distances from Airports:</h4>
+            <p>{{ place.by_road_distances_from_airports }}</p>
+
+            <h4>Road Distances from Nearby Cities:</h4>
+            <p>{{ place.by_road_distances_from_nearest_cities }}</p>
+        </div>
+
+        <div class="opening-hours">
+            <h3>Opening Hours</h3>
+            <h4>Weekly Closed On:</h4>
+            <p>{{ place.get_weekly_closed_on_display }}</p>
+
+            <h4>Weekdays Timing:</h4>
+            <p><strong>Opening Time:</strong> {{ place.week_days_opening_time }}</p>
+            <p><strong>Closing Time:</strong> {{ place.week_days_closing_time }}</p>
+
+            <h4>Weekends Timing:</h4>
+            <p><strong>Opening Time:</strong> {{ place.weekends_opening_time }}</p>
+            <p><strong>Closing Time:</strong> {{ place.weekends_closing_time }}</p>
+
+            <h4>Special Closed Dates:</h4>
+            <p>{{ place.special_closed_dates }}</p>
+        </div>
+
+        {% if guide.is_super_guide %}
+            <a href="{% url 'update_place_info' place.id %}" style="color:white;" class="edit-button">Edit</a>
+            <a href="{% url 'get_images' place.id %}" style="color:white;" class="edit-button">See Images</a>
+        {% endif %}
+    {% else %}
+        <h1>{{ guide.place }}</h1>
+        <div class="location">
+            <h3>Location Doesn't exist in Database</h3>
+            <p><strong>Country:</strong> {{ guide.country }}</p>
+            <p><strong>State:</strong> {{ guide.state }}</p>
+            <p><strong>City:</strong> {{ guide.city }}</p>
+    {% endif %}
+</div>
+{% endblock %}
