@@ -1,8 +1,8 @@
+from django.contrib.auth.hashers import make_password, check_password
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from pyexpat.errors import messages
-from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places
 from guide.models import Place, Guide
 from accommodation.models import Hotel
 from django.core.cache import cache
@@ -106,17 +106,23 @@ def terms_conditions(request):
 
 def get_states(request):
     country = request.GET.get('country')
-    states = extract_states(country)
+    states = Place.objects.filter(country=country).values_list(
+        'state', flat=True).distinct()
+    states = list(states)
     return JsonResponse({'states': states})
 
 
 def get_cities(request):
     state = request.GET.get('state')
-    cities = extract_cities(state)
+    cities = Place.objects.filter(state=state).values_list(
+        'city', flat=True).distinct()
+    cities = list(cities)
     return JsonResponse({'cities': cities})
 
 
 def get_places(request):
     city = request.GET.get('city')
-    places = extract_places(city)
+    places = Place.objects.filter(city=city).values_list('name', flat=True).distinct()
+    places = list(places)
     return JsonResponse({'places': places})
+
