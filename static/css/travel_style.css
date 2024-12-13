@@ -1,13 +1,18 @@
-/* Custom Navbar */
+@import url('https://fonts.googleapis.com/css?family=Raleway:600');
+
+body{
+    font-family: 'Raleway', sans-serif;
+}
 .custom-navbar {
     color: #FFFFFF; /* White text */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1030;  
-    background-color: #228B22; /* Forest Green background */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
+    z-index: 1030;
+    background: linear-gradient(to bottom, rgba(255, 99, 71, 0.9), rgba(210, 105, 30, 0.9)); /* Gradient with Tomato and a darker shade */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Stronger shadow for contrast */
+    backdrop-filter: blur(5px); /* Subtle blur effect */
 }
 
 .custom-navbar .nav-link {
@@ -15,12 +20,11 @@
 }
 
 .custom-navbar .nav-link:hover {
-    color: #98FB98; /* Mint Green highlight */
+    color: #CC5500; /* Mint Green highlight */
 }
 
 /* Custom Footer */
 .custom-footer {
-    background-color: #228B22; /* Forest Green background */
     padding: 1rem 1rem;
     position: fixed;
     bottom: 0;
@@ -28,16 +32,19 @@
     width: 100%;
     z-index: 1030;
     color: #FDF5E6; /* Soft Peach text */
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
+    background: linear-gradient(to bottom, rgba(255, 99, 71, 0.9), rgba(210, 105, 30, 0.9)); /* Gradient with Tomato and a darker shade */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Stronger shadow for contrast */
+    backdrop-filter: blur(5px); /* Subtle blur effect */
 }
 
 .custom-footer a {
-    color: #98FB98; /* Mint Green link color */
+    color: #FDF5E6; /* Mint Green link color */
     text-decoration: none;
 }
 
 .custom-footer a:hover {
-    text-decoration: underline;
+    color: #CC5500;
+    text-decoration: none;
 }
 
 /* Content adjustments */
@@ -54,25 +61,95 @@
 }
 
 .navbar-brand span {
-    font-size: 1.5rem; /* Adjust text size */
+    font-size: 2rem; /* Adjust text size */
     font-weight: bold;
     color: #FDF5E6; /* Soft Peach */
 }
 
 /* Navbar general styles */
 .navbar {
-    font-size: 1rem;
-    padding: 1rem 1.5rem;
+    font-size: 1.2rem;
+    padding: 0.5rem 1.5rem;
 }
 
 /* Button styles */
 .btn {
     color: #FFFFFF; /* White text */
-    background-color: #228B22; /* Forest Green */
+    background-color: #CC5500; /* Forest Green */
     border: none;
 }
 
 .btn:hover {
-    background-color: #98FB98; /* Mint Green */
-    color: #000000; /* Optional contrasting text */
+    background-color: #ee6402; /* Mint Green */
+    color: #ffffff; /* Optional contrasting text */
+}
+
+.hero-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    color: #FFDAB9; /* Soft Peach text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Soft shadow for the header */
+}
+
+.hero-section h1 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section p {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.explore-btn {
+    background-color: #FF6347; /* Tomato Red for the button */
+    border: none;
+    color: #FFFFFF;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.explore-btn:hover {
+    background-color: #FF4500; /* Orange-Red on hover */
+    color: #FFFFFF;
+}
+
+
+
+.separator {
+    width: 100%;
+    height: 6px; /* Adjust the height of the separator */
+    background-color: #FF6347; /* Choose a color for the separator background */
+    position: relative;
+}
+
+.separator::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #FF6347; /* Tomato Red color */
+    border-radius: 50px;
+}
+
+
+
+.separator::after {
+    content: '';
+    position: absolute;
+    bottom: -15px; /* Moves the triangle below the separator */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid #FF6347; /* Matches the separator background color */
+}
+
+.new-destinations h2 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    color: white; /* Text color for the section title */
 }
