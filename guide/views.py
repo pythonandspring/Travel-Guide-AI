@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> 368f0cab03d642394047756cc90c7e8ed6494fda
 from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
@@ -217,8 +214,6 @@ def delete_doctor(request, doctor_id, *args, **kwargs):
         messages.error(request, "Doctor Doesn't exist.")
         return redirect('get_doctors')
 
-<<<<<<< HEAD
-=======
 
 # <---------------------PLACE------------------------------------->
 
@@ -349,7 +344,6 @@ def delete_place_image(request, place_id, image_id, *args, **kwargs):
 def contact_support(request, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
     return render(request, 'contact.html', {'guide': guide_info})
->>>>>>> 368f0cab03d642394047756cc90c7e8ed6494fda
 
 # <---------------------PLACE------------------------------------->
 

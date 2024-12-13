@@ -142,8 +142,5 @@ class PlaceImageForm(forms.ModelForm):
 
         if commit:
             instance.save()
-<<<<<<< HEAD
         return instance
-=======
         return instance
->>>>>>> 368f0cab03d642394047756cc90c7e8ed6494fda
