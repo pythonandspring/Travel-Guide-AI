@@ -1,0 +1,88 @@
+{% extends "hotel_base/base.html" %}
+{% load static %}
+
+{% block styling %}
+  <link rel="stylesheet" href="{% static "accommodation/css/accomodations.css" %}">
+{% endblock styling %}
+
+{% block content %}
+<section class="profile">
+  <div class="profile-header">
+    <h2>Welcome, {{ hotel_owner.hotel_owner_name }}</h2>
+
+    <div class="logout">
+      <form method="post" action="{% url 'hotel_logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+      </form>
+    </div>
+
+    <a href="{% url 'update_dashboard' %}" class="btn-edit-profile">Edit Profile</a>
+
+  </div>
+
+
+
+  <div class="hotel-info">
+    <h3>Hotel Information</h3>
+    <p><strong>Hotel Name:</strong> {{ hotel_owner.hotel_name }}</p>
+    <p><strong>Contact Number:</strong> {{ hotel_owner.hotel_phone_number }}</p>
+    <p><strong>Email:</strong> {{ hotel_owner.owner_email }}</p>
+    <p><strong>Address:</strong> {{ hotel_owner.hotel_address }}</p>
+    <p><strong>Location on Map:</strong> <a href="{{ hotel_owner.location_on_map }}" target="_blank">View on Map</a></p>
+    <p><strong>Description:</strong> {{ hotel_owner.description }}</p>
+  </div>
+
+  <div class="rooms-info">
+    <h3>Room Details</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Room Type</th>
+          <th>Category</th>
+          <th>Price (per 6 hrs)</th>
+          <th>Total Rooms</th>
+          <th>Available Rooms</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for room in hotel_owner.rooms.all %}
+        <tr>
+          <td>{{ room.room_type }}</td>
+          <td>{{ room.room_category }}</td>
+          <td>${{ room.price_per_6hrs }}</td>
+          <td>{{ room.total_rooms }}</td>
+          <td>{{ room.available_rooms }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5">No rooms available.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="operating-hours">
+    <h3>Operating Hours</h3>
+    <p><strong>Weekdays:</strong> {{ hotel_owner.week_days_opening_time }} - {{ hotel_owner.week_days_closing_time }}</p>
+    <p><strong>Weekends:</strong> {{ hotel_owner.weekends_opening_time }} - {{ hotel_owner.weekends_closing_time }}</p>
+    <p><strong>Weekly Closed On:</strong> {{ hotel_owner.weekly_closed_on|default:"None" }}</p>
+    <p><strong>Special Closed Dates:</strong> 
+      {% if hotel_owner.special_closed_dates %}
+        {{ hotel_owner.special_closed_dates|join:", " }}
+      {% else %}
+        None
+      {% endif %}
+    </p>
+  </div>
+
+
+  <div class="contact-info">
+    <h3>Contact Information</h3>
+    <p><strong>Email:</strong> {{ hotel_owner.hotel_email }}</p>
+    <p><strong>Phone:</strong> {{ hotel_owner.hotel_phone_number }}</p>
+  </div>
+</section>
+{% endblock content %}

@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True, help_text="Enter a valid email address.")
 
@@ -19,6 +20,7 @@ class UserRegistrationForm(UserCreationForm):
 
     def clean_username(self):
         return self.cleaned_data.get('username')  
+
 
 class EditProfileForm(UserChangeForm):
     class Meta:

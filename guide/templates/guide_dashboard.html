@@ -1,0 +1,76 @@
+{% extends 'guide_tem/base.html' %}
+{% load static %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'guide/css/guide_dashboard.css' %}">
+{% endblock styling %}
+
+{% block content %}
+<section class="profile">
+  <!-- Guide Header -->
+  <div class="profile-header">
+    <h2>Welcome, {{ guide.name }}</h2>
+
+    <div class="logout">
+      <form method="post" action="{% url 'guide_logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+      </form>
+    </div>
+
+    <a href="{% url 'guide_edit_profile' %}" class="btn-edit-profile">Edit Profile</a>
+  </div>
+
+  <!-- Guide Information -->
+  <div class="guide-info">
+    <h3>Guide Information</h3>
+    <p><strong>Name:</strong> {{ guide.name }}</p>
+    <p><strong>Email:</strong> {{ guide.email }}</p>
+    <p><strong>Phone:</strong> {{ guide.phone }}</p>
+    <p><strong>Address:</strong> {{ guide.address }}</p>
+    <p><strong>Country:</strong> {{ guide.country }}</p>
+    <p><strong>State:</strong> {{ guide.state }}</p>
+    <p><strong>City:</strong> {{ guide.city }}</p>
+    <p><strong>Place:</strong> {{ guide.place }}</p>
+    <p><strong>Role:</strong> {{ guide.is_super_guide|yesno:"Super Guide,Guide" }}</p>
+  </div>
+
+  <!-- Doctor Information -->
+  {% if guide.is_super_guide %}
+    <div class="doctors-info">
+      <h3>Doctor Details</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Speciality</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Weekly Closed On</th>
+            <th>Service Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for doctor in guide.doctors.all %}
+          <tr>
+            <td>{{ doctor.name }}</td>
+            <td>{{ doctor.speciality }}</td>
+            <td>{{ doctor.phone }}</td>
+            <td>{{ doctor.email }}</td>
+            <td>{{ doctor.address }}</td>
+            <td>{{ doctor.weekly_closed_on|default:"Not Closed" }}</td>
+            <td>{{ doctor.open_time }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7">No doctors related to this guide.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+    
+</section>
+{% endblock %}

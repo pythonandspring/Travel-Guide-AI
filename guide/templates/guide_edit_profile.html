@@ -1,0 +1,199 @@
+{% extends 'guide_tem/base.html' %}
+{% load static %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'guide/css/guide_edit_profile.css' %}">
+{% endblock styling %}
+
+{% block content %}
+<div class="container">
+    <div class="edit-profile">
+        <h2>Edit Your Profile, {{ guide.name }}</h2>
+
+        <!-- Edit Profile Form -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Guide's Basic Profile Information -->
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="{{ guide.name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="{{ guide.email }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone" name="phone" value="{{ guide.phone }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" rows="3" required>{{ guide.address }}</textarea>
+            </div>
+
+            <h2>Location Details:</h2>
+            <div class="form-group country">
+                <label for="{{ form.country.id_for_label }}">{{ form.country.label }}:</label>
+                {{ form.country }}
+                {% if form.country.errors %}
+                    <div class="errors">
+                        {% for error in form.country.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group state">
+                <label for="{{ form.state.id_for_label }}">{{ form.state.label }}:</label>
+                {{ form.state }}
+                {% if form.state.errors %}
+                    <div class="errors">
+                        {% for error in form.state.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group city">
+                <label for="{{ form.city.id_for_label }}">{{ form.city.label }}:</label>
+                {{ form.city }}
+                {% if form.city.errors %}
+                    <div class="errors">
+                        {% for error in form.city.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group place">
+                <label for="{{ form.place.id_for_label }}">{{ form.place.label }}:</label>
+                {{ form.place }}
+                {% if form.place.errors %}
+                    <div class="errors">
+                        {% for error in form.place.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Optional Profile Picture -->
+            {% comment %} <div class="form-group">
+                <label for="profile_picture">Profile Picture:</label>
+                <input type="file" id="profile_picture" name="profile_picture">
+            </div> {% endcomment %}
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Leave empty to keep current password">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+
+        <!-- Back to Dashboard -->
+        <a href="{% url 'guide_dashboard' %}" class="btn-back-dashboard">Back to Dashboard</a>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    document.getElementById("id_country").addEventListener("change", function () {
+        const country = this.value;
+        fetch(`/get-states/?country=${country}`)
+            .then((response) => response.json())
+            .then((data) => {
+                const stateField = document.getElementById("id_state");
+                stateField.innerHTML = ""; // Clear the current state options
+                if (data.states.length > 0) {
+                    const defaultStateOption = document.createElement("option");
+                    defaultStateOption.textContent = "Select a state";
+                    defaultStateOption.disabled = true;
+                    defaultStateOption.selected = true;
+                    stateField.appendChild(defaultStateOption);
+
+                    data.states.forEach((state) => {
+                        const option = document.createElement("option");
+                        option.value = state;
+                        option.textContent = state;
+                        stateField.appendChild(option);
+                    });
+                }
+            });
+    });
+
+    document.getElementById("id_state").addEventListener("change", function () {
+        const country = document.getElementById("id_country").value;
+        const state = this.value;
+
+        fetch(`/get-cities/?country=${country}&state=${state}`)
+            .then((response) => response.json())
+            .then((data) => {
+                const cityField = document.getElementById("id_city");
+                cityField.innerHTML = ""; // Clear the current city options
+                if (data.cities.length > 0) {
+                    const defaultCityOption = document.createElement("option");
+                    defaultCityOption.textContent = "Select a city";
+                    defaultCityOption.disabled = true;
+                    defaultCityOption.selected = true;
+                    cityField.appendChild(defaultCityOption);
+
+                    data.cities.forEach((city) => {
+                        const option = document.createElement("option");
+                        option.value = city;
+                        option.textContent = city;
+                        cityField.appendChild(option);
+                    });
+                }
+            });
+    });
+
+    document.getElementById("id_city").addEventListener("change", function () {
+        const country = document.getElementById("id_country").value;
+        const state = document.getElementById("id_state").value;
+        const city = this.value;
+
+        fetch(`/get-places/?country=${country}&state=${state}&city=${city}`)
+            .then((response) => response.json())
+            .then((data) => {
+                const placeField = document.getElementById("id_place");
+                placeField.innerHTML = ""; // Clear the current place options
+                if (data.places.length > 0) {
+                    const defaultPlaceOption = document.createElement("option");
+                    defaultPlaceOption.textContent = "Select a place";
+                    defaultPlaceOption.disabled = true;
+                    defaultPlaceOption.selected = true;
+                    placeField.appendChild(defaultPlaceOption);
+
+                    data.places.forEach((place) => {
+                        const option = document.createElement("option");
+                        option.value = place;
+                        option.textContent = place;
+                        placeField.appendChild(option);
+                    });
+                }
+            });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const countryField = document.getElementById("id_country");
+        if (countryField) {
+            const defaultCountryOption = document.createElement("option");
+            defaultCountryOption.textContent = "Select a country";
+            defaultCountryOption.disabled = true;
+            defaultCountryOption.selected = true;
+            countryField.insertBefore(defaultCountryOption, countryField.firstChild);
+        }
+    });
+</script>
+{% endblock javascript %}

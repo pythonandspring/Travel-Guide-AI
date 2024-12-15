@@ -1,11 +1,12 @@
-{% extends 'home/base.html' %}
+{% extends 'cust_base/base.html' %}
 {% load static %}
 
-{% block content %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-</head>
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'customer/css/profile.css' %}">
+{% endblock styling %}
 
+{% block content %}
+<div  style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
 <div class="profile-container">
     <h1>Welcome, {{ user.username }}!</h1>
     <p><strong>Username:</strong> {{ user.username }}</p>
@@ -26,6 +27,7 @@
         <button class="btn-admin"><a href="{% url 'admin_dashboard' %}">Admin Dashboard</a></button>
     {% endif %}
 
+</div>
 </div>
 
 {% endblock %}

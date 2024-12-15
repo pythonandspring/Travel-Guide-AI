@@ -1,40 +1,46 @@
-{% extends 'home/base.html' %}
+{% extends 'cust_base/base.html' %}
 {% load static %}
 
-{% block content %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/feedback.css' %}">
-</head>
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'customer/css/feedback.css' %}">
+{% endblock styling %}
 
-<div class="feedback-container">
-    <h1>We Value Your Feedback!</h1>
-    <p>Please share your experience or suggestions to help us improve.</p>
-    <form action="#" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="visitor-name">Visitor Name:</label>
-            <input type="text" id="visitor-name" name="visitor_name" required>
-        </div>
-        <div class="form-group">
-            <label for="visitor-address">Visitor Address:</label>
-            <input type="text" id="visitor-address" name="visitor_address" required>
-        </div>
-        <div class="form-group">
-            <label for="visitor-email">Visitor Email:</label>
-            <input type="email" id="visitor-email" name="visitor_email" required>
-        </div>
-        <div class="form-group">
-            <label for="visitor-phone">Visitor Phone No:</label>
-            <input type="tel" id="visitor-phone" name="visitor_phone" required>
-        </div>
-        <div class="form-group">
-            <label for="feedback">Feedback:</label>
-            <textarea id="feedback" name="feedback" rows="5" required></textarea>
-        </div>
-        <button type="submit">Submit</button>
-    </form>    
+{% block content %}
+<div style="background: url('{% static "images/bg-f.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 2rem;">
+    <div class="feedback-container">
+        <h1 class="text-center">We Value Your Feedback!</h1>
+        <p class="text-center">Please share your experience or suggestions to help us improve.</p>
+
+        <!-- Feedback Form -->
+        <form action="#" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="visitor-name">Visitor Name:</label>
+                <input type="text" id="visitor-name" name="visitor_name" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="visitor-address">Visitor Address:</label>
+                <input type="text" id="visitor-address" name="visitor_address" placeholder="Enter your address" required>
+            </div>
+            <div class="form-group">
+                <label for="visitor-email">Visitor Email:</label>
+                <input type="email" id="visitor-email" name="visitor_email" placeholder="Enter your email address" required>
+            </div>
+            <div class="form-group">
+                <label for="visitor-phone">Visitor Phone No:</label>
+                <input type="tel" id="visitor-phone" name="visitor_phone" placeholder="Enter your phone number" required>
+            </div>
+            <div class="form-group">
+                <label for="feedback">Feedback:</label>
+                <textarea id="feedback" name="feedback" rows="5" placeholder="Write your feedback here..." required></textarea>
+            </div>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary btn-block mt-3">Submit</button>
+        </form>    
+    </div>
 </div>
 
+<!-- JavaScript for Alerts -->
 <script>
     alertify.set('notifier', 'position', 'top-right');
     {% if messages %}

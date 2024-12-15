@@ -1,11 +1,12 @@
 {% extends 'home/base.html' %}
 {% load static %}
 
-{% block content %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/edit_user.css' %}">
-</head>
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'myadmin/css/edit_user.csss' %}">
+{% endblock styling %}  
 
+{% block content %}
+<div  style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
 <div class="edit-user-container">
     <h1>Edit Profile for {{ user.username }}</h1>
     <form method="post">
@@ -66,6 +67,7 @@
             <a href="{% url 'admin_dashboard' %}" class="btn-cancel">Cancel</a>
         </div>
     </form>
+</div>
 </div>
 {% endblock %}
 

@@ -1,5 +1,5 @@
-from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render,redirect
+from django.http import JsonResponse
 from django.contrib import messages  
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -10,6 +10,7 @@ from django.contrib.auth import views as auth_views
 from .models import Profile
 from django.views.decorators.csrf import csrf_exempt
 import json
+from django.contrib.auth import logout
 
 
 def user_login(request):
@@ -28,7 +29,7 @@ def user_login(request):
             if user is not None:
                 messages.success(request, "Authentication successful for user!")
                 login(request, user)
-                return redirect('profile')  
+                return redirect('home')  
             else:
                 messages.error(request, "user doesn't exists.")
                 return redirect('register')
@@ -38,7 +39,7 @@ def user_login(request):
         print("DEBUG: GET request received for login")
         form = AuthenticationForm()  
 
-    return render(request, 'travel/login.html', {'form': form,'MEDIA_URL': settings.MEDIA_URL})
+    return render(request, 'travel/login.html', {'form': form})
 
 
 def register(request):
@@ -47,7 +48,6 @@ def register(request):
         if form.is_valid():
             user = form.save()
             Profile.objects.create(user=user)
-
             messages.success(request, "Your account has been created. You can now log in.")
             return redirect('login')  
         else:
@@ -56,7 +56,7 @@ def register(request):
         print("DEBUG: GET request received for register") 
         form = UserRegistrationForm()
 
-    return render(request, 'travel/register.html', {'form': form,'MEDIA_URL': settings.MEDIA_URL})
+    return render(request, 'travel/register.html', {'form': form})
 
 
 @login_required
@@ -93,7 +93,6 @@ def edit_profile(request):
             messages.success(request, "Profile edited successfully!")
             return redirect('profile')  
     else:
-
         form = EditProfileForm(instance=request.user)
         if user_profile:
             form.fields['location'].initial = user_profile.location
@@ -104,8 +103,7 @@ def edit_profile(request):
             form.fields['budget_range'].initial = user_profile.budget_range
             form.fields['interests'].initial = user_profile.interests
 
-
-    return render(request, 'travel/edit_profile.html', {'form': form,'MEDIA_URL': settings.MEDIA_URL})
+    return render(request, 'travel/edit_profile.html', {'form': form})
 
 
 @login_required
@@ -128,6 +126,7 @@ def user_profile(request):
         }
     )
 
+
 def user_logout(request):
     if request.user.is_authenticated:
         logout(request)  
@@ -142,6 +141,7 @@ class CustomPasswordResetView(auth_views.PasswordResetView):
         context['MEDIA_URL'] = settings.MEDIA_URL
         return context
 
+
 class CustomPasswordResetDoneView(auth_views.PasswordResetDoneView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -149,12 +149,14 @@ class CustomPasswordResetDoneView(auth_views.PasswordResetDoneView):
         context['MEDIA_URL'] = settings.MEDIA_URL
         return context
 
+
 class CustomPasswordResetConfirmView(auth_views.PasswordResetConfirmView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         print(settings.MEDIA_URL)  
         context['MEDIA_URL'] = settings.MEDIA_URL
         return context
+
 
 class CustomPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
     def get_context_data(self, **kwargs):
@@ -164,34 +166,18 @@ class CustomPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
         return context
 
 
+# <<<<<<<<<<<<<<< ACCOMMODATION WE NEED TO WORK ON THIS FOR CUSTOMER >>>>>>>>>>>>>>>>>>>>>
+# <<<<<<< this view is just for testing >>>>>>>
 
 
-#  From this section till end those are upcoming modules views. we have to add multiple apps to implement this.
-def gallery(request):
-    places = [
-        {"name": "Paris", "location": "France", "description": "Known for the Eiffel Tower, art, and its romantic ambiance.", "image": "images/paris.jpg"},
-        {"name": "Kyoto", "location": "Japan", "description": "Famous for its temples, traditional tea houses, and cherry blossoms.", "image": "images/kyoto.jpg"},
-        {"name": "Rome", "location": "Italy", "description": "Known for the Colosseum, rich history, and Italian cuisine.", "image": "images/rome.jpg"},
-        {"name": "Cape Town", "location": "South Africa", "description": "Famous for Table Mountain, beaches, and stunning landscapes.", "image": "images/cape_town.jpg"},
-        {"name": "Sydney", "location": "Australia", "description": "Home to the iconic Opera House and beautiful harbor views.", "image": "images/sydney.jpg"},
-        {"name": "New York City", "location": "USA", "description": "Famous for the Statue of Liberty, Times Square, and Central Park.", "image": "images/new_york.jpg"},
-        {"name": "Dubai", "location": "UAE", "description": "Known for luxury shopping, ultramodern architecture, and lively nightlife.", "image": "images/dubai.jpg"},
-        {"name": "Venice", "location": "Italy", "description": "Unique for its canals, gondolas, and beautiful architecture.", "image": "images/venice.jpg"},
+def accomodations(request):
+    if request.method == 'POST':
+        feedback_text = request.POST.get('accomodations')
+        messages.success(request, "Accomodations request has been sent!")
+        return redirect('accomodations')
 
-        {"name": "London", "location": "United Kingdom", "description": "Known for the Big Ben, Buckingham Palace, and the River Thames.", "image": "images/london.jpg"},
-        {"name": "Bangkok", "location": "Thailand", "description": "Famous for vibrant street life, cultural landmarks, and grand palaces.", "image": "images/bangkok.jpg"},
-        {"name": "Barcelona", "location": "Spain", "description": "Known for the architecture of Antoni Gaudí, including the Sagrada Familia.", "image": "images/barcelona.jpg"},
-        {"name": "Machu Picchu", "location": "Peru", "description": "Ancient Inca city set high in the Andes Mountains, known for its stunning views.", "image": "images/machu_picchu.jpg"},
-        {"name": "Istanbul", "location": "Turkey", "description": "Known for its historic sites such as the Hagia Sophia and Blue Mosque.", "image": "images/istanbul.jpg"},
-        {"name": "Santorini", "location": "Greece", "description": "Famous for its whitewashed buildings, crystal-clear waters, and sunsets.", "image": "images/santorini.jpg"},
-        {"name": "Berlin", "location": "Germany", "description": "Known for its historical landmarks such as the Berlin Wall and Brandenburg Gate.", "image": "images/berlin.jpg"},
-        {"name": "Athens", "location": "Greece", "description": "Famous for ancient monuments like the Acropolis and Parthenon.", "image": "images/athens.jpg"}
-    ]
+    return render(request,'travel/accomodations.html')
 
-    messages.warning(request,"Loading assets, please hold on")
-
-    context = {"places": places, 'MEDIA_URL': settings.MEDIA_URL}
-    return render(request, 'travel/gallery.html', context)
 
 def feedback(request):
     if request.method == 'POST':
@@ -199,53 +185,12 @@ def feedback(request):
         messages.success(request, "Thank you for your feedback!")
         return redirect('feedback')
     
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-
-    return render(request,'travel/feedback.html',context)
-
-def accomodations(request):
-    if request.method == 'POST':
-        feedback_text = request.POST.get('accomodations')
-        messages.success(request, "Accomodations request has been sent!")
-        return redirect('accomodations')
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/accomodations.html',context)
-
-def agentRegistration(request):
-    if request.method == 'POST':
-        feedback_text = request.POST.get('agentRegistration')
-        messages.success(request, "Agent Registration request has been sent!")
-        return redirect('agentRegistration')
-    
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/agentRegistration.html',context)
-
-def contact(request):    
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/contact.html',context)
-
-def privacy_policy(request):
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/privacy_policy.html',context)
-
-def terms_conditions(request):
-    context = {
-        'MEDIA_URL': settings.MEDIA_URL,
-    }
-    return render(request,'travel/terms_conditions.html',context)
+    return render(request,'travel/feedback.html')
 
 
-    
+#  From this section till end those are upcoming modules views. we have to add multiple apps to implement this.
+
+
 @csrf_exempt
 def search_voice(request):
     try:
@@ -260,5 +205,4 @@ def search_voice(request):
     except Exception as e:
         print(f"Error: {e}")
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-
 

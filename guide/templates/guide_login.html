@@ -1,0 +1,21 @@
+{% extends 'guide_tem/base.html' %}
+{% load static %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'guide/css/guide_login.css' %}">
+{% endblock styling %}
+
+{% block content %}
+
+<div class="container">
+    <div id="login-form">
+        <h2>Guide Login</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="{% url 'guide_registration' %}">Register here</a></p>
+    </div>
+</div>
+{% endblock %}
