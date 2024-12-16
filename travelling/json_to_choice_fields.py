@@ -1,9 +1,8 @@
 import pandas as pd
 import json
 
-# file_path = r"c:\Users\desai\OneDrive\Documents\Travel Guide Using AI\Travel-Guide-AI\travelling\Data\Location.json"
-file_path = r"F:\____INFY_____\Travel-Guide-AI\travelling\Data\Location.json"
-
+# file_path = r"C:\Users\ramat\OneDrive\Desktop\Module 1 completion\Travel-Guide-AI\travelling\json_to_choice_fields.py"
+file_path = r"C:\Users\ramat\OneDrive\Desktop\Module 1 completion\Travel-Guide-AI\travelling\json_to_choice_fields.py"
 
 with open(file_path, mode='r') as file:
     data = json.load(file)
