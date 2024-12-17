@@ -1,13 +1,14 @@
 
 from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.hashers import make_password, check_password, PBKDF2PasswordHasher
 from .forms import GuideRegistrationForm, GuideLoginForm, GuideDetailsUpdateForm
 from .forms import PlaceDetailsUpdateForm, PlaceImageForm
 from .forms import DoctorDetailsUpdateForm, DoctorForm
 from .models import Guide, Doctor, Place, Image
 from functools import wraps
 from django.shortcuts import redirect, render
+from django.conf import settings
 
 
 # <---------------------GUIDE------------------------------------->
@@ -23,7 +24,6 @@ def is_login(view_func):
             if guide.is_super_guide:
                 return view_func(request, guide_info=guide, *args, **kwargs)
             else:
-                print("1st I'm here")
                 return redirect('guide_login')
         else:
             if request.session.get('super_guide_id') or request.session.get('guide_id'):
@@ -36,7 +36,6 @@ def is_login(view_func):
                 finally:
                     return view_func(request, guide_info=guide, *args, **kwargs)
             else:
-                print("2nd I'm here")
                 return redirect('guide_login')
     return wrapper
 
@@ -219,15 +218,16 @@ def delete_doctor(request, doctor_id, *args, **kwargs):
 
 @is_login
 def get_place_info(request, *args, **kwargs):
+    print(settings.MEDIA_URL)
     guide_info = kwargs.pop('guide_info', None)
     place = Place.objects.filter(name=guide_info.place, city=guide_info.city, state=guide_info.state, country= guide_info.country).first()
     if place:
         request.session['place_exist'] = True
-        return render(request, 'get_place_info.html', {'place_exist': True,'place': place, 'guide': guide_info})
+        return render(request, 'get_place_info.html', {'place_exist': True, 'place': place, 'guide': guide_info, 'MEDIA_URL': settings.MEDIA_URL})
     else:
         request.session['place_exist'] = False
         messages.error(request, f"{guide_info.place} doesn't exist in database now.")
-        return render(request, 'get_place_info.html', {'place_exist': False, 'guide': guide_info})
+        return render(request, 'get_place_info.html', {'place_exist': False, 'guide': guide_info, 'MEDIA_URL': settings.MEDIA_URL})
 
 
 @is_super_guide
