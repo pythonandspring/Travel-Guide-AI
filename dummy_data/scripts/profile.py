@@ -4,7 +4,7 @@ import csv
 db_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'gd456nds',
+    'password': 'root',
     'database': 'user',
     'charset': 'utf8mb4'
 }
@@ -22,8 +22,7 @@ try:
         headers = next(csv_reader)
 
         placeholders = ', '.join(['%s'] * len(headers))
-        insert_query = f"INSERT INTO {
-            table_name} ({', '.join(headers)}) VALUES ({placeholders})"
+        insert_query = f"INSERT INTO {table_name} ({', '.join(headers)}) VALUES ({placeholders})"
 
         for row in csv_reader:
             cursor.execute(insert_query, row)
