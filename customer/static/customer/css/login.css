@@ -1,16 +1,24 @@
-
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
-    background: linear-gradient(to bottom right, #194c7f, #001f3f);
-    color: #333;
-    background-color: rgb(32, 32, 93);
+    background: linear-gradient(to bottom right, #eae9f8, #efe5e7);
     display: flex;
     flex-direction: column;
-    min-height: 100vh; 
+    height: 100vh;
+    overflow-y:normal ;
+    overflow-x: hidden;
+    position: relative;
+    transition: background 0.3s ease;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: block;
+    z-index: 1000;
 }
 
 .login-container {
@@ -19,18 +27,21 @@ body {
     margin: 50px auto;
     padding: 30px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.9); 
+    background:  rgba(255, 233, 233, 0.9);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    backdrop-filter: blur(10px); 
-    flex: 1; 
-    margin-bottom: 50px; 
+    transform: translateY(10px);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
 }
+
+.login-container:hover {
+    transform: translateY(0) scale(1.05); }
 
 .login-container h1 {
     font-size: 28px;
-    font-weight: bold;
-    color: #ea3535;
+    font-weight:normal;
+    color: #033660;
     margin-bottom: 20px;
     margin-top: -10px;
 }
@@ -43,7 +54,7 @@ body {
 .login-container .form-group label {
     display: block;
     font-weight: 500;
-    color: #555;
+    color: #141313;
     margin-bottom: 5px;
 }
 
@@ -51,16 +62,16 @@ body {
     width: 100%;
     padding: 10px;
     font-size: 14px;
-    border: 1px solid #ccc;
+    border: 1px solid #f4e4e4;
     border-radius: 5px;
     transition: all 0.3s ease;
 }
-
 
 .login-container .form-group input:focus {
     border-color: #060707;
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
     outline: none;
+    transform: scale(1.02);
 }
 
 .errors p {
@@ -73,8 +84,8 @@ body {
     width: 100%;
     padding: 12px;
     font-size: 16px;
-    background-color: #28A745;
-    color: rgb(222, 227, 161);
+    background-color: #070908;
+    color: rgb(255, 255, 252);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -82,15 +93,14 @@ body {
     transition: background-color 0.3s ease;
 }
 
-
 .btn-submit:hover {
-    background-color: #218838;
+    background-color: #111412;
 }
 
 p {
     margin-top: 15px;
     font-size: 14px;
-    color: #555;
+    color: #a01010;
 }
 
 p a {
@@ -102,20 +112,9 @@ p a:hover {
     text-decoration: underline;
 }
 
-div[style*="background: url"] {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-    background: rgba(0, 0, 0, 0.6);
-    background-blend-mode: darken;
-    color: white;
-}
-
 footer {
     width: 100%;
-    height: 60px; 
+    height: 40px; 
     background-color: black; 
     color: white;
     justify-content: center; 
@@ -123,6 +122,6 @@ footer {
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 1000;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-}
+    z-index: 1000;}
+
+    

@@ -90,18 +90,18 @@ WSGI_APPLICATION = 'travelling.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'user',
-    #     'USER': 'root',                
-    #     'PASSWORD': 'gd456nds',                       
-    #     'HOST': '127.0.0.1',                    
-    #     'PORT': '3306',   
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': f"{BASE_DIR}/db.sqlite3",
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'user',
+        'USER': 'root',                
+        'PASSWORD': 'gd456nds',                       
+        'HOST': '127.0.0.1',                    
+        'PORT': '3306',   
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': f"{BASE_DIR}/db.sqlite3",
+    # }
 }
 
 # Password validation
@@ -177,4 +177,13 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'enter your email'
 EMAIL_HOST_PASSWORD = 'enter you password'  
 DEFAULT_FROM_EMAIL = 'enter default email to send mail from.'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For console output
+
+# If you prefer saving emails to a file, use the file backend:
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = '/tmp/guide-emails'  # Specify a directory for email files
+
+EMAIL_HOST_USER = 'your_email@example.com'  # Optional for identification
+
 

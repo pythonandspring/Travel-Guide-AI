@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password, PBKDF2PasswordHasher
@@ -348,3 +349,132 @@ def contact_support(request, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
     return render(request, 'contact.html', {'guide': guide_info})
 
+# <---------------------PLACE------------------------------------->
+
+@is_login
+def get_place_info(request, *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    place = Place.objects.filter(name=guide_info.place, city=guide_info.city, state=guide_info.state, country= guide_info.country).first()
+    if place:
+        request.session['place_exist'] = True
+        return render(request, 'get_place_info.html', {'place_exist': True,'place': place, 'guide': guide_info})
+    else:
+        request.session['place_exist'] = False
+        messages.error(request, f"{guide_info.place} doesn't exist in database now.")
+        return render(request, 'get_place_info.html', {'place_exist': False, 'guide': guide_info})
+
+
+@is_super_guide
+def update_place_info(request, place_id, *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    place = Place.objects.filter(id=place_id, name=guide_info.place, city=guide_info.city,
+                                 state=guide_info.state, country=guide_info.country).first()
+    if place:
+        if request.method == "POST":
+            form = PlaceDetailsUpdateForm(request.POST, instance=place)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'place information updated successfully.')
+                return redirect('get_place_info')
+            else:
+                messages.error(request, "please enter valid details")
+                return redirect('get_place_info')
+        else:
+            form = PlaceDetailsUpdateForm(instance=place)
+        return render(request, 'update_place_info.html', {'form': form})
+    else:
+        request.session['place_exist'] = False
+        guide_place_info = {
+            'place': guide_info.place,
+            'city': guide_info.city,
+            'state': guide_info.state,
+            'country': guide_info.country
+        }
+        messages.error(request, "place doesn't exist.")
+        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
+
+
+@is_super_guide
+def get_images(request, place_id ,*args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    place = Place.objects.filter(id=place_id, name=guide_info.place, city=guide_info.city,
+                                 state=guide_info.state, country=guide_info.country).first()
+    if place:
+        images = Image.objects.filter(place=place.id)
+        if images:
+            return render(request, 'place_images.html', {'images_exist': True,'images': images})
+        else:
+            return render(request, 'place_images.html', {'images_exist': False})
+    else:
+        request.session['place_exist'] = False
+        guide_place_info = {
+            'place': guide_info.place,
+            'city': guide_info.city,
+            'state': guide_info.state,
+            'country': guide_info.country
+        }
+        messages.error(request, "place doesn't exist.")
+        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
+
+
+@is_super_guide
+def add_place_image(request, place_id, *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    place = Place.objects.filter(name=guide_info.place, city=guide_info.city,
+                                 state=guide_info.state, country=guide_info.country).first()
+    if place:
+        if request.method == "POST":
+            form = PlaceImageForm(request.POST, place_id=place.id)
+            if form.is_valid():
+                form.save()
+                return redirect('get_images')
+            else:
+                messages.error(request, "please enter valid details")
+                return redirect('get_images')
+        else:
+            form = PlaceImageForm(place_id=place.id)
+        return render(request, 'place_image.html', {'form': form, 'guide': guide_info})
+    else:
+        request.session['place_exist'] = False
+        guide_place_info = {
+            'place': guide_info.place,
+            'city': guide_info.city,
+            'state': guide_info.state,
+            'country': guide_info.country
+        }
+        messages.error(request, "place doesn't exist.")
+        return render(request, 'place/place_info', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
+
+
+@is_super_guide
+def delete_place_image(request, place_id, image_id, *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    place = Place.objects.filter(name=guide_info.place, city=guide_info.city,
+                                 state=guide_info.state, country=guide_info.country).first()
+    if place:
+        try:
+            image = Image.objects.get(place=place.id, id=image_id)
+            image.delete()
+            messages.success(request, "Image deleted successfully.")
+            return redirect('get_images')
+        except Image.DoesNotExist:
+            messages.error(request, "Image doesn't exists.")
+            return redirect('get_images')
+    else:
+        request.session['place_exist'] = False
+        guide_place_info = {
+            'place': guide_info.place,
+            'city': guide_info.city,
+            'state': guide_info.state,
+            'country': guide_info.country
+        }
+        messages.error(request, "place doesn't exist.")
+        return render(request, 'place/place_info', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
+
+    
+ 
+# <---------------------CONTACT------------------------------------->
+@is_login
+def contact_support(request, *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    return render(request, 'contact.html', {'guide': guide_info})
