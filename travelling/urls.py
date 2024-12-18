@@ -39,9 +39,11 @@ urlpatterns = [
     path('dj-admin/', admin.site.urls),
     path("guide/", include("guide.urls"), name='guide'),
     path("accommodation/", include("accommodation.urls"), name="accommodation"),
-    path('admin/', admin.site.urls),
-    path('', include('accommodation.urls')),
-    path('api/', include('travelling.api.urls')),
+    path('api/', include('accommodation.api.urls')),
+    path('api/', include('customer.api.urls')),
+    path('api/', include('guide.api.urls')),
+
+    
 
 
     path('get-states/', views.get_states, name="get_states"),
