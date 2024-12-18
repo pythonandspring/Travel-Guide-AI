@@ -1,0 +1,204 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+    <div class="content-padding">
+        <!-- Hero Section -->
+        <section class="hero bg-dark text-white text-center py-5" >
+            <div class="container">
+                <h1 class="display-4">Welcome to Your Travel Guide</h1>
+                <p class="lead">Discover the best destinations and accommodations for your next adventure.</p>
+                <a href="#" class="btn btn-light btn-lg">Explore Travel Guides</a>
+            </div>
+        </section>
+
+        <!-- Special Offers Section -->
+        <section class="special-offers py-5 bg-light" style="background: url('{% static "images/bg.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="container" style="background: rgba(255, 255, 255, 0.2); padding: 2rem; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
+                <h2 class="text-center mb-4" style="color: #333; font-weight: bold;">Special Offers</h2>
+                <ul class="list-group text-center" style="font-size: 1.1rem; font-weight: 500;">
+                    <li class="list-group-item" style="background: rgba(255, 255, 255, 0.2); border: 1px solid #ddd; margin-bottom: 0.5rem;">
+                        Rs 3000 - Rs 5000 (2 nights - 3 days)
+                    </li>
+                    <li class="list-group-item" style="background: rgba(255, 255, 255, 0.2); border: 1px solid #ddd; margin-bottom: 0.5rem;">
+                        Rs 2000 - Rs 4000 (3 nights - 4 days)
+                    </li>
+                    <li class="list-group-item" style="background: rgba(255, 255, 255, 0.2); border: 1px solid #ddd; margin-bottom: 0.5rem;">
+                        Rs 4000 - Rs 8000 (5 nights - 8 days)
+                    </li>
+                    <li class="list-group-item" style="background: rgba(255, 255, 255, 0.2); border: 1px solid #ddd;">
+                        Rs 5000 - Rs 10000 (7 nights - 10 days)
+                    </li>
+                </ul>
+                <p class="text-center mt-4" style="color: #555; font-size: 1.2rem;">
+                    <strong>Special Offer:</strong> Discover our exclusive packages for an unforgettable experience!
+                </p>
+            </div>
+        </section>
+        
+        
+
+
+        <!-- New Destinations Section -->
+    <section class="new-destinations py-5" style="background: url('{% static "images/bg-y.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
+        <div class="container">
+            <h2 class="text-center mb-4 " style="color: white;">New Destinations with Special Offers</h2>
+            <div class="row">
+                <!-- Destination: Mysore -->
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card border-primary">
+                        <img src="{% static 'images/mysore.jpg'%}" class="card-img-top" alt="Mysore">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Mysore</h5>
+                            <p class="card-text">
+                                Special Offer This Summer! Visit Mysore - 2 Day and 3 Night Stay, Breakfast Complimentary.
+                                <strong>Rs 5000 per Person</strong>
+                            </p>
+                            <a href="#" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination: Delhi -->
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card border-primary">
+                        <img src="{% static 'images/delhi.jpg'%}" class="card-img-top" alt="Delhi">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">New Delhi</h5>
+                            <p class="card-text">
+                                Special Offer This Summer! Visit New Delhi - 2 Day and 3 Night Stay, Breakfast Complimentary.
+                                <strong>Rs 7000 per Person</strong>
+                            </p>
+                            <a href="#" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination: Agra -->
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card border-primary">
+                        <img src="{% static 'images/agra.jpg'%}" class="card-img-top" alt="Agra">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Agra</h5>
+                            <p class="card-text">
+                                Special Offer This Summer! Visit Taj Mahal - 2 Day and 3 Night Stay, Breakfast Complimentary.
+                                <strong>Rs 10000 per Person</strong>
+                            </p>
+                            <a href="#" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination: Manali -->
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card border-primary">
+                        <img src="{% static 'images/manali.jpg'%}" class="card-img-top" alt="Manali">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Manali</h5>
+                            <p class="card-text">
+                                Special Offer This Summer! Visit Himachal Pradesh - 2 Day and 3 Night Stay, Breakfast Complimentary.
+                                <strong>Rs 6000 per Person</strong>
+                            </p>
+                            <a href="#" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Booking Instructions Section -->
+        <section class="booking-instructions py-5" style="background: url('{% static "images/bg-w.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="container">
+                <h2 class="text-center mb-4">How to Book Your Holidays</h2>
+                <p class="text-center">
+                    The user-friendly Travel Guide website makes it easy for enthusiastic travelers to plan and book holidays at the click of a button. Pick any package that meets your needs, or customize your package by choosing hotels, sightseeing, and activities to suit your preferences.
+                </p>
+                <p class="text-center">
+                    You can book your tour packages offline by dropping a query or chatting with our travel experts for immediate support. With Travel Guide, planning and booking your ideal holiday has never been easier.
+                </p>
+            </div>
+        </section>
+
+        <!-- Featured Destinations Section -->
+        <section class="featured-destinations py-5" style="background: url('{% static "images/bg-y.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="container">
+                <h2 class="text-center mb-4" style="color:white;">Featured Destinations</h2>
+                <div class="row">
+                    <!-- Destination 1 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{% static 'images/dubai.jpg'%}" class="card-img-top" alt="Dubai">
+                            <div class="card-body">
+                                <h5 class="card-title">Dubai</h5>
+                                <p class="card-text">Discover the stunning skyline, luxury shopping, and vibrant culture of Dubai!</p>
+                                <a href="#" class="btn btn-primary">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Destination 2 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{% static 'images/tokyo.jpg'%}" class="card-img-top" alt="Destination 2">
+                            <div class="card-body">
+                                <h5 class="card-title">Tokyo</h5>
+                                <p class="card-text">Explore the blend of tradition and technology in the vibrant city of Tokyo.</p>
+                                <a href="#" class="btn btn-primary">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Destination 3 -->
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{% static 'images/new_york.jpg'%}" class="card-img-top" alt="Destination 3">
+                            <div class="card-body">
+                                <h5 class="card-title">New York</h5>
+                                <p class="card-text">The city that never sleeps! Visit Times Square, Central Park, and more.</p>
+                                <a href="#" class="btn btn-primary">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Travel Tips Section -->
+        <section class="travel-tips bg-light py-5" style="background:url('{% static "images/bg-w.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="container">
+                <h2 class="text-center mb-4">Travel Tips</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>How to Pack Light</h5>
+                        <p>Learn the art of packing only the essentials and travel light to make your trips hassle-free.</p>
+                        <a href="#" class="btn btn-outline-dark">Read More</a>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Top Budget-Friendly Destinations</h5>
+                        <p>Discover affordable destinations that offer the best experiences without breaking the bank.</p>
+                        <a href="#" class="btn btn-outline-dark">Read More</a>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Travel Safety Tips</h5>
+                        <p>Stay safe on your travels with these essential tips for every traveler.</p>
+                        <a href="#" class="btn btn-outline-dark">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Signup Section -->
+        <section class="newsletter py-5 bg-dark text-white text-center">
+            <div class="container" style="max-width: 80%; width: 100%; padding-left: 15px; padding-right: 15px;">
+                <h2>Stay Updated!</h2>
+                <p>Sign up for our newsletter and receive the latest travel tips and guides directly to your inbox.</p>
+                <form action="#" method="POST">
+                    <input type="email" name="email" class="form-control mb-3" placeholder="Enter your email" required style="max-width: 400px; width: 100%; margin: 0 auto;">
+                    <button type="submit" class="btn btn-light">Subscribe Now</button>
+                </form>
+            </div>
+        </section>
+    </div>
+{% endblock %}

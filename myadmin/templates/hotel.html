@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Hotel List</title>
+</head>
+<body>
+    <h1>Hotel List</h1>
+    <ul>
+        {% for hotel in hotels %}
+        <li>
+            <strong>{{ hotel.name }}</strong> - {{ hotel.location }} 
+            <img src="{{ hotel.image.url }}" alt="Hotel Image" style="width: 100px;">
+            <a href="{% url 'delete_hotel' hotel.id %}">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'admin_dashboard' %}">Back to Dashboard</a>
+</body>
+</html>

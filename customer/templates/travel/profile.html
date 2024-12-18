@@ -1,0 +1,33 @@
+{% extends 'cust_base/base.html' %}
+{% load static %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'customer/css/profile.css' %}">
+{% endblock styling %}
+
+{% block content %}
+<div  style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
+<div class="profile-container">
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Firstname:</strong> {{ user.first_name }}</p>
+    <p><strong>Lastname:</strong> {{ user.last_name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Location:</strong> {{ profile.location }}</p>
+    <p><strong>Birth Date:</strong> {{ profile.birth_date }}</p>
+    <p><strong>Travel Preferences:</strong> {{ profile.travel_preferences }}</p>
+    <p><strong>Languages Spoken:</strong> {{ profile.languages_spoken }}</p>
+    <p><strong>Budget Range:</strong> {{ profile.budget_range }}</p>
+    <p><strong>Interests:</strong> {{ profile.interests }}</p>
+    
+    <button class="btn-lg"><a href="{% url 'logout' %}">Logout</a></button>
+    <button class="btn-edit"><a href="{% url 'edit_profile' %}">Edit Profile</a></button>
+
+    {% if user.is_staff %}
+        <button class="btn-admin"><a href="{% url 'admin_dashboard' %}">Admin Dashboard</a></button>
+    {% endif %}
+
+</div>
+</div>
+
+{% endblock %}

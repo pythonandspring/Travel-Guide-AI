@@ -1,0 +1,182 @@
+{% extends 'guide_tem/base.html' %}
+
+{% block styling %}
+    <style>
+        /* Main Container */
+        .form-container {
+            width: 70%;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Form Styling */
+        .update-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Messages */
+        .messages {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .message {
+            margin: 10px 0;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="form-container">
+        <h1 class="page-title">Update Place Information</h1>
+
+        {% if messages %}
+            <div class="messages">
+                <ul>
+                    {% for message in messages %}
+                        <li class="message">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data" class="update-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="area_size">Area Size</label>
+                {{ form.area_size }}
+            </div>
+            <div class="form-group">
+                <label for="history">History</label>
+                {{ form.history }}
+            </div>
+            <div class="form-group">
+                <label for="speciality">Speciality</label>
+                {{ form.speciality }}
+            </div>
+            <div class="form-group">
+                <label for="best_months_to_visit">Best Months to Visit</label>
+                {{ form.best_months_to_visit }}
+            </div>
+            <div class="form-group">
+                <label for="appealing_text">Appealing Text</label>
+                {{ form.appealing_text }}
+            </div>
+            <div class="form-group">
+                <label for="nearest_cities">Nearest Cities</label>
+                {{ form.nearest_cities }}
+            </div>
+            <div class="form-group">
+                <label for="airports">Airports</label>
+                {{ form.airports }}
+            </div>
+            <div class="form-group">
+                <label for="railway_stations">Railway Stations</label>
+                {{ form.railway_stations }}
+            </div>
+            <div class="form-group">
+                <label for="by_road_distances_from_railway_stations">By Road Distances from Railway Stations</label>
+                {{ form.by_road_distances_from_railway_stations }}
+            </div>
+            <div class="form-group">
+                <label for="by_road_distances_from_airports">By Road Distances from Airports</label>
+                {{ form.by_road_distances_from_airports }}
+            </div>
+            <div class="form-group">
+                <label for="by_road_distances_from_nearest_cities">By Road Distances from Nearest Cities</label>
+                {{ form.by_road_distances_from_nearest_cities }}
+            </div>
+            <div class="form-group">
+                <label for="weekly_closed_on">Weekly Closed On</label>
+                {{ form.weekly_closed_on }}
+            </div>
+            <div class="form-group">
+                <label for="special_closed_dates">Special Closed Dates</label>
+                {{ form.special_closed_dates }}
+            </div>
+            <div class="form-group">
+                <label for="week_days_opening_time">Weekdays Opening Time</label>
+                {{ form.week_days_opening_time }}
+            </div>
+            <div class="form-group">
+                <label for="week_days_closing_time">Weekdays Closing Time</label>
+                {{ form.week_days_closing_time }}
+            </div>
+            <div class="form-group">
+                <label for="weekends_opening_time">Weekends Opening Time</label>
+                {{ form.weekends_opening_time }}
+            </div>
+            <div class="form-group">
+                <label for="weekends_closing_time">Weekends Closing Time</label>
+                {{ form.weekends_closing_time }}
+            </div>
+
+            <button type="submit" class="submit-btn">Save Changes</button>
+        </form>
+    </div>
+{% endblock %}
+
