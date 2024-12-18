@@ -41,8 +41,7 @@ try:
         active = headers.index('is_active')
 
         placeholders = ', '.join(['%s'] * len(headers))
-        insert_query = f"INSERT INTO {
-            table_name} ({', '.join(headers)}) VALUES ({placeholders})"
+        insert_query = f"INSERT INTO {table_name} ({', '.join(headers)}) VALUES ({placeholders})"
 
         for row in csv_reader:
             processed_row = row[:]
