@@ -1,13 +1,64 @@
 {% load static %}
 <div class="upload-form">
-    <form method="POST" enctype="multipart/form-data" action="{% url 'add_image_hotel' %}">
+    <form id="uploadForm" method="POST" enctype="multipart/form-data" action="{% url 'add_image_hotel' %}" onsubmit="return validateUploadForm();">
         {% csrf_token %}
+        
         <label for="name">Image Name:</label>
-        <input type="text" id="name" name="name" placeholder="Enter image name" required><br>
+        <input type="text" id="name" name="name" placeholder="Enter image name" required>
+        <span class="error" id="nameError">Please enter a valid image name.</span><br>
 
         <label for="image">Select Image:</label>
-        <input type="file" id="image" name="image" required><br>
+        <input type="file" id="image" name="image" required>
+        <span class="error" id="imageError">Please select an image file.</span><br>
 
         <button type="submit" onclick="refreshPage()">Upload</button>
     </form>
 </div>
+
+<style>
+    .error {
+        color: red;
+        display: none; /* Hide error messages by default */
+    }
+    .input-error {
+        border: 1px solid red; /* Red border for invalid input */
+    }
+</style>
+
+<script>
+    function validateUploadForm() {
+        const nameInput = document.getElementById('name');
+        const imageInput = document.getElementById('image');
+        const nameError = document.getElementById('nameError');
+        const imageError = document.getElementById('imageError');
+
+        // Reset previous error states
+        nameInput.classList.remove('input-error');
+        imageInput.classList.remove('input-error');
+        nameError.style.display = 'none';
+        imageError.style.display = 'none';
+
+        let isValid = true;
+
+        // Validate image name
+        if (nameInput.value.trim() === '') {
+            nameInput.classList.add('input-error');
+            nameError.style.display = 'block';
+            isValid = false; // Mark as invalid
+        }
+
+        // Validate image file selection
+        if (imageInput.files.length === 0) {
+            imageInput.classList.add('input-error');
+            imageError.style.display = 'block';
+            isValid = false; // Mark as invalid
+        }
+
+        return isValid; // Return the overall validity
+    }
+
+    function refreshPage() {
+        // Optional: Refresh the page after upload
+        // This can be customized based on your needs
+    }
+</script>

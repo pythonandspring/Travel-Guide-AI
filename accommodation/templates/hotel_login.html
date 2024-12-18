@@ -3,6 +3,15 @@
 
 {% block styling %}
     <link rel="stylesheet" href="{% static 'guide/css/guide_login.css' %}">
+    <style>
+        .error {
+            color: red;
+            display: none; /* Hide error messages by default */
+        }
+        .input-error {
+            border: 1px solid red; /* Red border for invalid input */
+        }
+    </style>
 {% endblock styling %}
 
 {% block content %}
@@ -10,11 +19,12 @@
 <div class="container">
     <div id="login-form">
         <h2>Hotel Login</h2>
-        <form method="POST" action="{% url 'hotel_login' %}">
+        <form id="loginForm" method="POST" action="{% url 'hotel_login' %}" onsubmit="return validateLoginForm();">
             {% csrf_token %}
             <div class="form-group">
                 {{ form.email.label_tag }}
                 {{ form.email }}
+                <span class="error" id="emailError">Please enter a valid email address.</span>
                 {% if form.email.help_text %}
                     <small class="text-muted">{{ form.email.help_text }}</small>
                 {% endif %}
@@ -22,11 +32,45 @@
             <div class="form-group">
                 {{ form.password.label_tag }}
                 {{ form.password }}
+                <span class="error" id="passwordError">Please enter your password.</span>
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
         <p>Don't have an account? <a href="{% url 'hotel_registration' %}">Register here</a></p>
     </div>
 </div>
-{% endblock %}
 
+<script>
+    function validateLoginForm() {
+        const emailInput = document.querySelector('input[name="email"]');
+        const passwordInput = document.querySelector('input[name="password"]');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+
+        // Reset previous error states
+        emailInput.classList.remove('input-error');
+        passwordInput.classList.remove('input-error');
+        emailError.style.display = 'none';
+        passwordError.style.display = 'none';
+
+        let isValid = true;
+
+        // Validate email
+        if (!emailInput.value.trim()) {
+            emailInput.classList.add('input-error');
+            emailError.style.display = 'block';
+            isValid = false; // Mark as invalid
+        }
+
+        // Validate password
+        if (!passwordInput.value.trim()) {
+            passwordInput.classList.add('input-error');
+            passwordError.style.display = 'block';
+            isValid = false; // Mark as invalid
+        }
+
+        return isValid; // Return the overall validity
+    }
+</script>
+
+{% endblock %}
