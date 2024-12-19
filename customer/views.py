@@ -28,16 +28,14 @@ def user_login(request):
 
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                messages.success(request, "Authentication successful for user!")
                 login(request, user)
                 return redirect('home')  
             else:
                 messages.error(request, "user doesn't exists.")
                 return redirect('register')
         else:
-            messages.error(request, form.errors)
+            messages.error(request, "there is some Issue check your credentials again.")
     else:
-        print("DEBUG: GET request received for login")
         form = AuthenticationForm()  
 
     return render(request, 'travel/login.html', {'form': form})

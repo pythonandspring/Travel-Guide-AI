@@ -28,7 +28,7 @@ def hotel_owner_registration(request):
                     'hotel_name': hotel_name,
                     'hotel_email': hotel_email,
                 }
-                send_confirmation_email(to_email=to_mail, user_type='customer',username=username, additional_info=additional_info)
+                send_confirmation_email(to_email=to_mail, user_type='hotel_owner',username=username, additional_info=additional_info)
                 messages.success(request, "Registration successful!")
                 return redirect('hotel_login')
         else:

@@ -170,9 +170,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'desaigaurav87@gmail.com'  # Your email address
-EMAIL_HOST_PASSWORD = 'fmfddqpkprkcfqon'  # Your email account password
-
+EMAIL_HOST_USER = 'travelguidehelpteam@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'ikywspuukecuhvey'  # Your email account password
+# password = 'Travel123!@#'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
