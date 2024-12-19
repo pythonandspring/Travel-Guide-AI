@@ -6,6 +6,7 @@ from travelling.json_to_choice_fields import extract_states, extract_cities, ext
 from django.core.cache import cache
 
 
+
 def home(request):
     return render(request, 'home.html')
 
@@ -91,3 +92,4 @@ def get_places(request):
     city = request.GET.get('city')
     places = extract_places(city)
     return JsonResponse({'places': places})
+

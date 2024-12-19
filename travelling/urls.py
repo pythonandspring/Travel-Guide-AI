@@ -19,6 +19,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from rest_framework.authtoken.views import obtain_auth_token
+
 
 urlpatterns = [
     path("", views.home, name="home"),
@@ -34,9 +36,14 @@ urlpatterns = [
     # path('search_voice/', views.search_voice, name='search_voice'),
     
     path('admin/', include('myadmin.urls')),
+    path('dj-admin/', admin.site.urls),
     path("guide/", include("guide.urls"), name='guide'),
     path("accommodation/", include("accommodation.urls"), name="accommodation"),
-
+    path('api/', include('accommodation.api.urls')),
+    path('api/', include('customer.api.urls')),
+    path('api/', include('guide.api.urls')),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    
     path('get-states/', views.get_states, name="get_states"),
     path("get-cities/", views.get_cities, name="get_cities"),
     path("get-places/", views.get_places, name="get_places"),

@@ -106,6 +106,7 @@ class Place(models.Model):
     
     weekends_opening_time = models.TimeField(null=True, blank=True)
     weekends_closing_time = models.TimeField(null=True, blank=True)
+    front_image = models.ImageField(upload_to='place_images/', null=True, blank=True)
 
     
     def __str__(self):
@@ -115,6 +116,7 @@ class Place(models.Model):
 class Image(models.Model):
     place = models.ForeignKey(Place, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to=place_image_upload_to)
+    
 
     def __str__(self):
         return f"Image for {self.place.name}"
@@ -139,6 +141,7 @@ class Guide(models.Model):
     state = models.CharField(max_length=50, choices=state_choice, null=False)
     city = models.CharField(max_length=50, choices=city_choice, null=False)
     place = models.CharField(max_length=50, choices=place_choice, null=False)
+    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     
     def __str__(self):
         return f"{self.name} - {'Super Guide' if self.is_super_guide else 'Guide'}"
@@ -171,7 +174,9 @@ class Doctor(models.Model):
         blank=True,
         help_text="Day of the week when the tour place is regularly closed."
     )
-    service_time = models.TimeField(auto_now=False, auto_now_add=False)
+    service_time = models.TimeField(null=True, blank=True)
+    open_time = models.TimeField(null=True, blank=True)
+    
 
     def __str__(self):
         return f"{self.name} - {self.specialty}"

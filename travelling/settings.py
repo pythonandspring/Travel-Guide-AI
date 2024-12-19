@@ -40,7 +40,19 @@ INSTALLED_APPS = [
     'myadmin',
     'guide',
     'accommodation',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
+# Add this REST Framework configuration
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # Enable token authentication
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # Restrict access to authenticated users
+    ],
+}
+    
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -94,9 +106,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'user',
         'USER': 'root',                
-        'PASSWORD': 'killer',                       
+        'PASSWORD': 'rta9985',                       
         'HOST': '127.0.0.1',                    
-        'PORT': '3306',   
+        'PORT': '3306',
+        
     }
 }
 
