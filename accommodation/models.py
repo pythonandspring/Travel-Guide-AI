@@ -1,13 +1,14 @@
 from django.db import models
 import os
-from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places, extract_countries
+from travelling.filter_data.get_data import get_countries, get_cities, get_place, get_states
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Hotel(models.Model):
-    country_choice = [(state_option, state_option) for state_option in extract_countries()]
-    state_choice = [(city_option, city_option) for city_option in extract_states()]
-    city_choice = [(city_option, city_option) for city_option in extract_cities()]
-    place_choice = [(place_option, place_option) for place_option in extract_places()]
+
+    country_choice = [(country_option, country_option) for country_option in get_countries()]
+    state_choice = [(state_option, state_option) for state_option in get_states()]
+    city_choice = [(city_option, city_option) for city_option in get_cities()]
+    place_choice = [(place_option, place_option) for place_option in get_place()]
 
     DAYS_OF_WEEK = [
             ('MON', 'Monday'),

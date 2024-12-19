@@ -52,7 +52,7 @@
 
         <div class="front-image">
             <h3>Front Image</h3>
-            <img src="{{ place.front_image.url }}" alt="Front Image of {{ place.name }}" />
+            <img src="{{MEDIA_URL}}/{{place.front_image}}" alt="Front Image of {{ place.name }}" />
         </div>
 
         <div class="transport-options">

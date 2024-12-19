@@ -15,29 +15,23 @@
         <div class="search-container">
             <input type="text" id="searchBar" class="search-bar" placeholder="Search for a place..." onkeyup="filterCards()">
             <button id="startVoiceButton" onclick="startVoiceSearch()">🎤</button>
-        </div>
-        <div id="results"></div>
-        <div id="voiceModal" class="modal">
-            <div class="modal-content">
-                <p>Please speak now...</p>
-                <button id="closeModal" class="close-btn">Close</button>
-            </div>
-        </div>
-<div class="card-container">
-    {% for place in places %}
-    <div class="card" 
-         data-location="{{ place.location|escapejs }}" 
-         data-description="{{ place.description|escapejs }}" 
-         onclick="openPlaceDetails('{{ place.name|escapejs }}', '{{ place.location|escapejs }}', '{{ place.description|escapejs }}', '{% static place.image %}')">
-        <img src="{% static place.image %}" alt="{{ place.name }}">
-        <h2>{{ place.name }}</h2>
     </div>
-    {% endfor %}
-</div>
 
-</div>
-            
+    <div id="voiceModal" class="modal">
+        <div class="modal-content">
+            <p>Please speak now...</p>
+            <button id="closeModal" class="close-btn">Close</button>
+        </div>
+    </div>
 
+    <div class="card-container">
+        {% for place in places %}
+        <div class="card" onclick="window.location.href='{% url 'get_place' place.id %}'">
+            <img src="{{MEDIA_URL}}/{{place.front_image}}" alt="{{ place.name }}">
+            <h2>{{ place.name }}</h2>
+        </div>
+        {% endfor %}
+    </div>
     </div>
 
     <div id="placeDetailsModal" class="modal">

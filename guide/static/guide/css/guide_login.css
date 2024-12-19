@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
+    background:  linear-gradient(to bottom right, #eae9f8, #efe5e7);
     margin: 0;
     padding: 0;
 }
@@ -17,7 +17,7 @@ body {
     max-width: 500px;
     margin: 50px auto;
     padding: 20px;
-    background: #ffffff;
+    background: #f4e2e2;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     text-align: left;
@@ -95,6 +95,7 @@ button[type="submit"]:hover {
         padding: 15px;
     }
 }
+
 
 /* Footer Styling */
 footer {

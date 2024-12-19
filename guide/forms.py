@@ -143,3 +143,4 @@ class PlaceImageForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+        return instance

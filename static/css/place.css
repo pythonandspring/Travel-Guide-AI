@@ -1,0 +1,84 @@
+.place-details {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    min-height: 620px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.place-details h1 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 20px;
+    color:rgb(114, 175, 184);
+    text-shadow: #2c3e50;
+}
+
+.place-details h3 {
+    font-size: 24px;
+    margin-top: 30px;
+    color: #2c3e50;
+}
+
+.place-details h4 {
+    font-size: 18px;
+    margin-top: 20px;
+    color: #34495e;
+}
+
+.place-details p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    color: #7f8c8d;
+}
+
+.place-details a {
+    color: #2980b9;
+    text-decoration: none;
+}
+
+.place-details img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 15px;
+}
+
+.place-details .location,
+.place-details .area-size,
+.place-details .history,
+.place-details .speciality,
+.place-details .best-months-to-visit,
+.place-details .appealing-text,
+.place-details .transport-options,
+.place-details .opening-hours {
+    background-color: #ecf0f1;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.place-details .error-message {
+    color: red;
+    font-size: 14px;
+}
+
+.place-details .helper-text {
+    font-size: 14px;
+    color: #95a5a6;
+}
+
+.edit-button {
+    color: white;
+    background-color: #62bbf6;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+.edit-button:hover {
+    background-color: #002741;
+}
