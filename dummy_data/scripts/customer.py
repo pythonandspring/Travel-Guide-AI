@@ -17,12 +17,12 @@ settings.configure(
 db_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'gd456nds',
-    'database': 'user',
+    'password': 'Iqbal@1234',
+    'database': 'travel',
     'charset': 'utf8mb4'
 }
 
-csv_file_path = r'dummy_data\csv\customer.csv'
+csv_file_path = r'dummy_data/csv/customer.csv'
 
 table_name = 'auth_user'
 

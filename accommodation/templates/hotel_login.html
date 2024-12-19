@@ -10,23 +10,60 @@
 <div class="container">
     <div id="login-form">
         <h2>Hotel Login</h2>
-        <form method="POST" action="{% url 'hotel_login' %}">
+        <form id="loginForm" method="POST" action="{% url 'hotel_login' %}">
             {% csrf_token %}
             <div class="form-group">
-                {{ form.email.label_tag }}
-                {{ form.email }}
-                {% if form.email.help_text %}
-                    <small class="text-muted">{{ form.email.help_text }}</small>
-                {% endif %}
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="email">
+                <div class="error-message text-danger" id="emailError"></div>
             </div>
             <div class="form-group">
-                {{ form.password.label_tag }}
-                {{ form.password }}
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="password">
+                <div class="error-message text-danger" id="passwordError"></div>
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
         <p>Don't have an account? <a href="{% url 'hotel_registration' %}">Register here</a></p>
     </div>
 </div>
-{% endblock %}
 
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        // Prevent form submission
+        e.preventDefault();
+
+        // Clear existing error messages
+        document.getElementById('emailError').textContent = '';
+        document.getElementById('passwordError').textContent = '';
+
+        // Get form values
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        let isValid = true;
+
+        // Validate email field
+             // Validate Email
+        if (!email) {
+            document.getElementById('emailError').textContent = 'This field is required.';
+            isValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            document.getElementById('emailError').textContent = 'Enter a valid email.';
+            isValid = false;
+        }
+
+        // Validate password field
+        if (!password) {
+            document.getElementById('passwordError').textContent = 'This field is required.';
+            isValid = false;
+        }
+
+        // If all fields are valid, submit the form
+        if (isValid) {
+            this.submit();
+        }
+    });
+</script>
+
+{% endblock content %}

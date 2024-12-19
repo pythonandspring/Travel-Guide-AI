@@ -1,7 +1,7 @@
 import pandas as pd
 import csv
 
-with open('./travelling/filter_data/place_info.csv', mode='r') as file:
+with open('travelling/filter_data/place_info.csv', mode='r') as file:
     record_list = csv.DictReader(file)
     record_list = list(record_list)
 

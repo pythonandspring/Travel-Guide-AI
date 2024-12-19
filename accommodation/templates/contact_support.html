@@ -6,50 +6,102 @@
     <link rel="stylesheet" href="{% static 'css/contact.css' %}">
 </head>
 
-<div  style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
-<div class="contact-container">
-    <h1>Contact Us</h1>
-    <p>Please provide your details so that our agents can contact you as early as possible.</p>
+<div style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
+    <div class="contact-container">
+        <h1>Contact Us</h1>
+        <p>Please provide your details so that our agents can contact you as early as possible.</p>
 
-    <!-- Contact Form -->
-    <form action="#" method="post">
-        {% csrf_token %}
-        
-        <div class="form-group">
-            <label for="customer-name">Customer Name:</label>
-            <input type="text" id="customer-name" name="customer_name" required>
-        </div>
+        <!-- Contact Form -->
+        <form id="contactForm" method="post">
+            {% csrf_token %}
 
-        <div class="form-group">
-            <label for="customer-address">Customer Address:</label>
-            <input type="text" id="customer-address" name="customer_address" required>
-        </div>
+            <div class="form-group">
+                <label for="customer-name">Customer Name:</label>
+                <input type="text" id="customer-name" name="customer_name" class="form-control">
+                <div class="error-message text-danger" id="nameError"></div>
+            </div>
 
-        <div class="form-group">
-            <label for="email">Enter Your Email ID:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
+            <div class="form-group">
+                <label for="customer-address">Customer Address:</label>
+                <input type="text" id="customer-address" name="customer_address" class="form-control">
+                <div class="error-message text-danger" id="addressError"></div>
+            </div>
 
-        <div class="form-group">
-            <label for="phone">Enter Your Phone Number:</label>
-            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
-        </div>
+            <div class="form-group">
+                <label for="email">Enter Your Email ID:</label>
+                <input type="email" id="email" name="email" class="form-control">
+                <div class="error-message text-danger" id="emailError"></div>
+            </div>
 
-        <button type="submit">Submit</button>
-    </form>
+            <div class="form-group">
+                <label for="phone">Enter Your Phone Number:</label>
+                <input type="tel" id="phone" name="phone" class="form-control" pattern="[0-9]{10}">
+                <div class="error-message text-danger" id="phoneError"></div>
+            </div>
 
-    <p class="thank-you-message" style="display: none;">
-        Thank you for selecting us! Our Customer Care Executive will contact you shortly.
-    </p>
-    <p><br>We will also update you with our latest offers. The information provided by you will be kept confidential.<br></p>
-</div>
+            <button type="submit">Submit</button>
+        </form>
+
+        <p class="thank-you-message" style="display: none;">
+            Thank you for selecting us! Our Customer Care Executive will contact you shortly.
+        </p>
+        <p><br>We will also update you with our latest offers. The information provided by you will be kept confidential.<br></p>
+    </div>
 </div>
 
 <script>
-    // Show the thank-you message after form submission
-    document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        document.querySelector('.thank-you-message').style.display = 'block';
+    // JavaScript Validation
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+        
+        // Clear previous error messages
+        document.getElementById('nameError').textContent = '';
+        document.getElementById('addressError').textContent = '';
+        document.getElementById('emailError').textContent = '';
+        document.getElementById('phoneError').textContent = '';
+
+        // Get input values
+        const name = document.getElementById('customer-name').value.trim();
+        const address = document.getElementById('customer-address').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+
+        let isValid = true;
+
+        // Validate Customer Name
+        if (!name) {
+            document.getElementById('nameError').textContent = 'This field is required.';
+            isValid = false;
+        }
+
+        // Validate Customer Address
+        if (!address) {
+            document.getElementById('addressError').textContent = 'This field is required.';
+            isValid = false;
+        }
+
+        // Validate Email
+        if (!email) {
+            document.getElementById('emailError').textContent = 'This field is required.';
+            isValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            document.getElementById('emailError').textContent = 'Enter a valid email.';
+            isValid = false;
+        }
+
+        // Validate Phone Number
+        if (!phone) {
+            document.getElementById('phoneError').textContent = 'This field is required.';
+            isValid = false;
+        } else if (!/^\d{10}$/.test(phone)) {
+            document.getElementById('phoneError').textContent = 'Enter a valid 10-digit phone number.';
+            isValid = false;
+        }
+
+        // If all fields are valid, show thank-you message
+        if (isValid) {
+            document.querySelector('.thank-you-message').style.display = 'block';
+        }
     });
 </script>
 {% endblock %}
