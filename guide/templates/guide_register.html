@@ -141,7 +141,7 @@
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary">Register</button>
+           <button type="submit" onclick="return validateForm()" class="btn btn-primary">Register</button>
         </form>
 
         <p>Already have an account? <a href="{% url 'guide_login' %}">Login here</a></p>
@@ -238,5 +238,107 @@
             countryField.insertBefore(defaultCountryOption, countryField.firstChild);
         }
     });
+
+        function validateForm() {
+        let isValid = true;
+
+        // Clear previous error messages
+        document.querySelectorAll('.error-message').forEach(function (element) {
+            element.innerHTML = '';
+            element.style.color = ''; // reset color
+        });
+
+        // Validate Name
+        const name = document.getElementById('name').value;
+        if (name.trim() === '') {
+            document.getElementById('name-error').innerHTML = 'Full Name is required.';
+            document.getElementById('name-error').style.color = 'red';
+            isValid = false;
+        }
+
+        // Validate Email
+        const email = document.getElementById('email').value;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email.trim() === '') {
+            document.getElementById('email-error').innerHTML = 'Email Address is required.';
+            document.getElementById('email-error').style.color = 'red';
+            isValid = false;
+        } else if (!emailRegex.test(email)) {
+            document.getElementById('email-error').innerHTML = 'Please enter a valid email address.';
+            document.getElementById('email-error').style.color = 'red';
+            isValid = false;
+        }
+
+        // Validate Phone
+        const phone = document.getElementById('phone').value;
+        if (phone.trim() === '') {
+            document.getElementById('phone-error').innerHTML = 'Phone Number is required.';
+            document.getElementById('phone-error').style.color = 'red';
+            isValid = false;
+        }
+
+        // Validate Address
+        const address = document.getElementById('address').value;
+        if (address.trim() === '') {
+            document.getElementById('address-error').innerHTML = 'Address is required.';
+            document.getElementById('address-error').style.color = 'red';
+            isValid = false;
+        }
+
+        // Validate Country
+        const country = document.getElementById('country').value;
+        if (country.trim() === '') {
+            document.getElementById('country-error').innerHTML = 'Country is required.';
+            document.getElementById('country-error').style.color = 'red';
+            isValid = false;
+        }
+
+        // Validate State
+        const state = document.getElementById('state').value;
+        if (state.trim() === '') {
+            document.getElementById('state-error').innerHTML = 'State is required.';
+            document.getElementById('state-error').style.color = 'red';
+            isValid = false;
+        }
+
+        // Validate City
+        const city = document.getElementById('city').value;
+        if (city.trim() === '') {
+            document.getElementById('city-error').innerHTML = 'City is required.';
+            document.getElementById('city-error').style.color = 'red';
+            isValid = false;
+        }
+
+        // Validate Place
+        const place = document.getElementById('place').value;
+        if (place.trim() === '') {
+            document.getElementById('place-error').innerHTML = 'Place is required.';
+            document.getElementById('place-error').style.color = 'red';
+            isValid = false;
+        }
+
+        // Validate Password
+        const password = document.getElementById('password').value;
+        if (password.trim() === '') {
+            document.getElementById('password-error').innerHTML = 'Password is required.';
+            document.getElementById('password-error').style.color = 'red';
+            isValid = false;
+        }
+
+        // Validate Confirm Password
+        const confirmPassword = document.getElementById('confirm_password').value;
+        if (confirmPassword.trim() === '') {
+            document.getElementById('confirm-password-error').innerHTML = 'Confirm Password is required.';
+            document.getElementById('confirm-password-error').style.color = 'red';
+            isValid = false;
+        } else if (password !== confirmPassword) {
+            document.getElementById('confirm-password-error').innerHTML = 'Passwords do not match.';
+            document.getElementById('confirm-password-error').style.color = 'red';
+            isValid = false;
+        }
+
+        return isValid;
+    }
 </script>
+
 {% endblock javascript %}

@@ -7,57 +7,82 @@
 
 {% block content %}
 <div  style="background: url('{{MEDIA_URL}}images/bg-table.jpg') no-repeat center center/cover; padding-top: 1rem; padding-bottom: 2rem;">
-<div class="register-container">
-    <h1>Create account</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-            {{ form.username }}
-            {% if form.username.errors %}
-                <div class="errors">
-                    {% for error in form.username.errors %}
-                        <p style="color: red;">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-            {{ form.email }}
-            {% if form.email.errors %}
-                <div class="errors">
-                    {% for error in form.email.errors %}
-                        <p style="color: red;">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
-            {{ form.password1 }}
-            {% if form.password1.errors %}
-                <div class="errors">
-                    {% for error in form.password1.errors %}
-                        <p style="color: red;">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
-            {{ form.password2 }}
-            {% if form.password2.errors %}
-                <div class="errors">
-                    {% for error in form.password2.errors %}
-                        <p style="color: red;">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-        <button type="submit" class="btn-submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    <div class="register-container">
+        <h1>Create account</h1>
+        <form method="POST" id="register-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_username">{{ form.username.label }}</label>
+                {{ form.username }}
+                <div id="username-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label for="id_email">{{ form.email.label }}</label>
+                {{ form.email }}
+                <div id="email-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label for="id_password1">{{ form.password1.label }}</label>
+                {{ form.password1 }}
+                <div id="password1-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
+            </div>
+            <div class="form-group">
+                <label for="id_password2">{{ form.password2.label }}</label>
+                {{ form.password2 }}
+                <div id="password2-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
+            </div>
+            <button type="button" class="btn-submit" onclick="validateForm()">Register</button>
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    </div>
 </div>
-</div>
+
+<script>
+    function validateForm() {
+        let isValid = true;
+
+        // Clear previous errors
+        document.getElementById("username-error").style.display = "none";
+        document.getElementById("email-error").style.display = "none";
+        document.getElementById("password1-error").style.display = "none";
+        document.getElementById("password2-error").style.display = "none";
+
+        // Get input values
+        const username = document.getElementById("id_username").value.trim();
+        const email = document.getElementById("id_email").value.trim();
+        const password1 = document.getElementById("id_password1").value.trim();
+        const password2 = document.getElementById("id_password2").value.trim();
+
+        // Validate fields
+        if (!username) {
+            document.getElementById("username-error").innerText = "Username is required.";
+            document.getElementById("username-error").style.display = "block";
+            isValid = false;
+        }
+
+        if (!email) {
+            document.getElementById("email-error").innerText = "Email is required.";
+            document.getElementById("email-error").style.display = "block";
+            isValid = false;
+        }
+
+        if (!password1) {
+            document.getElementById("password1-error").innerText = "Password is required.";
+            document.getElementById("password1-error").style.display = "block";
+            isValid = false;
+        }
+
+        if (!password2) {
+            document.getElementById("password2-error").innerText = "Confirm Password is required.";
+            document.getElementById("password2-error").style.display = "block";
+            isValid = false;
+        }
+
+        if (isValid) {
+            document.getElementById("register-form").submit();
+        }
+    }
+</script>
+
+
 {% endblock %}

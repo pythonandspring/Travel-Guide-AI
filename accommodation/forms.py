@@ -74,10 +74,13 @@ class HotelLoginForm(forms.Form):
         widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'}),
         label="Email",
         max_length=255,
+        required=True,
         help_text="please enter HOTEL EMAIL ID not owner's email Id."
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}),
+        widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 
+        'form-control'}),
+        required=True,
         label="Password"
     )
 

@@ -6,9 +6,10 @@ import pandas as pd
 
 # Choose your database
 DATABASES = {
-    "sqlite": "sqlite:///db.sqlite3",
-    "mysql": "mysql+pymysql://root:gd456nds@localhost/user",
-    "postgresql": "postgresql+psycopg2://username:password@localhost/your_database_name",
+    # "sqlite": "sqlite:///db.sqlite3",
+    "mysql": "mysql+pymysql://root:gd456nds@localhost:3306user",
+
+    # "postgresql": "postgresql+psycopg2://username:password@localhost/your_database_name",
 }
 
 

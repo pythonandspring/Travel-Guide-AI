@@ -11,6 +11,7 @@ from .models import Profile
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.contrib.auth import logout
+from travelling.send_mail import send_confirmation_email
 
 
 def user_login(request):
@@ -47,7 +48,18 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            username = form.cleaned_data.get('username')
             Profile.objects.create(user=user)
+            email = form.cleaned_data.get('email')
+            additional_info = {
+                'email': email,
+            }
+            send_confirmation_email(
+                to_email=email, 
+                user_type='customer', 
+                username=username, 
+                additional_info=additional_info,
+            )
             messages.success(request, "Your account has been created. You can now log in.")
             return redirect('login')  
         else:

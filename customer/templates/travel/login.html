@@ -6,47 +6,61 @@
 {% endblock styling %}
 
 {% block content %}
-<div  style="background: url('{{MEDIA_URL}}images/bg-table.jpg') no-repeat center center/cover; padding-top: 6rem; padding-bottom: 2rem;">
-<div class="login-container">
-    <h1>User Login</h1>
-    <form method="post">
-        {% csrf_token %}
+<div style="background: url('{{MEDIA_URL}}images/bg-table.jpg') no-repeat center center/cover; padding-top: 6rem; padding-bottom: 2rem;">
+    <div class="login-container">
+        <h1>User Login</h1>
+        <form method="post" id="login-form">
+            {% csrf_token %}
 
-        <div class="form-group">
-            <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-            {{ form.username }}
-            {% if form.username.errors %}
-                <div class="errors">
-                    {% for error in form.username.errors %}
-                        <p style="color: red;">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
+            <div class="form-group">
+                <label for="id_username">{{ form.username.label }}</label>
+                {{ form.username }}
+                <div id="username-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
+            </div>
 
-        <div class="form-group">
-            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
-            {{ form.password }}
-            {% if form.password.errors %}
-                <div class="errors">
-                    {% for error in form.password.errors %}
-                        <p style="color: red;">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
+            <div class="form-group">
+                <label for="id_password">{{ form.password.label }}</label>
+                {{ form.password }}
+                <div id="password-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
+            </div>
 
-        <button type="submit" class="btn-submit">Login</button>
-    </form>
-    
-    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
-    <p><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
+            <button type="button" class="btn-submit" onclick="validateLoginForm()">Login</button>
+        </form>
+
+        <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+        <p><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
+    </div>
 </div>
-</div>
-{% endblock %}
 
-{% block javascript %}
 <script>
-    
+    function validateLoginForm() {
+        let isValid = true;
+
+        // Clear previous errors
+        document.getElementById("username-error").style.display = "none";
+        document.getElementById("password-error").style.display = "none";
+
+        // Get input values
+        const username = document.getElementById("id_username").value.trim();
+        const password = document.getElementById("id_password").value.trim();
+
+        // Validate fields
+        if (!username) {
+            document.getElementById("username-error").innerText = "Username is required.";
+            document.getElementById("username-error").style.display = "block";
+            isValid = false;
+        }
+
+        if (!password) {
+            document.getElementById("password-error").innerText = "Password is required.";
+            document.getElementById("password-error").style.display = "block";
+            isValid = false;
+        }
+
+        if (isValid) {
+            document.getElementById("login-form").submit();
+        }
+    }
 </script>
-{% endblock javascript %}
+
+{% endblock %}

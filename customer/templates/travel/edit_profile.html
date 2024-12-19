@@ -8,145 +8,142 @@
 {% endblock styling %}
 
 {% block content %}
-<div  style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
+<div style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
     <div class="profile-edit-container">
         <h2>Edit Profile</h2>
-        <form method="POST" enctype="multipart/form-data" class="form-gp">
+        <form method="POST" enctype="multipart/form-data" class="form-gp" id="edit-profile-form">
             {% csrf_token %}
+            
             <div class="form-group">
-                <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
-                {{ form.first_name }}
-                {% if form.first_name.errors %}
-                    <div class="errors">
-                        {% for error in form.first_name.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <label for="first_name">First Name</label>
+                <input type="text" id="first_name" name="first_name" class="form-control" value="{{ form.first_name.value|default:'' }}">
+                <div id="first-name-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
             </div>
+
             <div class="form-group">
-                <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
-                {{ form.last_name }}
-                {% if form.last_name.errors %}
-                    <div class="errors">
-                        {% for error in form.last_name.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <label for="last_name">Last Name</label>
+                <input type="text" id="last_name" name="last_name" class="form-control" value="{{ form.last_name.value|default:'' }}">
+                <div id="last-name-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
             </div>
+
             <div class="form-group">
-                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-                {{ form.email }}
-                {% if form.email.errors %}
-                    <div class="errors">
-                        {% for error in form.email.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" value="{{ form.email.value|default:'' }}">
+                <div id="email-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
             </div>
+
             <div class="form-group">
-                <label for="{{ form.location.id_for_label }}">{{ form.location.label }}</label>
-                {{ form.location }}
-                {% if form.location.errors %}
-                    <div class="errors">
-                        {% for error in form.location.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" class="form-control" value="{{ form.location.value|default:'' }}">
+                <div id="location-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
             </div>
+
             <div class="form-group">
-                <label for="{{ form.birth_date.id_for_label }}">{{ form.birth_date.label }}</label>
-                {{ form.birth_date }}
-                {% if form.birth_date.errors %}
-                    <div class="errors">
-                        {% for error in form.birth_date.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <label for="birth_date">Birth Date</label>
+                <input type="date" id="birth_date" name="birth_date" class="form-control" value="{{ form.birth_date.value|default:'' }}">
+                <div id="birth-date-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
             </div>
+
             <div class="form-group">
                 <label for="travel_preferences">Travel Preferences</label>
-                <input 
-                    type="text" 
-                    id="travel_preferences" 
-                    name="travel_preferences_input" 
-                    class="form-control" 
-                    placeholder="Enter preferences separated by spaces" 
-                >
-                <input 
-                    type="hidden" 
-                    id="travel_preferences_hidden" 
-                    name="travel_preferences" 
-                    value="{{ form.travel_preferences.value|default:'' }}"
-                >
-                {% if form.travel_preferences.errors %}
-                    <div class="errors">
-                        {% for error in form.travel_preferences.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <input type="text" id="travel_preferences" name="travel_preferences_input" class="form-control" placeholder="Enter preferences separated by spaces" value="{{ form.travel_preferences.value|default:'' }}">
+                <input type="hidden" id="travel_preferences_hidden" name="travel_preferences" value="{{ form.travel_preferences.value|default:'' }}">
+                <div id="travel-preferences-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
             </div>
-            <script>
-                document.getElementById('travel_preferences').addEventListener('input', function () {
-                    const textInput = this.value.trim();
-                    const preferencesArray = textInput.split(/\s+/); // Split by spaces
-                    document.getElementById('travel_preferences_hidden').value = JSON.stringify(preferencesArray);
-                });
-            </script>
+
             <div class="form-group">
-                <label for="{{ form.favorite_destinations.id_for_label }}">{{ form.favorite_destinations.label }}</label>
-                {{ form.favorite_destinations }}
-                {% if form.favorite_destinations.errors %}
-                    <div class="errors">
-                        {% for error in form.favorite_destinations.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <label for="favorite_destinations">Favorite Destinations</label>
+                <input type="text" id="favorite_destinations" name="favorite_destinations" class="form-control" value="{{ form.favorite_destinations.value|default:'' }}">
+                <div id="favorite-destinations-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
             </div>
+
             <div class="form-group">
-                <label for="{{ form.languages_spoken.id_for_label }}">{{ form.languages_spoken.label }}</label>
-                {{ form.languages_spoken }}
-                {% if form.languages_spoken.errors %}
-                    <div class="errors">
-                        {% for error in form.languages_spoken.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <label for="languages_spoken">Languages Spoken</label>
+                <input type="text" id="languages_spoken" name="languages_spoken" class="form-control" value="{{ form.languages_spoken.value|default:'' }}">
+                <div id="languages-spoken-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
             </div>
+
             <div class="form-group">
-                <label for="{{ form.budget_range.id_for_label }}">{{ form.budget_range.label }}</label>
-                {{ form.budget_range }}
-                {% if form.budget_range.errors %}
-                    <div class="errors">
-                        {% for error in form.budget_range.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <label for="budget_range">Budget Range</label>
+                <input type="text" id="budget_range" name="budget_range" class="form-control" value="{{ form.budget_range.value|default:'' }}">
+                <div id="budget-range-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
             </div>
+
             <div class="form-group">
-                <label for="{{ form.interests.id_for_label }}">{{ form.interests.label }}</label>
-                {{ form.interests }}
-                {% if form.interests.errors %}
-                    <div class="errors">
-                        {% for error in form.interests.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <label for="interests">Interests</label>
+                <input type="text" id="interests" name="interests" class="form-control" value="{{ form.interests.value|default:'' }}">
+                <div id="interests-error" style="color: red; font-size: 0.9rem; margin-top: 0.3rem; display: none;"></div>
             </div>
+
             <div class="form-buttons">
-                <button type="submit" class="btn-save">Save Changes</button>
+                <button type="button" class="btn-save" onclick="validateEditProfileForm()">Save Changes</button>
                 <a href="{% url 'profile' %}" class="btn-cancel">Cancel</a>
             </div>
         </form>
+
     </div>
 </div>
+
+<script>
+    function validateEditProfileForm() {
+        let isValid = true;
+
+        // Clear previous errors
+        const errorFields = [
+            "first-name-error", "last-name-error", "email-error", "location-error", 
+            "birth-date-error", "travel-preferences-error", "favorite-destinations-error", 
+            "languages-spoken-error", "budget-range-error", "interests-error"
+        ];
+        errorFields.forEach(field => document.getElementById(field).style.display = "none");
+
+        // Get input values
+        const firstName = document.getElementById("id_first_name").value.trim();
+        const lastName = document.getElementById("id_last_name").value.trim();
+        const email = document.getElementById("id_email").value.trim();
+        const location = document.getElementById("id_location").value.trim();
+        const birthDate = document.getElementById("id_birth_date").value.trim();
+        const travelPreferences = document.getElementById("travel_preferences").value.trim();
+
+        // Validate fields
+        if (!firstName) {
+            document.getElementById("first-name-error").innerText = "First name is required.";
+            document.getElementById("first-name-error").style.display = "block";
+            isValid = false;
+        }
+
+        if (!lastName) {
+            document.getElementById("last-name-error").innerText = "Last name is required.";
+            document.getElementById("last-name-error").style.display = "block";
+            isValid = false;
+        }
+
+        if (!email) {
+            document.getElementById("email-error").innerText = "Email is required.";
+            document.getElementById("email-error").style.display = "block";
+            isValid = false;
+        }
+
+        if (!location) {
+            document.getElementById("location-error").innerText = "Location is required.";
+            document.getElementById("location-error").style.display = "block";
+            isValid = false;
+        }
+
+        if (!birthDate) {
+            document.getElementById("birth-date-error").innerText = "Birth date is required.";
+            document.getElementById("birth-date-error").style.display = "block";
+            isValid = false;
+        }
+
+        if (!travelPreferences) {
+            document.getElementById("travel-preferences-error").innerText = "Travel preferences are required.";
+            document.getElementById("travel-preferences-error").style.display = "block";
+            isValid = false;
+        }
+
+        if (!isValid) {
+            document.getElementById("edit-profile-form").submit();
+        }
+    }
+</script>
 {% endblock %}

@@ -1,23 +1,85 @@
 {% extends 'guide_tem/base.html' %}
 {% load static %}
 
+
 {% block styling %}
     <link rel="stylesheet" href="{% static 'guide/css/guide_login.css' %}">
 {% endblock styling %}
 
+
 {% block content %}
+<div id="login-form">
+    <h2>Guide Login</h2>
+    <form method="POST" onsubmit="return validateForm()">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_email">{{ form.email.label }}</label>
+            {{ form.email }}
+            <!-- Error message for email -->
+            <div id="email-error" class="error-message"></div>
+        </div>
 
-<div class="container">
-    <div id="login-form">
-        <h2>Guide Login</h2>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="{% url 'guide_registration' %}">Register here</a></p>
-        <P><a  href="{% url 'password_reset' %}">Forgot Password?</a></p>
+        <div class="form-group">
+            <label for="id_password">{{ form.password.label }}</label>
+            {{ form.password }}
+            <!-- Error message for password -->
+            <div id="password-error" class="error-message"></div>
+        </div>
 
-    </div>
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+
+    <p>Don't have an account? <a href="{% url 'guide_registration' %}">Register here</a></p>
+    <p><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
 </div>
+
+
+<script>
+    function validateForm() {
+        let isValid = true;
+
+        // Get the form field elements
+        const emailField = document.getElementById('id_email');
+        const passwordField = document.getElementById('id_password');
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
+
+        // Reset error messages
+        emailError.textContent = '';
+        passwordError.textContent = '';
+
+        // Validate email field
+        if (!emailField.value.trim()) {
+            emailError.textContent = 'Email is required.';
+            isValid = false;
+        } else if (!validateEmailFormat(emailField.value.trim())) {
+            emailError.textContent = 'Please enter a valid email address.';
+            isValid = false;
+        }
+
+        // Validate password field
+        if (!passwordField.value.trim()) {
+            passwordError.textContent = 'Password is required.';
+            isValid = false;
+        } else if (passwordField.value.trim().length < 6) {
+            passwordError.textContent = 'Password must be at least 6 characters long.';
+            isValid = false;
+        }
+
+        // If validation fails, prevent form submission
+        return isValid;
+    }
+
+    // Function to validate email format using a regex pattern
+    function validateEmailFormat(email) {
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        return emailPattern.test(email);
+    }
+</script>
+
 {% endblock %}
+
+
+
