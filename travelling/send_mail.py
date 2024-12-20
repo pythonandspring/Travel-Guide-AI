@@ -41,7 +41,7 @@ def send_confirmation_email(to_email, user_type, username, additional_info):
         message = f'''
         Dear {guide_name},
 
-        Thank you for joining our Travel Guide platform as a Guide! We are thrilled to have you on board. Here's how you can get started:
+        Thank you for joining our Travel Guide platform as a Guide for { place_name }! We are thrilled to have you on board. Here's how you can get started:
 
         1. Your profile will be available to hotels who need guides for their customers.
         2. You can offer your services directly to customers and provide tailored experiences.
