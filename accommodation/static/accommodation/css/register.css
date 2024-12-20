@@ -1,28 +1,24 @@
-/* Overall Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f8ff;
-    /* Soft light blue background */
+    background-color: #F5F5F5;
     margin: 0;
+    /* Remove any body margin */
     padding: 0;
     color: #333;
-    /* Dark text color for readability */
 }
-
 /* Navbar Styles */
 .navbar {
-    background: #89CFF0;
-    /* Soft light blue */
-    padding: 10px 20px;
+    background: #4CAF50;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    /* Adjust navbar padding if needed */
 }
-
 .navbar a {
     text-decoration: none;
-    color: #ffffff;
+    color: #FFFFFF;
     /* White text */
     padding: 10px 15px;
     font-size: 18px;
@@ -31,14 +27,15 @@ body {
 }
 
 .navbar a:hover {
-    color: #89CFF0;
-    /* Light blue highlight on hover */
-    background-color: #ffffff;
+    color: #4CAF50;
+    /* Fresh green on hover */
+    background-color: #FFFFFF;
+    /* White background */
     border-radius: 5px;
 }
 
 .navbar .logo {
-    color: #ffffff;
+    color: #FFFFFF;
     /* White logo */
     font-weight: bold;
     font-size: 22px;
@@ -46,22 +43,21 @@ body {
 
 /* Registration Form Styles */
 .registerhotel-container {
-    background-color: #ffffff;
-    /* White background for the form */
-    padding: 30px;
+    padding: 50px;
     max-width: 850px;
-    margin: 30px auto;
+    margin: 0 auto;
     border-radius: 15px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-    background: #E6F7FF;
-    /* Light blue background for the form */
+    background: linear-gradient(to bottom, rgba(76, 175, 80, 0.1), rgba(255, 255, 0, 0.1));
+    margin-top: -10px;
+    /* Adjust this to overlap and remove gap */
 }
 
 /* Headings */
 h1,
 h2 {
-    color: #1E3A5F;
-    /* Dark Blue for titles */
+    color: #2E7D32;
+    /* Slightly darker green for headings */
     text-align: center;
     font-size: 28px;
     margin-bottom: 20px;
@@ -75,8 +71,8 @@ h2 {
 
 /* Form Label Styles */
 label {
-    color: #1E3A5F;
-    /* Dark blue for labels */
+    color: #2E7D32;
+    /* Slightly darker green for labels */
     font-weight: bold;
     display: block;
     margin-bottom: 8px;
@@ -89,27 +85,28 @@ textarea {
     width: 100%;
     padding: 12px;
     font-size: 16px;
-    border: 1px solid #B0C4DE;
-    /* Soft greyish blue border */
-    border-radius: 5px;
-    background-color: #f1faff;
-    /* Very light blue background */
+    border: 1px solid #81C784;
+    /* Soft light green border */
+    border-radius: 25px;
+    /* Rounded corners for a modern feel */
+    background-color: #FFFFFF;
+    /* White inner background for the fields */
     transition: all 0.3s ease-in-out;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-    border-color: #4682B4;
-    /* Steel Blue border on focus */
-    background-color: #ffffff;
+    border-color: #388E3C;
+    /* Dark green on focus */
+    background-color: #FFFFFF;
     outline: none;
 }
 
 /* Error Message Styles */
 .error-message {
-    color: #FF6347;
-    /* Tomato red for error messages */
+    color: #D32F2F;
+    /* Red for error messages */
     font-size: 14px;
     margin-top: 5px;
 }
@@ -120,17 +117,18 @@ textarea:focus {
     padding: 15px;
     font-size: 18px;
     color: white;
-    background-color: #4682B4;
-    /* Steel blue for the button */
+    background-color: #4CAF50;
+    /* Fresh green for the button */
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
+    /* Rounded corners for the button */
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
 
 .btn-submit:hover {
-    background-color: #5f9ea0;
-    /* Light slate gray on hover */
+    background-color: #388E3C;
+    /* Darker green on hover */
 }
 
 /* Registration Link */
@@ -142,15 +140,15 @@ textarea:focus {
 }
 
 .form-text a {
-    color: #4682B4;
-    /* Steel Blue for links */
+    color: #4CAF50;
+    /* Green for links */
     text-decoration: none;
     font-weight: bold;
 }
 
 .form-text a:hover {
-    color: #5f9ea0;
-    /* Light slate gray highlight for link */
+    color: #388E3C;
+    /* Darker green for link hover */
 }
 
 /* Responsive Styles */
@@ -168,3 +166,12 @@ textarea:focus {
         font-size: 14px;
     }
 }
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+
+
