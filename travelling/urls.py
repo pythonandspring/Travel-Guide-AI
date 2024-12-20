@@ -19,16 +19,14 @@ urlpatterns = [
     path('gen_contact/', views.gen_contact, name="gen_contact"),
     path('privacy_policy/', views.privacy_policy, name='privacy_policy'),
     path('terms_conditions/', views.terms_conditions, name='terms_conditions'),
+    # path('search_voice/', views.search_voice, name='search_voice'),
+    path("place/<int:place_id>", views.get_place, name='get_place'),
 
-    # Admin URLs
-    path('admin/', include('myadmin.urls')),  # Custom admin
-    path('dj-admin/', admin.site.urls),  # Django's default admin
-
-    # Guide and Accommodation URLs
-    path("guide/", include("guide.urls")),
-    path("accommodation/", include("accommodation.urls")),
-
-    # Dynamic location retrieval
+    path('admin/', include('myadmin.urls')),
+    path('dj-admin/', admin.site.urls),
+    path("guide/", include("guide.urls"), name='guide'),
+    path("accommodation/", include("accommodation.urls"), name="accommodation"),
+    
     path('get-states/', views.get_states, name="get_states"),
     path("get-cities/", views.get_cities, name="get_cities"),
     path("get-places/", views.get_places, name="get_places"),

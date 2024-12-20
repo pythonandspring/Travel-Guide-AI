@@ -89,3 +89,19 @@ button[type="submit"]:hover {
         padding: 15px;
     }
 }
+
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.form-group label {
+    color: black;
+    font-weight: bold;
+}
+
+.form-group label.error {
+    color: red;
+}

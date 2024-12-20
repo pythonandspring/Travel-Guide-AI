@@ -1,5 +1,6 @@
 from django.db import models
 import os
+from travelling.filter_data.get_data import get_countries, get_cities, get_place, get_states 
 
 
 def place_image_upload_to(instance, filename):
@@ -123,13 +124,10 @@ class Image(models.Model):
 
 class Guide(models.Model):
     
-    country_choice = [(country_option, country_option)
-                      for country_option in Place.objects.values_list('country', flat=True).distinct()]
-    state_choice = [(state_option, state_option) for state_option in Place.objects.values_list('state', flat=True).distinct()]
-    city_choice = [(city_option, city_option)
-                   for city_option in Place.objects.values_list('city', flat=True).distinct()]
-    place_choice = [(place_option, place_option)
-                    for place_option in Place.objects.values_list('name', flat=True).distinct()]
+    country_choice = [(country_option, country_option) for country_option in get_countries()]
+    state_choice = [(state_option, state_option) for state_option in get_states()]
+    city_choice = [(city_option, city_option) for city_option in get_cities()]
+    place_choice = [(place_option, place_option) for place_option in get_place()]
 
     name = models.CharField(max_length=100)
     profile_image = models.ImageField(upload_to=None, default=None)
@@ -149,7 +147,8 @@ class Guide(models.Model):
     
     def __str__(self):
         return f"{self.name} - {'Super Guide' if self.is_super_guide else 'Guide'}"
-    
+
+
 
 class Doctor(models.Model):
 

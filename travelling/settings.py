@@ -94,7 +94,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'user',
         'USER': 'root',                
-        'PASSWORD': 'Raunak@123',                       
+        'PASSWORD': 'gd456nds',                       
         'HOST': '127.0.0.1',                    
         'PORT': '3306',   
     }
@@ -170,16 +170,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'enter your email'
-EMAIL_HOST_PASSWORD = 'enter you password'  
-DEFAULT_FROM_EMAIL = 'enter default email to send mail from.'
+EMAIL_HOST_USER = 'travelguidehelpteam@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'ikywspuukecuhvey'  # Your email account password
+# password = 'Travel123!@#'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For console output
-
-# If you prefer saving emails to a file, use the file backend:
-# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-# EMAIL_FILE_PATH = '/tmp/guide-emails'  # Specify a directory for email files
-
-EMAIL_HOST_USER = 'your_email@example.com'  # Optional for identification
 
 

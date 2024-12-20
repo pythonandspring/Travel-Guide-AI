@@ -1,3 +1,4 @@
+from .models import Hotel
 from django import forms
 from .models import Hotel, HotelImage, HotelRoom
 from django.core.exceptions import ValidationError
@@ -5,13 +6,18 @@ from django.core.exceptions import ValidationError
 
 class HotelOwnerRegistrationForm(forms.ModelForm):
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"placeholder": "Enter your password"}),
-        label="Password"
+        widget=forms.PasswordInput(
+            attrs={"placeholder": "Enter your password"}),
+        label="Password",
+        required=False
     )
     confirm_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"placeholder": "Confirm your password"}),
-        label="Confirm Password"
+        widget=forms.PasswordInput(
+            attrs={"placeholder": "Confirm your password"}),
+        label="Confirm Password",
+        required=False
     )
+
     class Meta:
         model = Hotel
         fields = [
@@ -41,32 +47,42 @@ class HotelOwnerRegistrationForm(forms.ModelForm):
             "hotel_address": forms.Textarea(attrs={"rows": 3, "placeholder": "Hotel address"}),
         }
 
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     # Set all fields to required=False
+    #     for field_name, field in self.fields.items():
+    #         field.required = False
+
     def clean(self):
         cleaned_data = super().clean()
 
-        # Weekday time fields
+        # Extract cleaned data
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
         week_days_opening_time = cleaned_data.get("week_days_opening_time")
         week_days_closing_time = cleaned_data.get("week_days_closing_time")
-
-        # Weekend time fields
         weekends_opening_time = cleaned_data.get("weekends_opening_time")
         weekends_closing_time = cleaned_data.get("weekends_closing_time")
 
-        # Validate weekday times
+        # Validate passwords
+        if password and confirm_password:
+            if password != confirm_password:
+                self.add_error("confirm_password", "Passwords do not match.")
+
+        # Validate weekday opening and closing times
         if week_days_opening_time and week_days_closing_time:
             if week_days_opening_time >= week_days_closing_time:
-                raise ValidationError(
-                    "Weekday opening time must be earlier than weekday closing time."
-                )
+                self.add_error(
+                    "week_days_closing_time", "Weekday opening time must be earlier than closing time.")
 
-        # Validate weekend times
+        # Validate weekend opening and closing times
         if weekends_opening_time and weekends_closing_time:
             if weekends_opening_time >= weekends_closing_time:
-                raise ValidationError(
-                    "Weekend opening time must be earlier than weekend closing time."
-                )
+                self.add_error(
+                    "weekends_closing_time", "Weekend opening time must be earlier than closing time.")
 
         return cleaned_data
+
 
 
 class HotelLoginForm(forms.Form):
@@ -74,10 +90,13 @@ class HotelLoginForm(forms.Form):
         widget=forms.EmailInput(attrs={'placeholder': 'Email', 'class': 'form-control'}),
         label="Email",
         max_length=255,
+        required=True,
         help_text="please enter HOTEL EMAIL ID not owner's email Id."
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'}),
+        widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 
+        'form-control'}),
+        required=True,
         label="Password"
     )
 

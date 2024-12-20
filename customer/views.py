@@ -11,6 +11,7 @@ from .models import Profile
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.contrib.auth import logout
+from travelling.send_mail import send_confirmation_email
 
 
 def user_login(request):
@@ -27,16 +28,14 @@ def user_login(request):
 
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                messages.success(request, "Authentication successful for user!")
                 login(request, user)
-                return redirect('home')  
+                return redirect('profile')  
             else:
                 messages.error(request, "user doesn't exists.")
                 return redirect('register')
         else:
-            messages.error(request, form.errors)
+            messages.error(request, "there is some Issue check your credentials again.")
     else:
-        print("DEBUG: GET request received for login")
         form = AuthenticationForm()  
 
     return render(request, 'travel/login.html', {'form': form})
@@ -47,13 +46,23 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            username = form.cleaned_data.get('username')
             Profile.objects.create(user=user)
+            email = form.cleaned_data.get('email')
+            additional_info = {
+                'email': email,
+            }
+            send_confirmation_email(
+                to_email=email, 
+                user_type='customer', 
+                username=username, 
+                additional_info=additional_info,
+            )
             messages.success(request, "Your account has been created. You can now log in.")
             return redirect('login')  
         else:
             messages.error(request, form.errors)
     else:
-        print("DEBUG: GET request received for register") 
         form = UserRegistrationForm()
 
     return render(request, 'travel/register.html', {'form': form})

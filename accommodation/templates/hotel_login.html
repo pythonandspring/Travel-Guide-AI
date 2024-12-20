@@ -2,31 +2,78 @@
 {% load static %}
 
 {% block styling %}
-    <link rel="stylesheet" href="{% static 'guide/css/guide_login.css' %}">
+    <link rel="stylesheet" href="{% static 'accommodation/css/hotel_login.css' %}">
 {% endblock styling %}
 
 {% block content %}
 
-<div class="container">
-    <div id="login-form">
-        <h2>Hotel Login</h2>
-        <form method="POST" action="{% url 'hotel_login' %}">
+<div style="background: url('{% static 'images/hl-bg.jpeg' %}') no-repeat center center/cover; padding-top: 0; padding-bottom: 0; height: 100%;">
+<div class=" d-flex justify-content-center align-items-center full-height">
+    <div id="login-form" class="login-container p-5 rounded shadow-lg mt-5 mb-5">
+        <h2 class="login-title text-center mb-4">Hotel Login</h2>
+        <form id="loginForm" method="POST" action="{% url 'hotel_login' %}">
             {% csrf_token %}
-            <div class="form-group">
-                {{ form.email.label_tag }}
-                {{ form.email }}
-                {% if form.email.help_text %}
-                    <small class="text-muted">{{ form.email.help_text }}</small>
-                {% endif %}
+            <div class="form-group mb-3">
+                <label for="email" class="form-label">Hotel Email Id</label>
+                <input type="email" id="email" name="email" class="form-control form-control-lg p-3" placeholder="Please enter hotel email" >
+                <div class="error-message text-danger" id="emailError"></div>
             </div>
-            <div class="form-group">
-                {{ form.password.label_tag }}
-                {{ form.password }}
+            <div class="form-group mb-4">
+                <label for="password" class="form-label ">Password</label>
+                <input type="password" id="password" name="password" class="form-control form-control-lg p-3" placeholder="Please enter your password" >
+                <div class="error-message text-danger" id="passwordError"></div>
             </div>
-            <button type="submit" class="btn btn-primary">Login</button>
+            {% if messages %}
+                <div id="username-error-backend" class="text-danger mt-1">
+                    <ul>
+                        {% for message in messages %}
+                        <li><span>{{ message }}</span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            <button type="submit" class="btn-submit w-100 py-3">Login</button>
         </form>
-        <p>Don't have an account? <a href="{% url 'hotel_registration' %}">Register here</a></p>
+        <p class="mt-3 text-center text-white">Don't have an account? <a href="{% url 'hotel_registration' %}" class="register-link text-decoration-none"><spanstyle="background: linear-gradient(135deg, rgba(220, 240, 180, 0.8), rgba(255, 255, 224, 0.8));">Register here<span></a></p>
     </div>
 </div>
-{% endblock %}
 
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        // Prevent form submission
+        e.preventDefault();
+
+        // Clear existing error messages
+        document.getElementById('emailError').textContent = '';
+        document.getElementById('passwordError').textContent = '';
+
+        // Get form values
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        let isValid = true;
+
+        // Validate email field
+             // Validate Email
+        if (!email) {
+            document.getElementById('emailError').textContent = 'Please enter hotel email .';
+            isValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            document.getElementById('emailError').textContent = 'Enter a valid email.';
+            isValid = false;
+        }
+
+        // Validate password field
+        if (!password) {
+            document.getElementById('passwordError').textContent = 'please enter password.';
+            isValid = false;
+        }
+
+        // If all fields are valid, submit the form
+        if (isValid) {
+            this.submit();
+        }
+    });
+</script>
+
+{% endblock content %}

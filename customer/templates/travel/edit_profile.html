@@ -3,150 +3,149 @@
 
 {% block title %}Edit Profile{% endblock %}
 
-{% block styling %}
-    <link rel="stylesheet" href="{% static 'customer/css/edit_profile.css' %}">
-{% endblock styling %}
-
 {% block content %}
-<div  style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
-    <div class="profile-edit-container">
-        <h2>Edit Profile</h2>
-        <form method="POST" enctype="multipart/form-data" class="form-gp">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
-                {{ form.first_name }}
-                {% if form.first_name.errors %}
-                    <div class="errors">
-                        {% for error in form.first_name.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+<div style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="card shadow-lg" style="max-width: 700px; width: 100%; border-radius: 15px; overflow: hidden;">
+            <div class="card-header text-center py-4 opacity-8" style="background: linear-gradient(87deg,rgb(92, 83, 135) 0,rgb(74, 37, 133) 100%) !important; color: white;">
+                <h2 class="fw-bold mb-0">Edit Your Profile</h2>
+            </div>
+            <div class="card-body p-5">
+                <form method="POST" enctype="multipart/form-data" id="edit-profile-form" onsubmit="return validateForm()">
+                    {% csrf_token %}
+                    
+                    <!-- First Name -->
+                    <div class="mb-4">
+                        <label for="first_name" class="form-label fw-semibold">First Name</label>
+                        <input type="text" id="first_name" name="first_name" class="form-control border-0 shadow-sm" value="{{ form.first_name.value}}" placeholder="Enter your first name" >
+                        <div id="first-name-error" class="invalid-feedback"></div>
                     </div>
-                {% endif %}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
-                {{ form.last_name }}
-                {% if form.last_name.errors %}
-                    <div class="errors">
-                        {% for error in form.last_name.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+
+                    <!-- Last Name -->
+                    <div class="mb-4">
+                        <label for="last_name" class="form-label fw-semibold">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" class="form-control border-0 shadow-sm" value="{{ form.last_name.value}}" placeholder="Enter your last name" >
+                        <div id="last-name-error" class="invalid-feedback"></div>
                     </div>
-                {% endif %}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-                {{ form.email }}
-                {% if form.email.errors %}
-                    <div class="errors">
-                        {% for error in form.email.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+
+                    <!-- Email -->
+                    <div class="mb-4">
+                        <label for="email" class="form-label fw-semibold">Email</label>
+                        <input type="email" id="email" name="email" class="form-control border-0 shadow-sm" value="{{ form.email.value}}" placeholder="Enter your email" >
+                        <div id="email-error" class="invalid-feedback"></div>
                     </div>
-                {% endif %}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.location.id_for_label }}">{{ form.location.label }}</label>
-                {{ form.location }}
-                {% if form.location.errors %}
-                    <div class="errors">
-                        {% for error in form.location.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+
+                    <!-- Location -->
+                    <div class="mb-4">
+                        <label for="location" class="form-label fw-semibold">Location</label>
+                        <input type="text" id="location" name="location" class="form-control border-0 shadow-sm" value="{{ form.location.value}}" placeholder="Enter your location" >
+                        <div id="location-error" class="invalid-feedback"></div>
                     </div>
-                {% endif %}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.birth_date.id_for_label }}">{{ form.birth_date.label }}</label>
-                {{ form.birth_date }}
-                {% if form.birth_date.errors %}
-                    <div class="errors">
-                        {% for error in form.birth_date.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+
+                    <!-- Birth Date -->
+                    <div class="mb-4">
+                        <label for="birth_date" class="form-label fw-semibold">Birth Date</label>
+                        <input type="date" id="birth_date" name="birth_date" class="form-control border-0 shadow-sm" value="{{ form.birth_date.value}}" >
+                        <div id="birth-date-error" class="invalid-feedback"></div>
                     </div>
-                {% endif %}
-            </div>
-            <div class="form-group">
-                <label for="travel_preferences">Travel Preferences</label>
-                <input 
-                    type="text" 
-                    id="travel_preferences" 
-                    name="travel_preferences_input" 
-                    class="form-control" 
-                    placeholder="Enter preferences separated by spaces" 
-                >
-                <input 
-                    type="hidden" 
-                    id="travel_preferences_hidden" 
-                    name="travel_preferences" 
-                    value="{{ form.travel_preferences.value|default:'' }}"
-                >
-                {% if form.travel_preferences.errors %}
-                    <div class="errors">
-                        {% for error in form.travel_preferences.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+
+                    <!-- Travel Preferences -->
+                    <div class="mb-4">
+                        <label for="travel_preferences" class="form-label fw-semibold">Travel Preferences</label>
+                        <input 
+                            type="text" 
+                            id="travel_preferences" 
+                            name="travel_preferences" 
+                            class="form-control border-0 shadow-sm" 
+                            placeholder="Enter preferences separated by spaces" 
+                            value="{{ form.travel_preferences.value|default:'' }}">
+                        <div 
+                            id="travel-preferences-error" 
+                            class="text-danger mt-2" 
+                            style="font-size: 0.9rem;">
+                        </div>
                     </div>
-                {% endif %}
-            </div>
-            <script>
-                document.getElementById('travel_preferences').addEventListener('input', function () {
-                    const textInput = this.value.trim();
-                    const preferencesArray = textInput.split(/\s+/); // Split by spaces
-                    document.getElementById('travel_preferences_hidden').value = JSON.stringify(preferencesArray);
-                });
-            </script>
-            <div class="form-group">
-                <label for="{{ form.favorite_destinations.id_for_label }}">{{ form.favorite_destinations.label }}</label>
-                {{ form.favorite_destinations }}
-                {% if form.favorite_destinations.errors %}
-                    <div class="errors">
-                        {% for error in form.favorite_destinations.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+                    
+                    <!-- Favorite Destinations -->
+                    <div class="mb-4">
+                        <label for="favorite_destinations" class="form-label fw-semibold">Favorite Destinations</label>
+                        <input type="text" id="favorite_destinations" name="favorite_destinations" class="form-control border-0 shadow-sm" value="{{ form.favorite_destinations.value}}" placeholder="Enter your favorite destinations">
+                        <div id="favorite-destinations-error" class="invalid-feedback"></div>
                     </div>
-                {% endif %}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.languages_spoken.id_for_label }}">{{ form.languages_spoken.label }}</label>
-                {{ form.languages_spoken }}
-                {% if form.languages_spoken.errors %}
-                    <div class="errors">
-                        {% for error in form.languages_spoken.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+
+                    <!-- Languages Spoken -->
+                    <div class="mb-4">
+                        <label for="languages_spoken" class="form-label fw-semibold">Languages Spoken</label>
+                        <input type="text" id="languages_spoken" name="languages_spoken" class="form-control border-0 shadow-sm" value="{{ form.languages_spoken.value}}" placeholder="Enter languages you speak">
+                        <div id="languages-spoken-error" class="invalid-feedback"></div>
                     </div>
-                {% endif %}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.budget_range.id_for_label }}">{{ form.budget_range.label }}</label>
-                {{ form.budget_range }}
-                {% if form.budget_range.errors %}
-                    <div class="errors">
-                        {% for error in form.budget_range.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+
+                    <!-- Budget Range -->
+                    <div class="mb-4">
+                        <label for="budget_range" class="form-label fw-semibold">Budget Range</label>
+                        <input type="text" id="budget_range" name="budget_range" class="form-control border-0 shadow-sm" value="{{ form.budget_range.value}}" placeholder="Enter your budget range">
+                        <div id="budget-range-error" class="invalid-feedback"></div>
                     </div>
-                {% endif %}
-            </div>
-            <div class="form-group">
-                <label for="{{ form.interests.id_for_label }}">{{ form.interests.label }}</label>
-                {{ form.interests }}
-                {% if form.interests.errors %}
-                    <div class="errors">
-                        {% for error in form.interests.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+
+                    <!-- Interests -->
+                    <div class="mb-4">
+                        <label for="interests" class="form-label fw-semibold">Interests</label>
+                        <input type="text" id="interests" name="interests" class="form-control border-0 shadow-sm" value="{{ form.interests.value}}" placeholder="Enter your interests">
+                        <div id="interests-error" class="invalid-feedback"></div>
                     </div>
-                {% endif %}
+
+                    {% comment %} <!-- About -->
+                    <div class="mb-4">
+                        <label for="interests" class="form-label fw-semibold">About</label>
+                        <input type="text" id="about" name="about" class="form-control border-0 shadow-sm" value="{{ form.about.value}}" placeholder="share something about you...">
+                        <div id="about-error" class="invalid-feedback"></div>
+                    </div> {% endcomment %}
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary w-100 me-2 shadow-sm" style="background-color: #6c63ff; border-color: #6c63ff;">Save Changes</button>
+                        <a href="{% url 'profile' %}" class="btn btn-outline-secondary w-100 ms-2 shadow-sm">Cancel</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-buttons">
-                <button type="submit" class="btn-save">Save Changes</button>
-                <a href="{% url 'profile' %}" class="btn-cancel">Cancel</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
+
+
+
+<script>
+    function validateForm() {
+        let isValid = true;
+
+        // Validation logic for specific fields
+        const fields = [
+            { id: "first_name", errorId: "first-name-error", message: "First name is required" },
+            { id: "last_name", errorId: "last-name-error", message: "Last name is required" },
+            { id: "birth_date", errorId: "birth-date-error", message: "Birth date is required" },
+            { id: "location", errorId: "location-error", message: "Location is required" },
+            { id: "budget_range", errorId: "budget-range-error", message: "Budget range is required" },
+            { id: "travel_preferences", errorId: "travel-preferences-error", message: "Travel preferences are required" },
+            { id: "email", errorId: "email-error", message: "Email is required" },
+            { id: "location", errorId: "location-error", message: "location is required" },
+
+        ];
+
+        fields.forEach(field => {
+            const input = document.getElementById(field.id);
+            const errorDiv = document.getElementById(field.errorId);
+
+            if (!input.value.trim()) {
+                errorDiv.textContent = field.message; // Show the error message
+                input.classList.add("is-invalid"); // Add visual indication for invalid field
+                isValid = false;
+            } else {
+                errorDiv.textContent = ""; // Clear the error message
+                input.classList.remove("is-invalid"); // Remove invalid styling
+            }
+        });
+
+        return isValid; // Prevent form submission if validation fails
+    }
+</script>
 {% endblock %}
