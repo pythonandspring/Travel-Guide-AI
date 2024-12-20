@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="bg-color" style="background: linear-gradient(to right, #d0e7f7, #b0d6f1); padding-top: 1rem; padding-bottom: 2rem;">
+<div style="background: url('{% static 'images/bg3.jpg' %}') no-repeat center center/cover; padding-top: 0; padding-bottom: 0; height: 100%;">
     <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
         <div class="register-container bg-white p-4 rounded shadow-lg" style="max-width: 500px; width: 100%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
             <h1 class="text-center text-primary mb-4">Create Account</h1>
@@ -11,11 +11,9 @@
 
                 <!-- Username Field -->
                 <div class="form-group mb-3">
-                    <label for="id_username" class="form-label">{{ form.username.label }}</label>
-                    <input type="text" name="username" id="id_username" class="form-control" placeholder="Enter your username" />
-                    <!-- Frontend validation error message -->
+                    <label for="id_username" class="form-label fw-semibold">Username</label>
+                    <input type="text" name="username" id="id_username" class="form-control border-0 shadow-sm" placeholder="Enter your username" />
                     <div id="username-error-front" class="text-danger mt-1" style="font-size: 0.9rem;"></div>
-                    <!-- Displaying username error from backend -->
                     {% if form.username.errors %}
                         <div id="username-error-backend" class="text-danger mt-1">
                             {% for error in form.username.errors %}
@@ -27,11 +25,9 @@
 
                 <!-- Email Field -->
                 <div class="form-group mb-3">
-                    <label for="id_email" class="form-label">{{ form.email.label }}</label>
-                    <input type="email" name="email" id="id_email" class="form-control" placeholder="Enter your email" />
-                    <!-- Frontend validation error message -->
+                    <label for="id_email" class="form-label fw-semibold">Email</label>
+                    <input type="email" name="email" id="id_email" class="form-control border-0 shadow-sm" placeholder="Enter your email" />
                     <div id="email-error-front" class="text-danger mt-1" style="font-size: 0.9rem;"></div>
-                    <!-- Displaying email error from backend -->
                     {% if form.email.errors %}
                         <div id="email-error-backend" class="text-danger mt-1">
                             {% for error in form.email.errors %}
@@ -43,11 +39,9 @@
 
                 <!-- Password Field -->
                 <div class="form-group mb-3">
-                    <label for="id_password1" class="form-label">{{ form.password1.label }}</label>
-                    <input type="password" name="password1" id="id_password1" class="form-control" placeholder="Create a password" />
-                    <!-- Frontend validation error message -->
+                    <label for="id_password1" class="form-label fw-semibold">Password</label>
+                    <input type="password" name="password1" id="id_password1" class="form-control border-0 shadow-sm" placeholder="Create a password" />
                     <div id="password1-error-front" class="text-danger mt-1" style="font-size: 0.9rem;"></div>
-                    <!-- Displaying password1 error from backend -->
                     {% if form.password1.errors %}
                         <div id="password1-error-backend" class="text-danger mt-1">
                             {% for error in form.password1.errors %}
@@ -59,11 +53,9 @@
 
                 <!-- Confirm Password Field -->
                 <div class="form-group mb-3">
-                    <label for="id_password2" class="form-label">{{ form.password2.label }}</label>
-                    <input type="password" name="password2" id="id_password2" class="form-control" placeholder="Confirm your password"  />
-                    <!-- Frontend validation error message -->
+                    <label for="id_password2" class="form-label fw-semibold">Confirm Password</label>
+                    <input type="password" name="password2" id="id_password2" class="form-control border-0 shadow-sm" placeholder="Confirm your password" />
                     <div id="password2-error-front" class="text-danger mt-1" style="font-size: 0.9rem;"></div>
-                    <!-- Displaying password2 error from backend -->
                     {% if form.password2.errors %}
                         <div id="password2-error-backend" class="text-danger mt-1">
                             {% for error in form.password2.errors %}
@@ -74,7 +66,7 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary btn-block w-100">Register</button>
+                <button type="submit" class="btn btn-primary w-100 me-2 shadow-sm" style="background-color: #6c63ff; border-color: #6c63ff;">Register</button>
             </form>
 
             <!-- Registration Link -->
@@ -82,6 +74,7 @@
         </div>
     </div>
 </div>
+
 
 
 <script>

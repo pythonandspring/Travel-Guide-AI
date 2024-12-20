@@ -12,7 +12,7 @@
     <title>{% block title %}Travel Guide{% endblock %}</title>
     
     {% block styling %}
-        <link rel="stylesheet" href="{% static 'css/travel_style.css' %}">
+        {% comment %} <link rel="stylesheet" href="{% static 'css/travel_style.css' %}"> {% endcomment %}
     {% endblock styling %}
     
 </head>
@@ -24,7 +24,7 @@
                     <img src="{% static 'images/travel_guide.png' %}" alt="Travel Guide Logo" class="img-fluid rounded-circle" style="width: 60px; height: auto;">
                 </div>
                 <div class="col">
-                    <h3 class="mb-0">TravelGuide</h3>
+                    <h3 class="mb-0" style="color:white;">TravelGuide</h3>
                 </div>
                 <div class="col px-3">
                     <div class="d-flex justify-content-center gap-3">
