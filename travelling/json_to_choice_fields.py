@@ -74,7 +74,7 @@
     
 #     # Convert to list
 #     places = [place for place in places]
-#     return places
+#     return placesgit
 
 import pandas as pd
 import json
