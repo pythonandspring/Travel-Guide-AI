@@ -1,11 +1,9 @@
 {% extends 'guide_tem/base.html' %}
 {% load static %}
 
-
 {% block styling %}
     <link rel="stylesheet" href="{% static 'guide/css/guide_register.css' %}">
 {% endblock styling %}
-
 
 {% block content %}
     <div id="registration-form">
@@ -24,7 +22,7 @@
                     class="form-control" 
                     placeholder="Full Name" 
                     value="{{ form.name.value|default:'' }}">
-                {{ form.name.errors }}
+                <div id="name-error" class="error-container"></div> <!-- Error container for Full Name -->
             </div>
 
             <!-- Email Field -->
@@ -37,7 +35,7 @@
                     class="form-control" 
                     placeholder="Email Address" 
                     value="{{ form.email.value|default:'' }}">
-                {{ form.email.errors }}
+                <div id="email-error" class="error-container"></div> <!-- Error container for Email -->
             </div>
 
             <!-- Phone Field -->
@@ -50,70 +48,50 @@
                     class="form-control" 
                     placeholder="Phone Number" 
                     value="{{ form.phone.value|default:'' }}">
-                {{ form.phone.errors }}
+                <div id="phone-error" class="error-container"></div> <!-- Error container for Phone -->
             </div>
 
             <!-- Address -->
             <div class="form-group">
-                <label for="phone">Address: </label>
+                <label for="address">Address</label>
                 <input 
                     type="text" 
-                    id="phone" 
+                    id="address" 
                     name="address" 
                     class="form-control" 
                     placeholder="Address" 
                     value="{{ form.address.value|default:'' }}">
-                {{ form.address.errors }}
+                <div id="address-error" class="error-container"></div> <!-- Error container for Address -->
             </div>
 
             <hr>
             <h2>Location Details:</h2>
+            <!-- Country Field -->
             <div class="form-group country">
                 <label for="{{ form.country.id_for_label }}">{{ form.country.label }}:</label>
                 {{ form.country }}
-                {% if form.country.errors %}
-                    <div class="errors">
-                        {% for error in form.country.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div id="country-error" class="error-container"></div> <!-- Error container for Country -->
             </div>
 
+            <!-- State Field -->
             <div class="form-group state">
                 <label for="{{ form.state.id_for_label }}">{{ form.state.label }}:</label>
                 {{ form.state }}
-                {% if form.state.errors %}
-                    <div class="errors">
-                        {% for error in form.state.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div id="state-error" class="error-container"></div> <!-- Error container for State -->
             </div>
 
+            <!-- City Field -->
             <div class="form-group city">
                 <label for="{{ form.city.id_for_label }}">{{ form.city.label }}:</label>
                 {{ form.city }}
-                {% if form.city.errors %}
-                    <div class="errors">
-                        {% for error in form.city.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div id="city-error" class="error-container"></div> <!-- Error container for City -->
             </div>
 
+            <!-- Place Field -->
             <div class="form-group place">
                 <label for="{{ form.place.id_for_label }}">{{ form.place.label }}:</label>
                 {{ form.place }}
-                {% if form.place.errors %}
-                    <div class="errors">
-                        {% for error in form.place.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div id="place-error" class="error-container"></div> <!-- Error container for Place -->
             </div>
 
             <!-- Password Field -->
@@ -125,7 +103,7 @@
                     name="password" 
                     class="form-control" 
                     placeholder="Enter your password">
-                {{ form.password.errors }}
+                <div id="password-error" class="error-container"></div> <!-- Error container for Password -->
             </div>
 
             <!-- Confirm Password Field -->
@@ -137,7 +115,7 @@
                     name="confirm_password" 
                     class="form-control" 
                     placeholder="Confirm your password">
-                {{ form.confirm_password.errors }}
+                <div id="confirm_password-error" class="error-container"></div> <!-- Error container for Confirm Password -->
             </div>
 
             <!-- Submit Button -->
@@ -148,95 +126,99 @@
     </div>
 {% endblock %}
 
-
 {% block javascript %}
 <script>
-    document.getElementById("id_country").addEventListener("change", function () {
-        const country = this.value;
-        fetch(`/get-states/?country=${country}`)
-            .then((response) => response.json())
-            .then((data) => {
-                const stateField = document.getElementById("id_state");
-                stateField.innerHTML = ""; // Clear the current state options
-                if (data.states.length > 0) {
-                    const defaultStateOption = document.createElement("option");
-                    defaultStateOption.textContent = "Select a state";
-                    defaultStateOption.disabled = true;
-                    defaultStateOption.selected = true;
-                    stateField.appendChild(defaultStateOption);
+    // Function to validate the registration form
+    function validateForm(event) {
+        const name = document.getElementById("name");
+        const email = document.getElementById("email");
+        const phone = document.getElementById("phone");
+        const address = document.getElementById("address");
+        const country = document.getElementById("id_country");
+        const state = document.getElementById("id_state");
+        const city = document.getElementById("id_city");
+        const place = document.getElementById("id_place");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirm_password");
 
-                    data.states.forEach((state) => {
-                        const option = document.createElement("option");
-                        option.value = state;
-                        option.textContent = state;
-                        stateField.appendChild(option);
-                    });
-                }
-            });
-    });
+        let isValid = true;
 
-    document.getElementById("id_state").addEventListener("change", function () {
-        const country = document.getElementById("id_country").value;
-        const state = this.value;
+        // Clear previous error messages
+        document.querySelectorAll('.error-container').forEach(container => {
+            container.textContent = '';
+        });
 
-        fetch(`/get-cities/?country=${country}&state=${state}`)
-            .then((response) => response.json())
-            .then((data) => {
-                const cityField = document.getElementById("id_city");
-                cityField.innerHTML = ""; // Clear the current city options
-                if (data.cities.length > 0) {
-                    const defaultCityOption = document.createElement("option");
-                    defaultCityOption.textContent = "Select a city";
-                    defaultCityOption.disabled = true;
-                    defaultCityOption.selected = true;
-                    cityField.appendChild(defaultCityOption);
+        // Validate Full Name
+        if (!name.value.trim()) {
+            displayError(name, "Full Name is required.");
+            isValid = false;
+        }
 
-                    data.cities.forEach((city) => {
-                        const option = document.createElement("option");
-                        option.value = city;
-                        option.textContent = city;
-                        cityField.appendChild(option);
-                    });
-                }
-            });
-    });
+        // Validate Email Address
+        if (!email.value.trim()) {
+            displayError(email, "Email Address is required.");
+            isValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(email.value)) {
+            displayError(email, "Please enter a valid email address.");
+            isValid = false;
+        }
 
-    document.getElementById("id_city").addEventListener("change", function () {
-        const country = document.getElementById("id_country").value;
-        const state = document.getElementById("id_state").value;
-        const city = this.value;
+        // Validate Phone Number
+        if (!phone.value.trim()) {
+            displayError(phone, "Phone Number is required.");
+            isValid = false;
+        } else if (!/^\d{10}$/.test(phone.value)) {
+            displayError(phone, "Please enter a valid phone number.");
+            isValid = false;
+        }
 
-        fetch(`/get-places/?country=${country}&state=${state}&city=${city}`)
-            .then((response) => response.json())
-            .then((data) => {
-                const placeField = document.getElementById("id_place");
-                placeField.innerHTML = ""; // Clear the current place options
-                if (data.places.length > 0) {
-                    const defaultPlaceOption = document.createElement("option");
-                    defaultPlaceOption.textContent = "Select a place";
-                    defaultPlaceOption.disabled = true;
-                    defaultPlaceOption.selected = true;
-                    placeField.appendChild(defaultPlaceOption);
+        // Validate Address
+        if (!address.value.trim()) {
+            displayError(address, "Address is required.");
+            isValid = false;
+        }
 
-                    data.places.forEach((place) => {
-                        const option = document.createElement("option");
-                        option.value = place;
-                        option.textContent = place;
-                        placeField.appendChild(option);
-                    });
-                }
-            });
-    });
+        // Validate Password
+        if (!password.value.trim()) {
+            displayError(password, "Password is required.");
+            isValid = false;
+        } else if (password.value.length < 6) {
+            displayError(password, "Password must be at least 6 characters.");
+            isValid = false;
+        }
 
+        // Validate Confirm Password
+        if (!confirmPassword.value.trim()) {
+            displayError(confirmPassword, "Confirm Password is required.");
+            isValid = false;
+        } else if (confirmPassword.value !== password.value) {
+            displayError(confirmPassword, "Passwords do not match.");
+            isValid = false;
+        }
+
+        // Prevent form submission if invalid
+        if (!isValid) {
+            event.preventDefault();
+        }
+
+        return isValid;
+    }
+
+    // Function to display error message below the field
+    function displayError(field, message) {
+        const errorContainer = document.getElementById(field.id + '-error');
+        if (errorContainer) {
+            errorContainer.textContent = message;
+        }
+        field.classList.add("is-invalid");  // Add invalid class for red border
+    }
+
+    // Attach the validation function to the form's submit event
     document.addEventListener("DOMContentLoaded", function () {
-        const countryField = document.getElementById("id_country");
-        if (countryField) {
-            const defaultCountryOption = document.createElement("option");
-            defaultCountryOption.textContent = "Select a country";
-            defaultCountryOption.disabled = true;
-            defaultCountryOption.selected = true;
-            countryField.insertBefore(defaultCountryOption, countryField.firstChild);
+        const form = document.querySelector("form");
+        if (form) {
+            form.addEventListener("submit", validateForm);
         }
     });
 </script>
-{% endblock javascript %}
+{% endblock %}

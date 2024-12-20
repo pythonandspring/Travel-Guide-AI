@@ -110,7 +110,7 @@
 <script>
     document.getElementById("id_country").addEventListener("change", function () {
         const country = this.value;
-        fetch(`/get-states/?country=${country}`)
+        fetch(/get-states/?country=${country})
             .then((response) => response.json())
             .then((data) => {
                 const stateField = document.getElementById("id_state");
@@ -136,7 +136,7 @@
         const country = document.getElementById("id_country").value;
         const state = this.value;
 
-        fetch(`/get-cities/?country=${country}&state=${state}`)
+        fetch(/get-cities/?country=${country}&state=${state})
             .then((response) => response.json())
             .then((data) => {
                 const cityField = document.getElementById("id_city");
@@ -163,7 +163,7 @@
         const state = document.getElementById("id_state").value;
         const city = this.value;
 
-        fetch(`/get-places/?country=${country}&state=${state}&city=${city}`)
+        fetch(/get-places/?country=${country}&state=${state}&city=${city})
             .then((response) => response.json())
             .then((data) => {
                 const placeField = document.getElementById("id_place");

@@ -36,8 +36,14 @@ body {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #555555;
+    color: #e40a0a;
 }
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
 /* 
 .form-group input,
 .form-group select {
