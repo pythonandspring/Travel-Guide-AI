@@ -32,6 +32,10 @@ urlpatterns = [
     path("get-cities/", views.get_cities, name="get_cities"),
     path("get-places/", views.get_places, name="get_places"),
 
+    path('api/', include('accommodation.api.urls')),
+    path('api/', include('customer.api.urls')),
+    path('api/', include('guide.api.urls')),
+
     # Password reset views
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
