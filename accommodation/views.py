@@ -4,7 +4,8 @@ from django.contrib.auth.hashers import make_password, check_password
 from .models import Hotel, HotelImage, HotelRoom
 from .forms import HotelOwnerRegistrationForm, HotelLoginForm, HotelImageForm, HotelRoomForm, HotelRoomUpdateForm, HotelDetailsUpdateForm
 from django.urls import reverse
-from django.http import JsonResponse
+from travelling.send_mail import send_confirmation_email
+
 
 def hotel_owner_registration(request):
     if request.method == 'POST':
@@ -13,13 +14,21 @@ def hotel_owner_registration(request):
         if form.is_valid():
             password = form.cleaned_data.get('password')
             confirm_password = form.cleaned_data.get('confirm_password')
-
+            hotel_name = form.cleaned_data.get('hotel_name')
+            username = form.cleaned_data.get('hotel_owner_name')
+            hotel_email = form.cleaned_data.get('hotel_email')
+            to_mail = form.cleaned_data.get('owner_email')
             if password != confirm_password:
                 messages.error(request, "Passwords do not match!")
             else:
                 hotel_owner = form.save(commit=False)
                 hotel_owner.password = make_password(password)
                 hotel_owner.save()
+                additional_info = {
+                    'hotel_name': hotel_name,
+                    'hotel_email': hotel_email,
+                }
+                send_confirmation_email(to_email=to_mail, user_type='hotel_owner',username=username, additional_info=additional_info)
                 messages.success(request, "Registration successful!")
                 return redirect('hotel_login')
         else:
@@ -37,18 +46,21 @@ def hotel_login(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             try:
-                hotel_owner = get_object_or_404(Hotel, hotel_email=email)
-                if check_password(password, hotel_owner.password):
+                hotel_owner = Hotel.objects.get(hotel_email=email)
+                if check_password(password, hotel_owner.password) and hotel_owner:
                     request.session['hotel_owner_id'] = hotel_owner.id
                     request.session['is_logged_in'] = True
                     messages.success(request, "Login successful!")
                     return redirect('hotel_dashboard')
                 else:
                     messages.error(request, "Invalid Password.")
-            except hotel_owner.DoesNotExist:
+                    return redirect("hotel_login")
+            except Hotel.DoesNotExist:
                 messages.error(request, "profile doesn't exists.")
+                return redirect('hotel_login')
         else:
             messages.error(request, "Errors in the form.")
+            return redirect('hotel_login')
     else:
         form = HotelLoginForm()
     return render(request, 'hotel_login.html', {'form': form})
@@ -115,6 +127,7 @@ def delete_hotel_image(request, image_id):
 
     return redirect('hotel_images')
 
+
 def rename_hotel_image(request, image_id):
     if 'hotel_owner_id' not in request.session:
         messages.error(request, "You must be logged in to perform this action.")
@@ -125,25 +138,19 @@ def rename_hotel_image(request, image_id):
 
     if request.method == 'POST':
         try:
-            # Get the new name from the request body
             new_name = request.POST.get('new_name')
 
-            # Update the image name
             image.name = new_name
             image.save()
 
-            # Success message
             messages.success(request, "Image renamed successfully.")
 
-            # Redirect back to the hotel images page
-            return redirect('hotel_images')  # Replace with the correct URL name for the hotel images page
+            return redirect('hotel_images')
 
         except Exception as e:
-            # Error message
             messages.error(request, f"An error occurred while renaming the image: {e}")
-            return redirect('hotel_images')  # Redirect back even on error for better UX
+            return redirect('hotel_images')
 
-    # If request method is not POST, handle it gracefully
     return redirect('hotel_images')
 
 
@@ -240,8 +247,7 @@ def update_room(request, room_id):
                 messages.success(request, f"Details updated for {room.room_category}, {room.room_type}.")
                 return redirect('available_rooms')
             else:
-                messages.error(
-                    request, "Please correct the errors in the form.")
+                messages.error(request, "Please correct the errors in the form.")
         else:
             form = HotelRoomUpdateForm(instance=room)
 
@@ -249,6 +255,7 @@ def update_room(request, room_id):
     else:
         messages.error(request, "You need to log in first.")
         return redirect('hotel_login')
+                
                 
 def update_hotel_details(request):
     hotel_owner_id = request.session.get('hotel_owner_id')
@@ -270,3 +277,6 @@ def update_hotel_details(request):
 
     return render(request, 'update_hotel_details.html', {'hotel_details_form': form, 'hotel_details': hotel})
     
+
+
+

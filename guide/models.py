@@ -1,6 +1,6 @@
 from django.db import models
 import os
-from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places, extract_countries
+from travelling.filter_data.get_data import get_countries, get_cities, get_place, get_states 
 
 
 def place_image_upload_to(instance, filename):
@@ -32,7 +32,7 @@ class Place(models.Model):
     city = models.CharField(max_length=255)
 
     address = models.TextField()
-    location_on_map = models.URLField()
+    location_on_map = models.URLField(max_length=1000)
 
     # Information about history, speciality, appealing_text, size
     area_size = models.CharField(
@@ -60,6 +60,8 @@ class Place(models.Model):
         blank=True, 
         help_text="Add a brief, engaging description to attract and retain users."
     )
+
+    front_image = models.ImageField(upload_to=None, default="no picture")
 
     # nearest travelling options
     nearest_cities = models.TextField(
@@ -123,12 +125,14 @@ class Image(models.Model):
 
 
 class Guide(models.Model):
-    country_choice = [(state_option, state_option) for state_option in extract_countries()]
-    state_choice = [(city_option, city_option) for city_option in extract_states()]
-    city_choice = [(city_option, city_option) for city_option in extract_cities()]
-    place_choice = [(place_option, place_option) for place_option in extract_places()]
+    
+    country_choice = [(country_option, country_option) for country_option in get_countries()]
+    state_choice = [(state_option, state_option) for state_option in get_states()]
+    city_choice = [(city_option, city_option) for city_option in get_cities()]
+    place_choice = [(place_option, place_option) for place_option in get_place()]
 
     name = models.CharField(max_length=100)
+    profile_image = models.ImageField(upload_to=None, default=None)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
     password = models.CharField(max_length=100)
@@ -137,6 +141,7 @@ class Guide(models.Model):
     is_occupied = models.BooleanField(default=False)
     is_super_guide = models.BooleanField(default=False)
 
+    
     country = models.CharField(max_length=50, choices=country_choice, null=False)
     state = models.CharField(max_length=50, choices=state_choice, null=False)
     city = models.CharField(max_length=50, choices=city_choice, null=False)
@@ -145,7 +150,8 @@ class Guide(models.Model):
     
     def __str__(self):
         return f"{self.name} - {'Super Guide' if self.is_super_guide else 'Guide'}"
-    
+
+
 
 class Doctor(models.Model):
 
@@ -166,6 +172,7 @@ class Doctor(models.Model):
     phone = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
+
     
     weekly_closed_on = models.CharField(
         max_length=20,
@@ -174,9 +181,8 @@ class Doctor(models.Model):
         blank=True,
         help_text="Day of the week when the tour place is regularly closed."
     )
-    service_time = models.TimeField(null=True, blank=True)
-    open_time = models.TimeField(null=True, blank=True)
-    
+    service_time = models.TimeField(auto_now=False, auto_now_add=False)
+    open_time = models.TimeField()
 
     def __str__(self):
-        return f"{self.name} - {self.specialty}"
+        return f"{self.name} - {self.speciality}"

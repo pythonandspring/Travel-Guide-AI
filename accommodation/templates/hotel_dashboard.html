@@ -17,15 +17,20 @@
       </form>
     </div>
 
-    <button>Edit Profile</button>
+    <a href="{% url 'update_dashboard' %}" class="btn-edit-profile">Edit Profile</a>
+
   </div>
+
+
 
   <div class="hotel-info">
     <h3>Hotel Information</h3>
     <p><strong>Hotel Name:</strong> {{ hotel_owner.hotel_name }}</p>
-    <p><strong>Location:</strong> {{ hotel_owner.city }}, {{ hotel_owner.country }}</p>
+    <p><strong>Contact Number:</strong> {{ hotel_owner.hotel_phone_number }}</p>
+    <p><strong>Email:</strong> {{ hotel_owner.owner_email }}</p>
+    <p><strong>Address:</strong> {{ hotel_owner.hotel_address }}</p>
+    <p><strong>Location on Map:</strong> <a href="{{ hotel_owner.location_on_map }}" target="_blank">View on Map</a></p>
     <p><strong>Description:</strong> {{ hotel_owner.description }}</p>
-    <p><strong>Rating:</strong> {{ hotel_owner.rating|default:"N/A" }} Stars</p>
   </div>
 
   <div class="rooms-info">
@@ -57,6 +62,22 @@
       </tbody>
     </table>
   </div>
+
+
+  <div class="operating-hours">
+    <h3>Operating Hours</h3>
+    <p><strong>Weekdays:</strong> {{ hotel_owner.week_days_opening_time }} - {{ hotel_owner.week_days_closing_time }}</p>
+    <p><strong>Weekends:</strong> {{ hotel_owner.weekends_opening_time }} - {{ hotel_owner.weekends_closing_time }}</p>
+    <p><strong>Weekly Closed On:</strong> {{ hotel_owner.weekly_closed_on|default:"None" }}</p>
+    <p><strong>Special Closed Dates:</strong> 
+      {% if hotel_owner.special_closed_dates %}
+        {{ hotel_owner.special_closed_dates|join:", " }}
+      {% else %}
+        None
+      {% endif %}
+    </p>
+  </div>
+
 
   <div class="contact-info">
     <h3>Contact Information</h3>

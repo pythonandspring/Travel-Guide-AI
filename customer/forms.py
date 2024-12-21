@@ -32,12 +32,13 @@ class EditProfileForm(UserChangeForm):
         ]
 
     location = forms.CharField(max_length=100, required=False, label='Location')
-    birth_date = forms.DateField(required=False, label='Birth Date', widget=forms.SelectDateWidget(years=range(1900, 2025)))
+    birth_date = forms.DateField(required=False, label='Birth Date', widget=forms.SelectDateWidget(years=range(1900)))
     travel_preferences = forms.CharField(max_length=350,required=False, label='Travel Preferences', widget=forms.Textarea)
     favorite_destinations = forms.CharField(widget=forms.Textarea, required=False, label='Favorite Destinations')
     languages_spoken = forms.CharField(max_length=255, required=False, label='Languages Spoken')
     budget_range = forms.CharField(max_length=50, required=False, label='Budget Range')
     interests = forms.CharField(max_length=255, required=False, label='Interests')
+    about = forms.CharField(max_length=250, required=False, label='about')
 
     def _init_(self, *args, **kwargs):
         super(EditProfileForm, self)._init_(*args, **kwargs)
@@ -51,6 +52,8 @@ class EditProfileForm(UserChangeForm):
             self.fields['languages_spoken'].initial = profile.languages_spoken
             self.fields['budget_range'].initial = profile.budget_range
             self.fields['interests'].initial = profile.interests
+            self.fields['about'].initial = profile.about
+
 
     def save(self, commit=True):
         user = super(EditProfileForm, self).save(commit=False)
@@ -65,6 +68,7 @@ class EditProfileForm(UserChangeForm):
             profile.languages_spoken = self.cleaned_data.get('languages_spoken')
             profile.budget_range = self.cleaned_data.get('budget_range')
             profile.interests = self.cleaned_data.get('interests')
+            profile.about = self.cleaned_data.get('about')
             profile.save()
 
         return user

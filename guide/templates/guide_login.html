@@ -1,21 +1,77 @@
 {% extends 'guide_tem/base.html' %}
 {% load static %}
 
+
 {% block styling %}
     <link rel="stylesheet" href="{% static 'guide/css/guide_login.css' %}">
 {% endblock styling %}
 
-{% block content %}
 
-<div class="container">
-    <div id="login-form">
-        <h2>Guide Login</h2>
-        <form method="POST">
+{% block content %}
+<div style="background: url('{% static 'images/gl-bg.jpg' %}') no-repeat center center/cover; height: 100vh; display: flex; justify-content: center; align-items: center;">
+    <div id="login-form" class="container">
+        <h2 class="text-center mb-4 text-primary">Guide Login</h2>
+        <form method="POST" id="loginForm">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Login</button>
+            <div class="form-group mb-3">
+                <label for="id_email" class="form-label text-primary">{{ form.email.label }}</label>
+                <input type="email" name="email" class="form-control border-success" id="id_email" placeholder="Enter your email">
+                <div id="email-error" class="error-message" style="color: red; display: none;">Email is required.</div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="id_password" class="form-label text-success">{{ form.password.label }}</label>
+                <input type="password" name="password" class="form-control border-primary" id="id_password" placeholder="Enter your password">
+                <div id="password-error" class="error-message" style="color: red; display: none;">Password is required.</div>
+            </div>
+            {% if messages %}
+                <div id="username-error-backend" class="text-danger mt-1">
+                    <ul>
+                        {% for message in messages %}
+                        <li><span>{{ message }}</span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
-        <p>Don't have an account? <a href="{% url 'guide_registration' %}">Register here</a></p>
+        <p class="text-center mt-3 text-success">Don't have an account? <a href="{% url 'guide_registration' %}" class="text-primary">Register here</a></p>
+        <p class="text-center text-primary"><a href="{% url 'password_reset' %}" class="text-success">Forgot Password?</a></p>
     </div>
 </div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        let valid = true;
+
+        // Email validation
+        const email = document.getElementById('id_email');
+        const emailError = document.getElementById('email-error');
+        if (email.value.trim() === '') {
+            emailError.style.display = 'block';
+            valid = false;
+        } else {
+            emailError.style.display = 'none';
+        }
+
+        // Password validation
+        const password = document.getElementById('id_password');
+        const passwordError = document.getElementById('password-error');
+        if (password.value.trim() === '') {
+            passwordError.style.display = 'block';
+            valid = false;
+        } else {
+            passwordError.style.display = 'none';
+        }
+
+        // Prevent form submission if validation fails
+        if (!valid) {
+            event.preventDefault();
+        }
+    });
+</script>
+
 {% endblock %}
+
+
+
+

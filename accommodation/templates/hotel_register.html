@@ -3,22 +3,26 @@
 
 
 {% block styling %}
-    <link rel="stylesheet" href="{% static 'customer/css/register.css' %}">
+    <link rel="stylesheet" href="{% static 'accommodation/css/register.css' %}">
 {% endblock styling %}
 
 
 {% block content %}
-<div class="registerhotel-container">
-    <h1>Hotel Registration</h1>
-    <form method="POST">
+<div class="registerhotel-container">       
+    <h1 class="text-center text-black py-4 px-3 rounded-top shadow-lg" style="background: linear-gradient(135deg, rgba(220, 240, 180, 0.8), rgba(255, 255, 224, 0.8)); font-weight: 800;">
+    Hotel Registration:
+    </h1>
+
+    <form method="POST" onsubmit="return validateForm()">
         {% csrf_token %}
 
-        <h2>Hotel Owner's Details:</h2>
+        <h2 class="h6 text-left" style="font-weight: 800;">Hotel Owner's Details:</h2>
         <div class="form-group hotel_owner_name">
             <label for="{{ form.hotel_owner_name.id_for_label }}">{{ form.hotel_owner_name.label }}:</label>
             {{ form.hotel_owner_name }}
+             <div id="error_id_hotel_owner_name" class="error-message"></div>
             {% if form.hotel_owner_name.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.hotel_owner_name.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -29,8 +33,9 @@
         <div class="form-group owner_phone_number">
             <label for="{{ form.owner_phone_number.id_for_label }}">{{ form.owner_phone_number.label }}:</label>
             {{ form.owner_phone_number }}
+            <div id="error_id_owner_phone_number" class="error-message"></div>
             {% if form.owner_phone_number.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.owner_phone_number.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -41,8 +46,9 @@
         <div class="form-group owner_email">
             <label for="{{ form.owner_email.id_for_label }}">{{ form.owner_email.label }}:</label>
             {{ form.owner_email }}
+            <div id="error_id_owner_email" class="error-message"></div>
             {% if form.owner_email.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.owner_email.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -51,12 +57,13 @@
         </div>
 
         <hr>
-        <h2>Hotel Details:</h2>
+        <h2 class="h6 text-left" style="font-weight: 800;">Hotel Details:</h2>
         <div class="form-group hotel_name">
             <label for="{{ form.hotel_name.id_for_label }}">{{ form.hotel_name.label }}:</label>
             {{ form.hotel_name }}
+            <div id="error_id_hotel_name" class="error-message"></div>
             {% if form.hotel_name.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.hotel_name.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -67,8 +74,9 @@
         <div class="form-group hotel_phone_number">
             <label for="{{ form.hotel_phone_number.id_for_label }}">{{ form.hotel_phone_number.label }}:</label>
             {{ form.hotel_phone_number }}
+            <div id="error_id_hotel_phone_number" class="error-message"></div>
             {% if form.hotel_phone_number.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.hotel_phone_number.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -79,8 +87,9 @@
         <div class="form-group hotel_email">
             <label for="{{ form.hotel_email.id_for_label }}">{{ form.hotel_email.label }}:</label>
             {{ form.hotel_email }}
+            <div id="error_id_hotel_email" class="error-message"></div>
             {% if form.hotel_email.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.hotel_email.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -91,8 +100,9 @@
         <div class="form-group hotel_address">
             <label for="{{ form.hotel_address.id_for_label }}">{{ form.hotel_address.label }}:</label>
             {{ form.hotel_address }}
+            <div id="error_id_hotel_address" class="error-message"></div>
             {% if form.hotel_address.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.hotel_address.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -103,8 +113,9 @@
         <div class="form-group location_on_map">
             <label for="{{ form.location_on_map.id_for_label }}">{{ form.location_on_map.label }}:</label>
             {{ form.location_on_map }}
+            <div id="error_id_location_on_map" class="error-message"></div>
             {% if form.location_on_map.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.location_on_map.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -115,8 +126,9 @@
         <div class="form-group description">
             <label for="{{ form.description.id_for_label }}">{{ form.description.label }}:</label>
             {{ form.description }}
+            <div id="error_id_description" class="error-message"></div>
             {% if form.description.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.description.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -125,12 +137,13 @@
         </div>
 
         <hr>
-        <h2>Location Details:</h2>
+        <h2 class="h6 text-left" style="font-weight: 800;">Location Details:</h2>
         <div class="form-group country">
             <label for="{{ form.country.id_for_label }}">{{ form.country.label }}:</label>
             {{ form.country }}
+            <div id="error_id_country" class="error-message"></div>
             {% if form.country.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.country.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -141,8 +154,9 @@
         <div class="form-group state">
             <label for="{{ form.state.id_for_label }}">{{ form.state.label }}:</label>
             {{ form.state }}
+            <div id="error_id_state" class="error-message"></div>
             {% if form.state.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.state.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -153,8 +167,9 @@
         <div class="form-group city">
             <label for="{{ form.city.id_for_label }}">{{ form.city.label }}:</label>
             {{ form.city }}
+            <div id="error_id_city" class="error-message"></div>
             {% if form.city.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.city.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -165,8 +180,9 @@
         <div class="form-group place">
             <label for="{{ form.place.id_for_label }}">{{ form.place.label }}:</label>
             {{ form.place }}
+            <div id="error_id_place" class="error-message"></div>
             {% if form.place.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.place.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -175,12 +191,13 @@
         </div>
 
         <hr>
-        <h2>Operating Details:</h2>
+        <h2 class="h6 text-left" style="font-weight: 800;">Operating Details:</h2>
         <div class="form-group weekly_closed_on">
             <label for="{{ form.weekly_closed_on.id_for_label }}">{{ form.weekly_closed_on.label }}:</label>
             {{ form.weekly_closed_on }}
+            <div id="error_id_weekly_closed_on" class="error-message"></div>
             {% if form.weekly_closed_on.errors %}
-                <div class="errors">
+                <div class="error-message" >
                     {% for error in form.weekly_closed_on.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -191,8 +208,9 @@
         <div class="form-group special_closed_dates">
             <label for="{{ form.special_closed_dates.id_for_label }}">{{ form.special_closed_dates.label }}:</label>
             {{ form.special_closed_dates }}
+            <div id="error_id_special_closed_dates" class="error-message"></div>
             {% if form.special_closed_dates.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.special_closed_dates.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -203,8 +221,9 @@
         <div class="form-group week_days_opening_time">
             <label for="{{ form.week_days_opening_time.id_for_label }}">{{ form.week_days_opening_time.label }}:</label>
             <input type="time" name="week_days_opening_time" id="{{ form.week_days_opening_time.id_for_label }}" value="{{ form.week_days_opening_time.value }}">
+            <div id="error_id_week_days_opening_time" class="error-message"></div>
             {% if form.week_days_opening_time.errors %}
-                <div class="errors">
+                <div class="error-message" >
                     {% for error in form.week_days_opening_time.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -215,8 +234,9 @@
         <div class="form-group week_days_closing_time">
             <label for="{{ form.week_days_closing_time.id_for_label }}">{{ form.week_days_closing_time.label }}:</label>
             <input type="time" name="week_days_closing_time" id="{{ form.week_days_closing_time.id_for_label }}" value="{{ form.week_days_closing_time.value }}">
+            <div id="error_id_week_days_closing_time" class="error-message"></div>
             {% if form.week_days_closing_time.errors %}
-                <div class="errors">
+                <div class="error-message" >
                     {% for error in form.week_days_closing_time.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -227,8 +247,9 @@
         <div class="form-group weekends_opening_time">
             <label for="{{ form.weekends_opening_time.id_for_label }}">{{ form.weekends_opening_time.label }}:</label>
             <input type="time" name="weekends_opening_time" id="{{ form.weekends_opening_time.id_for_label }}" value="{{ form.weekends_opening_time.value }}">
+            <div id="error_id_weekends_opening_time" class="error-message"></div>
             {% if form.weekends_opening_time.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.weekends_opening_time.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -239,8 +260,9 @@
         <div class="form-group weekends_closing_time">
             <label for="{{ form.weekends_closing_time.id_for_label }}">{{ form.weekends_closing_time.label }}:</label>
             <input type="time" name="weekends_closing_time" id="{{ form.weekends_closing_time.id_for_label }}" value="{{ form.weekends_closing_time.value }}">
+            <div id="error_id_weekends_closing_time" class="error-message"></div>
             {% if form.weekends_closing_time.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.weekends_closing_time.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -249,12 +271,13 @@
         </div>        
 
         <hr>
-        <h2>Protect your account:</h2>
+        <h2 class="h6 text-left" style="font-weight: 800;">Protect your account:</h2>
         <div class="form-group password">
             <label for="{{ form.password.id_for_label }}">{{ form.password.label }}:</label>
             {{ form.password }}
+            <div id="error_id_password" class="error-message"></div>
             {% if form.password.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.password.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -265,8 +288,9 @@
         <div class="form-group confirm_password">
             <label for="{{ form.confirm_password.id_for_label }}">{{ form.confirm_password.label }}:</label>
             {{ form.confirm_password }}
+            <div id="error_id_confirm_password" class="error-message"></div>
             {% if form.confirm_password.errors %}
-                <div class="errors">
+                <div class="error-message">
                     {% for error in form.confirm_password.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
@@ -275,7 +299,7 @@
         </div>
         
 
-        <button type="submit" class="btn-submit">Register</button>
+        <button type="submit" class="btn-submit" onclick="submitForm()">Register</button>
     </form>
 
     <p class="form-text">
@@ -290,9 +314,8 @@
 
 {% block javascript %}
 <script>
-    document.getElementById("id_country").addEventListener("change", function () {
+     document.getElementById("id_country").addEventListener("change", function () {
         const country = this.value;
-
         fetch(`/get-states/?country=${country}`)
             .then((response) => response.json())
             .then((data) => {
@@ -372,12 +395,69 @@
         const countryField = document.getElementById("id_country");
         if (countryField) {
             const defaultCountryOption = document.createElement("option");
-            defaultCountryOption.textContent = "Select a country";
             defaultCountryOption.disabled = true;
             defaultCountryOption.selected = true;
             countryField.insertBefore(defaultCountryOption, countryField.firstChild);
         }
     });
+
+    function submitForm() {
+        const fields = [
+            { id: 'id_hotel_owner_name', label: 'Hotel Owner Name', required: true },
+            { id: 'id_owner_phone_number', label: 'Phone Number', required: true },
+            { id: 'id_owner_email', label: 'Email', required: true },
+            { id: 'id_hotel_name', label: 'Hotel Name', required: true },
+            { id: 'id_hotel_phone_number', label: 'Hotel Phone Number', required: true },
+            { id: 'id_hotel_email', label: 'Hotel Email', required: true },
+            { id: 'id_hotel_address', label: 'Hotel Address', required: true },
+            { id: 'id_location_on_map', label: 'Location on Map', required: true }, // Not required
+            { id: 'id_description', label: 'Hotel Description', required: false },
+            { id: 'id_country', label: 'Country', required: true },
+            { id: 'id_state', label: 'State', required: true },
+            { id: 'id_city', label: 'City', required: true },
+            { id: 'id_place', label: 'Place', required: true },
+            { id: 'id_weekly_closed_on', label: 'Weekly Closed On', required: false },
+            { id: 'id_special_closed_dates', label: 'Special Closed Dates', required: false },
+            { id: 'id_week_days_opening_time', label: 'Week Days Opening Time', required: true },
+            { id: 'id_week_days_closing_time', label: 'Week Days Closing Time', required: true },
+            { id: 'id_weekends_opening_time', label: 'Weekends Opening Time', required: true },
+            { id: 'id_weekends_closing_time', label: 'Weekends Closing Time', required: true },
+            { id: 'id_password', label: 'Password', required: true },
+            { id: 'id_confirm_password', label: 'Confirm Password', required: true },
+        ];
+
+        let formValid = true;
+
+        // Clear any previous error messages
+        fields.forEach(field => {
+            const errorElement = document.getElementById(`error_${field.id}`);
+            if (errorElement) {
+                errorElement.innerHTML = '';
+            }
+        });
+
+        // Loop through all fields and check if required ones are filled
+        fields.forEach(field => {
+            const inputElement = document.getElementById(field.id);
+            const errorElement = document.getElementById(`error_${field.id}`);
+            
+            if (field.required && !inputElement.value.trim()) {
+                // Display error message below the field
+                if (errorElement) {
+                    errorElement.innerHTML = `${field.label} is required`;
+                }
+                formValid = false;
+            }
+
+            // Specifically for location_on_map field
+            if (field.id === 'id_location_on_map' && field.required && !inputElement.value.trim()) {
+                if (errorElement) {
+                    errorElement.innerHTML = `${field.label} is required`;
+                }
+                formValid = false;
+            }
+        });
+    }
 </script>
 {% endblock javascript %}
 

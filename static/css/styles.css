@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
@@ -17,10 +18,22 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 100%;
     max-width: 400px;
+=======
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f8f9fa;
+}
+
+.container {
+    padding: 20px;
+>>>>>>> 950077afc74fa5d0e2082f454641cfb271833b09
 }
 
 h1 {
     text-align: center;
+<<<<<<< HEAD
     margin-bottom: 20px;
     font-size: 24px;
     color: #333;
@@ -80,3 +93,31 @@ a {
 a:hover {
     text-decoration: underline;
 }
+=======
+}
+
+.links, ul {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.button {
+    padding: 10px 15px;
+    text-decoration: none;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background: #0056b3;
+}
+
+.hotel-image {
+    max-width: 100px;
+    margin-left: 10px;
+}
+
+>>>>>>> 950077afc74fa5d0e2082f454641cfb271833b09

@@ -1,13 +1,14 @@
 from django.db import models
 import os
-from travelling.json_to_choice_fields import extract_states, extract_cities, extract_places, extract_countries
+from travelling.filter_data.get_data import get_countries, get_cities, get_place, get_states
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Hotel(models.Model):
-    country_choice = [(state_option, state_option) for state_option in extract_countries()]
-    state_choice = [(city_option, city_option) for city_option in extract_states()]
-    city_choice = [(city_option, city_option) for city_option in extract_cities()]
-    place_choice = [(place_option, place_option) for place_option in extract_places()]
+
+    country_choice = [(country_option, country_option) for country_option in get_countries()]
+    state_choice = [(state_option, state_option) for state_option in get_states()]
+    city_choice = [(city_option, city_option) for city_option in get_cities()]
+    place_choice = [(place_option, place_option) for place_option in get_place()]
 
     DAYS_OF_WEEK = [
             ('MON', 'Monday'),
@@ -63,7 +64,7 @@ class Hotel(models.Model):
 
    
     def __str__(self):
-        return f"{self.hotel_name} - Owned by {self.hotel_owner_namename}"
+        return f"{self.hotel_name} - Owned by {self.hotel_owner_name}"
 
 
 class HotelRoom(models.Model):
@@ -91,7 +92,7 @@ class HotelRoom(models.Model):
 
 
     def __str__(self):
-        return f"{self.room_category} - {self.room_type} - Total: {self.total_rooms}, Available: {self.available_rooms}, Price per 6hrs: {self.price_per_6hrs} - Hotel: {self.hotel.name}"
+        return f"{self.room_category} - {self.room_type} - Total: {self.total_rooms}, Available: {self.available_rooms}, Price per 6hrs: {self.price_per_6hrs} - Hotel: {self.hotel.hotel_name}"
 
 
 def hotel_image_upload_to(instance, filename):
@@ -108,7 +109,7 @@ class HotelImage(models.Model):
     image = models.ImageField(upload_to=hotel_image_upload_to)
 
     def __str__(self):
-        return f"Image for {self.HotelImage.name}"
+        return f"Image for {self.hotel.hotel_name}"
  
 
 
