@@ -1,6 +1,9 @@
 from django.db import models
 import os
 from travelling.filter_data.get_data import get_countries, get_cities, get_place, get_states 
+from django.contrib.auth.models import User
+import uuid
+
 
 
 def place_image_upload_to(instance, filename):
@@ -188,3 +191,9 @@ class Doctor(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.speciality}"
+
+
+class PasswordResetToken(models.Model):
+    guide = models.OneToOneField(Guide, on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)

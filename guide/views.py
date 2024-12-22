@@ -9,6 +9,15 @@ from functools import wraps
 from django.shortcuts import redirect, render
 from django.conf import settings
 from travelling.send_mail import send_confirmation_email
+from django.shortcuts import render, redirect
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from django.utils.timezone import now, timedelta
+from .models import PasswordResetToken
+from .forms import PasswordResetRequestForm
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+from .forms import ResetPasswordForm
 
 # <---------------------GUIDE------------------------------------->
 def is_login(view_func):
@@ -486,3 +495,50 @@ def delete_place_image(request, place_id, image_id, *args, **kwargs):
 def contact_support(request, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
     return render(request, 'contact.html', {'guide': guide_info})
+
+
+
+
+# for password reset
+def request_password_reset(request):
+    if request.method == "POST":
+        form = PasswordResetRequestForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                guide =Guide.objects.get(email=email)
+                token, created = PasswordResetToken.objects.get_or_create(guide=guide)
+                reset_link = f"http://127.0.0.1:8000/reset-password/{token.token}/"
+                send_mail(
+                    "Password Reset Request",
+                    f"Click the link to reset your password: {reset_link}",
+                    "noreply@yourdomain.com",
+                    [email]
+                )
+                return render(request, "password_reset_sent.html")
+            except Guide.DoesNotExist:
+                return render(request, "password_reset_request.html", {"form": form, "error": "Email not found."})
+    else:
+        form = PasswordResetRequestForm()
+    return render(request, "password_reset_request.html", {"form": form})
+
+
+# for password view
+def reset_password(request, token):
+    token_obj = get_object_or_404(PasswordResetToken, token=token)
+    if request.method == "POST":
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            new_password = form.cleaned_data['new_password']
+            confirm_password = form.cleaned_data['confirm_password']
+            if new_password == confirm_password:
+                guide = token_obj.guide
+                guide.set_password(new_password)
+                guide.save()
+                token_obj.delete()
+                return render(request, "password_reset_complete.html")
+            else:
+                return render(request, "reset_password.html", {"form": form, "error": "Passwords do not match."})
+    else:
+        form = ResetPasswordForm()
+    return render(request, "reset_password.html", {"form": form})

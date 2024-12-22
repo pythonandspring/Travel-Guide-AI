@@ -1,93 +1,79 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #ffffff, #fff8e5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-  
-  .container {
-    text-align: center;
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 400px;
-  }
-  
-  .logo img {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 20px;
-  }
-  
-  h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  p {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
-  }
-  
-  form {
-    text-align: left;
-  }
-  
-  form label {
-    font-size: 14px;
-    color: #333;
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  form input[type="email"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-  }
-  
-  .recaptcha {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  
-  .recaptcha input {
-    margin-right: 10px;
-  }
-  
-  .note {
-    font-size: 12px;
-    color: #f66;
-    margin-bottom: 20px;
-  }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    background: #f66;
-    color: #fff;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background: #e55;
-  }
-  
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #fff, #ffe8b3);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.card h1 {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.captcha {
+  margin: 15px 0;
+}
+
+/* Submit button styles */
+.submit-btn {
+  background: linear-gradient(to right, #4f83cc, #1e4f99); /* Shades of blue */
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  text-transform: uppercase;
+  width: 100%; /* Full width */
+  box-sizing: border-box;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(to right, #1e4f99, #4f83cc); /* Reverse gradient on hover */
+}
