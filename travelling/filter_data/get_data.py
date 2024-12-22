@@ -25,10 +25,3 @@ def get_cities():
 def get_place():
     place = data['name'].unique()
     return place
-
-print(get_cities())
-print(get_countries())
-
-print(get_states())
-
-print(get_place())

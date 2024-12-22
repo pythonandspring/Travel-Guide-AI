@@ -8,7 +8,12 @@ def place_image_upload_to(instance, filename):
     Constructs the upload path for place images.
     Images are stored in a folder named after the Place name within the 'place_images' directory.
     """
-    return os.path.join('place_images', instance.place.name.replace(' ', '_'), filename)
+    return os.path.join('place_images', instance.place.name.lower().replace(' ', '_'), filename)
+
+
+def place_front_image_upload(instance, filename):
+
+    return os.path.join('front_images', instance.name.lower().replace(' ', '_'), filename)
 
 
 class Place(models.Model):
@@ -61,7 +66,7 @@ class Place(models.Model):
         help_text="Add a brief, engaging description to attract and retain users."
     )
 
-    front_image = models.ImageField(upload_to=None, default="no picture")
+    front_image = models.ImageField(upload_to=place_front_image_upload, default="no picture")
 
     # nearest travelling options
     nearest_cities = models.TextField(
@@ -117,6 +122,7 @@ class Place(models.Model):
 class Image(models.Model):
     place = models.ForeignKey(Place, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to=place_image_upload_to)
+    
 
     def __str__(self):
         return f"Image for {self.place.name}"
@@ -130,7 +136,6 @@ class Guide(models.Model):
     place_choice = [(place_option, place_option) for place_option in get_place()]
 
     name = models.CharField(max_length=100)
-    profile_image = models.ImageField(upload_to=None, default=None)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
     password = models.CharField(max_length=100)
@@ -146,7 +151,7 @@ class Guide(models.Model):
     place = models.CharField(max_length=50, choices=place_choice, null=False)
     
     def __str__(self):
-        return f"{self.name} - {'Super Guide' if self.is_super_guide else 'Guide'}"
+        return f"{self.name}:{self.place}- {'Super Guide' if self.is_super_guide else 'Guide'}"
 
 
 
@@ -169,6 +174,7 @@ class Doctor(models.Model):
     phone = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
+
     
     weekly_closed_on = models.CharField(
         max_length=20,
@@ -177,8 +183,8 @@ class Doctor(models.Model):
         blank=True,
         help_text="Day of the week when the tour place is regularly closed."
     )
-    # service_time = models.TimeField(auto_now=False, auto_now_add=False, default="10:00:00-17:00:00")
-    open_time = models.CharField(max_length=500, default="10:00-17:00")
+
+    open_time = models.CharField(max_length=50)
 
     def __str__(self):
         return f"{self.name} - {self.speciality}"

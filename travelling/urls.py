@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 from . import views
 from django.contrib.auth import views as auth_views
 
+
 urlpatterns = [
     # Home page
     path("", views.home, name="home"),
@@ -26,10 +27,14 @@ urlpatterns = [
     path('dj-admin/', admin.site.urls),
     path("guide/", include("guide.urls"), name='guide'),
     path("accommodation/", include("accommodation.urls"), name="accommodation"),
-    
+
     path('get-states/', views.get_states, name="get_states"),
     path("get-cities/", views.get_cities, name="get_cities"),
     path("get-places/", views.get_places, name="get_places"),
+
+    path('api/', include('accommodation.api.urls')),
+    path('api/', include('customer.api.urls')),
+    path('api/', include('guide.api.urls')),
 
     # Password reset views
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
@@ -42,3 +47,4 @@ urlpatterns = [
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -76,8 +76,8 @@ def guide_registration(request):
                 hotel_owner.password = make_password(password)  
                 hotel_owner.save()
                 additional_info = {
-                    'place_name': guide_name,
-                    'guide_name': place_name,
+                    'place_name': place_name,
+                    'guide_name': guide_name,
                     'guide_email': guide_email,
                 }
                 send_confirmation_email(to_email=guide_email, user_type='guide', username=guide_name, additional_info=additional_info)
@@ -134,7 +134,7 @@ def guide_logout(request, *args, **kwargs):
 
 @is_login
 def guide_dashboard(request, *args,**kwargs):
-    guide_info = kwargs.pop('guide_info', None)
+    guide_info = kwargs.pop('guide_info', None)    
     return render(request, 'guide_dashboard.html', {'guide': guide_info})
 
 
