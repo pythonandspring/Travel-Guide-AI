@@ -1,10 +1,12 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.hashers import make_password, check_password
-from .models import Hotel, HotelImage, HotelRoom
+from .models import Hotel, HotelImage, HotelRoom, PasswordResetToken
 from .forms import HotelOwnerRegistrationForm, HotelLoginForm, HotelImageForm, HotelRoomForm, HotelRoomUpdateForm, HotelDetailsUpdateForm
+from .forms import PasswordResetRequestForm, ResetPasswordForm
 from django.urls import reverse
 from travelling.send_mail import send_confirmation_email
+from django.core.mail import send_mail
 
 
 def hotel_owner_registration(request):
@@ -278,5 +280,47 @@ def update_hotel_details(request):
     return render(request, 'update_hotel_details.html', {'hotel_details_form': form, 'hotel_details': hotel})
     
 
+def request_password_reset(request):
+    if request.method == "POST":
+        form = PasswordResetRequestForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                hotel = Hotel.objects.get(hotel_email=email)
+                token, created = PasswordResetToken.objects.get_or_create(
+                    hotel=hotel)
+                reset_link = f"http://127.0.0.1:8000/accommodation/reset-password/{
+                    token.token}/"
+                send_mail(
+                    "Password Reset Request",
+                    f"Click the link to reset your password: {reset_link}",
+                    "noreply@yourdomain.com",
+                    [email]
+                )
+                return render(request, "hotel_password_reset_sent.html")
+            except Hotel.DoesNotExist:
+                return render(request, "hotel_password_reset_request.html", {"form": form, "error": "Email not found."})
+    else:
+        form = PasswordResetRequestForm()
+    return render(request, "hotel_password_reset_request.html", {"form": form})
 
 
+# for password view
+def reset_password(request, token):
+    token_obj = get_object_or_404(PasswordResetToken, token=token)
+    if request.method == "POST":
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            new_password = form.cleaned_data['new_password']
+            confirm_password = form.cleaned_data['confirm_password']
+            if new_password == confirm_password:
+                hotel = token_obj.hotel
+                hotel.password = make_password(new_password)
+                hotel.save()
+                token_obj.delete()
+                return render(request, "hotel_password_reset_complete.html")
+            else:
+                return render(request, "hotel_reset_password.html", {"form": form, "error": "Passwords do not match."})
+    else:
+        form = ResetPasswordForm()
+    return render(request, "hotel_reset_password.html", {"form": form})
