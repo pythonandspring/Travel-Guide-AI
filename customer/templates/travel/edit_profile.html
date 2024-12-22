@@ -1,4 +1,4 @@
-{% extends 'cust_base/base.html' %}
+{% extends 'home/base.html' %}
 {% load static %}
 
 {% block title %}Edit Profile{% endblock %}
@@ -19,7 +19,13 @@
                         <label for="first_name" class="form-label fw-semibold">First Name</label>
                         <input type="text" id="first_name" name="first_name" class="form-control border-0 shadow-sm" value="{{ form.first_name.value}}" placeholder="Enter your first name" >
                         <div id="first-name-error" class="invalid-feedback">
-                            
+                            {% if form.first_name.errors %}
+                                <ul class="mb-0">
+                                    {% for error in form.first_name.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -27,7 +33,15 @@
                     <div class="mb-4">
                         <label for="last_name" class="form-label fw-semibold">Last Name</label>
                         <input type="text" id="last_name" name="last_name" class="form-control border-0 shadow-sm" value="{{ form.last_name.value}}" placeholder="Enter your last name" >
-                        <div id="last-name-error" class="invalid-feedback"></div>
+                        <div id="last-name-error" class="invalid-feedback">
+                            {% if form.last_name.errors %}
+                                <ul class="mb-0">
+                                    {% for error in form.last_name.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
                     </div>
 
                     <!-- Email -->
@@ -51,18 +65,35 @@
                             {% endif %}
                         </div>
                     </div>
+
                     <!-- Location -->
                     <div class="mb-4">
                         <label for="location" class="form-label fw-semibold">Location</label>
                         <input type="text" id="location" name="location" class="form-control border-0 shadow-sm" value="{{ form.location.value}}" placeholder="Enter your location" >
-                        <div id="location-error" class="invalid-feedback"></div>
+                        <div id="location-error" class="invalid-feedback">
+                            {% if form.location.errors %}
+                                <ul class="mb-0">
+                                    {% for error in form.location.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
                     </div>
 
                     <!-- Birth Date -->
                     <div class="mb-4">
                         <label for="birth_date" class="form-label fw-semibold">Birth Date</label>
                         <input type="date" id="birth_date" name="birth_date" class="form-control border-0 shadow-sm" value="{{ form.birth_date.value}}" >
-                        <div id="birth-date-error" class="invalid-feedback"></div>
+                        <div id="birth-date-error" class="invalid-feedback">
+                            {% if form.birth_date.errors %}
+                                <ul class="mb-0">
+                                    {% for error in form.birth_date.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
                     </div>
 
                     <!-- Travel Preferences -->
@@ -109,13 +140,6 @@
                         <input type="text" id="interests" name="interests" class="form-control border-0 shadow-sm" value="{{ form.interests.value}}" placeholder="Enter your interests">
                         <div id="interests-error" class="invalid-feedback"></div>
                     </div>
-
-                    {% comment %} <!-- About -->
-                    <div class="mb-4">
-                        <label for="interests" class="form-label fw-semibold">About</label>
-                        <input type="text" id="about" name="about" class="form-control border-0 shadow-sm" value="{{ form.about.value}}" placeholder="share something about you...">
-                        <div id="about-error" class="invalid-feedback"></div>
-                    </div> {% endcomment %}
 
                     <!-- Buttons -->
                     <div class="d-flex justify-content-between">
