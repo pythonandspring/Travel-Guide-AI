@@ -134,7 +134,7 @@ def guide_logout(request, *args, **kwargs):
 
 @is_login
 def guide_dashboard(request, *args,**kwargs):
-    guide_info = kwargs.pop('guide_info', None)
+    guide_info = kwargs.pop('guide_info', None)    
     return render(request, 'guide_dashboard.html', {'guide': guide_info})
 
 

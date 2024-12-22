@@ -8,7 +8,12 @@ def place_image_upload_to(instance, filename):
     Constructs the upload path for place images.
     Images are stored in a folder named after the Place name within the 'place_images' directory.
     """
-    return os.path.join('place_images', instance.place.name.replace(' ', '_'), filename)
+    return os.path.join('place_images', instance.place.name.lower().replace(' ', '_'), filename)
+
+
+def place_front_image_upload(instance, filename):
+
+    return os.path.join('front_images', instance.name.lower().replace(' ', '_'), filename)
 
 
 class Place(models.Model):
@@ -61,7 +66,7 @@ class Place(models.Model):
         help_text="Add a brief, engaging description to attract and retain users."
     )
 
-    front_image = models.ImageField(upload_to=None, default="no picture")
+    front_image = models.ImageField(upload_to=place_front_image_upload, default="no picture")
 
     # nearest travelling options
     nearest_cities = models.TextField(
@@ -108,7 +113,6 @@ class Place(models.Model):
     
     weekends_opening_time = models.TimeField(null=True, blank=True)
     weekends_closing_time = models.TimeField(null=True, blank=True)
-    front_image = models.ImageField(upload_to='place_images/', null=True, blank=True)
 
     
     def __str__(self):
@@ -146,10 +150,10 @@ class Guide(models.Model):
     state = models.CharField(max_length=50, choices=state_choice, null=False)
     city = models.CharField(max_length=50, choices=city_choice, null=False)
     place = models.CharField(max_length=50, choices=place_choice, null=False)
-    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    # profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     
     def __str__(self):
-        return f"{self.name} - {'Super Guide' if self.is_super_guide else 'Guide'}"
+        return f"{self.name}:{self.place}- {'Super Guide' if self.is_super_guide else 'Guide'}"
 
 
 
@@ -181,8 +185,8 @@ class Doctor(models.Model):
         blank=True,
         help_text="Day of the week when the tour place is regularly closed."
     )
-    service_time = models.TimeField(auto_now=False, auto_now_add=False)
-    open_time = models.TimeField()
+
+    open_time = models.CharField(max_length=50)
 
     def __str__(self):
         return f"{self.name} - {self.speciality}"
