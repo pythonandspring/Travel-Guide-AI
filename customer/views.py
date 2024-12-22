@@ -12,6 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.contrib.auth import logout
 from travelling.send_mail import send_confirmation_email
+from django.contrib.auth.models import User
 
 
 def user_login(request):
@@ -78,29 +79,67 @@ def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
-            if user_profile:
-                user_profile.location = form.cleaned_data.get('location')
-                user_profile.birth_date = form.cleaned_data.get('birth_date')
-                user_profile.travel_preferences = form.cleaned_data.get('travel_preferences')
-                user_profile.favorite_destinations = form.cleaned_data.get('favorite_destinations')
-                user_profile.languages_spoken = form.cleaned_data.get('languages_spoken')
-                user_profile.budget_range = form.cleaned_data.get('budget_range')
-                user_profile.interests = form.cleaned_data.get('interests')
-                user_profile.save()
-            else:
-                Profile.objects.create(
-                    user=request.user,
-                    location=form.cleaned_data.get('location'),
-                    birth_date=form.cleaned_data.get('birth_date'),
-                    travel_preferences=form.cleaned_data.get('travel_preferences'),
-                    favorite_destinations=form.cleaned_data.get('favorite_destinations'),
-                    languages_spoken=form.cleaned_data.get('languages_spoken'),
-                    budget_range=form.cleaned_data.get('budget_range'),
-                    interests=form.cleaned_data.get('interests')
-                )
-            messages.success(request, "Profile edited successfully!")
-            return redirect('profile')  
+            email = form.cleaned_data.get('email')
+            try:
+                user = User.objects.get(email=email)
+                if user != request.user:
+                    form.add_error('email', 'This email is already in use.')
+                else:
+                    form.save()
+                    if user_profile:
+                        user_profile.location = form.cleaned_data.get('location')
+                        user_profile.birth_date = form.cleaned_data.get(
+                            'birth_date')
+                        user_profile.travel_preferences = form.cleaned_data.get(
+                            'travel_preferences')
+                        user_profile.favorite_destinations = form.cleaned_data.get(
+                            'favorite_destinations')
+                        user_profile.languages_spoken = form.cleaned_data.get(
+                            'languages_spoken')
+                        user_profile.budget_range = form.cleaned_data.get(
+                            'budget_range')
+                        user_profile.interests = form.cleaned_data.get('interests')
+                        user_profile.save()
+                    else:
+                        Profile.objects.create(
+                            user=request.user,
+                            location=form.cleaned_data.get('location'),
+                            birth_date=form.cleaned_data.get('birth_date'),
+                            travel_preferences=form.cleaned_data.get(
+                                'travel_preferences'),
+                            favorite_destinations=form.cleaned_data.get(
+                                'favorite_destinations'),
+                            languages_spoken=form.cleaned_data.get(
+                                'languages_spoken'),
+                            budget_range=form.cleaned_data.get('budget_range'),
+                            interests=form.cleaned_data.get('interests')
+                        )
+                    messages.success(request, "Profile edited successfully!")
+                    return redirect('profile')
+            except User.DoesNotExist:
+                form.save()
+                if user_profile:
+                    user_profile.location = form.cleaned_data.get('location')
+                    user_profile.birth_date = form.cleaned_data.get('birth_date')
+                    user_profile.travel_preferences = form.cleaned_data.get('travel_preferences')
+                    user_profile.favorite_destinations = form.cleaned_data.get('favorite_destinations')
+                    user_profile.languages_spoken = form.cleaned_data.get('languages_spoken')
+                    user_profile.budget_range = form.cleaned_data.get('budget_range')
+                    user_profile.interests = form.cleaned_data.get('interests')
+                    user_profile.save()
+                else:
+                    Profile.objects.create(
+                        user=request.user,
+                        location=form.cleaned_data.get('location'),
+                        birth_date=form.cleaned_data.get('birth_date'),
+                        travel_preferences=form.cleaned_data.get('travel_preferences'),
+                        favorite_destinations=form.cleaned_data.get('favorite_destinations'),
+                        languages_spoken=form.cleaned_data.get('languages_spoken'),
+                        budget_range=form.cleaned_data.get('budget_range'),
+                        interests=form.cleaned_data.get('interests')
+                    )
+                messages.success(request, "Profile edited successfully!")
+                return redirect('profile')  
     else:
         form = EditProfileForm(instance=request.user)
         if user_profile:

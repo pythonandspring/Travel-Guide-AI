@@ -18,7 +18,9 @@
                     <div class="mb-4">
                         <label for="first_name" class="form-label fw-semibold">First Name</label>
                         <input type="text" id="first_name" name="first_name" class="form-control border-0 shadow-sm" value="{{ form.first_name.value}}" placeholder="Enter your first name" >
-                        <div id="first-name-error" class="invalid-feedback"></div>
+                        <div id="first-name-error" class="invalid-feedback">
+                            
+                        </div>
                     </div>
 
                     <!-- Last Name -->
@@ -31,10 +33,24 @@
                     <!-- Email -->
                     <div class="mb-4">
                         <label for="email" class="form-label fw-semibold">Email</label>
-                        <input type="email" id="email" name="email" class="form-control border-0 shadow-sm" value="{{ form.email.value}}" placeholder="Enter your email" >
-                        <div id="email-error" class="invalid-feedback"></div>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-control border-0 shadow-sm {% if form.email.errors %}is-invalid{% endif %}" 
+                            value="{{ form.email.value }}" 
+                            placeholder="Enter your email" 
+                        >
+                        <div id="email-error" class="invalid-feedback">
+                            {% if form.email.errors %}
+                                <ul class="mb-0">
+                                    {% for error in form.email.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
                     </div>
-
                     <!-- Location -->
                     <div class="mb-4">
                         <label for="location" class="form-label fw-semibold">Location</label>
