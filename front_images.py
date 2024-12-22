@@ -22,9 +22,10 @@ else:
 # Iterate through all Place objects and update their front_image
 for place in Place.objects.all():
     # Generate the expected file name based on the place's name
+    folder_name =place.name.lower().replace(' ', '_')
     file_name = f"FI_{place.name.lower().replace(' ', '_')}.jpg"
-    image_path = os.path.join(image_folder, file_name)
-
+    image_path = os.path.join(image_folder, folder_name ,file_name)
+    print(image_path)
     # Check if the image file exists
     if os.path.exists(image_path):
         with open(image_path, 'rb') as img_file:
