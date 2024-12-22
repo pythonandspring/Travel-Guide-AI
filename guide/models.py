@@ -1,6 +1,9 @@
 from django.db import models
 import os
 from travelling.filter_data.get_data import get_countries, get_cities, get_place, get_states 
+from django.contrib.auth.models import User
+import uuid
+
 
 
 def place_image_upload_to(instance, filename):
@@ -136,7 +139,6 @@ class Guide(models.Model):
     place_choice = [(place_option, place_option) for place_option in get_place()]
 
     name = models.CharField(max_length=100)
-    profile_image = models.ImageField(upload_to=None, default=None)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
     password = models.CharField(max_length=100)
@@ -150,7 +152,6 @@ class Guide(models.Model):
     state = models.CharField(max_length=50, choices=state_choice, null=False)
     city = models.CharField(max_length=50, choices=city_choice, null=False)
     place = models.CharField(max_length=50, choices=place_choice, null=False)
-    # profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     
     def __str__(self):
         return f"{self.name}:{self.place}- {'Super Guide' if self.is_super_guide else 'Guide'}"
@@ -190,3 +191,9 @@ class Doctor(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.speciality}"
+
+
+class PasswordResetToken(models.Model):
+    guide = models.OneToOneField(Guide, on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)

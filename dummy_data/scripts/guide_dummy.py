@@ -16,12 +16,12 @@ settings.configure(
 db_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'rta9985',
+    'password': 'Raunak@123',
     'database': 'user',
     'charset': 'utf8mb4'
 }
 
-csv_file_path = r'dummy_data/csv/Guides.csv'
+csv_file_path = r'dummy_data/csv/guides_dummy.csv'
 
 table_name = 'guide_guide'
 
