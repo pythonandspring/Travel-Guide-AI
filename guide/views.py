@@ -506,9 +506,9 @@ def request_password_reset(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             try:
-                guide =Guide.objects.get(email=email)
+                guide = Guide.objects.get(email=email)
                 token, created = PasswordResetToken.objects.get_or_create(guide=guide)
-                reset_link = f"http://127.0.0.1:8000/reset-password/{token.token}/"
+                reset_link = f"http://127.0.0.1:8000/guide/reset-password/{token.token}/"
                 send_mail(
                     "Password Reset Request",
                     f"Click the link to reset your password: {reset_link}",
@@ -533,7 +533,7 @@ def reset_password(request, token):
             confirm_password = form.cleaned_data['confirm_password']
             if new_password == confirm_password:
                 guide = token_obj.guide
-                guide.set_password(new_password)
+                guide.password = make_password(new_password)
                 guide.save()
                 token_obj.delete()
                 return render(request, "password_reset_complete.html")
