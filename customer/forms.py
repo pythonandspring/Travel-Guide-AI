@@ -45,6 +45,8 @@ class EditProfileForm(UserChangeForm):
     
         if self.instance.pk:  
             profile = self.instance.profile
+            user = User.objects.get(user_id=profile.user_id)
+            self.fields['email'].initial = user.email
             self.fields['location'].initial = profile.location
             self.fields['birth_date'].initial = profile.birth_date
             self.fields['travel_preferences'].initial = profile.travel_preferences
