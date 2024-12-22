@@ -4,6 +4,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 /* Hide navbar and footer only on this page */
 body.forgot-password-page .navbar,
 body.forgot-password-page .footer {
@@ -15,7 +16,6 @@ body.forgot-password-page .container {
     margin-top: 100px;  /* Adjust top margin for form */
 }
 
-
 /* Body */
 body {
     font-family: Arial, sans-serif;
@@ -25,14 +25,24 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column; /* Center the content vertically */
+}
+
+/* Reset Password Heading */
+.reset-password-heading {
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px; /* Space between heading and form */
+    text-align: center;
 }
 
 /* Forgot Password Form */
 .register-container {
-    max-width: 500px;
+    max-width: 600px; /* Increased form size */
     width: 100%;
     background-color: #fff;
-    padding: 30px;
+    padding: 40px; /* Increased padding */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 40px; /* Adjust top margin if needed */
