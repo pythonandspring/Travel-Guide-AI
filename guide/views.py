@@ -155,13 +155,22 @@ def guide_edit_profile(request, *args, **kwargs):
         if request.method == "POST":
             form = GuideDetailsUpdateForm(request.POST, instance=guide)
             if form.is_valid():
-                form.save()
-                messages.success(request, 'profile updated successfully.')
-                return redirect('guide_dashboard')
+                email = form.cleaned_data.get('email')
+                try:
+                    guide_new = Guide.objects.get(email=email)
+                    if guide_new != guide:
+                        form.add_error('email', 'this email is already in use')
+                    else:
+                        form.save()
+                        messages.success(request, 'profile updated successfully.')
+                        return redirect('guide_dashboard')
+                except Guide.DoesNotExist:
+                    form.save()
+                    messages.success(request, 'profile updated successfully.')
+                    return redirect('guide_dashboard')
             else:
                 messages.error(request, "profile can't update.")
                 return redirect('guide_dashboard')
-
         else:
             form = GuideDetailsUpdateForm(instance=guide)
         return render(request, 'guide_edit_profile.html', {'form': form, 'guide':guide})
