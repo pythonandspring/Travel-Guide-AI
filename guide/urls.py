@@ -32,7 +32,7 @@ urlpatterns = [
     # path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done_guide'),
     # path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm_guide'),
     # path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete_guide'
-    path('request-password-reset/', request_password_reset, name='request_password_reset'),
+    path('request-password-reset/', request_password_reset, name='guide_request_password_reset'),
     path('reset-password/<uuid:token>/', reset_password, name='guide_reset_password'),
 
 

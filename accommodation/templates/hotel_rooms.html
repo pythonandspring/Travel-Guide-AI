@@ -10,7 +10,7 @@
     <div class="header">
         <h1>Hotel Rooms</h1>
         <!-- Button to trigger the popup -->
-        <a href="#" class="add-room-btn" onclick="openPopup()">Add Room</a>
+        <a href="{% url "add_room_type" %}" class="add-room-btn" onclick="openPopup()">Add Room</a>
     </div>
 
     <table>
@@ -50,7 +50,7 @@
 <div id="addRoomPopup" class="popup-container" style="display: none;">
     <div class="popup">
         <span class="close-btn" onclick="closePopup()">&times;</span>
-        <form id="addRoomForm" method="POST" action="{% url 'add_room' %}">
+        <form id="addRoomForm" method="POST" action="{% url 'add_room_type' %}">
             {% csrf_token %}
 
             <div class="form-group">
