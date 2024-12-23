@@ -6,7 +6,6 @@ from pyexpat.errors import messages
 from guide.models import Place, Guide
 from accommodation.models import Hotel
 from django.core.cache import cache
-from django.conf import settings
 
 
 def home(request):

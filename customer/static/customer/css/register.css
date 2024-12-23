@@ -1,28 +1,42 @@
 
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom right, #194c7f, #001f3f); 
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    height: 100vh; 
+    box-sizing: border-box;
+    background: linear-gradient(to bottom right, #eae9f8, #efe5e7);
     display: flex;
-    background-color: #194c7f;
-    flex-direction: column; 
-    margin-top: 40px;}
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: normal; 
+    /* Prevents horizontal scrolling */
+}
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px; /* Example height for the navbar */
+    background-color: #000;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
 nav {
     width: 100%;
-    height: 50px; 
-    background-color: #003366; 
+    height: 40px; 
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: red;
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000;
 }
 
 nav ul {
@@ -44,26 +58,30 @@ nav a {
 }
 
 nav a:hover {
-    color: #031221; 
+    color:linear-gradient(to bottom right, #0e085d, #c52134); 
 }
+
+
 
 
 .register-container {
     width: 90%; 
     max-width: 400px; 
-    margin: 4rem auto; 
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 1.5rem; 
+    margin: 6rem auto; /* Provides space below the fixed navbar */
+    padding: 1rem; 
     border-radius: 10px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 233, 233, 0.9);
+    box-shadow: 0 8px 15px rgba(236, 46, 46, 0.2);
     text-align: center;
-    transform: translateY(10px);
-    margin: top 40px; ;
+    transform: translateY(5px); 
+    margin-bottom: 6rem; /* Provides space above the fixed footer */
 }
 
-.register-container:hover {
-    transform: translateY(0) scale(1.05); }
-
+/* Additional Utility Class (Optional) */
+.container-wrapper {
+    padding: 6rem 1rem; /* Ensures content is below navbar and above footer */
+}
+    
 h1 {
     font-size: 1.8rem; 
     margin-bottom: 1rem;
@@ -128,7 +146,7 @@ button:hover {
 p {
     margin-top: 1.5rem;
     font-size: 1rem;
-    color: #333;
+    color: #ee4545;
 }
 
 a {
@@ -141,7 +159,7 @@ a:hover {
 footer {
     width: 100%;
     height: 40px;
-    background-color: #041323; 
+    background-color: #c30e0e; 
     color: white;
     text-align: center;
     justify-content: center;
@@ -150,7 +168,7 @@ footer {
     bottom: 0;
     left: 0;
     font-size: 0.9rem;
-    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: linear-gradient(to bottom right, #0e085d, #c52134); 
 }
 
 
@@ -166,4 +184,12 @@ footer {
     label, input, button {
         font-size: 0.9rem;
     }
+}
+
+.error-message {
+    color: red;
+    font-size: 0.875em;
+    margin-top: 5px;
+    display: block;
+    /* Ensures error messages appear below the input */
 }

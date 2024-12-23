@@ -1,0 +1,70 @@
+/* forgot-pass.css */
+
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9; /* Light background color */
+}
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    padding: 20px;
+}
+
+.form-group {
+    background-color: #fff;
+    padding: 20px; /* Reduced padding */
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px; /* Width remains the same */
+    text-align: center;
+}
+
+h2 {
+    font-size: 24px; /* Slightly smaller heading */
+    color: #333;
+    margin-bottom: 20px; /* Reduced margin */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Reduced gap between elements */
+}
+
+form input, form button {
+    width: 100%;
+    padding: 10px; /* Reduced padding */
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+form input:focus, form button:focus {
+    border-color: #007BFF; /* Highlight on focus */
+    outline: none;
+}
+
+form button {
+    background-color: #007BFF;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+p {
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
+}

@@ -23,6 +23,8 @@ urlpatterns = [
     path('update_room_details/<int:room_id>/', views.update_room, name='update_room_details'),
     path('delete_room/<int:room_id>/', views.delete_room_type, name="delete_room"),
 
-    # path('delete_account/<int:hotel_id>/', ),
+    path('request-password-reset/', views.request_password_reset, name='hotel_request_password_reset'),
+    path('reset-password/<uuid:token>/', views.reset_password, name='hotel_reset_password'),
+
     path("contact_support", views.contact_support, name='contact_support')
 ]

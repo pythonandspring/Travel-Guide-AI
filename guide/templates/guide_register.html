@@ -8,144 +8,152 @@
 
 
 {% block content %}
-    <div id="registration-form">
-        <h1>Guide Registration</h1>
-        <form method="POST">
-            {% csrf_token %}
+<div id="registration-form">
+    <h1>Guide Registration</h1>
+    <form method="POST" id="registrationForm">
+        {% csrf_token %}
 
-            <h2>Guide's Information: </h2>
-            <!-- Name Field -->
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input 
-                    type="text" 
-                    id="name" 
-                    name="name" 
-                    class="form-control" 
-                    placeholder="Full Name" 
-                    value="{{ form.name.value|default:'' }}">
+        <h2>Guide's Information: </h2>
+
+        <!-- Name Field -->
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                class="form-control" 
+                placeholder="Full Name" 
+                value="{{ form.name.value|default:'' }}">
+            <!-- Backend error message with red color -->
+            <div id="error_id_name" class="error-message">
                 {{ form.name.errors }}
             </div>
+        </div>
 
-            <!-- Email Field -->
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    class="form-control" 
-                    placeholder="Email Address" 
-                    value="{{ form.email.value|default:'' }}">
+        <!-- Email Field -->
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                class="form-control" 
+                placeholder="Email Address" 
+                value="{{ form.email.value|default:'' }}">
+            <!-- Backend error message with red color -->
+            <div id="error_id_email" class="error-message">
                 {{ form.email.errors }}
             </div>
+        </div>
 
-            <!-- Phone Field -->
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input 
-                    type="text" 
-                    id="phone" 
-                    name="phone" 
-                    class="form-control" 
-                    placeholder="Phone Number" 
-                    value="{{ form.phone.value|default:'' }}">
+        <!-- Phone Field -->
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input 
+                type="text" 
+                id="phone" 
+                name="phone" 
+                class="form-control" 
+                placeholder="Phone Number" 
+                value="{{ form.phone.value|default:'' }}">
+            <!-- Backend error message with red color -->
+            <div id="error_id_phone" class="error-message">
                 {{ form.phone.errors }}
             </div>
+        </div>
 
-            <!-- Address -->
-            <div class="form-group">
-                <label for="phone">Address: </label>
-                <input 
-                    type="text" 
-                    id="phone" 
-                    name="address" 
-                    class="form-control" 
-                    placeholder="Address" 
-                    value="{{ form.address.value|default:'' }}">
+        <!-- Address Field -->
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input 
+                type="text" 
+                id="address" 
+                name="address" 
+                class="form-control" 
+                placeholder="Address" 
+                value="{{ form.address.value|default:'' }}">
+            <!-- Backend error message with red color -->
+            <div id="error_id_address" class="error-message">
                 {{ form.address.errors }}
             </div>
+        </div>
 
-            <hr>
-            <h2>Location Details:</h2>
-            <div class="form-group country">
-                <label for="{{ form.country.id_for_label }}">{{ form.country.label }}:</label>
-                {{ form.country }}
-                {% if form.country.errors %}
-                    <div class="errors">
-                        {% for error in form.country.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+        <hr>
+        <h2 class="h6 text-left" style="font-weight: 800;">Location Details:</h2>
+
+        <!-- Country Field -->
+        <div class="form-group">
+            <label for="{{ form.country.id_for_label }}">{{ form.country.label }}:</label>
+            {{ form.country }}
+            <div id="error_id_country" class="error-message">
+                {{ form.country.errors }}
             </div>
+        </div>
 
-            <div class="form-group state">
-                <label for="{{ form.state.id_for_label }}">{{ form.state.label }}:</label>
-                {{ form.state }}
-                {% if form.state.errors %}
-                    <div class="errors">
-                        {% for error in form.state.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+        <!-- State Field -->
+        <div class="form-group">
+            <label for="{{ form.state.id_for_label }}">{{ form.state.label }}:</label>
+            {{ form.state }}
+            <div id="error_id_state" class="error-message">
+                {{ form.state.errors }}
             </div>
+        </div>
 
-            <div class="form-group city">
-                <label for="{{ form.city.id_for_label }}">{{ form.city.label }}:</label>
-                {{ form.city }}
-                {% if form.city.errors %}
-                    <div class="errors">
-                        {% for error in form.city.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+        <!-- City Field -->
+        <div class="form-group">
+            <label for="{{ form.city.id_for_label }}">{{ form.city.label }}:</label>
+            {{ form.city }}
+            <div id="error_id_city" class="error-message">
+                {{ form.city.errors }}
             </div>
+        </div>
 
-            <div class="form-group place">
-                <label for="{{ form.place.id_for_label }}">{{ form.place.label }}:</label>
-                {{ form.place }}
-                {% if form.place.errors %}
-                    <div class="errors">
-                        {% for error in form.place.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+        <!-- Place Field -->
+        <div class="form-group">
+            <label for="{{ form.place.id_for_label }}">{{ form.place.label }}:</label>
+            {{ form.place }}
+            <div id="error_id_place" class="error-message">
+                {{ form.place.errors }}
             </div>
+        </div>
 
-            <!-- Password Field -->
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    class="form-control" 
-                    placeholder="Enter your password">
+        <!-- Password Field -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                class="form-control" 
+                placeholder="Enter your password">
+            <div id="error_id_password" class="error-message">
                 {{ form.password.errors }}
             </div>
+        </div>
 
-            <!-- Confirm Password Field -->
-            <div class="form-group">
-                <label for="confirm_password">Confirm Password</label>
-                <input 
-                    type="password" 
-                    id="confirm_password" 
-                    name="confirm_password" 
-                    class="form-control" 
-                    placeholder="Confirm your password">
+        <!-- Confirm Password Field -->
+        <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            <input 
+                type="password" 
+                id="confirm_password" 
+                name="confirm_password" 
+                class="form-control" 
+                placeholder="Confirm your password">
+            <div id="error_id_confirm_password" class="error-message">
                 {{ form.confirm_password.errors }}
             </div>
+        </div>
 
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary" onclick="return validateForm()" >Submit</button>
+    </form>
 
-        <p>Already have an account? <a href="{% url 'guide_login' %}">Login here</a></p>
-    </div>
+    <!-- Login Link -->
+    <p>Already have an account? <a href="{% url 'guide_login' %}">Login here</a></p>
+</div>
+
 {% endblock %}
 
 
@@ -232,11 +240,106 @@
         const countryField = document.getElementById("id_country");
         if (countryField) {
             const defaultCountryOption = document.createElement("option");
-            defaultCountryOption.textContent = "Select a country";
             defaultCountryOption.disabled = true;
             defaultCountryOption.selected = true;
             countryField.insertBefore(defaultCountryOption, countryField.firstChild);
         }
     });
+
+    function validateForm() {
+        // Get form elements
+        var name = document.getElementById('name');
+        var email = document.getElementById('email');
+        var phone = document.getElementById('phone');
+        var address = document.getElementById('address');
+        var country = document.getElementById('id_country');  // Adjust the ID to match the form's ID
+        var state = document.getElementById('id_state');      // Adjust the ID to match the form's ID
+        var city = document.getElementById('id_city');        // Adjust the ID to match the form's ID
+        var place = document.getElementById('id_place');      // Adjust the ID to match the form's ID
+        var password = document.getElementById('password');
+        var confirmPassword = document.getElementById('confirm_password');
+
+        // Create an array to store error messages
+        var errorMessages = [];
+
+        // Check if required fields are empty
+        if (name.value.trim() === "") {
+            errorMessages.push("Full Name is required.");
+            document.getElementById('error_id_name').innerText = "This field is required.";
+        } else {
+            document.getElementById('error_id_name').innerText = "";
+        }
+
+        if (email.value.trim() === "") {
+            errorMessages.push("Email Address is required.");
+            document.getElementById('error_id_email').innerText = "This field is required.";
+        } else {
+            document.getElementById('error_id_email').innerText = "";
+        }
+
+        if (phone.value.trim() === "") {
+            errorMessages.push("Phone Number is required.");
+            document.getElementById('error_id_phone').innerText = "This field is required.";
+        } else {
+            document.getElementById('error_id_phone').innerText = "";
+        }
+
+        if (address.value.trim() === "") {
+            errorMessages.push("Address is required.");
+            document.getElementById('error_id_address').innerText = "This field is required.";
+        } else {
+            document.getElementById('error_id_address').innerText = "";
+        }
+
+        if (country.value.trim() === "") {
+            errorMessages.push("Country is required.");
+            document.getElementById('error_id_country').innerText = "This field is required.";
+        } else {
+            document.getElementById('error_id_country').innerText = "";
+        }
+
+        if (state.value.trim() === "") {
+            errorMessages.push("State is required.");
+            document.getElementById('error_id_state').innerText = "This field is required.";
+        } else {
+            document.getElementById('error_id_state').innerText = "";
+        }
+
+        if (city.value.trim() === "") {
+            errorMessages.push("City is required.");
+            document.getElementById('error_id_city').innerText = "This field is required.";
+        } else {
+            document.getElementById('error_id_city').innerText = "";
+        }
+
+        if (place.value.trim() === "") {
+            errorMessages.push("Place is required.");
+            document.getElementById('error_id_place').innerText = "This field is required.";
+        } else {
+            document.getElementById('error_id_place').innerText = "";
+        }
+
+        if (password.value.trim() === "") {
+            errorMessages.push("Password is required.");
+            document.getElementById('error_id_password').innerText = "This field is required.";
+        } else {
+            document.getElementById('error_id_password').innerText = "";
+        }
+
+        if (confirmPassword.value.trim() === "") {
+            errorMessages.push("Confirm Password is required.");
+            document.getElementById('error_id_confirm_password').innerText = "This field is required.";
+        } else {
+            document.getElementById('error_id_confirm_password').innerText = "";
+        }
+
+        // If there are errors, prevent form submission
+        if (errorMessages.length > 0) {
+            return false;
+        }
+
+        return true; // Form is valid, allow submission
+    }
 </script>
+
 {% endblock javascript %}

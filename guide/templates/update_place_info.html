@@ -178,5 +178,51 @@
             <button type="submit" class="submit-btn">Save Changes</button>
         </form>
     </div>
+    <script>
+    function validateForm() {
+        let isValid = true;
+
+        // Fields to validate with corresponding error IDs and messages
+        const fields = [
+            { id: "id_area_size", errorId: "area-size-error", message: "Area Size is required." },
+            { id: "id_history", errorId: "history-error", message: "History is required." },
+            { id: "id_speciality", errorId: "speciality-error", message: "Speciality is required." },
+            { id: "id_best_months_to_visit", errorId: "best-months-to-visit-error", message: "Best months to visit are required." },
+            { id: "id_appealing_text", errorId: "appealing-text-error", message: "Appealing text is required." },
+            { id: "id_nearest_cities", errorId: "nearest-cities-error", message: "Nearest cities are required." },
+            { id: "id_airports", errorId: "airports-error", message: "Airports information is required." },
+            { id: "id_railway_stations", errorId: "railway-stations-error", message: "Railway stations information is required." },
+            { id: "id_by_road_distances_from_railway_stations", errorId: "distances-railway-error", message: "By road distances from railway stations are required." },
+            { id: "id_by_road_distances_from_airports", errorId: "distances-airports-error", message: "By road distances from airports are required." },
+            { id: "id_by_road_distances_from_nearest_cities", errorId: "distances-cities-error", message: "By road distances from nearest cities are required." },
+            { id: "id_weekly_closed_on", errorId: "weekly-closed-error", message: "Weekly closed day is required." },
+            { id: "id_special_closed_dates", errorId: "special-closed-dates-error", message: "Special closed dates are required." },
+            { id: "id_week_days_opening_time", errorId: "weekdays-opening-time-error", message: "Weekdays opening time is required." },
+            { id: "id_week_days_closing_time", errorId: "weekdays-closing-time-error", message: "Weekdays closing time is required." },
+            { id: "id_weekends_opening_time", errorId: "weekends-opening-time-error", message: "Weekends opening time is required." },
+            { id: "id_weekends_closing_time", errorId: "weekends-closing-time-error", message: "Weekends closing time is required." }
+        ];
+
+        // Clear previous error messages
+        fields.forEach(field => {
+            const errorElement = document.getElementById(field.errorId);
+            if (errorElement) errorElement.textContent = ""; // Clear error text
+        });
+
+        // Validate each field
+        fields.forEach(field => {
+            const value = document.getElementById(field.id)?.value.trim(); // Get trimmed input value
+            if (!value) { // Check if the field is empty
+                const errorElement = document.getElementById(field.errorId);
+                if (errorElement) errorElement.textContent = field.message; // Show error message
+                isValid = false; // Mark form as invalid
+            }
+        });
+
+        // Return the validation status
+        return isValid;
+    }
+</script>
+
 {% endblock %}
 
