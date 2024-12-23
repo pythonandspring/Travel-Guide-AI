@@ -269,9 +269,19 @@ def update_hotel_details(request):
     if request.method == "POST":
         form = HotelDetailsUpdateForm(request.POST, instance=hotel)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Details updated successfully.")
-            return redirect('hotel_dashboard')
+            hotel_email = form.cleaned_data.get('hotel_email')
+            try:
+                hotel_new = Hotel.objects.get(hotel_email=hotel_email)
+                if hotel_new != hotel:
+                    form.add_error('hotel_email', 'this hotel_email is in use already.')
+                else:
+                    form.save()
+                    messages.success(request, "Details updated successfully.")
+                    return redirect('hotel_dashboard')
+            except Hotel.DoesNotExist:
+                form.save()
+                messages.success(request, "Details updated successfully.")
+                return redirect('hotel_dashboard')
         else:
             messages.error(request, "Please enter valid details.")
     else:
