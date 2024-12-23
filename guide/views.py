@@ -56,11 +56,11 @@ def is_super_guide(view_func):
                 guide_id =request.session.get('super_guide_id')
                 guide = Guide.objects.get(id=guide_id)
             except Guide.DoesNotExist:
-                # try:
-                #     guide_id = request.session.get('guide_id')
-                #     guide = Guide.objects.get(id=guide_id)
-                # except Guide.DoesNotExist:
-                return redirect('guide_dashboard')
+                try:
+                    guide_id = request.session.get('guide_id')
+                    guide = Guide.objects.get(id=guide_id)
+                except Guide.DoesNotExist:
+                    return redirect('guide_dashboard')
             return view_func(request, guide_info=guide, *args, **kwargs)
         else:
             return redirect('guide_login')
@@ -293,14 +293,15 @@ def update_place_info(request, place_id, *args, **kwargs):
 @is_super_guide
 def get_images(request, place_id ,*args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
-    place = Place.objects.filter(id=place_id, name=guide_info.place, city=guide_info.city,
-                                 state=guide_info.state, country=guide_info.country).first()
+    place = Place.objects.get(id=place_id, name=guide_info.place, city=guide_info.city,
+                                 state=guide_info.state, country=guide_info.country)
+    print(place.id)
     if place:
         images = Image.objects.filter(place=place.id)
         if images:
-            return render(request, 'place_images.html', {'images_exist': True,'images': images})
+            return render(request, 'place_images.html', {'images_exist': True, 'images': images, 'place': place})
         else:
-            return render(request, 'place_images.html', {'images_exist': False})
+            return render(request, 'place_images.html', {'images_exist': False, 'place': place})
     else:
         request.session['place_exist'] = False
         guide_place_info = {
@@ -352,7 +353,7 @@ def delete_place_image(request, place_id, image_id, *args, **kwargs):
             image = Image.objects.get(place=place.id, id=image_id)
             image.delete()
             messages.success(request, "Image deleted successfully.")
-            return redirect('get_images')
+            return redirect('get_images',{'place_id': place_id})
         except Image.DoesNotExist:
             messages.error(request, "Image doesn't exists.")
             return redirect('get_images')
@@ -425,12 +426,13 @@ def get_images(request, place_id ,*args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
     place = Place.objects.filter(id=place_id, name=guide_info.place, city=guide_info.city,
                                  state=guide_info.state, country=guide_info.country).first()
+    guide = Guide.objects.get(id=guide_info.id)
     if place:
         images = Image.objects.filter(place=place.id)
         if images:
-            return render(request, 'place_images.html', {'images_exist': True,'images': images})
+            return render(request, 'place_images.html', {'images_exist': True, 'images': images, 'guide': guide})
         else:
-            return render(request, 'place_images.html', {'images_exist': False})
+            return render(request, 'place_images.html', {'images_exist': False, 'guide': guide})
     else:
         request.session['place_exist'] = False
         guide_place_info = {
@@ -440,7 +442,7 @@ def get_images(request, place_id ,*args, **kwargs):
             'country': guide_info.country
         }
         messages.error(request, "place doesn't exist.")
-        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
+        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide})
 
 
 @is_super_guide
@@ -473,7 +475,7 @@ def add_place_image(request, place_id, *args, **kwargs):
 
 
 @is_super_guide
-def delete_place_image(request, place_id, image_id, *args, **kwargs):
+def delete_place_image(request, image_id, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
     place = Place.objects.filter(name=guide_info.place, city=guide_info.city,
                                  state=guide_info.state, country=guide_info.country).first()
@@ -482,10 +484,10 @@ def delete_place_image(request, place_id, image_id, *args, **kwargs):
             image = Image.objects.get(place=place.id, id=image_id)
             image.delete()
             messages.success(request, "Image deleted successfully.")
-            return redirect('get_images')
+            return redirect('get_images', place_id=place.id)
         except Image.DoesNotExist:
             messages.error(request, "Image doesn't exists.")
-            return redirect('get_images')
+            return redirect('get_images', place_id=place.id)
     else:
         request.session['place_exist'] = False
         guide_place_info = {
@@ -495,9 +497,23 @@ def delete_place_image(request, place_id, image_id, *args, **kwargs):
             'country': guide_info.country
         }
         messages.error(request, "place doesn't exist.")
-        return render(request, 'place/place_info', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
+        return render(request, 'place/place_info', {'place_exist': False, 'guide': guide_place_info, 'guide': guide_info})
 
-    
+
+@is_super_guide
+def place_image_popup(request, place_id, image_id,  *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    place = Place.objects.filter(name=guide_info.place, city=guide_info.city,
+                                 state=guide_info.state, country=guide_info.country).first()
+    # if 'hotel_owner_id' not in request.session:
+    #     messages.error(
+    #         request, "You must be logged in to perform this action.")
+    #     return redirect('hotel_login')
+
+    place_id = place_id
+    image = get_object_or_404(Image, id=image_id, place_id=place_id)
+
+    return render(request, 'place_Image_add_popup.html', {'image': image})
  
 # <---------------------CONTACT------------------------------------->
 @is_login
