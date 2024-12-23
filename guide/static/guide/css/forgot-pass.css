@@ -1,79 +1,117 @@
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(to bottom, #fff, #ffe8b3);
+/* Reset styles for body and html */
+body, html {
   margin: 0;
   padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+/* Full-page background styling */
+body {
+  background: url("{% static 'images/bg_2.jpg' %}") no-repeat center center/cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
+/* Centering the card container */
 .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Ensure the container spans the full viewport */
   width: 100%;
-  max-width: 400px;
-  padding: 20px;
-  box-sizing: border-box;
+}
+
+/* Card styling */
+.card {
+  background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 500px; /* Retain previous maximum width */
+  width: 90%; /* Ensure responsiveness */
   text-align: center;
 }
 
-.card {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-}
-
+/* Header styling */
 .card h1 {
-  font-size: 22px;
+  font-size: 2rem;
   color: #333;
   margin-bottom: 15px;
 }
 
+/* Paragraph styling */
 .card p {
-  font-size: 14px;
+  font-size: 1rem;
   color: #666;
   margin-bottom: 20px;
 }
 
-.form-group {
-  text-align: left;
-  margin-bottom: 15px;
-}
-
+/* Input field styling */
 .form-group label {
-  font-size: 14px;
-  color: #333;
   display: block;
+  font-size: 0.9rem;
+  color: #333;
   margin-bottom: 5px;
+  text-align: left;
 }
 
 .form-group input {
   width: 100%;
   padding: 10px;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 4px;
+  margin-bottom: 20px;
   box-sizing: border-box;
 }
 
-.captcha {
-  margin: 15px 0;
-}
-
-/* Submit button styles */
+/* Button styling */
 .submit-btn {
-  background: linear-gradient(to right, #4f83cc, #1e4f99); /* Shades of blue */
-  color: #fff;
-  padding: 12px 20px;
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 15px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
+  font-size: 1rem;
   cursor: pointer;
-  font-size: 14px;
-  text-transform: uppercase;
-  width: 100%; /* Full width */
-  box-sizing: border-box;
+  transition: background-color 0.3s ease;
+  width: 100%;
 }
 
 .submit-btn:hover {
-  background: linear-gradient(to right, #1e4f99, #4f83cc); /* Reverse gradient on hover */
+  background-color: #0056b3;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .card {
+    padding: 20px;
+    max-width: 400px; /* Adjust width for medium screens */
+  }
+
+  .card h1 {
+    font-size: 1.8rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 15px; /* Further reduce padding for small screens */
+    max-width: 300px; /* Narrower width for smaller screens */
+  }
+
+  .card h1 {
+    font-size: 1.5rem; /* Smaller font for small screens */
+  }
+
+  .card p {
+    font-size: 0.8rem;
+  }
 }
