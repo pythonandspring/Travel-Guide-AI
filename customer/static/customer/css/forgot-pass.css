@@ -1,102 +1,70 @@
-/* General Reset */
-* {
+/* Reset styles for body and html */
+body, html {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-/* Hide navbar and footer only on this page */
-body.forgot-password-page .navbar,
-body.forgot-password-page .footer {
-    display: none;
-}
-
-/* Adjust layout for the form */
-body.forgot-password-page .container {
-    margin-top: 100px;  /* Adjust top margin for form */
-}
-
-/* Body */
-body {
+    height: 100%;
     font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #ffffff, #fff8e5);
-    min-height: 100vh;
-    padding-top: 0; /* Removed space for navbar */
+}
+
+/* Full-page background styling */
+.forgot-password-page {
+    height: 100vh;
+    width: 100%;
+    background: url("{% static 'images/bg_2.jpg' %}") no-repeat center center/cover;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column; /* Center the content vertically */
 }
 
-/* Reset Password Heading */
-.reset-password-heading {
-    font-size: 30px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 30px; /* Space between heading and form */
+/* Container styling */
+.container {
+    background: rgba(255, 255, 255, 0.85); /* Semi-transparent background */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%; /* Responsive */
     text-align: center;
 }
 
-/* Forgot Password Form */
-.register-container {
-    max-width: 600px; /* Increased form size */
-    width: 100%;
-    background-color: #fff;
-    padding: 40px; /* Increased padding */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 40px; /* Adjust top margin if needed */
-}
-
-h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-form label {
-    font-size: 14px;
+/* Header styling */
+.container h1 {
+    font-size: 2rem;
     color: #333;
-    display: block;
-    margin-bottom: 5px;
-}
-
-form input[type="email"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.recaptcha {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.recaptcha input {
-    margin-right: 10px;
-}
-
-.note {
-    font-size: 12px;
-    color: #f66;
     margin-bottom: 20px;
 }
 
-button {
+/* Paragraph styling */
+.container p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Input field styling */
+.form-group input {
     width: 100%;
     padding: 10px;
-    background: #f66;
-    color: #fff;
-    font-size: 14px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+/* Button styling */
+button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 15px;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
+    font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
 }
 
 button:hover {
-    background: #e55;
+    background-color: #0056b3;
 }
