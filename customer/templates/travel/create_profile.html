@@ -1,7 +1,7 @@
 {% extends 'home/base.html' %}
 {% load static %}
 
-{% block title %}Edit Profile{% endblock %}
+{% block title %}Create Profile{% endblock %}
 
 {% block content %}
 <div style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 3rem; padding-bottom: 3rem;">
@@ -21,36 +21,86 @@
                     <!-- First Name -->
                     <div class="mb-4">
                         <label for="first_name" class="form-label fw-semibold">First Name</label>
-                        <input type="text" id="first_name" name="first_name" class="form-control border-0 shadow-sm" value="{{ form.first_name.value}}" placeholder="Enter your first name" >
+                        <input 
+                            type="text" 
+                            id="first_name" 
+                            name="first_name" 
+                            class="form-control border-0 shadow-sm" 
+                            value="{{ form.first_name.value}}" 
+                            placeholder="Enter your first name">
                         <div id="first-name-error" class="invalid-feedback"></div>
+                        <!-- Backend validation -->
+                        {% for error in form.first_name.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
                     </div>
 
                     <!-- Last Name -->
                     <div class="mb-4">
                         <label for="last_name" class="form-label fw-semibold">Last Name</label>
-                        <input type="text" id="last_name" name="last_name" class="form-control border-0 shadow-sm" value="{{ form.last_name.value}}" placeholder="Enter your last name" >
+                        <input 
+                            type="text" 
+                            id="last_name" 
+                            name="last_name" 
+                            class="form-control border-0 shadow-sm" 
+                            value="{{ form.last_name.value}}" 
+                            placeholder="Enter your last name">
                         <div id="last-name-error" class="invalid-feedback"></div>
+                        <!-- Backend validation -->
+                        {% for error in form.last_name.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
                     </div>
 
                     <!-- Email -->
                     <div class="mb-4">
                         <label for="email" class="form-label fw-semibold">Email</label>
-                        <input type="email" id="email" name="email" class="form-control border-0 shadow-sm" value="{{ form.email.value}}" placeholder="Enter your email" >
+                        <label for="email" class="form-control border-0 shadow-sm">{{ user.email }}</label>
+                        <input 
+                            type="hidden" 
+                            id="email" 
+                            name="email" 
+                            class="form-control border-0 shadow-sm" 
+                            value="{{ user.email}}" 
+                            placeholder="Enter your first name">
                         <div id="email-error" class="invalid-feedback"></div>
+                        <!-- Backend validation -->
+                        {% for error in form.email.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
                     </div>
 
                     <!-- Location -->
                     <div class="mb-4">
                         <label for="location" class="form-label fw-semibold">Location</label>
-                        <input type="text" id="location" name="location" class="form-control border-0 shadow-sm" value="{{ form.location.value}}" placeholder="Enter your location" >
+                        <input 
+                            type="text" 
+                            id="location" 
+                            name="location" 
+                            class="form-control border-0 shadow-sm" 
+                            value="{{ form.location.value}}" 
+                            placeholder="Enter your location">
                         <div id="location-error" class="invalid-feedback"></div>
+                        <!-- Backend validation -->
+                        {% for error in form.location.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
                     </div>
 
                     <!-- Birth Date -->
                     <div class="mb-4">
                         <label for="birth_date" class="form-label fw-semibold">Birth Date</label>
-                        <input type="date" id="birth_date" name="birth_date" class="form-control border-0 shadow-sm" value="{{ form.birth_date.value}}" >
+                        <input 
+                            type="date" 
+                            id="birth_date" 
+                            name="birth_date" 
+                            class="form-control border-0 shadow-sm" 
+                            value="{{ form.birth_date.value}}">
                         <div id="birth-date-error" class="invalid-feedback"></div>
+                        <!-- Backend validation -->
+                        {% for error in form.birth_date.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
                     </div>
 
                     <!-- Travel Preferences -->
@@ -63,52 +113,90 @@
                             class="form-control border-0 shadow-sm" 
                             placeholder="Enter preferences separated by spaces" 
                             value="{{ form.travel_preferences.value|default:'' }}">
-                        <div 
-                            id="travel-preferences-error" 
-                            class="text-danger mt-2" 
-                            style="font-size: 0.9rem;">
-                        </div>
+                        <div id="travel-preferences-error" class="text-danger mt-2" style="font-size: 0.9rem;"></div>
+                        <!-- Backend validation -->
+                        {% for error in form.travel_preferences.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
                     </div>
-                    
+
                     <!-- Favorite Destinations -->
                     <div class="mb-4">
                         <label for="favorite_destinations" class="form-label fw-semibold">Favorite Destinations</label>
-                        <input type="text" id="favorite_destinations" name="favorite_destinations" class="form-control border-0 shadow-sm" value="{{ form.favorite_destinations.value}}" placeholder="Enter your favorite destinations">
+                        <input 
+                            type="text" 
+                            id="favorite_destinations" 
+                            name="favorite_destinations" 
+                            class="form-control border-0 shadow-sm" 
+                            value="{{ form.favorite_destinations.value}}" 
+                            placeholder="Enter your favorite destinations">
                         <div id="favorite-destinations-error" class="invalid-feedback"></div>
+                        <!-- Backend validation -->
+                        {% for error in form.favorite_destinations.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
                     </div>
 
                     <!-- Languages Spoken -->
                     <div class="mb-4">
                         <label for="languages_spoken" class="form-label fw-semibold">Languages Spoken</label>
-                        <input type="text" id="languages_spoken" name="languages_spoken" class="form-control border-0 shadow-sm" value="{{ form.languages_spoken.value}}" placeholder="Enter languages you speak">
+                        <input 
+                            type="text" 
+                            id="languages_spoken" 
+                            name="languages_spoken" 
+                            class="form-control border-0 shadow-sm" 
+                            value="{{ form.languages_spoken.value}}" 
+                            placeholder="Enter languages you speak">
                         <div id="languages-spoken-error" class="invalid-feedback"></div>
+                        <!-- Backend validation -->
+                        {% for error in form.languages_spoken.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
                     </div>
 
                     <!-- Budget Range -->
                     <div class="mb-4">
                         <label for="budget_range" class="form-label fw-semibold">Budget Range</label>
-                        <input type="text" id="budget_range" name="budget_range" class="form-control border-0 shadow-sm" value="{{ form.budget_range.value}}" placeholder="Enter your budget range">
+                        <input 
+                            type="text" 
+                            id="budget_range" 
+                            name="budget_range" 
+                            class="form-control border-0 shadow-sm" 
+                            value="{{ form.budget_range.value}}" 
+                            placeholder="Enter your budget range">
                         <div id="budget-range-error" class="invalid-feedback"></div>
+                        <!-- Backend validation -->
+                        {% for error in form.budget_range.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
                     </div>
 
                     <!-- Interests -->
                     <div class="mb-4">
                         <label for="interests" class="form-label fw-semibold">Interests</label>
-                        <input type="text" id="interests" name="interests" class="form-control border-0 shadow-sm" value="{{ form.interests.value}}" placeholder="Enter your interests">
+                        <input 
+                            type="text" 
+                            id="interests" 
+                            name="interests" 
+                            class="form-control border-0 shadow-sm" 
+                            value="{{ form.interests.value}}" 
+                            placeholder="Enter your interests">
                         <div id="interests-error" class="invalid-feedback"></div>
+                        <!-- Backend validation -->
+                        {% for error in form.interests.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
                     </div>
-
-                    {% comment %} <!-- About -->
-                    <div class="mb-4">
-                        <label for="interests" class="form-label fw-semibold">About</label>
-                        <input type="text" id="about" name="about" class="form-control border-0 shadow-sm" value="{{ form.about.value}}" placeholder="share something about you...">
-                        <div id="about-error" class="invalid-feedback"></div>
-                    </div> {% endcomment %}
 
                     <!-- Buttons -->
                     <div class="d-flex justify-content-between">
-                        <button type="submit" class="btn btn-primary w-100 me-2 shadow-sm" style="background-color: #6c63ff; border-color: #6c63ff;">Save Changes</button>
-                        <a href="{% url 'profile' %}" class="btn btn-outline-secondary w-100 ms-2 shadow-sm">Cancel</a>
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary w-100 me-2 shadow-sm" 
+                            style="background-color: #6c63ff; border-color: #6c63ff;">Save Changes</button>
+                        <a 
+                            href="{% url 'login' %}" 
+                            class="btn btn-outline-secondary w-100 ms-2 shadow-sm">Cancel</a>
                     </div>
                 </form>
             </div>

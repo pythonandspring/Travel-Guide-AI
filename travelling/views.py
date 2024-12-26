@@ -26,7 +26,6 @@ def home(request):
 
 
 
-
 def agentRegistration(request):
     if request.method == 'POST':
         form = request.POST.get('agentRegistration')
