@@ -3,7 +3,7 @@
 }
 
 .login-container {
-    color: white;
+    color: rgb(83, 116, 245);
     max-width: 450px;
     /* Reduced width */
     width: 100%;
@@ -33,19 +33,19 @@
     padding: 1.25rem;
     /* Padding for larger input */
     border: 2px solid #ddd;
-    background-color: #fff;
+    background-color: hsl(223, 19%, 93%);
     color: #000;
 }
 
 .form-control:focus {
-    border-color: #ffeb3b;
+    border-color: hsl(51, 21%, 94%);
     /* Yellow border on focus */
-    box-shadow: 0 0 8px rgba(255, 235, 59, 0.5);
+    box-shadow: 0 0 8px rgba(117, 146, 249, 0.5);
     /* Light yellow shadow */
 }
 
 .btn-warning {
-    background-color: #ffeb3b;
+    background-color: #3b79ff;
     /* Yellow button */
     border: none;
     border-radius: 50px;
@@ -55,13 +55,13 @@
 }
 
 .btn-warning:hover {
-    background-color: #afe269;
+    background-color: #c5131f;
     /* Darker yellow on hover */
 }
 
 .register-link {
     font-weight: 500;
-    color: yellow;
+    color: rgb(73, 135, 228);
 }
 
 .register-link:hover {
@@ -90,7 +90,7 @@
     padding: 15px;
     font-size: 18px;
     color: white;
-    background-color: #4CAF50;
+    background-color: #4864e1;
     /* Fresh green for the button */
     border: none;
     border-radius: 25px;
