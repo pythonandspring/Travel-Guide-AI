@@ -27,7 +27,6 @@ body {
     font-weight: bold;
     color: #333;
     background: linear-gradient(90deg, #0d0e0f, #080d0e);
-    -webkit-background-clip: text;
     color: transparent;
     text-transform: uppercase;
     letter-spacing: 2px;
