@@ -16,8 +16,10 @@ from django.contrib.auth.models import User
 
 def user_login(request):
     try:
+        user = User.objects.get(username=request.session['registered_user'])
         del request.session['registered_user']
-        messages.error(request, "your profile created with empty data you can edit it after login with your username and password.")
+        if not user.first_name:
+            messages.error(request, "your profile created with empty data you can edit it after login with your username and password.")
     finally:
         if request.user.is_authenticated: 
             messages.success(request, "User is already authenticated, redirecting to profile..")
