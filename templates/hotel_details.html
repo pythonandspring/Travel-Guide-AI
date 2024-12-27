@@ -1,0 +1,87 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block styling %}
+{% endblock styling %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Hotel Header -->
+    <div class="hotel-header d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-4 text-primary">{{ hotel.hotel_name }}</h1>
+        <div class="ratings text-warning">
+            <strong>Rating: {{ hotel.ratings }} </strong><i class="fas fa-star"></i>
+        </div>
+    </div>
+
+    <!-- Hotel Images -->
+    <div class="hotel-images row mt-4">
+        {% for image in images %}
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0 rounded-lg">
+                <img src="{{ image.image.url }}" alt="{{ image.name }}" class="img-fluid rounded-top">
+            </div>
+        </div>
+        {% empty %}
+        <!-- If there are no images, show a default placeholder -->
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0 rounded-lg">
+                <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No Image" class="img-fluid rounded-top">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Hotel Details -->
+    <div class="hotel-details mt-5">
+        <h3 class="mb-4 text-info">Hotel Details</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Owner:</strong> {{ hotel.hotel_owner_name }}</p>
+                <p><strong>Phone:</strong> {{ hotel.hotel_phone_number }}</p>
+                <p><strong>Email:</strong> {{ hotel.hotel_email }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Address:</strong> {{ hotel.hotel_address }}</p>
+                <p><strong>Description:</strong> {{ hotel.description }}</p>
+                <p><strong>Country:</strong> {{ hotel.country }}</p>
+                <p><strong>State:</strong> {{ hotel.state }}</p>
+                <p><strong>City:</strong> {{ hotel.city }}</p>
+                <p><strong>Place:</strong> {{ hotel.place }}</p>
+                <p><strong>Weekly Closed On:</strong> {{ hotel.weekly_closed_on }}</p>
+                <p><strong>Special Closed Dates:</strong> {{ hotel.special_closed_dates }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hotel Rooms -->
+    <div class="room-section mt-5">
+        <h2 class="mb-3 text-primary">Rooms</h2>
+        <div class="row">
+            {% for room in hotel.rooms.all %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm border-0 rounded-lg">
+                    <div class="card-body">
+                        <h5 class="card-title text-dark">{{ room.room_type }} - {{ room.room_category }}</h5>
+                        <p class="card-text">Total Rooms: {{ room.total_rooms }}</p>
+                        <p class="card-text">Available Rooms: <span class="text-danger">{{ room.available_rooms }}</span></p>
+                        <p class="card-text">Price (per 6hrs): <span class="text-success">Rs.{{ room.price_per_6hrs }}</span></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Location on Map -->
+    <div class="map-section mt-5">
+        <h2 class="mb-4 text-info">Location</h2>
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe src="{{ hotel.location_on_map }}" class="embed-responsive-item" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- Optional: Add Bootstrap's modal to display images larger if needed -->
+
+{% endblock content %}

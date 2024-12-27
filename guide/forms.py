@@ -143,4 +143,11 @@ class PlaceImageForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
-        return instance
+
+
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField(label="Enter your email")
+    
+class ResetPasswordForm(forms.Form):
+    new_password = forms.CharField(label="New Password", widget=forms.PasswordInput)
+    confirm_password = forms.CharField(label="Confirm Password", widget=forms.PasswordInput)

@@ -4,12 +4,13 @@
 
 {% block styling %}
     <link rel="stylesheet" href="{% static 'accommodation/css/register.css' %}">
+
 {% endblock styling %}
 
-
 {% block content %}
+<div style="background: url('{% static 'accommodation/css/img.jpg' %}') no-repeat center center; background-size:auto; padding-top: 0; padding-bottom: 0; height: 100%;">
 <div class="registerhotel-container">       
-    <h1 class="text-center text-black py-4 px-3 rounded-top shadow-lg" style="background: linear-gradient(135deg, rgba(220, 240, 180, 0.8), rgba(255, 255, 224, 0.8)); font-weight: 800;">
+    <h1 class="text-center text-black py-4 px-3 rounded-top shadow-lg" style="background: linear-gradient(135deg, rgba(223, 229, 251, 0.8), rgba(255, 255, 224, 0.8)); font-weight: 800;">
     Hotel Registration:
     </h1>
 
@@ -222,6 +223,7 @@
             <label for="{{ form.week_days_opening_time.id_for_label }}">{{ form.week_days_opening_time.label }}:</label>
             <input type="time" name="week_days_opening_time" id="{{ form.week_days_opening_time.id_for_label }}" value="{{ form.week_days_opening_time.value }}">
             <div id="error_id_week_days_opening_time" class="error-message"></div>
+            <input type="time" name="week_days_opening_time" id="{{ form.week_days_opening_time.id_for_label }} checking" value="{{ form.week_days_opening_time.value }}">
             {% if form.week_days_opening_time.errors %}
                 <div class="error-message" >
                     {% for error in form.week_days_opening_time.errors %}

@@ -1,4 +1,4 @@
-{% extends 'cust_base/base.html' %}
+{% extends 'home/base.html' %}
 {% load static %}
 
 
@@ -30,6 +30,18 @@
                             <li><span>Check your Username and password again.</span></li>
                         </ul>
                     </div>
+                {% endif %}
+                
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if "profile created" in message.message %}
+                            <div id="profile-created-message" class="text-danger mt-1">
+                                <ul>
+                                    <li><span>{{ message }}</span></li>
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
 
                 <button type="submit" class="btn btn-primary btn-block w-100 me-2 shadow-sm" style="background-color: #6c63ff; border-color: #6c63ff;">Login</button>

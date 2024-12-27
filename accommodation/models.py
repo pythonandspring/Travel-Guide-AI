@@ -2,6 +2,7 @@ from django.db import models
 import os
 from travelling.filter_data.get_data import get_countries, get_cities, get_place, get_states
 from django.core.validators import MinValueValidator, MaxValueValidator
+import uuid
 
 class Hotel(models.Model):
 
@@ -111,5 +112,10 @@ class HotelImage(models.Model):
     def __str__(self):
         return f"Image for {self.hotel.hotel_name}"
  
+
+class PasswordResetToken(models.Model):
+    hotel = models.OneToOneField(Hotel, on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 

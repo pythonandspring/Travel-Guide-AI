@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserChangeForm
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Profile
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -45,6 +46,8 @@ class EditProfileForm(UserChangeForm):
     
         if self.instance.pk:  
             profile = self.instance.profile
+            user = User.objects.get(user_id=profile.user_id)
+            self.fields['email'].initial = user.email
             self.fields['location'].initial = profile.location
             self.fields['birth_date'].initial = profile.birth_date
             self.fields['travel_preferences'].initial = profile.travel_preferences
@@ -57,18 +60,27 @@ class EditProfileForm(UserChangeForm):
 
     def save(self, commit=True):
         user = super(EditProfileForm, self).save(commit=False)
-        
+
+        # Only update the email if a new one is provided
+        new_email = self.cleaned_data.get('email')
+        if new_email != '':  # If email is provided, update it
+            user.email = new_email
+
         if commit:
-            user.save()
-            profile = user.profile 
+            user.save()  # Save the user instance
+
+            # Update the profile instance
+            profile = user.profile
             profile.location = self.cleaned_data.get('location')
             profile.birth_date = self.cleaned_data.get('birth_date')
-            profile.travel_preferences = self.cleaned_data.get('travel_preferences')
-            profile.favorite_destinations = self.cleaned_data.get('favorite_destinations')
+            profile.travel_preferences = self.cleaned_data.get(
+                'travel_preferences')
+            profile.favorite_destinations = self.cleaned_data.get(
+                'favorite_destinations')
             profile.languages_spoken = self.cleaned_data.get('languages_spoken')
             profile.budget_range = self.cleaned_data.get('budget_range')
             profile.interests = self.cleaned_data.get('interests')
             profile.about = self.cleaned_data.get('about')
-            profile.save()
+            profile.save()  # Save the profile instance
 
         return user

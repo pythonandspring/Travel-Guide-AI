@@ -1,123 +1,69 @@
-<<<<<<< HEAD
-/* General Styles */
+/* Ensure html and body are full height */
+html,
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
     margin: 0;
     padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* Allow stacking content vertically */
+}
+
+/* Container for page content */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    /* Allow content area to take up available space */
+}
+
+
+
+/* Footer styles */
+footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    /* Reduced padding for smaller height */
+    width: 100%;
+    margin-top: auto;
+    /* Footer pushed to bottom when content is small */
+}
+
+/* Center elements horizontally and vertically in the footer */
+footer .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-}
-
-.container {
-    background-color: #fff;
-    padding: 20px 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px;
-=======
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f8f9fa;
-}
-
-.container {
-    padding: 20px;
->>>>>>> 950077afc74fa5d0e2082f454641cfb271833b09
-}
-
-h1 {
-    text-align: center;
-<<<<<<< HEAD
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-}
-
-form {
-    display: flex;
     flex-direction: column;
 }
 
-label {
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
-}
-
-input {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+footer .row {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
 }
 
-input:focus {
-    border-color: #ff00fb;
-    outline: none;
-}
-
-button.btn {
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-button.btn:hover {
-    background-color: #0056b3;
-}
-
-p {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 14px;
-}
-
-a {
-    color: #007BFF;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-=======
-}
-
-.links, ul {
+footer .col-12 {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
 }
 
-.button {
-    padding: 10px 15px;
-    text-decoration: none;
-    background: #007bff;
-    color: white;
-    border-radius: 5px;
+/* Adjust the font size and spacing for the footer */
+footer .text-light {
+    font-size: 0.9rem;
+    /* Smaller text size */
 }
 
-.button:hover {
-    background: #0056b3;
+footer a {
+    font-size: 0.9rem;
+    /* Smaller text size for links */
+    margin: 0 5px;
+    /* Reduced margin between links */
 }
 
-.hotel-image {
-    max-width: 100px;
-    margin-left: 10px;
+/* Optional: Reduce padding and spacing for smaller footer text */
+footer .row .col-12 {
+    margin-bottom: 0;
 }
-
->>>>>>> 950077afc74fa5d0e2082f454641cfb271833b09
