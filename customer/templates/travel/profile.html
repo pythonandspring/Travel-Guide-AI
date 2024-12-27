@@ -1,4 +1,4 @@
-{% extends 'cust_base/base.html' %}
+{% extends 'home/base.html' %}
 {% load static %}
 
 {% block styling %}
@@ -6,28 +6,217 @@
 {% endblock styling %}
 
 {% block content %}
-<div  style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 2rem; padding-bottom: 2rem;">
-<div class="profile-container">
-    <h1>Welcome, {{ user.username }}!</h1>
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    <p><strong>Firstname:</strong> {{ user.first_name }}</p>
-    <p><strong>Lastname:</strong> {{ user.last_name }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Location:</strong> {{ profile.location }}</p>
-    <p><strong>Birth Date:</strong> {{ profile.birth_date }}</p>
-    <p><strong>Travel Preferences:</strong> {{ profile.travel_preferences }}</p>
-    <p><strong>Languages Spoken:</strong> {{ profile.languages_spoken }}</p>
-    <p><strong>Budget Range:</strong> {{ profile.budget_range }}</p>
-    <p><strong>Interests:</strong> {{ profile.interests }}</p>
-    
-    <button class="btn-lg"><a href="{% url 'logout' %}">Logout</a></button>
-    <button class="btn-edit"><a href="{% url 'edit_profile' %}">Edit Profile</a></button>
-
-    {% if user.is_staff %}
-        <button class="btn-admin"><a href="{% url 'admin_dashboard' %}">Admin Dashboard</a></button>
-    {% endif %}
-
-</div>
+<!-- Header -->
+<div class="header pb-8 pt-5 pt-lg-5 d-flex align-items-center" style="max-height: 300px;  background-size: cover; background-position: center top;">
+    <!-- Mask -->
+    <span class="mask bg-gradient-default opacity-8"></span>
+    <!-- Header container -->
+    <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+        <div class="col-lg-7 col-md-10">
+        <h1 class="display-2 text-white">Hello {{ user.username }}</h1>
+        <p class="text-white mt-0 mb-5">This is your travel profile. Here, you can explore your travel preferences, manage upcoming trips, and track your favorite destinations.</p>
+        </div>
+    </div>
+    </div>
 </div>
 
-{% endblock %}
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <div class="row">
+    <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+    <div class="card card-profile shadow">
+        <div class="card-body pt-0 pt-md-4">
+            <div class="row">
+                <!-- Beautiful Main Heading for the Section -->
+                <div class="text-left mt-5">
+                    <h2 class="font-weight-bold text-purple mb-4">
+                        <i class="ni ni-bulb-61 mr-2" ></i><span style="color:rgb(113, 82, 163);">Explore More Details</span>
+                    </h2>
+
+                    <!-- Previously Connected Guides -->
+                    <h4 class="font-weight-bold text-muted mb-3" style="color: #6a4c9c;">
+                        <i class="ni ni-bulb-61 mr-2"></i><span>Previously Connected Guides</span>
+                    </h4>
+                    <ul class="list-unstyled">
+                        <li><i class="ni ni-check-bold mr-2"></i>Guide 1: Paris Explorer</li>
+                        <li><i class="ni ni-check-bold mr-2"></i>Guide 2: London Adventure</li>
+                        <li><i class="ni ni-check-bold mr-2"></i>Guide 3: New York Insights</li>
+                    </ul>
+                    <hr class="my-4">
+
+                    <!-- Visited Places -->
+                    <h4 class="font-weight-bold text-muted mb-3" style="color: #6a4c9c;">
+                        <i class="ni ni-pin-3 mr-2"></i><span>Visited Places</span>
+                    </h4>
+                    <ul class="list-unstyled">
+                        <li><i class="ni ni-check-bold mr-2"></i>Paris, France</li>
+                        <li><i class="ni ni-check-bold mr-2"></i>New York, USA</li>
+                        <li><i class="ni ni-check-bold mr-2"></i>London, UK</li>
+                    </ul>
+                    <hr class="my-4">
+
+                    <!-- Checked-in Hotels -->
+                    <h4 class="font-weight-bold text-muted mb-3" style="color: #6a4c9c;">
+                        <i class="ni ni-building mr-2"></i><span>Checked-in Hotels</span>
+                    </h4>
+                    <ul class="list-unstyled">
+                        <li><i class="ni ni-check-bold mr-2"></i>Hotel A: Paris</li>
+                        <li><i class="ni ni-check-bold mr-2"></i>Hotel B: London</li>
+                        <li><i class="ni ni-check-bold mr-2"></i>Hotel C: New York</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <div class="col-xl-8 order-xl-1">
+        <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+            <div class="col-8">
+                <h4 class="mb-2">My account</h4>
+            </div>
+            <div class="col-4 text-right">
+                <a href="{% url "edit_profile" %}" class="btn btn-info">Edit profile</a>
+            </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form>
+            <h6 class="heading-small text-muted mb-4">User information</h6>
+            <div class="pl-lg-4">
+                <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group focused">
+                    <label class="form-control-label" for="input-username">username</label>
+                    <label id="input-username" class="form-control form-control-alternative" style="background-color: #f8f9fa; border: none; padding: 0.375rem 0.75rem; display: block;">
+                        {{ user.username }}
+                    </label>
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                    <label class="form-control-label" for="input-email">email</label>
+                    <label id="input-email" class="form-control form-control-alternative" style="background-color: #f8f9fa; border: none; padding: 0.375rem 0.75rem; display: inline-block;">
+                        {{ user.email }}
+                    </label>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group focused">
+                    <label class="form-control-label" for="input-first-name">First Name</label>
+                    <label id="input-first-name" class="form-control form-control-alternative" style="background-color: #f8f9fa; border: none; padding: 0.375rem 0.75rem; display: inline-block;">
+                        {{ user.first_name }}
+                    </label>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group focused">
+                    <label class="form-control-label" for="input-last-name">Last name</label>
+                    <label id="input-last-name" class="form-control form-control-alternative" style="background-color: #f8f9fa; border: none; padding: 0.375rem 0.75rem; display: inline-block;">
+    {{ user.last_name }}
+</label>
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group focused">
+                    <label class="form-control-label" for="input-last-name">Birth Date</label>
+                    <label id="input-last-name" class="form-control form-control-alternative" style="background-color: #f8f9fa; border: none; padding: 0.375rem 0.75rem; display: inline-block;">
+    {{ profile.birth_date }}
+</label>
+
+                    </div>
+                </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <!-- Address -->
+            <h6 class="heading-small text-muted mb-4">Travel Preferences:</h6>
+            <div class="pl-lg-4">
+                <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group focused">
+                    <label class="form-control-label" for="input-address">Address</label>
+                    <label id="input-address" class="form-control form-control-alternative" style="background-color: #f8f9fa; border: none; padding: 0.375rem 0.75rem; display: inline-block;">
+    {{ profile.location }}
+</label>
+
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group focused">
+                    <label class="form-control-label" for="input-address">travel Preferences</label>
+                    <label id="input-address" class="form-control form-control-alternative" style="background-color: #f8f9fa; border: none; padding: 0.375rem 0.75rem; display: inline-block;">
+    {{ profile.travel_preferences }}
+</label>
+
+                    </div>
+                </div>
+                </div>
+                 <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group focused">
+                    <label class="form-control-label" for="input-address">Languages Spoken</label>
+                    <label id="input-address" class="form-control form-control-alternative" style="background-color: #f8f9fa; border: none; padding: 0.375rem 0.75rem; display: inline-block;">
+    {{ profile.languages_spoken }}
+</label>
+
+                    </div>
+                </div>
+                </div>
+                 <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group focused">
+                    <label class="form-control-label" for="input-address">Interests</label>
+                    <label id="input-address" class="form-control form-control-alternative" style="background-color: #f8f9fa; border: none; padding: 0.375rem 0.75rem; display: inline-block;">
+    {{ profile.interests }}
+</label>
+
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group focused">
+                    <label class="form-control-label" for="input-address">Budget Range</label>
+                    <label id="input-address" class="form-control form-control-alternative" >{{ profile.budget_range|default:"Budget Range" }}</label>
+                    </div>
+                </div>
+                </div>
+                
+            <hr class="my-4">
+            <!-- Description -->
+            <h6 class="heading-small text-muted mb-4">About me</h6>
+                <div class="pl-lg-4">
+                  <div class="form-group focused">
+                    <label>Favorite Destinations</label>
+                    <label class="form-control form-control-alternative" placeholder="Few Destinations you like to visit ...">{{ profile.favorite_destinations }}</label>
+                  </div>
+                </div>
+                {% comment %} <div class="pl-lg-4">
+                  <div class="form-group focused">
+                    <label>About</label>
+                    <label class="form-control form-control-alternative">{{ profile.about }}</label>
+                  </div>
+                </div> {% endcomment %}
+            <div class="col1 text-right">
+                <a href="{% url "logout" %}" class="btn btn-warning">Logout</a>
+            </div>
+            </form>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+{% endblock content %}

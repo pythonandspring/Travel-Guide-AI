@@ -108,3 +108,12 @@ footer {
     width: 100%;
     font-size: 14px;
 }
+
+.error-message {
+    color: red;
+    /* Error message in red */
+    font-size: 0.875em;
+    /* Slightly smaller font size */
+    margin-top: 5px;
+    /* Space between input and error message */
+}

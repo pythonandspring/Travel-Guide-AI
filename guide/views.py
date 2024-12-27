@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password, PBKDF2PasswordHasher
@@ -9,7 +8,7 @@ from .models import Guide, Doctor, Place, Image
 from functools import wraps
 from django.shortcuts import redirect, render
 from django.conf import settings
-
+from travelling.send_mail import send_confirmation_email
 
 # <---------------------GUIDE------------------------------------->
 def is_login(view_func):
@@ -66,6 +65,9 @@ def guide_registration(request):
         if form.is_valid():
             password = form.cleaned_data.get('password')
             confirm_password = form.cleaned_data.get('confirm_password')
+            guide_name =  form.cleaned_data.get('name')
+            place_name = form.cleaned_data.get('place')
+            guide_email = form.cleaned_data.get('email')
 
             if password != confirm_password:
                 messages.error(request, "Passwords do not match!")
@@ -73,6 +75,12 @@ def guide_registration(request):
                 hotel_owner = form.save(commit=False)
                 hotel_owner.password = make_password(password)  
                 hotel_owner.save()
+                additional_info = {
+                    'place_name': guide_name,
+                    'guide_name': place_name,
+                    'guide_email': guide_email,
+                }
+                send_confirmation_email(to_email=guide_email, user_type='guide', username=guide_name, additional_info=additional_info)
                 messages.success(request, "Registration successful!")
                 return redirect('guide_login')  
         else:

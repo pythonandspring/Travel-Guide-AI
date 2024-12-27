@@ -2,6 +2,7 @@ from django.db import models
 import os
 from travelling.filter_data.get_data import get_countries, get_cities, get_place, get_states 
 
+
 def place_image_upload_to(instance, filename):
     """
     Constructs the upload path for place images.
@@ -146,7 +147,8 @@ class Guide(models.Model):
     
     def __str__(self):
         return f"{self.name} - {'Super Guide' if self.is_super_guide else 'Guide'}"
-    
+
+
 
 class Doctor(models.Model):
 

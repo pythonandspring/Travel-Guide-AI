@@ -1,23 +1,77 @@
 {% extends 'guide_tem/base.html' %}
 {% load static %}
 
+
 {% block styling %}
     <link rel="stylesheet" href="{% static 'guide/css/guide_login.css' %}">
 {% endblock styling %}
 
+
 {% block content %}
+<div id="login-form">
+    <h2>Guide Login</h2>
+    <form method="POST" id="loginForm">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_email">{{ form.email.label }}</label>
+            {{ form.email }}
+            <div id="email-error" class="error-message" style="color: red;"></div>
+        </div>
 
-<div class="container">
-    <div id="login-form">
-        <h2>Guide Login</h2>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="{% url 'guide_registration' %}">Register here</a></p>
-        <P><a  href="{% url 'password_reset' %}">Forgot Password?</a></p>
+        <div class="form-group">
+            <label for="id_password">{{ form.password.label }}</label>
+            {{ form.password }}
+            <div id="password-error" class="error-message" style="color: red; display: none;"></div>
+        </div>
 
-    </div>
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+
+    <p>Don't have an account? <a href="{% url 'guide_registration' %}">Register here</a></p>
+    <p><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
 </div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        // Prevent form submission
+        e.preventDefault();
+
+        // Clear existing error messages
+        document.getElementById('emailError').textContent = '';
+        document.getElementById('passwordError').textContent = '';
+
+        // Get form values
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        let isValid = true;
+
+        // Validate email field
+             // Validate Email
+        if (!email) {
+            document.getElementById('emailError').textContent = 'This field is required.';
+            isValid = false;
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            document.getElementById('emailError').textContent = 'Enter a valid email.';
+            isValid = false;
+        }
+
+        // Validate password field
+        if (!password) {
+            document.getElementById('passwordError').textContent = 'This field is required.';
+            isValid = false;
+        }
+
+        // If all fields are valid, submit the form
+        if (isValid) {
+            this.submit();
+        }
+    });
+</script>
 {% endblock %}
+
+
+
+

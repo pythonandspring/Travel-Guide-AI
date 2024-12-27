@@ -50,16 +50,108 @@
 <div id="addRoomPopup" class="popup-container" style="display: none;">
     <div class="popup">
         <span class="close-btn" onclick="closePopup()">&times;</span>
-        {% include 'hotel_add_room.html' %}
+        <form id="addRoomForm" method="POST" action="{% url 'add_room' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="roomCategory">Room Category:</label>
+                <input type="text" id="roomCategory" name="room_category" class="form-control">
+                <div class="error-message text-danger" id="roomCategoryError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="roomType">Room Type:</label>
+                <input type="text" id="roomType" name="room_type" class="form-control">
+                <div class="error-message text-danger" id="roomTypeError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="totalRooms">Total Rooms:</label>
+                <input type="number" id="totalRooms" name="total_rooms" class="form-control">
+                <div class="error-message text-danger" id="totalRoomsError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="availableRooms">Available Rooms:</label>
+                <input type="number" id="availableRooms" name="available_rooms" class="form-control">
+                <div class="error-message text-danger" id="availableRoomsError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price (per 6 hrs):</label>
+                <input type="number" id="price" name="price_per_6hrs" class="form-control">
+                <div class="error-message text-danger" id="priceError"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Room</button>
+        </form>
     </div>
 </div>
 
 <script>
+    // Open and close popup
     function openPopup() {
         document.getElementById("addRoomPopup").style.display = "flex";
     }
+
     function closePopup() {
         document.getElementById("addRoomPopup").style.display = "none";
     }
+
+    // Form validation
+    document.getElementById('addRoomForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Clear previous error messages
+        document.getElementById('roomCategoryError').textContent = '';
+        document.getElementById('roomTypeError').textContent = '';
+        document.getElementById('totalRoomsError').textContent = '';
+        document.getElementById('availableRoomsError').textContent = '';
+        document.getElementById('priceError').textContent = '';
+
+        // Get form values
+        const roomCategory = document.getElementById('roomCategory').value.trim();
+        const roomType = document.getElementById('roomType').value.trim();
+        const totalRooms = document.getElementById('totalRooms').value.trim();
+        const availableRooms = document.getElementById('availableRooms').value.trim();
+        const price = document.getElementById('price').value.trim();
+
+        let isValid = true;
+
+        // Validate Room Category
+        if (!roomCategory) {
+            document.getElementById('roomCategoryError').textContent = 'This field is required.';
+            isValid = false;
+        }
+
+        // Validate Room Type
+        if (!roomType) {
+            document.getElementById('roomTypeError').textContent = 'This field is required.';
+            isValid = false;
+        }
+
+        // Validate Total Rooms
+        if (!totalRooms || totalRooms <= 0) {
+            document.getElementById('totalRoomsError').textContent = 'Enter a valid number greater than 0.';
+            isValid = false;
+        }
+
+        // Validate Available Rooms
+        if (!availableRooms || availableRooms <= 0 || availableRooms > totalRooms) {
+            document.getElementById('availableRoomsError').textContent = 'Enter a valid number (≤ total rooms).';
+            isValid = false;
+        }
+
+        // Validate Price
+        if (!price || price <= 0) {
+            document.getElementById('priceError').textContent = 'Enter a valid price greater than 0.';
+            isValid = false;
+        }
+
+        // If all fields are valid, submit the form
+        if (isValid) {
+            this.submit();
+        }
+    });
 </script>
 {% endblock content %}

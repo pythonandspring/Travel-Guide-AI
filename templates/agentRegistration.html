@@ -9,67 +9,33 @@
 
 {% block content %}
 
-<div style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; 
-            padding-top: 2rem; padding-bottom: 2rem;
-            height: calc(100vh - 20px); /* Full viewport height minus header height */
-            width: 100%; /* Full width of the page */
-">    <div class="options-container">
-        <h1>Who Are You?</h1>
-        <p>Select your role to proceed:</p>
-        
-        <!-- Two options with vertical line -->
-        <div class="role-options">
-            <div class="role">
-                <h2>Are you a Hotel Owner?</h2>
-                <a href="{% url 'hotel_login' %}" class="btn">Click Here</a>
+<div class="container-fluid" style="background: url('{% static "images/bg-table.jpg" %}') no-repeat center center/cover; padding-top: 5rem; padding-bottom: 5rem; height: calc(100vh - 20px); width: 100%;">
+    <div class="text-center mb-5">
+        <h1 class="display-4 " style="color: rgba(155, 221, 210, 0.87);">Who Are You?</h1>
+        <p class="lead">Select your role to proceed:</p>
+    </div>
+
+    <div class="row justify-content-center align-items-center">
+        <!-- First section: Hotel Owner -->
+        <div class="col-12 col-md-5 text-center mb-4 mb-md-0">
+            <div class="role-card p-4 shadow-lg rounded-lg text-center" style="cursor: pointer; background: linear-gradient(135deg, #a5e677, #205f02);" onclick="window.location.href='{% url 'hotel_login' %}'">
+                <h2 class="h3 mb-4">Are you a Hotel Owner?</h2>
             </div>
-            <div class="separator"></div>
-            <div class="role">
-                <h2>Are you a Guide?</h2>
-                <a href="{% url 'guide_login' %}" class="btn">Click Here</a>
+        </div>
+
+        {% comment %} <!-- Separator Line -->
+        <div class="col-1 d-none d-md-block">
+            <div class="separator" style="height: 150px; background-color: #ccc;"></div>
+        </div> {% endcomment %}
+
+        <!-- Second section: Guide -->
+        <div class="col-12 col-md-5 text-center">
+            <div class="role-card p-4 shadow-lg rounded-lg text-center" style="cursor: pointer; background: linear-gradient(135deg, #00bfae, #007f88);" onclick="window.location.href='{% url 'guide_login' %}'">
+                <h2 class="h3 mb-4">Are you a Guide?</h2>
             </div>
         </div>
     </div>
 </div>
 
-<style>
-    .options-container {
-        text-align: center;
-        color: #333;
-    }
 
-    .role-options {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 2rem;
-        margin-top: 2rem;
-    }
-
-    .role {
-        flex: 1;
-        text-align: center;
-    }
-
-    .separator {
-        width: 1px;
-        background-color: #ccc;
-        height: 100px;
-    }
-
-    .btn {
-        display: inline-block;
-        margin-top: 1rem;
-        padding: 0.5rem 1rem;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-    }
-
-    .btn:hover {
-        background-color: #0056b3;
-    }
-</style>
 {% endblock %}

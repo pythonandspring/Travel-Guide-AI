@@ -92,20 +92,14 @@
 <div class="popup-container">
     <div class="popup">
         <h2>Add Doctor</h2>
-        <form method="POST" action="{% url 'add_doctor' %}">
+        <form method="POST" action="{% url 'add_doctor' %}" id="doctorForm">
             {% csrf_token %}
 
             <!-- Name Field -->
             <div class="form-group">
                 <label for="id_name">Name</label>
                 <input type="text" name="name" id="id_name" class="form-control" value="{{ doctor_form.name.value }}">
-                {% if doctor_form.name.errors %}
-                    <div class="error-message">
-                        {% for error in doctor_form.name.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div id="name-error" class="error-message" style="color: red;"></div>
                 <p class="helper-text">Enter the full name of the doctor.</p>
             </div>
 
@@ -113,13 +107,7 @@
             <div class="form-group">
                 <label for="id_speciality">Speciality</label>
                 <input type="text" name="speciality" id="id_speciality" class="form-control" value="{{ doctor_form.speciality.value }}">
-                {% if doctor_form.speciality.errors %}
-                    <div class="error-message">
-                        {% for error in doctor_form.speciality.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div id="speciality-error" class="error-message" style="color: red;"></div>
                 <p class="helper-text">Enter the doctor's area of specialization.</p>
             </div>
 
@@ -127,13 +115,7 @@
             <div class="form-group">
                 <label for="id_phone">Phone</label>
                 <input type="tel" name="phone" id="id_phone" class="form-control" value="{{ doctor_form.phone.value }}">
-                {% if doctor_form.phone.errors %}
-                    <div class="error-message">
-                        {% for error in doctor_form.phone.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div id="phone-error" class="error-message" style="color: red;"></div>
                 <p class="helper-text">Enter a valid phone number.</p>
             </div>
 
@@ -141,13 +123,7 @@
             <div class="form-group">
                 <label for="id_email">Email</label>
                 <input type="email" name="email" id="id_email" class="form-control" value="{{ doctor_form.email.value }}">
-                {% if doctor_form.email.errors %}
-                    <div class="error-message">
-                        {% for error in doctor_form.email.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div id="email-error" class="error-message" style="color: red;"></div>
                 <p class="helper-text">Enter a valid email address.</p>
             </div>
 
@@ -155,13 +131,7 @@
             <div class="form-group">
                 <label for="id_address">Address</label>
                 <textarea name="address" id="id_address" class="form-control">{{ doctor_form.address.value }}</textarea>
-                {% if doctor_form.address.errors %}
-                    <div class="error-message">
-                        {% for error in doctor_form.address.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div id="address-error" class="error-message" style="color: red;"></div>
                 <p class="helper-text">Enter the address of the doctor's clinic or hospital.</p>
             </div>
 
@@ -178,34 +148,21 @@
                     <option value="SAT" {% if doctor_form.weekly_closed_on.value == 'SAT' %}selected{% endif %}>Saturday</option>
                     <option value="SUN" {% if doctor_form.weekly_closed_on.value == 'SUN' %}selected{% endif %}>Sunday</option>
                 </select>
-
-
-                {% if doctor_form.weekly_closed_on.errors %}
-                    <div class="error-message">
-                        {% for error in doctor_form.weekly_closed_on.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div id="weekly-closed-on-error" class="error-message" style="color: red;"></div>
                 <p class="helper-text">Select the day the doctor is unavailable.</p>
             </div>
 
+            <!-- Service Time Field -->
             <div class="form-group">
                 <label for="id_open_time">Service Time</label>
                 <input type="text" name="open_time" id="id_open_time" class="form-control"
                     placeholder="e.g., 10 AM - 2 PM" value="{{ doctor_form.open_time.value }}">
-                {% if doctor_form.open_time.errors %}
-                    <div class="error-message">
-                        {% for error in doctor_form.open_time.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                <div id="open-time-error" class="error-message" style="color: red;"></div>
                 <p class="helper-text">Enter the service time in a valid format (e.g., 10 AM - 2 PM).</p>
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn submit-btn">Add Doctor</button>
+                <button type="submit" class="btn submit-btn" onclick="return validateForm()">Add Doctor</button>
                 <button type="button" class="btn cancel-btn" onclick="closePopup()">Cancel</button>
             </div>
         </form>
@@ -213,10 +170,38 @@
 </div>
 
 <script>
+    function validateForm() {
+        let isValid = true;
+
+        const fields = [
+            { id: "id_name", errorId: "name-error", message: "Name is required." },
+            { id: "id_speciality", errorId: "speciality-error", message: "Speciality is required." },
+            { id: "id_phone", errorId: "phone-error", message: "Phone number is required." },
+            { id: "id_email", errorId: "email-error", message: "Email is required." },
+            { id: "id_address", errorId: "address-error", message: "Address is required." },
+            { id: "id_weekly_closed_on", errorId: "weekly-closed-on-error", message: "Please select a day." },
+            { id: "id_open_time", errorId: "open-time-error", message: "Service time is required." }
+        ];
+
+        fields.forEach(field => {
+            const input = document.getElementById(field.id);
+            const errorDiv = document.getElementById(field.errorId);
+
+            if (!input.value.trim()) {
+                isValid = false;
+                errorDiv.textContent = field.message;
+            } else {
+                errorDiv.textContent = "";
+            }
+        });
+
+        return isValid;
+    }
+
     function closePopup() {
-        // Redirect to the doctor's list page to close the popup
         window.location.href = "{% url 'get_doctors' %}";
     }
 </script>
+
 
 {% endblock content %}
