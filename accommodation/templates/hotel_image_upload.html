@@ -1,13 +1,60 @@
 {% load static %}
-<div class="upload-form">
-    <form method="POST" enctype="multipart/form-data" action="{% url 'add_image_hotel' %}">
-        {% csrf_token %}
-        <label for="name">Image Name:</label>
-        <input type="text" id="name" name="name" placeholder="Enter image name" required><br>
+<head>
+    <style>
+        /* Center the form on the screen */
+        .upload-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;  /* Keep it fixed in the center even on page scroll */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5); /* Optional: Dark background to focus on the form */
+            z-index: 999;  /* Ensure the form is on top of other elements */
+        }
 
-        <label for="image">Select Image:</label>
-        <input type="file" id="image" name="image" required><br>
+        .upload-form form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 300px; /* Adjust as needed */
+        }
 
-        <button type="submit" onclick="refreshPage()">Upload</button>
-    </form>
-</div>
+        .upload-form form input,
+        .upload-form form button {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .upload-form form button {
+            background-color: #4CAF50; /* Green button */
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .upload-form form button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="upload-form">
+        <form method="POST" enctype="multipart/form-data" action="{% url 'add_image_hotel' %}">
+            {% csrf_token %}
+            <label for="name">Image Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter image name" required><br>
+
+            <label for="image">Select Image:</label>
+            <input type="file" id="image" name="image" required><br>
+
+            <button type="submit" onclick="refreshPage()">Upload</button>
+            <button><a href="{% url "hotel_images" %}"></a></button>
+        </form>
+    </div>
+</body>

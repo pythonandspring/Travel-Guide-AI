@@ -17,12 +17,12 @@ settings.configure(
 db_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'gd456nds',
+    'password': 'Raunak@123',
     'database': 'user',
     'charset': 'utf8mb4'
 }
 
-csv_file_path = r'dummy_data\csv\customer.csv'
+csv_file_path = r'dummy_data/csv/customer.csv'
 
 table_name = 'auth_user'
 
@@ -41,8 +41,7 @@ try:
         active = headers.index('is_active')
 
         placeholders = ', '.join(['%s'] * len(headers))
-        insert_query = f"INSERT INTO {
-            table_name} ({', '.join(headers)}) VALUES ({placeholders})"
+        insert_query = f"INSERT INTO {table_name} ({', '.join(headers)}) VALUES ({placeholders})"
 
         for row in csv_reader:
             processed_row = row[:]

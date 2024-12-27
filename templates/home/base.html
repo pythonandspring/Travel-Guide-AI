@@ -9,100 +9,53 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css"/>
     <title>{% block title %}Travel Guide{% endblock %}</title>
-    
+    <link rel="stylesheet" href="{% static 'css/travel_style.css' %}">
+
     {% block styling %}
-        <link rel="stylesheet" href="{% static 'css/travel_style.css' %}">
+
     {% endblock styling %}
 </head>
 <body>
-    <nav class="navbar custom-navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="{% static 'images/travel_guide.png' %}" alt="Travel Guide Logo">
-                <span>TravelGuide</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'gallery' %}">Gallery</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Guides</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Hotels</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accomodations' %}">Accommodations</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'cust_feedback' %}">Feedback</a>
-                        </li>
-                    {% elif request.session.hotel_owner_id %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'hotel_dashboard' %}">Bookings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'available_rooms' %}">Rooms Availability</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'hotel_images' %}">Hotel Images</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'hotel_dashboard' %}">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'contact_support' %}">Contact</a>
-                        </li>
-                    {% elif request.session.super_guide_id %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Place</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Doctor</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'guide_dashboard' %}">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'contact_support' %}">Contact</a>
-                        </li>
-                    {% elif request.session.guide_id %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Doctor</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'guide_dashboard' %}">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'contact_support' %}">Contact</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'agentRegistration' %}">Agents</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">SignUp / Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'admin_login' %}">Admin</a>
-                        </li>
-                    {% endif %}
-                </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+    <header class="p-3 bg-dark text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <img src="{% static 'images/travel_guide.png' %}" alt="Travel Guide Logo" class="img-fluid rounded-circle" style="width: 60px; height: auto;">
+                </div>
+                <div class="col">
+                    <h3 class="mb-0" style="color:white;">TravelGuide</h3>
+                </div>
+                <div class="col px-3">
+                    <div class="d-flex justify-content-center gap-3">
+                        <a class="text-light text-decoration-none" href="{% url 'home' %}">Home</a>
+                        <a class="text-light text-decoration-none" href="{% url 'gallery' %}">Gallery</a>
+                        {% if user.is_authenticated and not user.is_staff %}
+                            <a class="text-light text-decoration-none" href="#">Guides</a>
+                            <a class="text-light text-decoration-none" href="#">Hotels</a>
+                            <a class="text-light text-decoration-none" href="{% url 'accomodations' %}">Accommodations</a>
+                            <a class="text-light text-decoration-none" href="{% url 'profile' %}">Profile</a>
+                            <a class="text-light text-decoration-none" href="{% url 'cust_feedback' %}">Feedback</a>
+                        {% elif request.session.hotel_owner_id %}
+                            <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Bookings</a>
+                            <a class="text-light text-decoration-none" href="{% url 'available_rooms' %}">Rooms Availability</a>
+                            <a class="text-light text-decoration-none" href="{% url 'hotel_images' %}">Hotel Images</a>
+                            <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Dashboard</a>
+                            <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>  
+                        {% elif guide.is_super_guide %}
+                            <a class="text-light text-decoration-none" href="{% url 'get_place_info' %}">Place</a>
+                            <a class="text-light text-decoration-none" href="{% url 'get_doctors' %}">Doctor</a>
+                            <a class="text-light text-decoration-none" href="{% url 'guide_dashboard' %}">Dashboard</a>
+                            <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>
+                        {% elif request.session.guide_id %}
+                            <a class="text-light text-decoration-none" href="{% url 'get_place_info' %}">Place</a>
+                            <a class="text-light text-decoration-none" href="{% url 'guide_dashboard' %}">Dashboard</a>
+                            <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>
+                        {% else %}
+                            <a class="text-light text-decoration-none" href="{% url 'agentRegistration' %}">Agents</a>
+                            <a class="text-light text-decoration-none" href="{% url 'login' %}">SignUp / Login</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -112,17 +65,20 @@
         {% endblock %}
     </div>
 
-    <footer class="footer custom-footer text-light p-4">
-        <div class="row">
-            <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-start mb-3 mb-md-0">
-                <span class="text-light">&copy; 2024 Travel Guide. All rights reserved.</span>
-            </div>
-            <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end">
-                <a href="{% url 'gen_contact' %}" class="text-light mx-3">Contact Us</a>
-                <a href="{% url 'privacy_policy' %}" class="text-light mx-3">Privacy Policy</a>
+    <footer class="bg-dark text-light p-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-start mb-3 mb-md-0">
+                    <span class="text-light">© 2024 Travel Guide. All rights reserved.</span>
+                </div>
+                <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end">
+                    <a href="{% url 'gen_contact' %}" class="text-light mx-3">Contact Us</a>
+                    <a href="{% url 'privacy_policy' %}" class="text-light mx-3">Privacy Policy</a>
+                </div>
             </div>
         </div>
     </footer>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>

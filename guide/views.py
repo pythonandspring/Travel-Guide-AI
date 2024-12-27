@@ -8,7 +8,16 @@ from .models import Guide, Doctor, Place, Image
 from functools import wraps
 from django.shortcuts import redirect, render
 from django.conf import settings
-
+from travelling.send_mail import send_confirmation_email
+from django.shortcuts import render, redirect
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from django.utils.timezone import now, timedelta
+from .models import PasswordResetToken
+from .forms import PasswordResetRequestForm
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+from .forms import ResetPasswordForm
 
 # <---------------------GUIDE------------------------------------->
 def is_login(view_func):
@@ -42,12 +51,16 @@ def is_login(view_func):
 def is_super_guide(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
-        if request.session.get('super_guide_id') and request.session.get('is_login'):
+        if (request.session.get('super_guide_id') or request.session.get('guide_id')) and request.session.get('is_login'):
             try:
                 guide_id =request.session.get('super_guide_id')
                 guide = Guide.objects.get(id=guide_id)
             except Guide.DoesNotExist:
-                return redirect('guide_login')
+                try:
+                    guide_id = request.session.get('guide_id')
+                    guide = Guide.objects.get(id=guide_id)
+                except Guide.DoesNotExist:
+                    return redirect('guide_dashboard')
             return view_func(request, guide_info=guide, *args, **kwargs)
         else:
             return redirect('guide_login')
@@ -61,6 +74,9 @@ def guide_registration(request):
         if form.is_valid():
             password = form.cleaned_data.get('password')
             confirm_password = form.cleaned_data.get('confirm_password')
+            guide_name =  form.cleaned_data.get('name')
+            place_name = form.cleaned_data.get('place')
+            guide_email = form.cleaned_data.get('email')
 
             if password != confirm_password:
                 messages.error(request, "Passwords do not match!")
@@ -68,6 +84,12 @@ def guide_registration(request):
                 hotel_owner = form.save(commit=False)
                 hotel_owner.password = make_password(password)  
                 hotel_owner.save()
+                additional_info = {
+                    'place_name': place_name,
+                    'guide_name': guide_name,
+                    'guide_email': guide_email,
+                }
+                send_confirmation_email(to_email=guide_email, user_type='guide', username=guide_name, additional_info=additional_info)
                 messages.success(request, "Registration successful!")
                 return redirect('guide_login')  
         else:
@@ -121,7 +143,7 @@ def guide_logout(request, *args, **kwargs):
 
 @is_login
 def guide_dashboard(request, *args,**kwargs):
-    guide_info = kwargs.pop('guide_info', None)
+    guide_info = kwargs.pop('guide_info', None)    
     return render(request, 'guide_dashboard.html', {'guide': guide_info})
 
 
@@ -133,13 +155,22 @@ def guide_edit_profile(request, *args, **kwargs):
         if request.method == "POST":
             form = GuideDetailsUpdateForm(request.POST, instance=guide)
             if form.is_valid():
-                form.save()
-                messages.success(request, 'profile updated successfully.')
-                return redirect('guide_dashboard')
+                email = form.cleaned_data.get('email')
+                try:
+                    guide_new = Guide.objects.get(email=email)
+                    if guide_new != guide:
+                        form.add_error('email', 'this email is already in use')
+                    else:
+                        form.save()
+                        messages.success(request, 'profile updated successfully.')
+                        return redirect('guide_dashboard')
+                except Guide.DoesNotExist:
+                    form.save()
+                    messages.success(request, 'profile updated successfully.')
+                    return redirect('guide_dashboard')
             else:
                 messages.error(request, "profile can't update.")
                 return redirect('guide_dashboard')
-
         else:
             form = GuideDetailsUpdateForm(instance=guide)
         return render(request, 'guide_edit_profile.html', {'form': form, 'guide':guide})
@@ -262,14 +293,15 @@ def update_place_info(request, place_id, *args, **kwargs):
 @is_super_guide
 def get_images(request, place_id ,*args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
-    place = Place.objects.filter(id=place_id, name=guide_info.place, city=guide_info.city,
-                                 state=guide_info.state, country=guide_info.country).first()
+    place = Place.objects.get(id=place_id, name=guide_info.place, city=guide_info.city,
+                                 state=guide_info.state, country=guide_info.country)
+    print(place.id)
     if place:
         images = Image.objects.filter(place=place.id)
         if images:
-            return render(request, 'place_images.html', {'images_exist': True,'images': images})
+            return render(request, 'place_images.html', {'images_exist': True, 'images': images, 'place': place})
         else:
-            return render(request, 'place_images.html', {'images_exist': False})
+            return render(request, 'place_images.html', {'images_exist': False, 'place': place})
     else:
         request.session['place_exist'] = False
         guide_place_info = {
@@ -321,7 +353,7 @@ def delete_place_image(request, place_id, image_id, *args, **kwargs):
             image = Image.objects.get(place=place.id, id=image_id)
             image.delete()
             messages.success(request, "Image deleted successfully.")
-            return redirect('get_images')
+            return redirect('get_images',{'place_id': place_id})
         except Image.DoesNotExist:
             messages.error(request, "Image doesn't exists.")
             return redirect('get_images')
@@ -344,3 +376,194 @@ def contact_support(request, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
     return render(request, 'contact.html', {'guide': guide_info})
 
+# <---------------------PLACE------------------------------------->
+
+@is_login
+def get_place_info(request, *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    place = Place.objects.filter(name=guide_info.place, city=guide_info.city, state=guide_info.state, country= guide_info.country).first()
+    if place:
+        request.session['place_exist'] = True
+        return render(request, 'get_place_info.html', {'place_exist': True,'place': place, 'guide': guide_info})
+    else:
+        request.session['place_exist'] = False
+        messages.error(request, f"{guide_info.place} doesn't exist in database now.")
+        return render(request, 'get_place_info.html', {'place_exist': False, 'guide': guide_info})
+
+
+@is_super_guide
+def update_place_info(request, place_id, *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    place = Place.objects.filter(id=place_id, name=guide_info.place, city=guide_info.city,
+                                 state=guide_info.state, country=guide_info.country).first()
+    if place:
+        if request.method == "POST":
+            form = PlaceDetailsUpdateForm(request.POST, instance=place)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'place information updated successfully.')
+                return redirect('get_place_info')
+            else:
+                messages.error(request, "please enter valid details")
+                return redirect('get_place_info')
+        else:
+            form = PlaceDetailsUpdateForm(instance=place)
+        return render(request, 'update_place_info.html', {'form': form})
+    else:
+        request.session['place_exist'] = False
+        guide_place_info = {
+            'place': guide_info.place,
+            'city': guide_info.city,
+            'state': guide_info.state,
+            'country': guide_info.country
+        }
+        messages.error(request, "place doesn't exist.")
+        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
+
+
+@is_super_guide
+def get_images(request, place_id ,*args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    place = Place.objects.filter(id=place_id, name=guide_info.place, city=guide_info.city,
+                                 state=guide_info.state, country=guide_info.country).first()
+    guide = Guide.objects.get(id=guide_info.id)
+    if place:
+        images = Image.objects.filter(place=place.id)
+        if images:
+            return render(request, 'place_images.html', {'images_exist': True, 'images': images, 'guide': guide})
+        else:
+            return render(request, 'place_images.html', {'images_exist': False, 'guide': guide})
+    else:
+        request.session['place_exist'] = False
+        guide_place_info = {
+            'place': guide_info.place,
+            'city': guide_info.city,
+            'state': guide_info.state,
+            'country': guide_info.country
+        }
+        messages.error(request, "place doesn't exist.")
+        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide})
+
+
+@is_super_guide
+def add_place_image(request, place_id, *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    place = Place.objects.filter(name=guide_info.place, city=guide_info.city,
+                                 state=guide_info.state, country=guide_info.country).first()
+    if place:
+        if request.method == "POST":
+            form = PlaceImageForm(request.POST, place_id=place.id)
+            if form.is_valid():
+                form.save()
+                return redirect('get_images')
+            else:
+                messages.error(request, "please enter valid details")
+                return redirect('get_images')
+        else:
+            form = PlaceImageForm(place_id=place.id)
+        return render(request, 'place_image.html', {'form': form, 'guide': guide_info})
+    else:
+        request.session['place_exist'] = False
+        guide_place_info = {
+            'place': guide_info.place,
+            'city': guide_info.city,
+            'state': guide_info.state,
+            'country': guide_info.country
+        }
+        messages.error(request, "place doesn't exist.")
+        return render(request, 'place/place_info', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
+
+
+@is_super_guide
+def delete_place_image(request, image_id, *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    place = Place.objects.filter(name=guide_info.place, city=guide_info.city,
+                                 state=guide_info.state, country=guide_info.country).first()
+    if place:
+        try:
+            image = Image.objects.get(place=place.id, id=image_id)
+            image.delete()
+            messages.success(request, "Image deleted successfully.")
+            return redirect('get_images', place_id=place.id)
+        except Image.DoesNotExist:
+            messages.error(request, "Image doesn't exists.")
+            return redirect('get_images', place_id=place.id)
+    else:
+        request.session['place_exist'] = False
+        guide_place_info = {
+            'place': guide_info.place,
+            'city': guide_info.city,
+            'state': guide_info.state,
+            'country': guide_info.country
+        }
+        messages.error(request, "place doesn't exist.")
+        return render(request, 'place/place_info', {'place_exist': False, 'guide': guide_place_info, 'guide': guide_info})
+
+
+@is_super_guide
+def place_image_popup(request, place_id, image_id,  *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    place = Place.objects.filter(name=guide_info.place, city=guide_info.city,
+                                 state=guide_info.state, country=guide_info.country).first()
+    # if 'hotel_owner_id' not in request.session:
+    #     messages.error(
+    #         request, "You must be logged in to perform this action.")
+    #     return redirect('hotel_login')
+
+    place_id = place_id
+    image = get_object_or_404(Image, id=image_id, place_id=place_id)
+
+    return render(request, 'place_Image_add_popup.html', {'image': image})
+ 
+# <---------------------CONTACT------------------------------------->
+@is_login
+def contact_support(request, *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    return render(request, 'contact.html', {'guide': guide_info})
+
+
+
+
+# for password reset
+def request_password_reset(request):
+    if request.method == "POST":
+        form = PasswordResetRequestForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                guide = Guide.objects.get(email=email)
+                token, created = PasswordResetToken.objects.get_or_create(guide=guide)
+                reset_link = f"http://127.0.0.1:8000/guide/reset-password/{token.token}/"
+                send_mail(
+                    "Password Reset Request",
+                    f"Click the link to reset your password: {reset_link}",
+                    "noreply@yourdomain.com",
+                    [email]
+                )
+                return render(request, "password_reset_sent.html")
+            except Guide.DoesNotExist:
+                return render(request, "password_reset_request.html", {"form": form, "error": "Email not found."})
+    else:
+        form = PasswordResetRequestForm()
+    return render(request, "password_reset_request.html", {"form": form})
+
+
+# for password view
+def reset_password(request, token):
+    token_obj = get_object_or_404(PasswordResetToken, token=token)
+    if request.method == "POST":
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            new_password = form.cleaned_data['new_password']
+            confirm_password = form.cleaned_data['confirm_password']
+            if new_password == confirm_password:
+                guide = token_obj.guide
+                guide.password = make_password(new_password)
+                guide.save()
+                token_obj.delete()
+                return render(request, "password_reset_complete.html")
+            else:
+                return render(request, "reset_password.html", {"form": form, "error": "Passwords do not match."})
+    else:
+        form = ResetPasswordForm()
+    return render(request, "reset_password.html", {"form": form})

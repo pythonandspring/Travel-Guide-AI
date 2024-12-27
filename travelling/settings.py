@@ -40,7 +40,19 @@ INSTALLED_APPS = [
     'myadmin',
     'guide',
     'accommodation',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
+# Add this REST Framework configuration
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # Enable token authentication
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # Restrict access to authenticated users
+    ],
+}
+    
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -96,8 +108,13 @@ DATABASES = {
         'USER': 'root',                
         'PASSWORD': 'killer',                       
         'HOST': '127.0.0.1',                    
-        'PORT': '3306',   
+        'PORT': '3306',
+        
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': f"{BASE_DIR}/db.sqlite3",
+    # }
 }
 
 # Password validation
@@ -170,7 +187,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'enter your email'
-EMAIL_HOST_PASSWORD = 'enter you password'  
-DEFAULT_FROM_EMAIL = 'enter default email to send mail from.'
+EMAIL_HOST_USER = 'travelguidehelpteam@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'ikywspuukecuhvey'  # Your email account password
+# password = 'Travel123!@#'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
 

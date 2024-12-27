@@ -1,0 +1,146 @@
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url("{% static 'accommodation/css/imag.jpg' %}");
+    background-size: cover; /* Ensures the image covers the entire screen */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents image repetition */
+    height: 100%;
+    overflow-x: hidden;
+}
+
+/* Popup Container */
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.3); /* Dimmed background */
+    z-index: 1000;
+    overflow-y: auto; /* Allows scrolling if content overflows */
+}
+
+/* Popup Box */
+.popup {
+    background: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Adds a blur effect to the background */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); /* Slightly dimmer shadow for better contrast */
+    width: 100%;
+    max-width: 550px;
+    animation: slideIn 0.3s ease-out;
+    max-height: 90vh; /* Limits the height */
+    overflow-y: auto; /* Ensures form scrolls if it's too long */
+}
+
+/* Header */
+.popup h2 {
+    font-size: 26px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 14px;
+    color: #555;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    outline: none;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.helper-text {
+    font-size: 13px;
+    color: #888;
+    margin-top: 5px;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    width: 48%;
+}
+
+.submit-btn {
+    background-color: #688feb;
+    color: #fff;
+}
+
+.submit-btn:hover {
+    background-color: #218838;
+}
+
+.cancel-btn {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.cancel-btn:hover {
+    background-color: #c82333;
+}
+
+/* Fade-in Animation */
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

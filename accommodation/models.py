@@ -1,17 +1,15 @@
 from django.db import models
 import os
-from guide.models import Place
+from travelling.filter_data.get_data import get_countries, get_cities, get_place, get_states
 from django.core.validators import MinValueValidator, MaxValueValidator
+import uuid
 
 class Hotel(models.Model):
 
-    country_choice = [(country_option, country_option) for country_option in Place.objects.values_list('country', flat=True).distinct()]
-    state_choice = [(state_option, state_option)
-                    for state_option in Place.objects.values_list('state', flat=True).distinct()]
-    city_choice = [(city_option, city_option)
-                   for city_option in Place.objects.values_list('city', flat=True).distinct()]
-    place_choice = [(place_option, place_option)
-                    for place_option in Place.objects.values_list('name', flat=True).distinct()]
+    country_choice = [(country_option, country_option) for country_option in get_countries()]
+    state_choice = [(state_option, state_option) for state_option in get_states()]
+    city_choice = [(city_option, city_option) for city_option in get_cities()]
+    place_choice = [(place_option, place_option) for place_option in get_place()]
 
     DAYS_OF_WEEK = [
             ('MON', 'Monday'),
@@ -114,5 +112,10 @@ class HotelImage(models.Model):
     def __str__(self):
         return f"Image for {self.hotel.hotel_name}"
  
+
+class PasswordResetToken(models.Model):
+    hotel = models.OneToOneField(Hotel, on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 

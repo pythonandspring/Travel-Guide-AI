@@ -1,0 +1,13 @@
+{% load static %}
+<div class="upload-form">
+    <form method="POST" enctype="multipart/form-data" action="{% url 'add_place_image' %}">
+        {% csrf_token %}
+        <label for="name">Image Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter image name" required><br>
+        <button type="submit" onclick="refreshPage()">Upload</button>
+        <br>
+        <h1>{{place.id}}</h1>
+        <br>
+        {% comment %} <button><a href="{% url 'get_images' place_id %}">cancel</a></button> {% endcomment %}
+    </form>
+</div>

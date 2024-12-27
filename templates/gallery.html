@@ -3,7 +3,6 @@
 
 {% comment %} CSS {% endcomment %}
 {% block styling %}
-<link rel="stylesheet" href="{% static 'css/travel_style.css' %}">
     <link rel="stylesheet" href="{% static 'css/gallery.css' %}">
 {% endblock styling %}
 
@@ -11,8 +10,8 @@
 {% comment %} BODY {% endcomment %}
 {% block content %}
     <div class="gallery-container" style="background: url('{% static "images/bg.jpg" %}') no-repeat center center/cover; padding-top: 6rem; padding-bottom: 4rem;">
-        <h1>Explore Beautiful Destinations</h1>
-        <div class="search-container">
+        <h1>Explore Beautiful <span class="yellow-gradient-text">Destinations . . .</span</h1>
+        <div class="search-container" style="color:black;">
             <input type="text" id="searchBar" class="search-bar" placeholder="Search for a place..." onkeyup="filterCards()">
             <button id="startVoiceButton" onclick="startVoiceSearch()">🎤</button>
     </div>
@@ -26,8 +25,8 @@
 
     <div class="card-container">
         {% for place in places %}
-        <div class="card" onclick="openPlaceDetails('{{ place.name|escapejs }}', '{{ place.location|escapejs }}', '{{ place.description|escapejs }}', '{% static place.image %}')">
-            <img src="{% static place.image %}" alt="{{ place.name }}">
+        <div class="card" onclick="window.location.href='{% url 'get_place' place.id %}'">
+            <img src="{{place.front_image.url}}" alt="{{ place.name }}">
             <h2>{{ place.name }}</h2>
         </div>
         {% endfor %}

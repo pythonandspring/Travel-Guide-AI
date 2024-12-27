@@ -11,35 +11,40 @@ from .models import Profile
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.contrib.auth import logout
-
+from travelling.send_mail import send_confirmation_email
+from django.contrib.auth.models import User
 
 def user_login(request):
-    if request.user.is_authenticated: 
-        messages.success(request, "User is already authenticated, redirecting to profile..")
-        return redirect('profile') 
-    
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
+    try:
+        user = User.objects.get(username=request.session['registered_user'])
+        del request.session['registered_user']
+        if not user.first_name:
+            messages.error(request, "your profile created with empty data you can edit it after login with your username and password.")
+    finally:
+        if request.user.is_authenticated: 
+            messages.success(request, "User is already authenticated, redirecting to profile..")
+            return redirect('profile') 
+        
+        if request.method == 'POST':
+            form = AuthenticationForm(request, data=request.POST)
+            if form.is_valid():
 
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
 
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                messages.success(request, "Authentication successful for user!")
-                login(request, user)
-                return redirect('home')  
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('profile')  
+                else:
+                    messages.error(request, "user doesn't exists.")
+                    return redirect('register')
             else:
-                messages.error(request, "user doesn't exists.")
-                return redirect('register')
+                messages.error(request, "there is some Issue check your credentials again.")
         else:
-            messages.error(request, form.errors)
-    else:
-        print("DEBUG: GET request received for login")
-        form = AuthenticationForm()  
+            form = AuthenticationForm()  
 
-    return render(request, 'travel/login.html', {'form': form})
+        return render(request, 'travel/login.html', {'form': form})
 
 
 def register(request):
@@ -48,15 +53,45 @@ def register(request):
         if form.is_valid():
             user = form.save()
             Profile.objects.create(user=user)
+            username = form.cleaned_data.get('username')
+            request.session['registered_user'] = username
+            email = form.cleaned_data.get('email')
+            additional_info = {
+                'email': email,
+            }
+            send_confirmation_email(
+                to_email=email, 
+                user_type='customer', 
+                username=username, 
+                additional_info=additional_info,
+            )
             messages.success(request, "Your account has been created. You can now log in.")
-            return redirect('login')  
+            return redirect('create_profile')  
         else:
             messages.error(request, form.errors)
     else:
-        print("DEBUG: GET request received for register") 
         form = UserRegistrationForm()
 
     return render(request, 'travel/register.html', {'form': form})
+
+
+def create_profile(request):
+    try:
+        username = request.session.get('registered_user')
+        user = User.objects.get(username=username)
+        profile, created = Profile.objects.get_or_create(user=user)
+        if request.method == 'POST':
+            form = EditProfileForm(request.POST, instance=user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'you have successfully registered and created profile please login')
+                return redirect('login')
+        else:
+            form = EditProfileForm(instance=user)
+        return render(request, 'travel/create_profile.html', {'form': form, 'profile': profile, 'user': user})
+    except Exception as e:
+        print(f"Error: {e}")
+        return redirect('login')
 
 
 @login_required
@@ -69,29 +104,67 @@ def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
-            if user_profile:
-                user_profile.location = form.cleaned_data.get('location')
-                user_profile.birth_date = form.cleaned_data.get('birth_date')
-                user_profile.travel_preferences = form.cleaned_data.get('travel_preferences')
-                user_profile.favorite_destinations = form.cleaned_data.get('favorite_destinations')
-                user_profile.languages_spoken = form.cleaned_data.get('languages_spoken')
-                user_profile.budget_range = form.cleaned_data.get('budget_range')
-                user_profile.interests = form.cleaned_data.get('interests')
-                user_profile.save()
-            else:
-                Profile.objects.create(
-                    user=request.user,
-                    location=form.cleaned_data.get('location'),
-                    birth_date=form.cleaned_data.get('birth_date'),
-                    travel_preferences=form.cleaned_data.get('travel_preferences'),
-                    favorite_destinations=form.cleaned_data.get('favorite_destinations'),
-                    languages_spoken=form.cleaned_data.get('languages_spoken'),
-                    budget_range=form.cleaned_data.get('budget_range'),
-                    interests=form.cleaned_data.get('interests')
-                )
-            messages.success(request, "Profile edited successfully!")
-            return redirect('profile')  
+            email = form.cleaned_data.get('email')
+            try:
+                user = User.objects.get(email=email)
+                if user != request.user:
+                    form.add_error('email', 'This email is already in use.')
+                else:
+                    form.save()
+                    if user_profile:
+                        user_profile.location = form.cleaned_data.get('location')
+                        user_profile.birth_date = form.cleaned_data.get(
+                            'birth_date')
+                        user_profile.travel_preferences = form.cleaned_data.get(
+                            'travel_preferences')
+                        user_profile.favorite_destinations = form.cleaned_data.get(
+                            'favorite_destinations')
+                        user_profile.languages_spoken = form.cleaned_data.get(
+                            'languages_spoken')
+                        user_profile.budget_range = form.cleaned_data.get(
+                            'budget_range')
+                        user_profile.interests = form.cleaned_data.get('interests')
+                        user_profile.save()
+                    else:
+                        Profile.objects.create(
+                            user=request.user,
+                            location=form.cleaned_data.get('location'),
+                            birth_date=form.cleaned_data.get('birth_date'),
+                            travel_preferences=form.cleaned_data.get(
+                                'travel_preferences'),
+                            favorite_destinations=form.cleaned_data.get(
+                                'favorite_destinations'),
+                            languages_spoken=form.cleaned_data.get(
+                                'languages_spoken'),
+                            budget_range=form.cleaned_data.get('budget_range'),
+                            interests=form.cleaned_data.get('interests')
+                        )
+                    messages.success(request, "Profile edited successfully!")
+                    return redirect('profile')
+            except User.DoesNotExist:
+                form.save()
+                if user_profile:
+                    user_profile.location = form.cleaned_data.get('location')
+                    user_profile.birth_date = form.cleaned_data.get('birth_date')
+                    user_profile.travel_preferences = form.cleaned_data.get('travel_preferences')
+                    user_profile.favorite_destinations = form.cleaned_data.get('favorite_destinations')
+                    user_profile.languages_spoken = form.cleaned_data.get('languages_spoken')
+                    user_profile.budget_range = form.cleaned_data.get('budget_range')
+                    user_profile.interests = form.cleaned_data.get('interests')
+                    user_profile.save()
+                else:
+                    Profile.objects.create(
+                        user=request.user,
+                        location=form.cleaned_data.get('location'),
+                        birth_date=form.cleaned_data.get('birth_date'),
+                        travel_preferences=form.cleaned_data.get('travel_preferences'),
+                        favorite_destinations=form.cleaned_data.get('favorite_destinations'),
+                        languages_spoken=form.cleaned_data.get('languages_spoken'),
+                        budget_range=form.cleaned_data.get('budget_range'),
+                        interests=form.cleaned_data.get('interests')
+                    )
+                messages.success(request, "Profile edited successfully!")
+                return redirect('profile')  
     else:
         form = EditProfileForm(instance=request.user)
         if user_profile:
@@ -103,7 +176,7 @@ def edit_profile(request):
             form.fields['budget_range'].initial = user_profile.budget_range
             form.fields['interests'].initial = user_profile.interests
 
-    return render(request, 'travel/edit_profile.html', {'form': form})
+    return render(request, 'travel/edit_profile.html', {'form': form, 'profile': user_profile})
 
 
 @login_required
@@ -125,6 +198,7 @@ def user_profile(request):
             'user': request.user, 
         }
     )
+
 
 
 def user_logout(request):
