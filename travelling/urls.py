@@ -22,6 +22,7 @@ urlpatterns = [
     path('terms_conditions/', views.terms_conditions, name='terms_conditions'),
     # path('search_voice/', views.search_voice, name='search_voice'),
     path("place/<int:place_id>", views.get_place, name='get_place'),
+    path("get-hotel-details/<int:hotel_id>", views.get_hotel_details, name='get_hotel_details'),
 
     path('admin/', include('myadmin.urls')),
     path('dj-admin/', admin.site.urls),
