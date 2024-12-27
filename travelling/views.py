@@ -3,9 +3,10 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from pyexpat.errors import messages
-from guide.models import Place, Guide
-from accommodation.models import Hotel
+from guide.models import Place, Guide, Image
+from accommodation.models import Hotel, HotelImage
 from django.core.cache import cache
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
@@ -26,7 +27,6 @@ def home(request):
 
 
 
-
 def agentRegistration(request):
     if request.method == 'POST':
         form = request.POST.get('agentRegistration')
@@ -38,19 +38,29 @@ def agentRegistration(request):
 
 def gallery(request):
     places = Place.objects.all()
-
     return render(request, 'gallery.html', {'places': places, 'MEDIA_URL': settings.MEDIA_URL})
 
 
 def get_place(request, place_id):
     place = Place.objects.get(id=place_id)
+    images = Image.objects.filter(place=place.id)
+    hotels = Hotel.objects.filter(place=place.name)
+    guides = Guide.objects.filter(place=place.name)
+    print(place.name)
     if place:
         request.session['place_exist'] = True
-        return render(request, 'place.html', {'place_exist': True, 'place': place, 'MEDIA_URL': settings.MEDIA_URL})
+        return render(request, 'place.html', {'place_exist': True, 'place': place, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides})
     else:
         request.session['place_exist'] = False
         messages.error(request, f"doesn't exist in database now.")
-        return render(request, 'place.html', {'place_exist': False, 'MEDIA_URL': settings.MEDIA_URL})
+        return render(request, 'place.html', {'place_exist': False, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides})
+
+
+def get_hotel_details(request, hotel_id):
+    hotel = Hotel.objects.get(id=hotel_id)
+    images = HotelImage.objects.filter(hotel_id=hotel.id)
+    print(images)
+    return render(request, 'hotel_details.html', {'hotel':hotel, 'images':images})
 
 
 def contact(request):    
@@ -58,7 +68,6 @@ def contact(request):
         'MEDIA_URL': settings.MEDIA_URL,
     }
     return render(request,'contact.html',context)
-
 
 
 def feedback(request):
@@ -69,7 +78,6 @@ def feedback(request):
         return redirect('gen_feedback')
 
     return render(request, 'feedback.html')
-
 
 
 def gen_contact(request):    

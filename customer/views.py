@@ -14,32 +14,37 @@ from django.contrib.auth import logout
 from travelling.send_mail import send_confirmation_email
 from django.contrib.auth.models import User
 
-
 def user_login(request):
-    if request.user.is_authenticated: 
-        messages.success(request, "User is already authenticated, redirecting to profile..")
-        return redirect('profile') 
-    
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
+    try:
+        user = User.objects.get(username=request.session['registered_user'])
+        del request.session['registered_user']
+        if not user.first_name:
+            messages.error(request, "your profile created with empty data you can edit it after login with your username and password.")
+    finally:
+        if request.user.is_authenticated: 
+            messages.success(request, "User is already authenticated, redirecting to profile..")
+            return redirect('profile') 
+        
+        if request.method == 'POST':
+            form = AuthenticationForm(request, data=request.POST)
+            if form.is_valid():
 
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
 
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('profile')  
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('profile')  
+                else:
+                    messages.error(request, "user doesn't exists.")
+                    return redirect('register')
             else:
-                messages.error(request, "user doesn't exists.")
-                return redirect('register')
+                messages.error(request, "there is some Issue check your credentials again.")
         else:
-            messages.error(request, "there is some Issue check your credentials again.")
-    else:
-        form = AuthenticationForm()  
+            form = AuthenticationForm()  
 
-    return render(request, 'travel/login.html', {'form': form})
+        return render(request, 'travel/login.html', {'form': form})
 
 
 def register(request):
@@ -47,8 +52,9 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            username = form.cleaned_data.get('username')
             Profile.objects.create(user=user)
+            username = form.cleaned_data.get('username')
+            request.session['registered_user'] = username
             email = form.cleaned_data.get('email')
             additional_info = {
                 'email': email,
@@ -60,13 +66,32 @@ def register(request):
                 additional_info=additional_info,
             )
             messages.success(request, "Your account has been created. You can now log in.")
-            return redirect('login')  
+            return redirect('create_profile')  
         else:
             messages.error(request, form.errors)
     else:
         form = UserRegistrationForm()
 
     return render(request, 'travel/register.html', {'form': form})
+
+
+def create_profile(request):
+    try:
+        username = request.session.get('registered_user')
+        user = User.objects.get(username=username)
+        profile, created = Profile.objects.get_or_create(user=user)
+        if request.method == 'POST':
+            form = EditProfileForm(request.POST, instance=user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'you have successfully registered and created profile please login')
+                return redirect('login')
+        else:
+            form = EditProfileForm(instance=user)
+        return render(request, 'travel/create_profile.html', {'form': form, 'profile': profile, 'user': user})
+    except Exception as e:
+        print(f"Error: {e}")
+        return redirect('login')
 
 
 @login_required
@@ -151,7 +176,7 @@ def edit_profile(request):
             form.fields['budget_range'].initial = user_profile.budget_range
             form.fields['interests'].initial = user_profile.interests
 
-    return render(request, 'travel/edit_profile.html', {'form': form})
+    return render(request, 'travel/edit_profile.html', {'form': form, 'profile': user_profile})
 
 
 @login_required
@@ -173,6 +198,7 @@ def user_profile(request):
             'user': request.user, 
         }
     )
+
 
 
 def user_logout(request):
