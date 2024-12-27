@@ -1,0 +1,253 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Section Styling */
+.profile {
+    max-width: 800px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* Header Styling */
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-header h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.profile-header button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.profile-header button:hover {
+    background-color: #0056b3;
+}
+
+.logout form {
+    margin: 0;
+}
+
+.logout button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.logout button:hover {
+    background-color: #c82333;
+}
+
+/* Hotel Info Section */
+.hotel-info,
+.rooms-info,
+.contact-info {
+    margin-bottom: 20px;
+}
+
+.hotel-info h3,
+.rooms-info h3,
+.contact-info h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.hotel-info p,
+.contact-info p {
+    margin: 5px 0;
+}
+
+/* Table Styling */
+.rooms-info table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.rooms-info table th,
+.rooms-info table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.rooms-info table th {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+}
+
+.rooms-info table td {
+    background-color: #f9f9f9;
+}
+
+.rooms-info table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Button Styling */
+button {
+    transition: background-color 0.3s ease;
+}
+
+btn-edit-profile {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.btn-edit-profile:hover {
+    background-color: #0056b3;
+}
+
+.operating-hours {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.operating-hours h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+    border-bottom: 2px solid #007BFF;
+    padding-bottom: 5px;
+}
+
+.operating-hours p {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.operating-hours strong {
+    font-weight: bold;
+    color: #222;
+}
+
+.operating-hours a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.operating-hours a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+
+.hotel-info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hotel-info h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+    border-bottom: 2px solid #007BFF;
+    padding-bottom: 5px;
+}
+
+.hotel-info p {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.hotel-info strong {
+    font-weight: bold;
+    color: #222;
+}
+
+.contact-info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+    border-bottom: 2px solid #007BFF;
+    padding-bottom: 5px;
+}
+
+.contact-info p {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.contact-info strong {
+    font-weight: bold;
+    color: #222;
+}
+
+/* Footer Styles - Fixed to Bottom */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    z-index: 1000;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0 5px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}

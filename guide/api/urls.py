@@ -14,5 +14,5 @@ router.register(r'guides', GuideViewSet)
 router.register(r'doctors', DoctorViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
 ]

@@ -11,5 +11,5 @@ router = DefaultRouter()
 router.register(r'profiles', ProfileViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),  # Include all the generated routes for the viewsets.
+    path('api/', include(router.urls)),  # Include all the generated routes for the viewsets.
 ]
