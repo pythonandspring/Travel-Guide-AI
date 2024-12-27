@@ -7,7 +7,7 @@ import pandas as pd
 # Choose your database
 DATABASES = {
     # "sqlite": "sqlite:///db.sqlite3",
-    "mysql": "mysql+pymysql://root:rta9985@localhost:3306user",
+    "mysql": "mysql+pymysql://root:Iqbal@1234@localhost:3306/travel",
 
     # "postgresql": "postgresql+psycopg2://username:password@localhost/your_database_name",
 }

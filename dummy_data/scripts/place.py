@@ -4,8 +4,8 @@ import csv
 db_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'Raunak@123',
-    'database': 'user',
+    'password': 'Iqbal@1234',
+    'database': 'travel',
     'charset': 'utf8mb4'
 }
 
