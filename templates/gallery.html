@@ -14,6 +14,26 @@
         <div class="search-container" style="color:black;">
             <input type="text" id="searchBar" class="search-bar" placeholder="Search for a place..." onkeyup="filterCards()">
             <button id="startVoiceButton" onclick="startVoiceSearch()">🎤</button>
+             <!-- Filter Dropdowns for City, State, and Country -->
+    <select id="cityFilter" onchange="filterCards()">
+        <option value="">All Cities</option>
+        {% for city in cities %}
+        <option value="{{ city }}">{{ city }}</option>
+        {% endfor %}
+    </select>
+    <select id="stateFilter" onchange="filterCards()">
+        <option value="">All States</option>
+        {% for state in states %}
+        <option value="{{ state }}">{{ state }}</option>
+        {% endfor %}
+    </select>
+    <select id="countryFilter" onchange="filterCards()">
+        <option value="">All Countries</option>
+        {% for country in countries %}
+        <option value="{{ country }}">{{ country }}</option>
+        {% endfor %}
+    </select>
+
     </div>
 
     <div id="voiceModal" class="modal">
@@ -26,6 +46,9 @@
     <div class="card-container">
         {% for place in places %}
         <div class="card" onclick="window.location.href='{% url 'get_place' place.id %}'">
+            data-city="{{ place.city }}"
+            data-state="{{ place.state }}"
+            data-country="{{ place.country }}">
             <img src="{{place.front_image.url}}" alt="{{ place.name }}">
             <h2>{{ place.name }}</h2>
         </div>
@@ -50,17 +73,30 @@
 <script>
     function filterCards() {
         const searchValue = document.getElementById('searchBar').value.toLowerCase();
+        const cityValue = document.getElementById('cityFilter').value.toLowerCase();
+        const stateValue = document.getElementById('stateFilter').value.toLowerCase();
+        const countryValue = document.getElementById('countryFilter').value.toLowerCase();
         const cards = document.querySelectorAll('.card');
         cards.forEach(card => {
             const titleElement = card.querySelector('h2');
             const descriptionElement = card.querySelector('p');
+            const cityElement = card.getAttribute('data-city') || '';
+        const stateElement = card.getAttribute('data-state') || '';
+        const countryElement = card.getAttribute('data-country') || '';
             const cardContent = 
                 (titleElement ? titleElement.textContent.toLowerCase() : '') +
                 ' ' +
                 (descriptionElement ? descriptionElement.textContent.toLowerCase() : '');
             card.style.display = cardContent.includes(searchValue) ? '' : 'none';
-        });
-    }
+            const matchesCity = cityValue === '' || cityElement.toLowerCase() === cityValue;
+        const matchesState = stateValue === '' || stateElement.toLowerCase() === stateValue;
+        const matchesCountry = countryValue === '' || countryElement.toLowerCase() === countryValue;
+
+        card.style.display = matchesSearch && matchesCity && matchesState && matchesCountry ? '' : 'none';
+    });
+}
+
+    
 
     function startVoiceSearch() {
         const modal = document.getElementById('voiceModal');

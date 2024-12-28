@@ -41,7 +41,7 @@ class Place(models.Model):
 
     address = models.TextField()
     location_on_map = models.URLField(max_length=1000)
-
+    
     # Information about history, speciality, appealing_text, size
     area_size = models.CharField(
         max_length=255,
