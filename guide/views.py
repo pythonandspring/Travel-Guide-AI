@@ -55,13 +55,16 @@ def is_super_guide(view_func):
             try:
                 guide_id =request.session.get('super_guide_id')
                 guide = Guide.objects.get(id=guide_id)
+                if guide.is_super_guide:
+                    return view_func(request, guide_info=guide, *args, **kwargs)
             except Guide.DoesNotExist:
                 try:
                     guide_id = request.session.get('guide_id')
                     guide = Guide.objects.get(id=guide_id)
+                    if guide.is_super_guide:
+                        return view_func(request, guide_info=guide, *args, **kwargs)
                 except Guide.DoesNotExist:
-                    return redirect('guide_dashboard')
-            return view_func(request, guide_info=guide, *args, **kwargs)
+                    return redirect('guide_login')
         else:
             return redirect('guide_login')
     return wrapper
@@ -177,10 +180,9 @@ def guide_edit_profile(request, *args, **kwargs):
     except:
         return redirect('guide_login')
     
-    
-   
 
 # <---------------------DOCTOR------------------------------------->
+
 
 @is_super_guide
 def get_doctors(request, *args, **kwargs):
