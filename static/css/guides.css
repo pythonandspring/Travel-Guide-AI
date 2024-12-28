@@ -1,6 +1,6 @@
 /* Container styles */
 .list-container {
-    max-width: 900px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 20px;
     font-family: Arial, sans-serif;
@@ -118,39 +118,39 @@
 /* The Modal (background) */
 .modal {
     display: none;
-    /* Hidden by default */
     position: fixed;
-    /* Stay in place */
     z-index: 1;
-    /* Sit on top */
     left: 0;
     top: 0;
     width: 100%;
-    /* Full width */
     height: 100%;
-    /* Full height */
     overflow: auto;
-    /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.4);
-    /* Black w/ opacity */
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-top: 60px;
+    /* Adjust the space from the top */
 }
 
-/* Modal Content */
+/* Modal content adjustment */
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
+    background-color: white;
+    padding: 30px;
+    /* Increased padding for better spacing */
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     width: 80%;
-    /* Could be more or less, depending on screen size */
+    max-width: 600px;
+    margin: 0 auto;
+    /* Center modal horizontally */
+    overflow-y: auto;
+    /* Allows scrolling if content overflows */
 }
 
-/* Close Button */
+/* Modal close button */
 .close {
     color: #aaa;
-    float: right;
     font-size: 28px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .close:hover,
@@ -158,4 +158,17 @@
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Apply a gradient background to the list container */
+.gradient-background {
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.8), rgba(40, 167, 69, 0.8));
+    padding: 30px;
+}
+
+/* Styling for card */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }

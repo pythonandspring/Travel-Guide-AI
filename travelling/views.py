@@ -64,6 +64,36 @@ def get_hotel_details(request, hotel_id):
     return render(request, 'hotel_details.html', {'hotel':hotel, 'images':images})
 
 
+def hotel_list(request):
+    country = request.GET.get('country')
+    state = request.GET.get('state')
+    city = request.GET.get('city')
+    place = request.GET.get('place')
+
+    hotels = Hotel.objects.all()
+
+    if country:
+        hotels = hotels.filter(country=country)
+    if state:
+        hotels = hotels.filter(state=state)
+    if city:
+        hotels = hotels.filter(city=city)
+    if place:
+        hotels = hotels.filter(place=place)
+
+    context = {
+        'hotels': hotels,
+        'countries': Hotel.objects.values_list('country', flat=True).distinct(),
+        # Replace with your function to fetch states
+        'states': Hotel.objects.values_list('state', flat=True).distinct(),
+        # Replace with your function to fetch cities
+        'cities': Hotel.objects.values_list('city', flat=True).distinct(),
+        # Replace with your function to fetch places
+        'places': Hotel.objects.values_list('place', flat=True).distinct(),
+    }
+
+    return render(request, 'hotels.html', context)
+
 def guide_list(request):
     # Get all guides from the database
     guides = Guide.objects.all()
