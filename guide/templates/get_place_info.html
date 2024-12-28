@@ -94,7 +94,7 @@
         </div>
 
         {% if guide.is_super_guide %}
-            <a href="{% url 'update_place_info' place.id %}" style="color:white;" class="edit-button">Edit</a>
+            <a href="{% url 'update_place_info' place.id%}" style="color:white;" class="edit-button">Edit</a>
             <a href="{% url 'get_images' place.id %}" style="color:white;" class="edit-button">See Images</a>
         {% endif %}
     {% else %}

@@ -12,4 +12,14 @@ class ProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Profile
-        fields = '_all_'  # Include all fields from Profile
+        fields = fields = [
+            "user",
+            "location",
+            "birth_date",
+            "travel_preferences",
+            "favorite_destinations",
+            "languages_spoken",
+            "budget_range",
+            "interests",
+            "about"
+        ] 

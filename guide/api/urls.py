@@ -7,6 +7,7 @@ from .views import PlaceViewSet, ImageViewSet, GuideViewSet, DoctorViewSet
 class GuideConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'guide'
+
 router = DefaultRouter()
 router.register(r'places', PlaceViewSet)
 router.register(r'placeimages', ImageViewSet)

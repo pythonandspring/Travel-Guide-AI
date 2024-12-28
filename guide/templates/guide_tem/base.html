@@ -27,13 +27,12 @@
                     <div class="d-flex justify-content-center gap-3">
                         <a class="text-light text-decoration-none" href="{% url 'home' %}">Home</a>
                         <a class="text-light text-decoration-none" href="{% url 'gallery' %}">Gallery</a>
-                        {% if guide.is_super_guide %}
+                        {% if guide.is_super_guide or request.session.super_guide_id %}
                             <a class="text-light text-decoration-none" href="{% url 'get_place_info' %}">Place</a>
                             <a class="text-light text-decoration-none" href="{% url 'get_doctors' %}">Doctor</a>
                             <a class="text-light text-decoration-none" href="{% url 'guide_dashboard' %}">Dashboard</a>
                             <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>   
                         {% elif request.session.guide_id %}
-                            <a class="text-light text-decoration-none" href="{% url 'get_place_info' %}">Place</a>
                             <a class="text-light text-decoration-none" href="{% url 'guide_dashboard' %}">Dashboard</a>
                             <a class="text-light text-decoration-none" href="{% url 'contact_support' %}">Contact</a>   
                         {% else %}

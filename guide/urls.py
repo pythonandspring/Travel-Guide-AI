@@ -20,7 +20,7 @@ urlpatterns = [
     path('delete-doctor/<int:doctor_id>', views.delete_doctor, name='delete_doctor'),
 
     path('get-place-info/', views.get_place_info, name='get_place_info'),
-    path('update-place-info/<int:place_id>', views.update_place_info, name='update_place_info'),
+    path('update-place-info/<int:place_id>/',views.update_place_info, name='update_place_info'),
     path('add-image/', views.add_place_image, name='add_place_image'),
     path('get-images/<int:place_id>/', views.get_images, name='get_images'),
     path('delete-image/<int:place_id>/<int:image_id>/', views.delete_place_image, name='delete_place_image'),
