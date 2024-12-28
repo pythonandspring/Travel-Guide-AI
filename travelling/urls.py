@@ -17,6 +17,9 @@ urlpatterns = [
     path('gallery/', views.gallery, name='gallery'),
     path('get-guides/', views.guide_list, name='get_guides'),
     path('get-guide-details/<int:id>/', views.get_guide_details, name='get_guide_details'),
+    path('hotels/', views.hotel_list, name='hotel_list'),
+    path("get-hotel-details/<int:hotel_id>",
+         views.get_hotel_details, name='get_hotel_details'),
     path('agentRegistration/', views.agentRegistration, name='agentRegistration'),
     path('feedback/', views.feedback, name='gen_feedback'),
     path('gen_contact/', views.gen_contact, name="gen_contact"),
@@ -24,7 +27,7 @@ urlpatterns = [
     
     path('terms_conditions/', views.terms_conditions, name='terms_conditions'),
     path("place/<int:place_id>", views.get_place, name='get_place'),
-    path("get-hotel-details/<int:hotel_id>", views.get_hotel_details, name='get_hotel_details'),
+    
 
     path('admin/', include('myadmin.urls')),
     path('dj-admin/', admin.site.urls),

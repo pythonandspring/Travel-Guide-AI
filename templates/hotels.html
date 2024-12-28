@@ -7,35 +7,35 @@
 
 {% block content %}
 <div class="list-container gradient-background">
-    <h1 class="page-title text-center text-white mb-4">Meet Our <span class="highlight">Expert Guides</span></h1>
+    <h1 class="page-title text-center text-white mb-4">Explore Our <span class="highlight">Hotels</span></h1>
 
     <div class="search-container mb-4">
-        <input type="text" id="searchBar" class="form-control mb-3" placeholder="Search for a guide by name..." onkeyup="filterGuides()">
+        <input type="text" id="searchBar" class="form-control mb-3" placeholder="Search for a hotel by name..." onkeyup="filterHotels()">
         
         <!-- Moved the filter dropdowns below the search bar -->
         <div class="filter-dropdowns d-flex justify-content-between mb-3">
-            <select id="countryFilter" class="form-select" onchange="filterGuides()">
+            <select id="countryFilter" class="form-select" onchange="filterHotels()">
                 <option value="">Filter by Country</option>
                 {% for country in countries %}
                 <option value="{{ country }}">{{ country }}</option>
                 {% endfor %}
             </select>
 
-            <select id="stateFilter" class="form-select" onchange="filterGuides()">
+            <select id="stateFilter" class="form-select" onchange="filterHotels()">
                 <option value="">Filter by State</option>
                 {% for state in states %}
                 <option value="{{ state }}">{{ state }}</option>
                 {% endfor %}
             </select>
 
-            <select id="cityFilter" class="form-select" onchange="filterGuides()">
+            <select id="cityFilter" class="form-select" onchange="filterHotels()">
                 <option value="">Filter by City</option>
                 {% for city in cities %}
                 <option value="{{ city }}">{{ city }}</option>
                 {% endfor %}
             </select>
 
-            <select id="placeFilter" class="form-select" onchange="filterGuides()">
+            <select id="placeFilter" class="form-select" onchange="filterHotels()">
                 <option value="">Filter by Place</option>
                 {% for place in places %}
                 <option value="{{ place }}">{{ place }}</option>
@@ -45,37 +45,38 @@
     </div>
 
     <div class="list">
-        {% for guide in guides %}
-        <div class="list-item card p-3 mb-4" 
-             data-id="{{ guide.id }}"
-             data-country="{{ guide.country }}" 
-             data-state="{{ guide.state }}" 
-             data-city="{{ guide.city }}" 
-             data-place="{{ guide.place }}" 
-             onclick="openGuideModal({{ guide.id }})">
-            <div class="item-details">
-                <h2 class="item-name card-title">{{ guide.name }}</h2>
-                <p class="item-email"><strong>Email:</strong> {{ guide.email }}</p>
-                <p class="item-phone"><strong>Phone:</strong> {{ guide.phone }}</p>
-                <p class="item-super-guide">
-                    <strong>Super Guide:</strong> {{ guide.is_super_guide|yesno:"Yes,No" }}
-                </p>
-                <p class="item-location">
-                    <strong>Location:</strong> 
-                    {{ guide.place }}, {{ guide.city }}, {{ guide.state }}, {{ guide.country }}
-                </p>
-            </div>
+    {% for hotel in hotels %}
+    <div class="list-item card p-3 mb-4" 
+         data-id="{{ hotel.id }}"
+         data-country="{{ hotel.country }}" 
+         data-state="{{ hotel.state }}" 
+         data-city="{{ hotel.city }}" 
+         data-place="{{ hotel.place }}" 
+         onclick="window.location.href='{% url 'get_hotel_details' hotel.id %}'">
+        <div class="item-details">
+            <h2 class="item-name card-title">{{ hotel.hotel_name }}</h2>
+            <p class="item-owner"><strong>Owner:</strong> {{ hotel.hotel_owner_name }}</p>
+            <p class="item-phone"><strong>Phone:</strong> {{ hotel.hotel_phone_number }}</p>
+            <p class="item-ratings">
+                <strong>Ratings:</strong> {{ hotel.ratings }}
+            </p>
+            <p class="item-location">
+                <strong>Location:</strong> 
+                {{ hotel.place }}, {{ hotel.city }}, {{ hotel.state }}, {{ hotel.country }}
+            </p>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
 </div>
 
-<!-- Modal for displaying guide details -->
-<div id="guideModal" class="modal">
+</div>
+
+<!-- Modal for displaying hotel details -->
+<div id="hotelModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeGuideModal()">&times;</span>
-        <div id="guideModalDetails">
-            <!-- Guide details will be injected here dynamically -->
+        <span class="close" onclick="closeHotelModal()">&times;</span>
+        <div id="hotelModalDetails">
+            <!-- Hotel details will be injected here dynamically -->
         </div>
     </div>
 </div>
@@ -84,7 +85,7 @@
 
 {% block javascript %}
 <script>
-    function filterGuides() {
+    function filterHotels() {
         const searchValue = document.getElementById('searchBar').value.toLowerCase();
         const countryFilter = document.getElementById('countryFilter').value.toLowerCase();
         const stateFilter = document.getElementById('stateFilter').value.toLowerCase();
@@ -108,40 +109,43 @@
             item.style.display = (matchesName && matchesCountry && matchesState && matchesCity && matchesPlace) ? 'flex' : 'none';
         });
     }
-    // Function to open the modal and display guide details
-    function openGuideModal(guideId) {
-        // Fetch guide details via Ajax (using the guideId)
-        fetch(`/get-guide-details/${guideId}/`)
+
+    // Function to open the modal and display hotel details
+    function openHotelModal(hotelId) {
+        // Fetch hotel details via Ajax (using the hotelId)
+        fetch(`/get-hotel-details/${hotelId}/`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const guide = data.guide;
+                    const hotel = data.hotel;
                     const modalContent = `
-                        <h2>${guide.name}</h2>
-                        <p><strong>Email:</strong> ${guide.email}</p>
-                        <p><strong>Phone:</strong> ${guide.phone}</p>
-                        <p><strong>Super Guide:</strong> ${guide.is_super_guide ? 'Yes' : 'No'}</p>
-                        <p><strong>Location:</strong> ${guide.place}, ${guide.city}, ${guide.state}, ${guide.country}</p>
+                        <h2>${hotel.hotel_name}</h2>
+                        <p><strong>Owner:</strong> ${hotel.hotel_owner_name}</p>
+                        <p><strong>Phone:</strong> ${hotel.hotel_phone_number}</p>
+                        <p><strong>Email:</strong> ${hotel.hotel_email}</p>
+                        <p><strong>Ratings:</strong> ${hotel.ratings}</p>
+                        <p><strong>Description:</strong> ${hotel.description || 'No description available.'}</p>
+                        <p><strong>Location:</strong> ${hotel.place}, ${hotel.city}, ${hotel.state}, ${hotel.country}</p>
                     `;
-                    document.getElementById('guideModalDetails').innerHTML = modalContent;
-                    document.getElementById('guideModal').style.display = 'block';
+                    document.getElementById('hotelModalDetails').innerHTML = modalContent;
+                    document.getElementById('hotelModal').style.display = 'block';
                 } else {
-                    console.error("Guide not found!");
+                    console.error("Hotel not found!");
                 }
             })
-            .catch(err => console.error("Error fetching guide details:", err));
+            .catch(err => console.error("Error fetching hotel details:", err));
     }
 
     // Function to close the modal
-    function closeGuideModal() {
-        document.getElementById('guideModal').style.display = 'none';
+    function closeHotelModal() {
+        document.getElementById('hotelModal').style.display = 'none';
     }
 
     // Close the modal if the user clicks outside of the modal content
     window.onclick = function(event) {
-        const modal = document.getElementById('guideModal');
+        const modal = document.getElementById('hotelModal');
         if (event.target == modal) {
-            closeGuideModal();
+            closeHotelModal();
         }
     };
 </script>
