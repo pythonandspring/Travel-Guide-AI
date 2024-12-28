@@ -1,75 +1,69 @@
 /* General Styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
+    background-color: #f4f7fb;
     margin: 0;
     padding: 0;
     color: #333;
 }
 
-/* Profile Edit Container */
-.edit-profile {
-    margin-top: 30px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 50%; /* Adjust the width */
-    margin-left: auto;
-    margin-right: auto;
+/* Main Content Section (Form Placement) */
+.content-area {
+    padding-top: 80px;
+    /* Adjust for header height */
+    padding-bottom: 50px;
+    /* Adjust for footer height */
 }
 
-/* Headline Styling */
+/* Profile Form Styling */
+.edit-profile {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #f5f5f5, #ffffff);
+}
+
+/* Heading Style with Background */
 .edit-profile h2 {
     text-align: center;
+    font-size: 36px;
+    color: #007bff;
     margin-bottom: 30px;
-    font-size: 32px;
     font-weight: bold;
-    color: #333;
-    background: linear-gradient(90deg, #0d0e0f, #080d0e);
-    color: transparent;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    animation: glow 1.5s ease-in-out infinite alternate;
+    letter-spacing: 1px;
+    padding: 15px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #e0f7fa, #ffffff);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.1);
 }
 
-/* Glow Animation for Headline */
-@keyframes glow {
-    0% {
-        text-shadow: 0 0 10px rgba(229, 231, 234, 0.8), 0 0 20px rgba(240, 245, 250, 0.6), 0 0 30px rgba(233, 243, 253, 0.4);
-    }
-    100% {
-        text-shadow: 0 0 20px rgb(233, 230, 230), 0 0 30px rgba(225, 231, 238, 0.8), 0 0 40px rgba(198, 200, 203, 0.6);
-    }
-}
-
-/* Form Styles */
-.edit-profile form {
-    display: flex;
-    flex-direction: column;
-}
-
+/* Form Group Styling */
 .edit-profile .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .edit-profile .form-group label {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
-    color: #555;
+    color: #444;
     margin-bottom: 8px;
+    display: inline-block;
 }
 
 .edit-profile .form-group input,
 .edit-profile .form-group textarea,
 .edit-profile .form-group select {
-    padding: 12px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
     width: 100%;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
+    padding: 14px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .edit-profile .form-group input:focus,
@@ -77,70 +71,86 @@ body {
 .edit-profile .form-group select:focus {
     border-color: #007bff;
     outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
 }
 
-/* Button Styles */
+/* Textarea Styling */
+.edit-profile .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Error Messages Styling */
+.edit-profile .errors {
+    color: #ff5c5c;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.edit-profile .errors p {
+    margin: 0;
+}
+
+/* Submit Button Styling */
 .edit-profile button[type="submit"] {
-    padding: 12px;
-    font-size: 16px;
+    width: 100%;
+    padding: 16px;
+    font-size: 18px;
     font-weight: bold;
-    color: #ffffff;
+    color: white;
     background-color: #007bff;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 30px;
 }
 
 .edit-profile button[type="submit"]:hover {
     background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
-.edit-profile .btn-back-dashboard {
-    padding: 10px 20px;
+/* Back to Dashboard Button */
+.btn-back-dashboard {
+    display: block;
+    width: 100%;
+    padding: 14px;
     font-size: 16px;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: #28a745;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    display: inline-block;
     text-align: center;
+    font-weight: bold;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
     text-decoration: none;
     margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.edit-profile .btn-back-dashboard:hover {
+.btn-back-dashboard:hover {
     background-color: #218838;
-}
-
-/* Error Message Styles */
-.errors p {
-    color: red;
-    font-size: 14px;
+    transform: translateY(-2px);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .edit-profile {
-        width: 80%; /* Slightly wider on smaller screens */
+        padding: 20px;
     }
 
     .edit-profile h2 {
-        font-size: 28px; /* Smaller headline on mobile */
+        font-size: 30px;
+    }
+
+    .edit-profile button[type="submit"] {
+        font-size: 16px;
     }
 
     .edit-profile .form-group input,
     .edit-profile .form-group textarea,
     .edit-profile .form-group select {
-        font-size: 14px;
-    }
-
-    .edit-profile button[type="submit"] {
         font-size: 14px;
     }
 }

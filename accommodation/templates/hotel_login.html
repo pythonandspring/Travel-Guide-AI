@@ -14,12 +14,12 @@
             <form id="loginForm" method="POST" action="{% url 'hotel_login' %}">
                 {% csrf_token %}
                 <div class="form-group mb-3">
-                    <label for="email" class="form-label">Hotel Email Id</label>
+                    <label for="email" class="form-label text-success">Hotel Email Id</label>
                     <input type="email" id="email" name="email" class="form-control form-control-lg p-3" placeholder="Please enter hotel email" >
                     <div class="error-message text-danger" id="emailError"></div>
                 </div>
                 <div class="form-group mb-4">
-                    <label for="password" class="form-label ">Password</label>
+                    <label for="password" class="form-label text-success">Password</label>
                     <input type="password" id="password" name="password" class="form-control form-control-lg p-3" placeholder="Please enter your password" >
                     <div class="error-message text-danger" id="passwordError"></div>
                 </div>

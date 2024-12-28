@@ -1,0 +1,153 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block styling %}
+<link rel="stylesheet" href="{% static 'css/guides.css' %}">
+{% endblock styling %}
+
+{% block content %}
+<div class="list-container gradient-background">
+    <h1 class="page-title text-center text-white mb-4">Explore Our <span class="highlight">Hotels</span></h1>
+
+    <div class="search-container mb-4">
+        <input type="text" id="searchBar" class="form-control mb-3" placeholder="Search for a hotel by name..." onkeyup="filterHotels()">
+        
+        <!-- Moved the filter dropdowns below the search bar -->
+        <div class="filter-dropdowns d-flex justify-content-between mb-3">
+            <select id="countryFilter" class="form-select" onchange="filterHotels()">
+                <option value="">Filter by Country</option>
+                {% for country in countries %}
+                <option value="{{ country }}">{{ country }}</option>
+                {% endfor %}
+            </select>
+
+            <select id="stateFilter" class="form-select" onchange="filterHotels()">
+                <option value="">Filter by State</option>
+                {% for state in states %}
+                <option value="{{ state }}">{{ state }}</option>
+                {% endfor %}
+            </select>
+
+            <select id="cityFilter" class="form-select" onchange="filterHotels()">
+                <option value="">Filter by City</option>
+                {% for city in cities %}
+                <option value="{{ city }}">{{ city }}</option>
+                {% endfor %}
+            </select>
+
+            <select id="placeFilter" class="form-select" onchange="filterHotels()">
+                <option value="">Filter by Place</option>
+                {% for place in places %}
+                <option value="{{ place }}">{{ place }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="list">
+    {% for hotel in hotels %}
+    <div class="list-item card p-3 mb-4" 
+         data-id="{{ hotel.id }}"
+         data-country="{{ hotel.country }}" 
+         data-state="{{ hotel.state }}" 
+         data-city="{{ hotel.city }}" 
+         data-place="{{ hotel.place }}" 
+         onclick="window.location.href='{% url 'get_hotel_details' hotel.id %}'">
+        <div class="item-details">
+            <h2 class="item-name card-title">{{ hotel.hotel_name }}</h2>
+            <p class="item-owner"><strong>Owner:</strong> {{ hotel.hotel_owner_name }}</p>
+            <p class="item-phone"><strong>Phone:</strong> {{ hotel.hotel_phone_number }}</p>
+            <p class="item-ratings">
+                <strong>Ratings:</strong> {{ hotel.ratings }}
+            </p>
+            <p class="item-location">
+                <strong>Location:</strong> 
+                {{ hotel.place }}, {{ hotel.city }}, {{ hotel.state }}, {{ hotel.country }}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+</div>
+
+<!-- Modal for displaying hotel details -->
+<div id="hotelModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeHotelModal()">&times;</span>
+        <div id="hotelModalDetails">
+            <!-- Hotel details will be injected here dynamically -->
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block javascript %}
+<script>
+    function filterHotels() {
+        const searchValue = document.getElementById('searchBar').value.toLowerCase();
+        const countryFilter = document.getElementById('countryFilter').value.toLowerCase();
+        const stateFilter = document.getElementById('stateFilter').value.toLowerCase();
+        const cityFilter = document.getElementById('cityFilter').value.toLowerCase();
+        const placeFilter = document.getElementById('placeFilter').value.toLowerCase();
+
+        const items = document.querySelectorAll('.list-item');
+        items.forEach(item => {
+            const name = item.querySelector('.item-name').textContent.toLowerCase();
+            const country = item.dataset.country.toLowerCase();
+            const state = item.dataset.state.toLowerCase();
+            const city = item.dataset.city.toLowerCase();
+            const place = item.dataset.place.toLowerCase();
+
+            const matchesName = name.includes(searchValue);
+            const matchesCountry = !countryFilter || country === countryFilter;
+            const matchesState = !stateFilter || state === stateFilter;
+            const matchesCity = !cityFilter || city === cityFilter;
+            const matchesPlace = !placeFilter || place === placeFilter;
+
+            item.style.display = (matchesName && matchesCountry && matchesState && matchesCity && matchesPlace) ? 'flex' : 'none';
+        });
+    }
+
+    // Function to open the modal and display hotel details
+    function openHotelModal(hotelId) {
+        // Fetch hotel details via Ajax (using the hotelId)
+        fetch(`/get-hotel-details/${hotelId}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const hotel = data.hotel;
+                    const modalContent = `
+                        <h2>${hotel.hotel_name}</h2>
+                        <p><strong>Owner:</strong> ${hotel.hotel_owner_name}</p>
+                        <p><strong>Phone:</strong> ${hotel.hotel_phone_number}</p>
+                        <p><strong>Email:</strong> ${hotel.hotel_email}</p>
+                        <p><strong>Ratings:</strong> ${hotel.ratings}</p>
+                        <p><strong>Description:</strong> ${hotel.description || 'No description available.'}</p>
+                        <p><strong>Location:</strong> ${hotel.place}, ${hotel.city}, ${hotel.state}, ${hotel.country}</p>
+                    `;
+                    document.getElementById('hotelModalDetails').innerHTML = modalContent;
+                    document.getElementById('hotelModal').style.display = 'block';
+                } else {
+                    console.error("Hotel not found!");
+                }
+            })
+            .catch(err => console.error("Error fetching hotel details:", err));
+    }
+
+    // Function to close the modal
+    function closeHotelModal() {
+        document.getElementById('hotelModal').style.display = 'none';
+    }
+
+    // Close the modal if the user clicks outside of the modal content
+    window.onclick = function(event) {
+        const modal = document.getElementById('hotelModal');
+        if (event.target == modal) {
+            closeHotelModal();
+        }
+    };
+</script>
+
+{% endblock javascript %}
