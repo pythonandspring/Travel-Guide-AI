@@ -39,7 +39,20 @@ def agentRegistration(request):
 
 def gallery(request):
     places = Place.objects.all()
-    return render(request, 'gallery.html', {'places': places, 'MEDIA_URL': settings.MEDIA_URL})
+
+    # Extract distinct city, state, and country values
+    cities = places.values_list('city', flat=True).distinct()
+    states = places.values_list('state', flat=True).distinct()
+    countries = places.values_list('country', flat=True).distinct()
+
+    context = {
+        'places': places,
+        'cities': cities,
+        'states': states,
+        'countries': countries,
+    }
+
+    return render(request, 'gallery.html', context)
 
 
 def get_place(request, place_id):
