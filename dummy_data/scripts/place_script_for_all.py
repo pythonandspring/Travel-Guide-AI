@@ -4,14 +4,14 @@ import psycopg2
 import csv
 
 # Configuration for databases
-db_type = "sqlite"  # Change this to "sqlite", "postgresql", or "mysql"
+db_type = "mysql"  # Change this to "sqlite", "postgresql", or "mysql"
 
 # MySQL configuration
 mysql_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'Raunak@123',
-    'database': 'user',
+    'password': 'Kusuma@1698',
+    'database': 'user2',
     'charset': 'utf8mb4'
 }
 
@@ -57,8 +57,7 @@ def insert_data():
             elif db_type == "sqlite":
                 placeholders = ', '.join(['?'] * len(headers))
 
-            insert_query = f"INSERT INTO {
-                table_name} ({', '.join(headers)}) VALUES ({placeholders})"
+            insert_query = f"INSERT INTO {table_name} ({', '.join(headers)}) VALUES ({placeholders})"
 
             for row in csv_reader:
                 cursor.execute(insert_query, row)

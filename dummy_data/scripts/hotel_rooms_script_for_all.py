@@ -10,8 +10,8 @@ db_type = "mysql"  # Change this to "sqlite", "postgresql", or "mysql"
 mysql_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'gd456nds',
-    'database': 'user',
+    'password': 'Kusuma@1698',
+    'database': 'user2',
     'charset': 'utf8mb4'
 }
 
@@ -22,7 +22,7 @@ sqlite_db_path = "user.db"
 postgres_config = {
     'host': '127.0.0.1',
     'user': 'postgres',
-    'password': 'your_password',
+    'password': 'your_passaword',
     'database': 'user',
     'port': 5432
 }
@@ -57,8 +57,7 @@ def insert_data():
             elif db_type == "sqlite":
                 placeholders = ', '.join(['?'] * len(headers))
 
-            insert_query = f"INSERT INTO {
-                table_name} ({', '.join(headers)}) VALUES ({placeholders})"
+            insert_query = f"INSERT INTO {table_name} ({', '.join(headers)}) VALUES ({placeholders})"
 
             for row in csv_reader:
                 cursor.execute(insert_query, row)

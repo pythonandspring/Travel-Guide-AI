@@ -16,8 +16,8 @@ settings.configure(
 db_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'Raunak@123',
-    'database': 'user',
+    'password': 'Kusuma@1698',
+    'database': 'user1',
     'charset': 'utf8mb4'
 }
 
