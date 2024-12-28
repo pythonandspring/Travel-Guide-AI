@@ -16,10 +16,12 @@ urlpatterns = [
     # Other views
     path('gallery/', views.gallery, name='gallery'),
     path('get-guides/', views.guide_list, name='get_guides'),
-    path('get-guide-details/<int:id>/', views.get_guide_details, name='get_guide_details'),
+    path('get-guide-details/<int:id>/', views.get_guide_details, name='guide_details'),
+
     path('hotels/', views.hotel_list, name='hotel_list'),
     path("get-hotel-details/<int:hotel_id>",
          views.get_hotel_details, name='get_hotel_details'),
+         
     path('agentRegistration/', views.agentRegistration, name='agentRegistration'),
     path('feedback/', views.feedback, name='gen_feedback'),
     path('gen_contact/', views.gen_contact, name="gen_contact"),

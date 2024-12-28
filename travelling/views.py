@@ -4,7 +4,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from pyexpat.errors import messages
-from guide.models import Place, Guide, Image
+from guide.models import Place, Guide, Image, Doctor
 from accommodation.models import Hotel, HotelImage
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
@@ -169,9 +169,10 @@ def get_guide_details(request, id):
             'city': guide.city,
             'place': guide.place,
         }
-        return JsonResponse({'success': True, 'guide': guide_data})
+        doctors = Doctor.objects.filter(guide_id=id)
+        return render(request, 'guide_details.html', {'guide':guide_data, 'doctors':doctors})
     except Guide.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'Guide not found'})
+        return redirect('get_guides')
 
 
 def contact(request):    
