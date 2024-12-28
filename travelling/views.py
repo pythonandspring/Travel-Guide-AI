@@ -57,6 +57,7 @@ def get_place(request, place_id):
         return render(request, 'place.html', {'place_exist': False, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides})
 
 
+@login_required
 def get_hotel_details(request, hotel_id):
     hotel = Hotel.objects.get(id=hotel_id)
     images = HotelImage.objects.filter(hotel_id=hotel.id)
@@ -64,6 +65,7 @@ def get_hotel_details(request, hotel_id):
     return render(request, 'hotel_details.html', {'hotel':hotel, 'images':images})
 
 
+@login_required
 def hotel_list(request):
     country = request.GET.get('country')
     state = request.GET.get('state')
@@ -94,6 +96,8 @@ def hotel_list(request):
 
     return render(request, 'hotels.html', context)
 
+
+@login_required
 def guide_list(request):
     # Get all guides from the database
     guides = Guide.objects.all()
@@ -137,6 +141,7 @@ def guide_list(request):
     })
 
 
+@login_required
 def get_guide_details(request, id):
     try:
         guide = Guide.objects.get(id=id)

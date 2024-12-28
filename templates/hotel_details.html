@@ -6,26 +6,27 @@
 <style>
     /* Background and Padding for Sections */
     .hotel-header {
-        background-color: #f8f9fa; /* Light Gray */
-        padding: 15px;
+        background-color:rgba(63, 151, 245, 1); /* Blue background */
+        padding: 10px 15px; /* Reduced padding */
         border-radius: 10px;
+        color: #ffffff; /* White text for contrast */
     }
 
     .hotel-images {
         background-color: #ffffff; /* White */
-        padding: 15px;
+        padding: 10px;
         border-radius: 10px;
     }
 
     .hotel-details {
         background-color: #f8f9fa; /* Light Gray */
-        padding: 15px;
+        padding: 10px 15px; /* Reduced padding */
         border-radius: 10px;
     }
 
     .room-section {
         background-color: #ffffff; /* White */
-        padding: 15px;
+        padding: 10px 15px; /* Reduced padding */
         border-radius: 10px;
     }
 
@@ -47,6 +48,13 @@
         background-color: #ffffff; /* White */
         border: 1px solid #ddd;
     }
+
+    /* Location Section Styling */
+    .hotel-location {
+        background-color: #f1f1f1; /* Light Gray */
+        padding: 10px;
+        border-radius: 8px;
+    }
 </style>
 {% endblock styling %}
 
@@ -56,7 +64,7 @@
     <!-- Hotel Header -->
     <div class="hotel-header d-flex justify-content-between align-items-center mb-4">
         <!-- Hotel Name -->
-        <h1 class="display-4 text-primary">{{ hotel.hotel_name }}</h1>
+        <h1 class="display-4">{{ hotel.hotel_name }}</h1>
 
         <!-- Ratings Section (Right-aligned) -->
         <div class="ratings text-warning text-right">
@@ -65,12 +73,11 @@
     </div>
 
     <!-- Location Information -->
-    <div class="hotel-location bg-light p-3 mb-4 rounded">
+    <div class="hotel-location mb-4">
         <p class="m-0"><strong>Location:</strong> 
             {{ hotel.place }}, {{ hotel.city }}, {{ hotel.state }}, {{ hotel.country }}
         </p>
     </div>
-    
 
     <!-- Hotel Images Section -->
     <div class="hotel-images row mt-4">
@@ -139,6 +146,6 @@
             {% endfor %}
         </div>
     </div>
-</div>
 
+</div>
 {% endblock content %}
