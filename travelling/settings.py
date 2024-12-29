@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accommodation',
     'rest_framework',
     'rest_framework.authtoken',
+    'widget_tweaks',
 ]
 # Add this REST Framework configuration
 REST_FRAMEWORK = {
