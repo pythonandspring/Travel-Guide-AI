@@ -8,7 +8,8 @@ from guide.models import Place, Guide, Image, Doctor
 from accommodation.models import Hotel, HotelImage
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
-
+from channels.layers import get_channel_layer
+from chat.models import GuideRequest
 
 def home(request):
     if request.session.get('super_guide_id') or request.session.get('guide_id'):
@@ -60,14 +61,16 @@ def get_place(request, place_id):
     images = Image.objects.filter(place=place.id)
     hotels = Hotel.objects.filter(place=place.name)
     guides = Guide.objects.filter(place=place.name)
+    has_pending_request = GuideRequest.objects.filter(
+        user=request.user, status='pending').exists()
     print(place.name)
     if place:
         request.session['place_exist'] = True
-        return render(request, 'place.html', {'place_exist': True, 'place': place, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides})
+        return render(request, 'place.html', {'place_exist': True, 'place': place, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides, 'user':request.user, 'has_pending_request':has_pending_request})
     else:
         request.session['place_exist'] = False
         messages.error(request, f"doesn't exist in database now.")
-        return render(request, 'place.html', {'place_exist': False, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides})
+        return render(request, 'place.html', {'place_exist': False, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides, 'user': request.user})
 
 
 @login_required
@@ -174,6 +177,26 @@ def get_guide_details(request, id):
     except Guide.DoesNotExist:
         return redirect('get_guides')
 
+
+def update_guide_status(request, guide_id):
+    guide = Guide.objects.get(id=guide_id)
+
+    # Toggle the status for example
+    guide.is_occupied = not guide.is_occupied
+    guide.save()
+
+    # Get the channel layer and send a message to the WebSocket consumer
+    channel_layer = get_channel_layer()
+    channel_layer.group_send(
+        'guide_updates_group',
+        {
+            'type': 'guide_status_update',
+            'guide_id': guide.id,
+            'is_occupied': guide.is_occupied
+        }
+    )
+
+    return JsonResponse({'status': 'success'})
 
 def contact(request):    
     context = {

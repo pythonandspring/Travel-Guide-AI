@@ -35,7 +35,8 @@ urlpatterns = [
     path('dj-admin/', admin.site.urls),
     path("guide/", include("guide.urls"), name='guide'),
     path("accommodation/", include("accommodation.urls"), name="accommodation"),
-
+    path('chat/', include('chat.urls')),
+    
     path('get-states/', views.get_states, name="get_states"),
     path("get-cities/", views.get_cities, name="get_cities"),
     path("get-places/", views.get_places, name="get_places"),
@@ -43,6 +44,7 @@ urlpatterns = [
     path('api/accommodation/', include('accommodation.api.urls')),
     path('api/customer/', include('customer.api.urls')),
     path('api/guide/', include('guide.api.urls')),
+
 
     # Password reset views
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),

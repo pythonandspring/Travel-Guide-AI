@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'accommodation',
     'rest_framework',
     'rest_framework.authtoken',
+    'channels',
+    'chat'
 ]
 # Add this REST Framework configuration
 REST_FRAMEWORK = {
@@ -97,6 +99,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'travelling.wsgi.application'
+
+ASGI_APPLICATION = 'travelling.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],  # Redis running locally
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
