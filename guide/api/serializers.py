@@ -28,8 +28,17 @@ class GuideSerializer(serializers.ModelSerializer):
     class Meta:
         model = Guide
         fields = [
-            'id', 'name', 'profile_image', 'email', 'phone', 'password', 'address',
-            'is_occupied', 'is_super_guide', 'country', 'state', 'city', 'place'
+            "name",
+            "email",
+            "phone",
+            "password",
+            "address",
+            "is_occupied",
+            "is_super_guide",
+            "country",
+            "state",
+            "city",
+            "place"
         ]
 
 
@@ -38,5 +47,12 @@ class DoctorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Doctor
         fields = [
-            'id', 'guide', 'name', 'speciality', 'phone', 'email', 'address', 'weekly_closed_on', 'open_time', 'service_time',
-]
+            "guide",
+            "name",
+            "speciality",
+            "phone",
+            "email",
+            "address",
+            "weekly_closed_on",
+            "open_time"
+        ]

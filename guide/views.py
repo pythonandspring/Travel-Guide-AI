@@ -55,13 +55,16 @@ def is_super_guide(view_func):
             try:
                 guide_id =request.session.get('super_guide_id')
                 guide = Guide.objects.get(id=guide_id)
+                if guide.is_super_guide:
+                    return view_func(request, guide_info=guide, *args, **kwargs)
             except Guide.DoesNotExist:
                 try:
                     guide_id = request.session.get('guide_id')
                     guide = Guide.objects.get(id=guide_id)
+                    if guide.is_super_guide:
+                        return view_func(request, guide_info=guide, *args, **kwargs)
                 except Guide.DoesNotExist:
-                    return redirect('guide_dashboard')
-            return view_func(request, guide_info=guide, *args, **kwargs)
+                    return redirect('guide_login')
         else:
             return redirect('guide_login')
     return wrapper
@@ -177,10 +180,9 @@ def guide_edit_profile(request, *args, **kwargs):
     except:
         return redirect('guide_login')
     
-    
-   
 
 # <---------------------DOCTOR------------------------------------->
+
 
 @is_super_guide
 def get_doctors(request, *args, **kwargs):
@@ -248,7 +250,6 @@ def delete_doctor(request, doctor_id, *args, **kwargs):
 
 @is_login
 def get_place_info(request, *args, **kwargs):
-    print(settings.MEDIA_URL)
     guide_info = kwargs.pop('guide_info', None)
     place = Place.objects.filter(name=guide_info.place, city=guide_info.city, state=guide_info.state, country= guide_info.country).first()
     if place:
@@ -263,7 +264,7 @@ def get_place_info(request, *args, **kwargs):
 @is_super_guide
 def update_place_info(request, place_id, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
-    place = Place.objects.filter(id=place_id, name=guide_info.place, city=guide_info.city,
+    place = Place.objects.filter(name=guide_info.place, city=guide_info.city,
                                  state=guide_info.state, country=guide_info.country).first()
     if place:
         if request.method == "POST":
@@ -274,10 +275,10 @@ def update_place_info(request, place_id, *args, **kwargs):
                 return redirect('get_place_info')
             else:
                 messages.error(request, "please enter valid details")
-                return redirect('get_place_info')
+                return redirect('update_place_info')
         else:
             form = PlaceDetailsUpdateForm(instance=place)
-        return render(request, 'update_place_info.html', {'form': form})
+        return render(request, 'update_place_info.html', {'form': form, 'guide': guide_info})
     else:
         request.session['place_exist'] = False
         guide_place_info = {
@@ -286,7 +287,7 @@ def update_place_info(request, place_id, *args, **kwargs):
             'state': guide_info.state,
             'country': guide_info.country
         }
-        messages.error(request, "place doesn't exist.")
+        messages.error(request, "Your not authorized to see this place as Guide or make any changes to this place")
         return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
 
 

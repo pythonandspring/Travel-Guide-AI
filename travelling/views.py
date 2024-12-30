@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.hashers import make_password, check_password
 from django.conf import settings
 from django.shortcuts import render, redirect
@@ -61,6 +62,68 @@ def get_hotel_details(request, hotel_id):
     images = HotelImage.objects.filter(hotel_id=hotel.id)
     print(images)
     return render(request, 'hotel_details.html', {'hotel':hotel, 'images':images})
+
+
+def guide_list(request):
+    # Get all guides from the database
+    guides = Guide.objects.all()
+
+    # Get distinct values for countries, states, cities, and places
+    countries = Guide.objects.values_list('country', flat=True).distinct()
+    states = Guide.objects.values_list('state', flat=True).distinct()
+    cities = Guide.objects.values_list('city', flat=True).distinct()
+    places = Guide.objects.values_list(
+        'place', flat=True).distinct()  # Added place filter
+
+    # Apply filters based on GET parameters if they exist
+    search_query = request.GET.get('search', '')
+    country_filter = request.GET.get('country', '')
+    state_filter = request.GET.get('state', '')
+    city_filter = request.GET.get('city', '')
+    place_filter = request.GET.get('place', '')
+
+    if search_query:
+        guides = guides.filter(name__icontains=search_query)
+
+    if country_filter:
+        guides = guides.filter(country__icontains=country_filter)
+
+    if state_filter:
+        guides = guides.filter(state__icontains=state_filter)
+
+    if city_filter:
+        guides = guides.filter(city__icontains=city_filter)
+
+    if place_filter:
+        guides = guides.filter(place__icontains=place_filter)
+
+    # Render the page with all necessary context data
+    return render(request, 'guides.html', {
+        'guides': guides,
+        'countries': countries,
+        'states': states,
+        'cities': cities,
+        'places': places,  # Pass places to the template
+    })
+
+
+def get_guide_details(request, id):
+    try:
+        guide = Guide.objects.get(id=id)
+        guide_data = {
+            'id': guide.id,
+            'name': guide.name,
+            'email': guide.email,
+            'phone': guide.phone,
+            'is_super_guide': guide.is_super_guide,
+            'country': guide.country,
+            'state': guide.state,
+            'city': guide.city,
+            'place': guide.place,
+        }
+        return JsonResponse({'success': True, 'guide': guide_data})
+    except Guide.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Guide not found'})
 
 
 def contact(request):    

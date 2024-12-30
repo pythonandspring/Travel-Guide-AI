@@ -11,7 +11,7 @@ mysql_config = {
     'host': '127.0.0.1',
     'user': 'root',
     'password': 'Kusuma@1698',
-    'database': 'user2',
+    'database': 'travel',
     'charset': 'utf8mb4'
 }
 

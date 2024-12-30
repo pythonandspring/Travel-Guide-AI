@@ -1,6 +1,6 @@
 import pymysql
 import sqlite3
-import psycopg2
+
 import csv
 
 # Configuration for databases
@@ -11,7 +11,7 @@ mysql_config = {
     'host': '127.0.0.1',
     'user': 'root',
     'password': 'Kusuma@1698',
-    'database': 'user2',
+    'database': 'travel',
     'charset': 'utf8mb4'
 }
 
@@ -36,8 +36,6 @@ def connect_to_db():
         return pymysql.connect(**mysql_config)
     elif db_type == "sqlite":
         return sqlite3.connect(sqlite_db_path)
-    elif db_type == "postgresql":
-        return psycopg2.connect(**postgres_config)
     else:
         raise ValueError("Unsupported database type")
 
@@ -66,7 +64,7 @@ def insert_data():
         connection.commit()
         print("Data inserted successfully!")
 
-    except (pymysql.MySQLError, sqlite3.Error, psycopg2.Error) as e:
+    except (pymysql.MySQLError, sqlite3.Error) as e:
         print(f"Error: {e}")
     finally:
         if connection:
