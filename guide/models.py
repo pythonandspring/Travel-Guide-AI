@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 import uuid
 
 
-
 def place_image_upload_to(instance, filename):
     """
     Constructs the upload path for place images.
@@ -197,3 +196,25 @@ class PasswordResetToken(models.Model):
     guide = models.OneToOneField(Guide, on_delete=models.CASCADE)
     token = models.UUIDField(default=uuid.uuid4, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Request(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+        ('completed', 'Completed'),
+    ]
+
+    sender = models.ForeignKey(
+        User, related_name='sent_requests', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(
+        User, related_name='received_requests', on_delete=models.CASCADE)
+    place = models.CharField(max_length=255)
+    status = models.CharField(
+        max_length=10, choices=STATUS_CHOICES, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Request from {self.sender.username} to {self.receiver.username} ({self.status})"
