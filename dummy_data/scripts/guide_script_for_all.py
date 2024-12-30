@@ -28,7 +28,7 @@ mysql_config = {
 }
 
 # SQLite configuration
-sqlite_db_path = "user.db"
+sqlite_db_path = "db.sqlite3"
 
 # PostgreSQL configuration
 postgres_config = {

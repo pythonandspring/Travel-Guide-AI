@@ -236,7 +236,7 @@
         <p><strong>Road Distances from Nearby Cities:</strong> {{ place.by_road_distances_from_nearest_cities }}</p>
     </div>
 </div>
-{% if user.is_authenticated or request.session.hotel_owner_id or guide.is_super_guide or request.session.guide_id %}
+{% if user.is_authenticated %}
 <div class="content-section">
     <div class="content-box">
         <h3>Associated Hotels</h3>
@@ -268,47 +268,66 @@ Email: {{ hotel.hotel_email }}
     </div>
 
     <div class="content-box">
-        <h3>Associated Guides</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Guide Name</th>
-                    <th>Status</th>
-                    <th>Contact</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for guide in guides %}
-                <tr>
-                    <td>{{ guide.name }}</td>
-                    <td>
-                        <span style="color: {% if guide.is_occupied %}red{% else %}green{% endif %};">
-                            {% if guide.is_occupied %}
-                                Occupied
-                            {% else %}
-                                Available
-                            {% endif %}
-                        </span>
-                    </td>
-                    <td> 
-                        <pre>
+    <h3>Associated Guides</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Guide Name</th>
+                <th>Status</th>
+                <th>Contact</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for guide in guides %}
+            <tr>
+                <td>{{ guide.name }}</td>
+                <td>
+                    <span style="color: {% if guide.is_occupied %}red{% else %}green{% endif %};">
+                        {% if guide.is_occupied %}
+                            Occupied
+                        {% else %}
+                            Available
+                        {% endif %}
+                    </span>
+                </td>
+                <td> 
+                    <pre>
 Phone: {{ guide.phone }}
 Email: {{ guide.email }}
-                        </pre> 
-                    </td>
-                    <td>
-                        {% if not guide.is_occupied %}
-                            <a href="{% url 'guide_login' %}" class="button" style="background-color: #28a745; color: white;">Connect</a>
-                        {% else %}
-                            <button class="button" style="background-color: #dc3545; color: white; cursor: not-allowed;" disabled>Occupied</button>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                    </pre> 
+                </td>
+                <td class="text-center">
+                    <!-- View Button -->
+                    <a href="{% url 'guide_details' guide.id %}" class="btn btn-info mb-2" style="padding: 8px 15px; text-decoration: none; font-weight: bold;">
+                        View
+                    </a>
+                    <br>
+                    <!-- Conditional Button -->
+                    {% if not guide.is_occupied %}
+                    <!-- Connect Form for Request -->
+                    <form action="{% url 'send_request' guide.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="guide_id" value="{{ guide.id }}">
+                        <!-- Remove user_id since it's not necessary -->
+                        <button type="submit" class="btn btn-success" style="padding: 8px 15px; text-decoration: none; font-weight: bold;">
+                            Connect
+                        </button>
+                    </form>
+                    {% else %}
+                        <button class="btn btn-danger" 
+                                style="padding: 8px 15px; cursor: not-allowed; font-weight: bold;" 
+                                disabled>
+                            Occupied
+                        </button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 </div>
 {% endif %}
     <script>
@@ -344,6 +363,35 @@ Email: {{ guide.email }}
             modal.style.display = 'none';
         }
     </script>
+    <script>
+    // Connect to the WebSocket for real-time guide status updates
+    const guideSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/guides/'
+    );
 
+    // Listen for messages from the WebSocket
+    guideSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        
+        // Update the guide's status based on the message data
+        const guideRow = document.getElementById('guide-' + data.guide_id);
+        const statusSpan = document.getElementById('guide-status-' + data.guide_id);
+
+        // Update the status text and color based on the guide's occupancy status
+        if (data.is_occupied) {
+            statusSpan.textContent = "Occupied";
+            statusSpan.style.color = "red";
+            // Change Connect button to disabled
+            const connectButton = guideRow.querySelector('.btn-success');
+            connectButton.disabled = true;
+        } else {
+            statusSpan.textContent = "Available";
+            statusSpan.style.color = "green";
+            // Enable Connect button
+            const connectButton = guideRow.querySelector('.btn-success');
+            connectButton.disabled = false;
+        }
+    };
+    </script>
 {% endblock %}
 

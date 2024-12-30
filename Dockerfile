@@ -42,18 +42,18 @@ COPY . .
 
 # Run Django migrations and data population scripts during container runtime instead of during build
 RUN python manage.py makemigrations && \
-    python manage.py migrate 
-    # && \
-    # python -u "/app/dummy_data/scripts/cust_script_for_all.py" && \
-    # python -u "/app/dummy_data/scripts/guide_script_for_all.py" && \
-    # python -u "/app/dummy_data/scripts/hotel_rooms_script_for_all.py" && \
-    # python -u "/app/dummy_data/scripts/place_script_for_all.py" && \
-    # python -u "/app/dummy_data/scripts/doctor_script_for_all.py" && \
-    # python -u "/app/dummy_data/scripts/hotel_script_for_all.py" && \
-    # python -u "/app/dummy_data/scripts/profile_script_for_all.py" && \
-    # python -u "/app/front_images.py" && \
-    # python -u "/app/place_image.py" && \
-    # python -u "/app/hotel_images.py"
+    python manage.py migrate && \
+
+    python -u "/app/dummy_data/scripts/cust_script_for_all.py" && \
+    python -u "/app/dummy_data/scripts/guide_script_for_all.py" && \
+    python -u "/app/dummy_data/scripts/hotel_script_for_all.py" && \
+    python -u "/app/dummy_data/scripts/place_script_for_all.py" && \
+    python -u "/app/dummy_data/scripts/hotel_rooms_script_for_all.py" && \
+    python -u "/app/dummy_data/scripts/doctor_script_for_all.py" && \
+    python -u "/app/dummy_data/scripts/profile_script_for_all.py" && \
+    python -u "/app/front_images.py" && \
+    python -u "/app/place_image.py" && \
+    python -u "/app/hotel_images.py"
 
 # Expose the port the app will run on
 EXPOSE 8000

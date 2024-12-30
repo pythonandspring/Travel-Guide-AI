@@ -16,7 +16,7 @@ mysql_config = {
 }
 
 # SQLite configuration
-sqlite_db_path = "user.db"
+sqlite_db_path = "db.sqlite3"
 
 # PostgreSQL configuration
 postgres_config = {
@@ -27,7 +27,7 @@ postgres_config = {
     'port': 5432
 }
 
-csv_file_path = r'dummy_data\csv\profile.csv'
+csv_file_path = r'dummy_data/csv/profile.csv'
 table_name = 'customer_profile'
 
 
