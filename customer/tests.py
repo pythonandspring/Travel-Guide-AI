@@ -41,16 +41,16 @@ class CustomerAppTests(TestCase):
             self.assertRedirects(response, self.login_url)
           
 
-    def test_register_invalid_user(self):
-        response = self.client.post(self.register_url, {
-            'username': '',  
-            'password1': 'mentor1@',
-            'password2': 'mentor1@',
-            'email': 'chandu@gmail.com'
-        })
-        self.assertEqual(response.status_code, 200)  
-        self.assertContains(response, "This field is required.")
-
+    def test_register_valid_user(self):
+        with patch('travelling.send_mail.send_confirmation_email') as mock_send_email:
+            response = self.client.post(self.register_url, {
+                'username': 'chandu',
+                'password1': 'mentor1@',
+                'password2': 'mentor1@',
+                'email': 'chandu@gmail.com'
+            })
+            self.assertEqual(response.status_code, 302)  
+            self.assertRedirects(response, reverse('create_profile'))  
     def test_edit_profile(self):
         self.client.login(username='naveen', password='kumar1234@')
         response = self.client.post(self.edit_profile_url, {
