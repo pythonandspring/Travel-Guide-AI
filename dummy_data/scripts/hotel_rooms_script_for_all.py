@@ -4,7 +4,7 @@ import psycopg2
 import csv
 
 # Configuration for databases
-db_type = "mysql"  # Change this to "sqlite", "postgresql", or "mysql"
+db_type = "sqlite"  # Change this to "sqlite", "postgresql", or "mysql"
 
 # MySQL configuration
 mysql_config = {
