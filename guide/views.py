@@ -104,31 +104,35 @@ def guide_registration(request):
 
 
 def guide_login(request):
-    if request.method == "POST":
-        form = GuideLoginForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            try:
-                guide = Guide.objects.get(email=email)  
-                if check_password(password, guide.password):
-                    if guide.is_super_guide:
-                        request.session['super_guide_id'] = guide.id 
-                    else:
-                        request.session['guide_id'] = guide.id  
-                    request.session['is_login'] = True
-                    messages.success(request, "Login successful!")
-                    return redirect('guide_dashboard')  
-                else:
-                    messages.error(request, "Invalid password.")
-            except Guide.DoesNotExist:
-                messages.error(request, "Guide profile doesn't exist.")
-        else:
-            messages.error(request, "Errors in the form.")
+    
+    if (request.session.get('super_guide_id') or request.session.get('guide_id')) and request.session.get('is_login'):
+        return redirect('guide_dashboard')
     else:
-        form = GuideLoginForm()
+        if request.method == "POST":
+            form = GuideLoginForm(request.POST)
+            if form.is_valid():
+                email = form.cleaned_data['email']
+                password = form.cleaned_data['password']
+                try:
+                    guide = Guide.objects.get(email=email)  
+                    if check_password(password, guide.password):
+                        if guide.is_super_guide:
+                            request.session['super_guide_id'] = guide.id 
+                        else:
+                            request.session['guide_id'] = guide.id  
+                        request.session['is_login'] = True
+                        messages.success(request, "Login successful!")
+                        return redirect('guide_dashboard')  
+                    else:
+                        messages.error(request, "Invalid password.")
+                except Guide.DoesNotExist:
+                    messages.error(request, "Guide profile doesn't exist.")
+            else:
+                messages.error(request, "Errors in the form.")
+        else:
+            form = GuideLoginForm()
 
-    return render(request, 'guide_login.html', {'form': form})
+        return render(request, 'guide_login.html', {'form': form})
 
 
 @is_login
@@ -201,6 +205,7 @@ def gallery(request, *args, **kwargs):
 
     return render(request, 'gallery.html', context)
 
+
 # <---------------------DOCTOR------------------------------------->
 
 
@@ -266,7 +271,9 @@ def delete_doctor(request, doctor_id, *args, **kwargs):
         return redirect('get_doctors')
 
 
+
 # <---------------------PLACE------------------------------------->
+
 
 @is_login
 def get_place_info(request, *args, **kwargs):
@@ -467,3 +474,4 @@ def reset_password(request, token):
     else:
         form = ResetPasswordForm()
     return render(request, "reset_password.html", {"form": form})
+
