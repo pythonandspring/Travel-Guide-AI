@@ -4,7 +4,6 @@
 {% block styling %}
     <link rel="stylesheet" href="{% static "guide/css/get_place.css" %}">
 {% endblock %}
-
 {% block content %}
 <div class="place-details">
     {% if place_exist %}
@@ -94,7 +93,7 @@
         </div>
 
         {% if guide.is_super_guide %}
-            <a href="{% url 'update_place_info' place.id%}" style="color:white;" class="edit-button">Edit</a>
+            <a href="{% url 'update_place_info' %}" style="color:white;" class="edit-button">Edit</a>
             <a href="{% url 'get_images' place.id %}" style="color:white;" class="edit-button">See Images</a>
         {% endif %}
     {% else %}

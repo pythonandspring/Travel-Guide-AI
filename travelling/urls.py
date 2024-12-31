@@ -30,8 +30,6 @@ urlpatterns = [
     path('terms_conditions/', views.terms_conditions, name='terms_conditions'),
     path("place/<int:place_id>", views.get_place, name='get_place'),
     
-
-    path('admin/', include('myadmin.urls')),
     path('dj-admin/', admin.site.urls),
     path("guide/", include("guide.urls"), name='guide'),
     path("accommodation/", include("accommodation.urls"), name="accommodation"),
