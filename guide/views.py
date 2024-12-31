@@ -30,7 +30,7 @@ def is_login(view_func):
             except Guide.DoesNotExist:
                 return redirect('guide_login')
             if guide.is_super_guide:
-                return view_func(request, guide_info=guide, *args, **kwargs)
+                return view_func(request, *args, guide_info=guide, **kwargs)
             else:
                 return redirect('guide_login')
         else:
@@ -42,7 +42,7 @@ def is_login(view_func):
                     guide_id = request.session.get('guide_id')
                     guide = Guide.objects.get(id=guide_id)
                 finally:
-                    return view_func(request, guide_info=guide, *args, **kwargs)
+                    return view_func(request, *args, guide_info=guide, **kwargs)
             else:
                 return redirect('guide_login')
     return wrapper
@@ -56,13 +56,13 @@ def is_super_guide(view_func):
                 guide_id =request.session.get('super_guide_id')
                 guide = Guide.objects.get(id=guide_id)
                 if guide.is_super_guide:
-                    return view_func(request, guide_info=guide, *args, **kwargs)
+                    return view_func(request, *args, guide_info=guide, **kwargs)
             except Guide.DoesNotExist:
                 try:
                     guide_id = request.session.get('guide_id')
                     guide = Guide.objects.get(id=guide_id)
                     if guide.is_super_guide:
-                        return view_func(request, guide_info=guide, *args, **kwargs)
+                        return view_func(request, *args, guide_info=guide, **kwargs)
                 except Guide.DoesNotExist:
                     return redirect('guide_login')
         else:
@@ -181,6 +181,26 @@ def guide_edit_profile(request, *args, **kwargs):
         return redirect('guide_login')
     
 
+@is_login
+def gallery(request, *args, **kwargs):
+    guide_info = kwargs.pop('guide_info', None)
+    places = Place.objects.all()
+
+    # Extract distinct city, state, and country values
+    cities = places.values_list('city', flat=True).distinct()
+    states = places.values_list('state', flat=True).distinct()
+    countries = places.values_list('country', flat=True).distinct()
+
+    context = {
+        'places': places,
+        'cities': cities,
+        'states': states,
+        'countries': countries,
+        'guide': guide_info,
+    }
+
+    return render(request, 'gallery.html', context)
+
 # <---------------------DOCTOR------------------------------------->
 
 
@@ -262,33 +282,47 @@ def get_place_info(request, *args, **kwargs):
 
 
 @is_super_guide
-def update_place_info(request, place_id, *args, **kwargs):
+def update_place_info(request, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
-    place = Place.objects.filter(name=guide_info.place, city=guide_info.city,
-                                 state=guide_info.state, country=guide_info.country).first()
-    if place:
-        if request.method == "POST":
-            form = PlaceDetailsUpdateForm(request.POST, instance=place)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'place information updated successfully.')
-                return redirect('get_place_info')
-            else:
-                messages.error(request, "please enter valid details")
-                return redirect('update_place_info')
-        else:
-            form = PlaceDetailsUpdateForm(instance=place)
-        return render(request, 'update_place_info.html', {'form': form, 'guide': guide_info})
-    else:
-        request.session['place_exist'] = False
+
+    # Retrieve place based on guide_info
+    place = Place.objects.filter(
+        name=guide_info.place,
+        city=guide_info.city,
+        state=guide_info.state,
+        country=guide_info.country
+    ).first()
+
+    if not place:  # If the place doesn't exist
+        messages.error(
+            request, "You are not authorized to see or modify this place.")
         guide_place_info = {
             'place': guide_info.place,
             'city': guide_info.city,
             'state': guide_info.state,
             'country': guide_info.country
         }
-        messages.error(request, "Your not authorized to see this place as Guide or make any changes to this place")
-        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
+        return render(request, 'get_place_info.html', {
+            'place_exist': False,
+            'guide_place_info': guide_place_info,
+            'guide': guide_info
+        })
+
+    # Handle form submission
+    if request.method == "POST":
+        form = PlaceDetailsUpdateForm(request.POST, instance=place)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request, 'Place information updated successfully.')
+            return redirect('get_place_info')
+        else:
+            messages.error(request, "Please enter valid details.")
+            return redirect('update_place_info')
+
+    # Render the update form with the existing place data
+    form = PlaceDetailsUpdateForm(instance=place)
+    return render(request, 'update_place_info.html', {'form': form, 'guide': guide_info})
 
 
 @is_super_guide
@@ -369,152 +403,18 @@ def delete_place_image(request, place_id, image_id, *args, **kwargs):
         messages.error(request, "place doesn't exist.")
         return render(request, 'place/place_info', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
 
-    
- 
-# <---------------------CONTACT------------------------------------->
-@is_login
-def contact_support(request, *args, **kwargs):
-    guide_info = kwargs.pop('guide_info', None)
-    return render(request, 'contact.html', {'guide': guide_info})
-
-# <---------------------PLACE------------------------------------->
-
-@is_login
-def get_place_info(request, *args, **kwargs):
-    guide_info = kwargs.pop('guide_info', None)
-    place = Place.objects.filter(name=guide_info.place, city=guide_info.city, state=guide_info.state, country= guide_info.country).first()
-    if place:
-        request.session['place_exist'] = True
-        return render(request, 'get_place_info.html', {'place_exist': True,'place': place, 'guide': guide_info})
-    else:
-        request.session['place_exist'] = False
-        messages.error(request, f"{guide_info.place} doesn't exist in database now.")
-        return render(request, 'get_place_info.html', {'place_exist': False, 'guide': guide_info})
-
-
-@is_super_guide
-def update_place_info(request, place_id, *args, **kwargs):
-    guide_info = kwargs.pop('guide_info', None)
-    place = Place.objects.filter(id=place_id, name=guide_info.place, city=guide_info.city,
-                                 state=guide_info.state, country=guide_info.country).first()
-    if place:
-        if request.method == "POST":
-            form = PlaceDetailsUpdateForm(request.POST, instance=place)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'place information updated successfully.')
-                return redirect('get_place_info')
-            else:
-                messages.error(request, "please enter valid details")
-                return redirect('get_place_info')
-        else:
-            form = PlaceDetailsUpdateForm(instance=place)
-        return render(request, 'update_place_info.html', {'form': form})
-    else:
-        request.session['place_exist'] = False
-        guide_place_info = {
-            'place': guide_info.place,
-            'city': guide_info.city,
-            'state': guide_info.state,
-            'country': guide_info.country
-        }
-        messages.error(request, "place doesn't exist.")
-        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
-
-
-@is_super_guide
-def get_images(request, place_id ,*args, **kwargs):
-    guide_info = kwargs.pop('guide_info', None)
-    place = Place.objects.filter(id=place_id, name=guide_info.place, city=guide_info.city,
-                                 state=guide_info.state, country=guide_info.country).first()
-    guide = Guide.objects.get(id=guide_info.id)
-    if place:
-        images = Image.objects.filter(place=place.id)
-        if images:
-            return render(request, 'place_images.html', {'images_exist': True, 'images': images, 'guide': guide})
-        else:
-            return render(request, 'place_images.html', {'images_exist': False, 'guide': guide})
-    else:
-        request.session['place_exist'] = False
-        guide_place_info = {
-            'place': guide_info.place,
-            'city': guide_info.city,
-            'state': guide_info.state,
-            'country': guide_info.country
-        }
-        messages.error(request, "place doesn't exist.")
-        return render(request, 'get_place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide})
-
-
-@is_super_guide
-def add_place_image(request, place_id, *args, **kwargs):
-    guide_info = kwargs.pop('guide_info', None)
-    place = Place.objects.filter(name=guide_info.place, city=guide_info.city,
-                                 state=guide_info.state, country=guide_info.country).first()
-    if place:
-        if request.method == "POST":
-            form = PlaceImageForm(request.POST, place_id=place.id)
-            if form.is_valid():
-                form.save()
-                return redirect('get_images')
-            else:
-                messages.error(request, "please enter valid details")
-                return redirect('get_images')
-        else:
-            form = PlaceImageForm(place_id=place.id)
-        return render(request, 'place_image.html', {'form': form, 'guide': guide_info})
-    else:
-        request.session['place_exist'] = False
-        guide_place_info = {
-            'place': guide_info.place,
-            'city': guide_info.city,
-            'state': guide_info.state,
-            'country': guide_info.country
-        }
-        messages.error(request, "place doesn't exist.")
-        return render(request, 'place/place_info', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
-
-
-@is_super_guide
-def delete_place_image(request, image_id, *args, **kwargs):
-    guide_info = kwargs.pop('guide_info', None)
-    place = Place.objects.filter(name=guide_info.place, city=guide_info.city,
-                                 state=guide_info.state, country=guide_info.country).first()
-    if place:
-        try:
-            image = Image.objects.get(place=place.id, id=image_id)
-            image.delete()
-            messages.success(request, "Image deleted successfully.")
-            return redirect('get_images', place_id=place.id)
-        except Image.DoesNotExist:
-            messages.error(request, "Image doesn't exists.")
-            return redirect('get_images', place_id=place.id)
-    else:
-        request.session['place_exist'] = False
-        guide_place_info = {
-            'place': guide_info.place,
-            'city': guide_info.city,
-            'state': guide_info.state,
-            'country': guide_info.country
-        }
-        messages.error(request, "place doesn't exist.")
-        return render(request, 'place/place_info', {'place_exist': False, 'guide': guide_place_info, 'guide': guide_info})
-
 
 @is_super_guide
 def place_image_popup(request, place_id, image_id,  *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
     place = Place.objects.filter(name=guide_info.place, city=guide_info.city,
                                  state=guide_info.state, country=guide_info.country).first()
-    # if 'hotel_owner_id' not in request.session:
-    #     messages.error(
-    #         request, "You must be logged in to perform this action.")
-    #     return redirect('hotel_login')
 
     place_id = place_id
     image = get_object_or_404(Image, id=image_id, place_id=place_id)
 
     return render(request, 'place_Image_add_popup.html', {'image': image})
+
  
 # <---------------------CONTACT------------------------------------->
 @is_login
@@ -523,8 +423,7 @@ def contact_support(request, *args, **kwargs):
     return render(request, 'contact.html', {'guide': guide_info})
 
 
-
-
+# <--------------------------- RESET PASSWORD ------------------------------>
 # for password reset
 def request_password_reset(request):
     if request.method == "POST":

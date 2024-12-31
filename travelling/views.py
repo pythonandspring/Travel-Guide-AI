@@ -61,12 +61,12 @@ def get_place(request, place_id):
     images = Image.objects.filter(place=place.id)
     hotels = Hotel.objects.filter(place=place.name)
     guides = Guide.objects.filter(place=place.name)
-    has_pending_request = GuideRequest.objects.filter(
-        user=request.user, status='pending').exists()
+    # has_pending_request = GuideRequest.objects.filter(
+    #     user=request.user, status='pending').exists()
     print(place.name)
     if place:
         request.session['place_exist'] = True
-        return render(request, 'place.html', {'place_exist': True, 'place': place, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides, 'user':request.user, 'has_pending_request':has_pending_request})
+        return render(request, 'place.html', {'place_exist': True, 'place': place, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides, 'user':request.user})
     else:
         request.session['place_exist'] = False
         messages.error(request, f"doesn't exist in database now.")
