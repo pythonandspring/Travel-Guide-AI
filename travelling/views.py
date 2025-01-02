@@ -8,7 +8,7 @@ from guide.models import Place, Guide, Image, Doctor
 from accommodation.models import Hotel, HotelImage
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
-from channels.layers import get_channel_layer
+# from channels.layers import get_channel_layer
 
 
 def home(request):
@@ -189,7 +189,7 @@ def update_guide_status(request, guide_id):
     guide.save()
 
     # Get the channel layer and send a message to the WebSocket consumer
-    channel_layer = get_channel_layer()
+    # channel_layer = get_channel_layer()
     channel_layer.group_send(
         'guide_updates_group',
         {
