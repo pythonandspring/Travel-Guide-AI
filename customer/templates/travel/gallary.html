@@ -1,0 +1,78 @@
+{% extends 'travel/base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'travel/gallery.css' %}">
+</head>
+
+<div class="gallery-container">
+    <h1>Great Places to Visit</h1>
+    
+    <div class="card-container">
+        <!-- Card 1 -->
+        <div class="card">
+            <img src="{% static 'images/paris.jpg' %}" alt="Paris">
+            <h2>Paris</h2>
+            <p><strong>Location:</strong> France</p>
+            <p>Known for the Eiffel Tower, art, and its romantic ambiance.</p>
+        </div>
+        
+        <!-- Card 2 -->
+        <div class="card">
+            <img src="{% static 'images/kyoto.jpg' %}" alt="Kyoto">
+            <h2>Kyoto</h2>
+            <p><strong>Location:</strong> Japan</p>
+            <p>Famous for its temples, traditional tea houses, and cherry blossoms.</p>
+        </div>
+        
+        <!-- Card 3 -->
+        <div class="card">
+            <img src="{% static 'images/rome.jpg' %}" alt="Rome">
+            <h2>Rome</h2>
+            <p><strong>Location:</strong> Italy</p>
+            <p>Known for the Colosseum, rich history, and Italian cuisine.</p>
+        </div>
+        
+        <!-- Card 4 -->
+        <div class="card">
+            <img src="{% static 'images/cape_town.jpg' %}" alt="Cape Town">
+            <h2>Cape Town</h2>
+            <p><strong>Location:</strong> South Africa</p>
+            <p>Famous for Table Mountain, beaches, and stunning landscapes.</p>
+        </div>
+        
+        <!-- Card 5 -->
+        <div class="card">
+            <img src="{% static 'images/sydney.jpg' %}" alt="Sydney">
+            <h2>Sydney</h2>
+            <p><strong>Location:</strong> Australia</p>
+            <p>Home to the iconic Opera House and beautiful harbor views.</p>
+        </div>
+        
+        <!-- Card 6 -->
+        <div class="card">
+            <img src="{% static 'images/new_york.jpg' %}" alt="New York">
+            <h2>New York City</h2>
+            <p><strong>Location:</strong> USA</p>
+            <p>Famous for the Statue of Liberty, Times Square, and Central Park.</p>
+        </div>
+        
+        <!-- Card 7 -->
+        <div class="card">
+            <img src="{% static 'images/dubai.jpg' %}" alt="Dubai">
+            <h2>Dubai</h2>
+            <p><strong>Location:</strong> UAE</p>
+            <p>Known for luxury shopping, ultramodern architecture, and lively nightlife.</p>
+        </div>
+        
+        <!-- Card 8 -->
+        <div class="card">
+            <img src="{% static 'images/venice.jpg' %}" alt="Venice">
+            <h2>Venice</h2>
+            <p><strong>Location:</strong> Italy</p>
+            <p>Unique for its canals, gondolas, and beautiful architecture.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
