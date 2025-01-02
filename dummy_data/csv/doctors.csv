@@ -1,0 +1,31 @@
+name,speciality,phone,email,address,weekly_closed_on,guide_id,open_time
+Dr. Anjali Sharma,Cardiology,9876543210,anjali.sharma@example.com,"Sunshine Clinic, India, Andhra Pradesh, Vijayawada",Sunday,1,9 AM - 5 PM
+Dr. Ravi Kumar,Orthopedics,9876543211,ravi.kumar@example.com,"Global Care Hospital, India, Andhra Pradesh, Vijayawada",Saturday,1,10 AM - 6 PM
+Dr. Priya Nair,Dermatology,9876543212,priya.nair@example.com,"Healing Touch Center, India, Kerala, Thiruvananthapuram",Wednesday,2,11 AM - 7 PM
+Dr. Kiran Joseph,Pediatrics,9876543213,kiran.joseph@example.com,"Tranquil Health Hub, India, Kerala, Thiruvananthapuram",Monday,2,9 AM - 5 PM
+Dr. Suresh Babu,ENT Specialist,9876543214,suresh.babu@example.com,"Royal Healthcare, India, Rajasthan, Udaipur",Friday,3,10 AM - 4 PM
+Dr. Meera Raj,Neurology,9876543215,meera.raj@example.com,"Lake City Medical Center, India, Rajasthan, Udaipur",Sunday,3,10 AM - 6 PM
+Dr. Naveen Das,Oncology,9876543216,naveen.das@example.com,"Serenity Clinic, India, Kerala, Kochi",Thursday,4,10 AM - 5 PM
+Dr. Latha Iyer,General Surgery,9876543217,latha.iyer@example.com,"Oceanview Hospital, India, Kerala, Kochi",Saturday,4,9 AM - 6 PM
+Dr. Mohan Singh,Psychiatry,9876543218,mohan.singh@example.com,"Sacred Heart Clinic, India, Andhra Pradesh, Tirupati",Monday,5,9 AM - 4 PM
+Dr. Vidya Menon,Gynecology,9876543219,vidya.menon@example.com,"Tirumala Health Center, India, Andhra Pradesh, Tirupati",Friday,5,11 AM - 7 PM
+Dr. Arjun Reddy,Urology,9876543220,arjun.reddy@example.com,"Green Valley Hospital, India, Kerala, Kozhikode",Tuesday,6,10 AM - 5 PM
+Dr. Anuja Gupta,Pulmonology,9876543221,anuja.gupta@example.com,"Blue Haven Clinic, India, Kerala, Kozhikode",Wednesday,6,10 AM - 4 PM
+Dr. George Philip,Cardiology,9876543222,george.philip@example.com,"Riverside Wellness Center, India, Kerala, Kochi",Thursday,7,11 AM - 6 PM
+Dr. Suman Patel,Endocrinology,9876543223,suman.patel@example.com,"Fort Kochi Medical Hub, India, Kerala, Kochi",Friday,7,9 AM - 5 PM
+Dr. Lakshmi Prasad,Ophthalmology,9876543224,lakshmi.prasad@example.com,"Vijayawada Health Care, India, Andhra Pradesh, Vijayawada",Saturday,8,10 AM - 4 PM
+Dr. Ajay Kulkarni,Orthopedics,9876543225,ajay.kulkarni@example.com,"LifeSpring Clinic, India, Andhra Pradesh, Vijayawada",Sunday,8,11 AM - 6 PM
+Dr. Rekha Nambiar,Dermatology,9876543226,rekha.nambiar@example.com,"Desert Oasis Clinic, India, Rajasthan, Jodhpur",Monday,9,10 AM - 5 PM
+Dr. Harish Rao,Pediatrics,9876543227,harish.rao@example.com,"Golden Sands Hospital, India, Rajasthan, Jodhpur",Friday,9,9 AM - 5 PM
+Dr. Leena Mathew,ENT Specialist,9876543228,leena.mathew@example.com,"Vizag Care Center, India, Andhra Pradesh, Visakhapatnam",Saturday,10,10 AM - 6 PM
+Dr. Shankar Iyer,Neurology,9876543229,shankar.iyer@example.com,"Seaside Health Hub, India, Andhra Pradesh, Visakhapatnam",Wednesday,10,11 AM - 7 PM
+Dr. Anupama Das,Oncology,9876543230,anupama.das@example.com,"Kozhikode Wellness Clinic, India, Kerala, Kozhikode",Sunday,11,9 AM - 5 PM
+Dr. Vikas Sharma,General Surgery,9876543231,vikas.sharma@example.com,"Sunrise Medical Center, India, Kerala, Kozhikode",Friday,11,10 AM - 6 PM
+Dr. Parvathi Reddy,Psychiatry,9876543232,parvathi.reddy@example.com,"Pink City Healthcare, India, Rajasthan, Jaipur",Monday,12,10 AM - 4 PM
+Dr. Ramesh Babu,Gynecology,9876543233,ramesh.babu@example.com,"Heritage Care Clinic, India, Rajasthan, Jaipur",Tuesday,12,11 AM - 6 PM
+Dr. Sanjay Pillai,Urology,9876543234,sanjay.pillai@example.com,"Blue Sky Hospital, India, Rajasthan, Jodhpur",Wednesday,13,10 AM - 5 PM
+Dr. Kavita Mohan,Pulmonology,9876543235,kavita.mohan@example.com,"Royal Heritage Medical Center, India, Rajasthan, Jodhpur",Saturday,13,9 AM - 5 PM
+Dr. Prakash Mehta,Cardiology,9876543236,prakash.mehta@example.com,"City Heart Care, India, Rajasthan, Jaipur",Sunday,14,10 AM - 4 PM
+Dr. Anil Menon,Endocrinology,9876543237,anil.menon@example.com,"Amber Health Hub , India, Rajasthan, Jaipur",Thursday,14,11 AM - 7 PM
+Dr. Rajesh Verma,Ophthalmology,9876543238,rajesh.verma@example.com,"Sunrise Medical Center, India, Kerala, Kozhikode",Monday,15,10 AM - 5 PM
+Dr. Aditi Rao,Neurology,9876543239,aditi.rao@example.com,"Golden Care Hospital, India, Kerala, Kozhikode",Tuesday,15,9 AM - 5 PM

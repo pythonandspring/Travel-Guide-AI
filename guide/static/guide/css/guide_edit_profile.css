@@ -1,0 +1,156 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fb;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Main Content Section (Form Placement) */
+.content-area {
+    padding-top: 80px;
+    /* Adjust for header height */
+    padding-bottom: 50px;
+    /* Adjust for footer height */
+}
+
+/* Profile Form Styling */
+.edit-profile {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #f5f5f5, #ffffff);
+}
+
+/* Heading Style with Background */
+.edit-profile h2 {
+    text-align: center;
+    font-size: 36px;
+    color: #007bff;
+    margin-bottom: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 15px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #e0f7fa, #ffffff);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.1);
+}
+
+/* Form Group Styling */
+.edit-profile .form-group {
+    margin-bottom: 25px;
+}
+
+.edit-profile .form-group label {
+    font-size: 15px;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.edit-profile .form-group input,
+.edit-profile .form-group textarea,
+.edit-profile .form-group select {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.edit-profile .form-group input:focus,
+.edit-profile .form-group textarea:focus,
+.edit-profile .form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}
+
+/* Textarea Styling */
+.edit-profile .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Error Messages Styling */
+.edit-profile .errors {
+    color: #ff5c5c;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.edit-profile .errors p {
+    margin: 0;
+}
+
+/* Submit Button Styling */
+.edit-profile button[type="submit"] {
+    width: 100%;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 30px;
+}
+
+.edit-profile button[type="submit"]:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Back to Dashboard Button */
+.btn-back-dashboard {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-back-dashboard:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .edit-profile {
+        padding: 20px;
+    }
+
+    .edit-profile h2 {
+        font-size: 30px;
+    }
+
+    .edit-profile button[type="submit"] {
+        font-size: 16px;
+    }
+
+    .edit-profile .form-group input,
+    .edit-profile .form-group textarea,
+    .edit-profile .form-group select {
+        font-size: 14px;
+    }
+}
