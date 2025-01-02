@@ -9,7 +9,6 @@ from accommodation.models import Hotel, HotelImage
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
 from channels.layers import get_channel_layer
-from chat.models import GuideRequest
 
 
 def home(request):
@@ -68,9 +67,7 @@ def get_place(request, place_id):
     images = Image.objects.filter(place=place.id)
     hotels = Hotel.objects.filter(place=place.name)
     guides = Guide.objects.filter(place=place.name)
-    # has_pending_request = GuideRequest.objects.filter(
-    #     user=request.user, status='pending').exists()
-    print(place.name)
+
     if place:
         request.session['place_exist'] = True
         return render(request, 'place.html', {'place_exist': True, 'place': place, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides, 'user':request.user})
@@ -84,7 +81,6 @@ def get_place(request, place_id):
 def get_hotel_details(request, hotel_id):
     hotel = Hotel.objects.get(id=hotel_id)
     images = HotelImage.objects.filter(hotel_id=hotel.id)
-    print(images)
     return render(request, 'hotel_details.html', {'hotel':hotel, 'images':images})
 
 
