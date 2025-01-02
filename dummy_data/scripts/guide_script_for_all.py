@@ -16,19 +16,19 @@ settings.configure(
 )
 
 # Configuration for databases
-db_type = "mysql"  # Change this to "sqlite", "postgresql", or "mysql"
+db_type = "sqlite"  # Change this to "sqlite", "postgresql", or "mysql"
 
 # MySQL configuration
 mysql_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'Raunak@123',
+    'password': 'rta9985',
     'database': 'user',
     'charset': 'utf8mb4'
 }
 
 # SQLite configuration
-sqlite_db_path = "user.db"
+sqlite_db_path = "db.sqlite3"
 
 # PostgreSQL configuration
 postgres_config = {

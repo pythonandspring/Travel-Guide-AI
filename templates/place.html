@@ -236,7 +236,7 @@
         <p><strong>Road Distances from Nearby Cities:</strong> {{ place.by_road_distances_from_nearest_cities }}</p>
     </div>
 </div>
-{% if user.is_authenticated or request.session.hotel_owner_id or guide.is_super_guide or request.session.guide_id %}
+{% if user.is_authenticated %}
 <div class="content-section">
     <div class="content-box">
         <h3>Associated Hotels</h3>

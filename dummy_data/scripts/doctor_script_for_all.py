@@ -10,7 +10,7 @@ db_type = "sqlite"  # Change this to "sqlite", "postgresql", or "mysql"
 mysql_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'Raunak@123',
+    'password': 'rta9985',
     'database': 'user',
     'charset': 'utf8mb4'
 }
@@ -27,7 +27,7 @@ postgres_config = {
     'port': 5432
 }
 
-csv_file_path = r'dummy_data\csv\doctors.csv'
+csv_file_path = r'dummy_data/csv/doctors.csv'
 table_name = 'guide_doctor'
 
 

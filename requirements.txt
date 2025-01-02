@@ -27,5 +27,3 @@ setuptools==75.5.0
 pandas==2.2.3
 djangorestframework
 pymysql
-sqlite3
-psycopg2
