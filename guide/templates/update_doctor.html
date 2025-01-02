@@ -1,0 +1,221 @@
+{% load static %}
+
+{% block styling %}
+<link rel="stylesheet" href="{% static 'accommodation/css/hotel_rooms.css' %}">
+<style>
+    /* Popup container */
+    .popup-container {
+        position: fixed; /* Fixed positioning to stay on the screen */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Dark background to highlight the popup */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999; /* Ensure it stays on top of other content */
+    }
+
+    /* Popup box */
+    .popup {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        max-width: 600px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .popup h2 {
+        margin-top: 0;
+        font-size: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        font-size: 1rem;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .form-actions .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .submit-btn {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .cancel-btn {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .helper-text {
+        font-size: 0.9rem;
+        color: #888;
+    }
+
+    .error-message p {
+        color: red;
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock styling %}
+
+{% block content %}
+<div class="popup-container">
+    <div class="popup">
+        <h2>Update Doctor Details</h2>
+        <form method="POST" action="{% url 'guide_edit_doctor' doctor_obj.id %}">
+            {% csrf_token %}
+        
+            <!-- Name Field -->
+            <div class="form-group">
+                <label for="id_name">Name</label>
+                <input type="text" name="name" id="id_name" class="form-control" value="{{ form.name.value }}" required>
+                {% if form.name.errors %}
+                    <div class="error-message">
+                        {% for error in form.name.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="helper-text">Enter the doctor's name.</p>
+            </div>
+        
+            <!-- Speciality Field -->
+            <div class="form-group">
+                <label for="id_speciality">Speciality</label>
+                <input type="text" name="speciality" id="id_speciality" class="form-control" value="{{ form.speciality.value }}" required>
+                {% if form.speciality.errors %}
+                    <div class="error-message">
+                        {% for error in form.speciality.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="helper-text">Enter the doctor's speciality.</p>
+            </div>
+        
+            <!-- Phone Field -->
+            <div class="form-group">
+                <label for="id_phone">Phone</label>
+                <input type="tel" name="phone" id="id_phone" class="form-control" value="{{ form.phone.value }}" required>
+                {% if form.phone.errors %}
+                    <div class="error-message">
+                        {% for error in form.phone.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="helper-text">Enter the doctor's phone number.</p>
+            </div>
+        
+            <!-- Email Field -->
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                <input type="email" name="email" id="id_email" class="form-control" value="{{ form.email.value }}" required>
+                {% if form.email.errors %}
+                    <div class="error-message">
+                        {% for error in form.email.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="helper-text">Enter the doctor's email address.</p>
+            </div>
+        
+            <!-- Address Field -->
+            <div class="form-group">
+                <label for="id_address">Address</label>
+                <textarea name="address" id="id_address" class="form-control" required>{{ form.address.value }}</textarea>
+                {% if form.address.errors %}
+                    <div class="error-message">
+                        {% for error in form.address.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="helper-text">Enter the doctor's address.</p>
+            </div>
+        
+            <!-- Weekly Closed On Field -->
+            <div class="form-group">
+                <label for="id_weekly_closed_on">Weekly Closed On</label>
+                <select name="weekly_closed_on" id="id_weekly_closed_on" class="form-control">
+                    <option value="">Select a day</option>
+                    <option value="MON" {% if form.weekly_closed_on.value == 'MON' %}selected{% endif %}>Monday</option>
+                    <option value="TUE" {% if form.weekly_closed_on.value == 'TUE' %}selected{% endif %}>Tuesday</option>
+                    <option value="WED" {% if form.weekly_closed_on.value == 'WED' %}selected{% endif %}>Wednesday</option>
+                    <option value="THU" {% if form.weekly_closed_on.value == 'THU' %}selected{% endif %}>Thursday</option>
+                    <option value="FRI" {% if form.weekly_closed_on.value == 'FRI' %}selected{% endif %}>Friday</option>
+                    <option value="SAT" {% if form.weekly_closed_on.value == 'SAT' %}selected{% endif %}>Saturday</option>
+                    <option value="SUN" {% if form.weekly_closed_on.value == 'SUN' %}selected{% endif %}>Sunday</option>
+                </select>
+                {% if form.weekly_closed_on.errors %}
+                    <div class="error-message">
+                        {% for error in form.weekly_closed_on.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="helper-text">Select the day of the week the doctor is closed.</p>
+            </div>
+        
+            <!-- Open Time Field -->
+            <div class="form-group">
+                <label for="id_open_time">Service Time</label>
+                <input type="text" name="open_time" id="id_open_time" class="form-control"
+                    placeholder="{{ doctor_obj.open_time }}" value="{{ form.open_time.value }}">
+                {% if form.open_time.errors %}
+                    <div class="error-message">
+                        {% for error in form.open_time.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="helper-text">Enter the service time in a valid format (e.g., 10 AM - 2 PM).</p>
+            </div>
+
+        
+            <div class="form-actions">
+                <button type="submit" class="btn submit-btn">Update Doctor</button>
+                <button type="button" class="btn cancel-btn" onclick="closePopup()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function closePopup() {
+        // Redirect to the doctors list page to close the popup
+        window.location.href = "{% url 'get_doctors' %}";
+    }
+</script>
+{% endblock content %}
