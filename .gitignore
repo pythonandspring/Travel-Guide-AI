@@ -167,14 +167,3 @@ cython_debug/
 
 # But do not ignore __init__.py in migrations directories
 !**/migrations/__init__.py
-
-# Ignore other folders or files
-/dummydata/
-*/api/
-/media/
-/place_image.py
-/front_images.py
-/hotel_images.py
-
-# Exclude test files
-*/tests.py
