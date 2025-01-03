@@ -162,13 +162,19 @@ cython_debug/
 #.idea/
 
 
-# Ignore all migration files except _init_.py
-/migrations/
-!*/migrations/_init_.py
+# Ignore all migration files
+**/migrations/*.py
+
+# But do not ignore __init__.py in migrations directories
+!**/migrations/__init__.py
+
+# Ignore other folders or files
 /dummydata/
-/api/
-*/tests.py
+*/api/
 /media/
-*/place_image.py
-*/front_images.py
-*/hotel_images.py
+/place_image.py
+/front_images.py
+/hotel_images.py
+
+# Exclude test files
+*/tests.py
