@@ -36,8 +36,7 @@ def send_confirmation_email(to_email, user_type, username, additional_info):
         guide_name = additional_info.get('guide_name', 'Guide')
         guide_email = additional_info.get(
             'guide_email', 'yourguide@example.com')
-        subject = f'Welcome, {guide_name} from {
-            place_name}! Your journey with Travel Guide begins'
+        subject = f'Welcome, {guide_name} from {place_name}! Your journey with Travel Guide begins'
         message = f'''
         Dear {guide_name},
 

@@ -1,0 +1,69 @@
+/* Ensure html and body are full height */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* Allow stacking content vertically */
+}
+
+/* Container for page content */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    /* Allow content area to take up available space */
+}
+
+
+
+/* Footer styles */
+footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    /* Reduced padding for smaller height */
+    width: 100%;
+    margin-top: auto;
+    /* Footer pushed to bottom when content is small */
+}
+
+/* Center elements horizontally and vertically in the footer */
+footer .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+footer .row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+footer .col-12 {
+    display: flex;
+    justify-content: center;
+}
+
+/* Adjust the font size and spacing for the footer */
+footer .text-light {
+    font-size: 0.9rem;
+    /* Smaller text size */
+}
+
+footer a {
+    font-size: 0.9rem;
+    /* Smaller text size for links */
+    margin: 0 5px;
+    /* Reduced margin between links */
+}
+
+/* Optional: Reduce padding and spacing for smaller footer text */
+footer .row .col-12 {
+    margin-bottom: 0;
+}

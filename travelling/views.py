@@ -4,11 +4,12 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from pyexpat.errors import messages
-from guide.models import Place, Guide, Image
+from guide.models import Place, Guide, Image, Doctor
 from accommodation.models import Hotel, HotelImage
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
-
+from channels.layers import get_channel_layer
+from chat.models import GuideRequest
 
 def home(request):
     if request.session.get('super_guide_id') or request.session.get('guide_id'):
@@ -39,24 +40,64 @@ def agentRegistration(request):
 
 def gallery(request):
     places = Place.objects.all()
-    return render(request, 'gallery.html', {'places': places, 'MEDIA_URL': settings.MEDIA_URL})
+
+    # Extract distinct city, state, and country values
+    cities = places.values_list('city', flat=True).distinct()
+    states = places.values_list('state', flat=True).distinct()
+    countries = places.values_list('country', flat=True).distinct()
+
+    context = {
+        'places': places,
+        'cities': cities,
+        'states': states,
+        'countries': countries,
+    }
+
+    return render(request, 'gallery.html', context)
 
 
 def get_place(request, place_id):
-    place = Place.objects.get(id=place_id)
+    try:
+        # Attempt to fetch the place object
+        place = Place.objects.get(id=place_id)
+    except Place.DoesNotExist:
+        # Handle case where place does not exist
+        messages.error(request, "The requested place does not exist.")
+        return render(request, 'place.html', {
+            'place_exist': False,
+            'MEDIA_URL': settings.MEDIA_URL,
+            'images': [],
+            'hotels': [],
+            'guides': [],
+            'user': request.user,
+            'has_pending_request': False
+        })
+
+    # Fetch related data
     images = Image.objects.filter(place=place.id)
     hotels = Hotel.objects.filter(place=place.name)
     guides = Guide.objects.filter(place=place.name)
-    print(place.name)
-    if place:
-        request.session['place_exist'] = True
-        return render(request, 'place.html', {'place_exist': True, 'place': place, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides})
-    else:
-        request.session['place_exist'] = False
-        messages.error(request, f"doesn't exist in database now.")
-        return render(request, 'place.html', {'place_exist': False, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides})
+
+    # Check for pending guide requests
+    has_pending_request = (
+        GuideRequest.objects.filter(user=request.user, status='pending').exists()
+        if request.user.is_authenticated else False
+    )
+
+    # Render the template with the context
+    return render(request, 'place.html', {
+        'place_exist': True,
+        'place': place,
+        'MEDIA_URL': settings.MEDIA_URL,
+        'images': images,
+        'hotels': hotels,
+        'guides': guides,
+        'user': request.user,
+        'has_pending_request': has_pending_request
+    })
 
 
+@login_required
 def get_hotel_details(request, hotel_id):
     hotel = Hotel.objects.get(id=hotel_id)
     images = HotelImage.objects.filter(hotel_id=hotel.id)
@@ -64,6 +105,39 @@ def get_hotel_details(request, hotel_id):
     return render(request, 'hotel_details.html', {'hotel':hotel, 'images':images})
 
 
+@login_required
+def hotel_list(request):
+    country = request.GET.get('country')
+    state = request.GET.get('state')
+    city = request.GET.get('city')
+    place = request.GET.get('place')
+
+    hotels = Hotel.objects.all()
+
+    if country:
+        hotels = hotels.filter(country=country)
+    if state:
+        hotels = hotels.filter(state=state)
+    if city:
+        hotels = hotels.filter(city=city)
+    if place:
+        hotels = hotels.filter(place=place)
+
+    context = {
+        'hotels': hotels,
+        'countries': Hotel.objects.values_list('country', flat=True).distinct(),
+        # Replace with your function to fetch states
+        'states': Hotel.objects.values_list('state', flat=True).distinct(),
+        # Replace with your function to fetch cities
+        'cities': Hotel.objects.values_list('city', flat=True).distinct(),
+        # Replace with your function to fetch places
+        'places': Hotel.objects.values_list('place', flat=True).distinct(),
+    }
+
+    return render(request, 'hotels.html', context)
+
+
+@login_required
 def guide_list(request):
     # Get all guides from the database
     guides = Guide.objects.all()
@@ -107,6 +181,7 @@ def guide_list(request):
     })
 
 
+@login_required
 def get_guide_details(request, id):
     try:
         guide = Guide.objects.get(id=id)
@@ -121,10 +196,31 @@ def get_guide_details(request, id):
             'city': guide.city,
             'place': guide.place,
         }
-        return JsonResponse({'success': True, 'guide': guide_data})
+        doctors = Doctor.objects.filter(guide_id=id)
+        return render(request, 'guide_details.html', {'guide':guide_data, 'doctors':doctors})
     except Guide.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'Guide not found'})
+        return redirect('get_guides')
 
+
+def update_guide_status(request, guide_id):
+    guide = Guide.objects.get(id=guide_id)
+
+    # Toggle the status for example
+    guide.is_occupied = not guide.is_occupied
+    guide.save()
+
+    # Get the channel layer and send a message to the WebSocket consumer
+    channel_layer = get_channel_layer()
+    channel_layer.group_send(
+        'guide_updates_group',
+        {
+            'type': 'guide_status_update',
+            'guide_id': guide.id,
+            'is_occupied': guide.is_occupied
+        }
+    )
+
+    return JsonResponse({'status': 'success'})
 
 def contact(request):    
     context = {

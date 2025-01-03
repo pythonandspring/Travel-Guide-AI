@@ -16,7 +16,7 @@ settings.configure(
 )
 
 # Configuration for databases
-db_type = "mysql"  # Change this to "sqlite", "postgresql", or "mysql"
+db_type = "sqlite"  # Change this to "sqlite", "postgresql", or "mysql"
 
 # MySQL configuration
 mysql_config = {
@@ -28,7 +28,7 @@ mysql_config = {
 }
 
 # SQLite configuration
-sqlite_db_path = "user.db"
+sqlite_db_path = "db.sqlite3"
 
 # PostgreSQL configuration
 postgres_config = {
@@ -39,7 +39,7 @@ postgres_config = {
     'port': 5432
 }
 
-csv_file_path = r'dummy_data\csv\hotels.csv'
+csv_file_path = r'dummy_data/csv/hotels.csv'
 table_name = 'accommodation_hotel'
 
 

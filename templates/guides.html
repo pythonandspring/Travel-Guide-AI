@@ -6,36 +6,35 @@
 {% endblock styling %}
 
 {% block content %}
-<div class="list-container">
-    <h1 class="page-title">Meet Our <span class="highlight">Expert Guides</span></h1>
-    
-    <div class="search-container">
-        <input type="text" id="searchBar" class="search-bar" placeholder="Search for a guide by name..." onkeyup="filterGuides()">
+<div class="list-container gradient-background">
+    <h1 class="page-title text-center text-white mb-4">Meet Our <span class="highlight">Expert Guides</span></h1>
+
+    <div class="search-container mb-4">
+        <input type="text" id="searchBar" class="form-control mb-3" placeholder="Search for a guide by name..." onkeyup="filterGuides()">
         
-        <!-- Moved the filter dropdowns below the search bar -->
-        <div class="filter-dropdowns">
-            <select id="countryFilter" class="filter-dropdown" onchange="filterGuides()">
+        <div class="filter-dropdowns d-flex flex-wrap justify-content-center mb-3 gap-2">
+            <select id="countryFilter" class="form-select" onchange="filterGuides()">
                 <option value="">Filter by Country</option>
                 {% for country in countries %}
                 <option value="{{ country }}">{{ country }}</option>
                 {% endfor %}
             </select>
-        
-            <select id="stateFilter" class="filter-dropdown" onchange="filterGuides()">
+
+            <select id="stateFilter" class="form-select" onchange="filterGuides()">
                 <option value="">Filter by State</option>
                 {% for state in states %}
                 <option value="{{ state }}">{{ state }}</option>
                 {% endfor %}
             </select>
-        
-            <select id="cityFilter" class="filter-dropdown" onchange="filterGuides()">
+
+            <select id="cityFilter" class="form-select" onchange="filterGuides()">
                 <option value="">Filter by City</option>
                 {% for city in cities %}
                 <option value="{{ city }}">{{ city }}</option>
                 {% endfor %}
             </select>
 
-            <select id="placeFilter" class="filter-dropdown" onchange="filterGuides()">
+            <select id="placeFilter" class="form-select" onchange="filterGuides()">
                 <option value="">Filter by Place</option>
                 {% for place in places %}
                 <option value="{{ place }}">{{ place }}</option>
@@ -46,15 +45,15 @@
 
     <div class="list">
         {% for guide in guides %}
-        <div class="list-item" 
-             data-id="{{ guide.id }}"
-             data-country="{{ guide.country }}" 
-             data-state="{{ guide.state }}" 
-             data-city="{{ guide.city }}" 
-             data-place="{{ guide.place }}" 
-             onclick="openGuideModal({{ guide.id }})">
+        <div class="list-item card p-3 mb-4" 
+            data-id="{{ guide.id }}"
+            data-country="{{ guide.country }}" 
+            data-state="{{ guide.state }}" 
+            data-city="{{ guide.city }}" 
+            data-place="{{ guide.place }}" 
+            onclick="window.location.href='{% url 'guide_details' guide.id %}'">
             <div class="item-details">
-                <h2 class="item-name">{{ guide.name }}</h2>
+                <h2 class="item-name card-title">{{ guide.name }}</h2>
                 <p class="item-email"><strong>Email:</strong> {{ guide.email }}</p>
                 <p class="item-phone"><strong>Phone:</strong> {{ guide.phone }}</p>
                 <p class="item-super-guide">
@@ -69,14 +68,7 @@
         {% endfor %}
     </div>
 </div>
-<div id="guideModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeGuideModal()">&times;</span>
-        <div id="guideModalDetails">
-            <!-- Guide details will be injected here dynamically -->
-        </div>
-    </div>
-</div>
+
 {% endblock content %}
 
 {% block javascript %}
@@ -105,43 +97,5 @@
             item.style.display = (matchesName && matchesCountry && matchesState && matchesCity && matchesPlace) ? 'flex' : 'none';
         });
     }
-    // Function to open the modal and display guide details
-    function openGuideModal(guideId) {
-        // Fetch guide details via Ajax (using the guideId)
-        fetch(`/get-guide-details/${guideId}/`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const guide = data.guide;
-                    const modalContent = `
-                        <h2>${guide.name}</h2>
-                        <p><strong>Email:</strong> ${guide.email}</p>
-                        <p><strong>Phone:</strong> ${guide.phone}</p>
-                        <p><strong>Super Guide:</strong> ${guide.is_super_guide ? 'Yes' : 'No'}</p>
-                        <p><strong>Location:</strong> ${guide.place}, ${guide.city}, ${guide.state}, ${guide.country}</p>
-                        <p><strong>Bio:</strong> ${guide.bio}</p>
-                    `;
-                    document.getElementById('guideModalDetails').innerHTML = modalContent;
-                    document.getElementById('guideModal').style.display = 'block';
-                } else {
-                    console.error("Guide not found!");
-                }
-            })
-            .catch(err => console.error("Error fetching guide details:", err));
-    }
-
-    // Function to close the modal
-    function closeGuideModal() {
-        document.getElementById('guideModal').style.display = 'none';
-    }
-
-    // Close the modal if the user clicks outside of the modal content
-    window.onclick = function(event) {
-        const modal = document.getElementById('guideModal');
-        if (event.target == modal) {
-            closeGuideModal();
-        }
-    };
 </script>
-
 {% endblock javascript %}

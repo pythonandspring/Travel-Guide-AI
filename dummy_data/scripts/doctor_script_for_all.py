@@ -26,7 +26,7 @@ postgres_config = {
     'port': 5432
 }
 
-csv_file_path = r'dummy_data\csv\doctors.csv'
+csv_file_path = r'dummy_data/csv/doctors.csv'
 table_name = 'guide_doctor'
 
 
