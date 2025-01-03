@@ -1,4 +1,5 @@
-from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
+from rest_framework import viewsets, serializers
 from rest_framework.exceptions import NotFound
 from customer.models import Profile
 from customer.api.serializers import ProfileSerializer, UserSerializer
@@ -26,36 +27,30 @@ class ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
 
     def get_queryset(self):
-        # Get all profiles or filter by user if needed
-        user_id = self.kwargs.get('user_pk', None)
-        if user_id:
-            # If a specific user ID is passed, filter profiles by that user
-            try:
-                user = User.objects.get(id=user_id)
-            except User.DoesNotExist:
-                raise NotFound(detail="User not found", code=404)
-            return Profile.objects.filter(user=user)
-        else:
-            # Otherwise, return all profiles
-            return Profile.objects.all()
+        """
+        Restricts the queryset to the profile for the user specified in the nested URL.
+        """
+        user_id = self.kwargs.get("user_pk")
+        user = get_object_or_404(User, id=user_id)
+        return Profile.objects.filter(user=user)
 
     def perform_create(self, serializer):
-        user_id = self.kwargs['user_pk']
-        try:
-            user = User.objects.get(id=user_id)
-        except User.DoesNotExist:
-            raise NotFound(detail="User not found", code=404)
+        """
+        Associates the profile with the user from the nested URL during creation.
+        """
+        user_id = self.kwargs.get("user_pk")
+        user = get_object_or_404(User, id=user_id)
+
+        if Profile.objects.filter(user=user).exists():
+            raise serializers.ValidationError(
+                {"detail": "User already has a profile."})
 
         serializer.save(user=user)
 
     def perform_update(self, serializer):
-        user_id = self.kwargs['user_pk']
-        try:
-            user = User.objects.get(id=user_id)
-        except User.DoesNotExist:
-            raise NotFound(detail="User not found", code=404)
-
+        """
+        Ensures the profile is correctly updated with the user from the nested URL.
+        """
+        user_id = self.kwargs.get("user_pk")
+        user = get_object_or_404(User, id=user_id)
         serializer.save(user=user)
-
-    def perform_destroy(self, instance):
-        instance.delete()

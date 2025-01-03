@@ -33,7 +33,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()  # Nested User serializer
+    # User field is read-only and inferred from the URL
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Profile
@@ -49,34 +50,21 @@ class ProfileSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        # Extract nested user data
-        user_data = validated_data.pop("user")
+        # The user instance is passed explicitly from the view
+        user = self.context.get("user")
+        if not user:
+            raise serializers.ValidationError(
+                {"user": "User instance is required."})
 
-        # Create or get the user instance (if already exists)
-        user_id = user_data.get("id")
-        if user_id:
-            user = User.objects.get(id=user_id)
-        else:
-            user = UserSerializer().create(user_data)
-
-        # Check if profile already exists for this user, if so raise an error
+        # Check if a profile already exists for this user
         if Profile.objects.filter(user=user).exists():
             raise serializers.ValidationError("User already has a profile.")
 
-        # Create the Profile instance
-        profile = Profile.objects.create(user=user, **validated_data)
-        return profile
+        # Create the profile
+        return Profile.objects.create(user=user, **validated_data)
 
     def update(self, instance, validated_data):
-        # Handle nested update for User
-        user_data = validated_data.pop("user", None)
-        if user_data:
-            user_serializer = UserSerializer(
-                instance=instance.user, data=user_data, partial=True)
-            if user_serializer.is_valid():
-                user_serializer.save()
-
-        # Update Profile fields
+        # Update profile fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
