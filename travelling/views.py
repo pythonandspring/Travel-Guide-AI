@@ -181,25 +181,7 @@ def get_guide_details(request, id):
         return redirect('get_guides')
 
 
-def update_guide_status(request, guide_id):
-    guide = Guide.objects.get(id=guide_id)
 
-    # Toggle the status for example
-    guide.is_occupied = not guide.is_occupied
-    guide.save()
-
-    # Get the channel layer and send a message to the WebSocket consumer
-    # channel_layer = get_channel_layer()
-    channel_layer.group_send(
-        'guide_updates_group',
-        {
-            'type': 'guide_status_update',
-            'guide_id': guide.id,
-            'is_occupied': guide.is_occupied
-        }
-    )
-
-    return JsonResponse({'status': 'success'})
 
 def contact(request):    
     context = {
