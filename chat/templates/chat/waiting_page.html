@@ -1,0 +1,41 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Waiting for Guide's Response{% endblock %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h3>Waiting for Guide's Response</h3>
+    
+    {% if user_request.status == 'pending' %}
+      <p>Your request is still waiting to be accepted by the guide.</p>
+      <p>Expires at: {{ user_request.expires_at }}</p>
+      <p>Please wait...</p>
+    {% elif user_request.status == 'accepted' %}
+      <p>Your request has been accepted by the guide!</p>
+      <script>
+        // Redirect to chat page with the correct request ID
+        window.location.href = "{% url 'chat_page' request_id=user_request.id %}";
+      </script>
+    {% elif user_request.status == 'time_out' %}
+      <p>Unfortunately, your request has expired.</p>
+    {% endif %}
+</div>
+
+
+  <script>
+    // WebSocket connection for real-time updates
+    const socket = new WebSocket('ws://' + window.location.host + '/ws/guide/requests/');
+
+    socket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+
+        if (data.status === 'accepted' && data.request_id == {{ user_request.id }}) {
+            alert('Your request has been accepted by the guide!');
+            window.location.href = "{% url 'chat_page' request_id=user_request.id %}";  // Redirect to chat page
+        } else if (data.status === 'time_out' && data.request_id == {{ user_request.id }}) {
+            alert('Your request has timed out!');
+            window.location.reload();  // Reload to show timeout status
+        }
+    };
+  </script>
+{% endblock %}

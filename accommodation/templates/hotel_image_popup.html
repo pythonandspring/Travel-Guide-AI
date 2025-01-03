@@ -1,0 +1,36 @@
+{% load static %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{% static 'accommodation/css/hotel_image_popup.css' %}">
+{% endblock styling %}
+
+{% block content %}
+
+<div class="popup-container">
+    <div class="popup-content">
+        <h1>Image Details</h1>
+
+        <!-- Image Display -->
+        <div class="image-display">
+            <img src="{{ image.image.url }}" alt="{{ image.name }}" />
+            <p>Name: {{ image.name }}</p>
+        </div>
+
+        <!-- Rename and Delete Options -->
+        <form action="{% url 'rename_image_hotel' image.id %}" method="POST">
+            {% csrf_token %}
+            <label for="new_name">New Name:</label>
+            <input type="text" id="new_name" name="new_name" value="{{ image.name }}" required>
+            <button type="submit">Rename</button>
+        </form>
+
+        <form action="{% url 'delete_image_hotel' image.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this image?');">
+            {% csrf_token %}
+            <button type="submit" class="delete-button">Delete Image</button>
+        </form>
+
+        <a href="{% url 'hotel_images' %}">Back to Images</a>
+    </div>
+</div>
+
+{% endblock content %}

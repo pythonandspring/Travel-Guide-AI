@@ -1,0 +1,59 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block styling %}
+<link rel="stylesheet" href="{% static 'css/guide-details.css' %}">
+<style>
+/* Add your styles directly here or in the linked CSS file */
+</style>
+{% endblock styling %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Guide Header Section -->
+    <div class="guide-header d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-4">{{ guide.name }}</h1>
+        <div class="ratings text-warning text-right">
+            <strong>Super Guide:</strong> {{ guide.is_super_guide|yesno:"Yes,No" }}
+        </div>
+    </div>
+
+    <!-- Guide Location Section -->
+    <div class="guide-location mb-4">
+        <p><strong>Location:</strong> {{ guide.place }}, {{ guide.city }}, {{ guide.state }}, {{ guide.country }}</p>
+    </div>
+
+    <!-- Guide Details Section -->
+    <div class="guide-details mt-4 p-3 border rounded">
+        <h2 class="text-primary">Contact Information</h2>
+        <p><strong>Email:</strong> {{ guide.email }}</p>
+        <p><strong>Phone:</strong> {{ guide.phone }}</p>
+    </div>
+
+    <!-- Associated Doctors Section -->
+    <div class="doctors-section mt-5">
+        <h2 class="text-primary">Associated Doctors</h2>
+        <div class="row">
+            {% for doctor in doctors %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ doctor.name }}</h5>
+                        <p><strong>Speciality:</strong> {{ doctor.speciality }}</p>
+                        <p><strong>Contact:</strong> {{ doctor.phone }}</p>
+                        <p><strong>Email:</strong> {{ doctor.email }}</p>
+                        <p><strong>Address:</strong> {{ doctor.address }}</p>
+                        <p><strong>Weekly Closed On:</strong> {{ doctor.weekly_closed_on|default:"N/A" }}</p>
+                        <p><strong>Open Time:</strong> {{ doctor.open_time }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-muted">No doctors are associated with this guide.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

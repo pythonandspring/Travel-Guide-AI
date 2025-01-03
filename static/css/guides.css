@@ -1,0 +1,86 @@
+/* Container styles */
+.list-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #fff;
+}
+
+.highlight {
+    color: #ff9800;
+    font-weight: bold;
+}
+
+/* Search bar styles */
+.search-container input {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 0 auto;
+}
+
+.search-container input:focus {
+    border-color: #ff9800;
+    outline: none;
+}
+
+/* Filter dropdowns */
+.filter-dropdowns .form-select {
+    width: auto;
+    min-width: 200px;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* List styles */
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.list-item {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.list-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.item-details h2 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.item-details p {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* Gradient background */
+.gradient-background {
+    background: linear-gradient(135deg, #007bff, #28a745);
+    padding: 20px;
+    border-radius: 8px;
+}

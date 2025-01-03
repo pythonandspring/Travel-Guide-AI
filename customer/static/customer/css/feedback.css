@@ -1,0 +1,58 @@
+.feedback-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #76b1f1; /* Ensure background color */
+    border-radius: 8px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Add shadow to the container */
+}
+
+.feedback-container h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px; /* Optional: adds space below the heading */
+}
+
+.feedback-container .form-group {
+    margin-bottom: 15px;
+}
+
+.feedback-container label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+}
+
+.feedback-container input,
+.feedback-container textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Add shadow to input and textarea */
+}
+
+.feedback-container input:focus,
+.feedback-container textarea:focus {
+    border-color: #4CAF50; /* Focus color */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Focus shadow effect */
+}
+
+.feedback-container button {
+    width: 20%;
+    padding: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px; /* Optional: Adds rounded corners to button */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for the button */
+}
+
+.feedback-container button:hover {
+    background-color: #45a049;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Darker shadow on hover */
+}
