@@ -162,6 +162,13 @@ cython_debug/
 #.idea/
 
 
-# Ignore all migration files except __init__.py
-*/migrations/*
-!*/migrations/__init__.py
+# Ignore all migration files except _init_.py
+/migrations/
+!*/migrations/_init_.py
+/dummydata/
+/api/
+*/tests.py
+/media/
+*/place_image.py
+*/front_images.py
+*/hotel_images.py
