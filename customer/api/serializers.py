@@ -21,7 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "password": {"write_only": True},  # Ensure password is write-only
         }
-
+#  only for updating the branchs
     def create(self, validated_data):
         # Use create_user for proper password hashing
         password = validated_data.pop("password", None)
