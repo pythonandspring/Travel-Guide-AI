@@ -357,23 +357,36 @@ def get_images(request, place_id ,*args, **kwargs):
 
 
 @is_super_guide
-def add_place_image(request, place_id, *args, **kwargs):
+def add_place_image(request, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
-    place = Place.objects.filter(name=guide_info.place, city=guide_info.city,
-                                 state=guide_info.state, country=guide_info.country).first()
+
+    # Attempt to find the place based on guide_info
+    place = Place.objects.filter(
+        name=guide_info.place,
+        city=guide_info.city,
+        state=guide_info.state,
+        country=guide_info.country
+    ).first()
+
+    # If place is found, proceed to handle image upload
     if place:
         if request.method == "POST":
-            form = PlaceImageForm(request.POST, place_id=place.id)
+            form = PlaceImageForm(
+                request.POST, request.FILES, place_id=place.id)
             if form.is_valid():
-                form.save()
-                return redirect('get_images')
+                form.save()  # Save the image instance
+                messages.success(request, "Image added successfully!")
+                return redirect('get_images', place_id=place.id)
             else:
-                messages.error(request, "please enter valid details")
-                return redirect('get_images')
+                messages.error(request, "Please enter valid details.")
+                return redirect('get_images', place_id=place.id)
         else:
             form = PlaceImageForm(place_id=place.id)
+
         return render(request, 'place_image.html', {'form': form, 'guide': guide_info})
+
     else:
+        # Handle the case where the place does not exist
         request.session['place_exist'] = False
         guide_place_info = {
             'place': guide_info.place,
@@ -381,8 +394,8 @@ def add_place_image(request, place_id, *args, **kwargs):
             'state': guide_info.state,
             'country': guide_info.country
         }
-        messages.error(request, "place doesn't exist.")
-        return render(request, 'place/place_info', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
+        messages.error(request, "Place does not exist.")
+        return render(request, 'place/place_info.html', {'place_exist': False, 'guide_place_info': guide_place_info, 'guide': guide_info})
 
 
 @is_super_guide
@@ -395,10 +408,10 @@ def delete_place_image(request, place_id, image_id, *args, **kwargs):
             image = Image.objects.get(place=place.id, id=image_id)
             image.delete()
             messages.success(request, "Image deleted successfully.")
-            return redirect('get_images',{'place_id': place_id})
+            return redirect('get_images', place_id=place_id)
         except Image.DoesNotExist:
             messages.error(request, "Image doesn't exists.")
-            return redirect('get_images')
+            return redirect('get_images', place_id=place_id)
     else:
         request.session['place_exist'] = False
         guide_place_info = {
@@ -423,7 +436,9 @@ def place_image_popup(request, place_id, image_id,  *args, **kwargs):
     return render(request, 'place_Image_add_popup.html', {'image': image})
 
  
-# <---------------------CONTACT------------------------------------->
+# <--------------------------------- CONTACT ------------------------------------->
+
+
 @is_login
 def contact_support(request, *args, **kwargs):
     guide_info = kwargs.pop('guide_info', None)
