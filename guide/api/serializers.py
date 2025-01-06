@@ -2,6 +2,7 @@ from rest_framework import serializers
 from guide.models import Place, Image, Guide, Doctor
 
 # update
+
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
