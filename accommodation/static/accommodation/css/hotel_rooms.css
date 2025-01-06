@@ -1,4 +1,7 @@
 /* Basic Styles for Hotel Rooms Table */
+body{
+    background-color:white;
+}
 .table-container {
     margin: 20px;
     padding: 20px;

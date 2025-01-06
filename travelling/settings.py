@@ -37,10 +37,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'livereload',
     'django.contrib.staticfiles',
-    'myadmin',
     'guide',
     'accommodation',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
+# Add this REST Framework configuration
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # Enable token authentication
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # Restrict access to authenticated users
+    ],
+}
+    
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -86,25 +97,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'travelling.wsgi.application'
 
+
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'user',
-    #     'USER': 'root',                
-    #     'PASSWORD': 'gd456nds',                       
-    #     'HOST': '127.0.0.1',                    
-    #     'PORT': '3306',   
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'user',
-        'USER': 'root',                
-        'PASSWORD': 'Komal@123',                       
-        'HOST': '127.0.0.1',                    
-        'PORT': '3306',   
+        'ENGINE': 'django.db.backends.sqlite3',
+        # Default SQLite database file in the base directory
+        'NAME': f"{BASE_DIR}/db.sqlite3",
     }
 }
 
@@ -178,7 +179,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'enter your email'
-EMAIL_HOST_PASSWORD = 'enter you password'  
-DEFAULT_FROM_EMAIL = 'enter default email to send mail from.'
+EMAIL_HOST_USER = 'travelguidehelpteam@gmail.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'ikywspuukecuhvey'  # Your email account password
+# password = 'Travel123!@#'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
 

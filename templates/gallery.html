@@ -3,18 +3,42 @@
 
 {% comment %} CSS {% endcomment %}
 {% block styling %}
-<link rel="stylesheet" href="{% static 'css/travel_style.css' %}">
     <link rel="stylesheet" href="{% static 'css/gallery.css' %}">
 {% endblock styling %}
-
 
 {% comment %} BODY {% endcomment %}
 {% block content %}
     <div class="gallery-container" style="background: url('{% static "images/bg.jpg" %}') no-repeat center center/cover; padding-top: 6rem; padding-bottom: 4rem;">
-        <h1>Explore Beautiful Destinations</h1>
-        <div class="search-container">
-            <input type="text" id="searchBar" class="search-bar" placeholder="Search for a place..." onkeyup="filterCards()">
-            <button id="startVoiceButton" onclick="startVoiceSearch()">🎤</button>
+    <h1>Explore Beautiful <span class="yellow-gradient-text">Destinations . . .</span></h1>
+
+    <!-- Search Bar -->
+    <div class="search-container" style="color:black;">
+        <input type="text" id="searchBar" class="search-bar" placeholder="Search for a place..." onkeyup="filterCards()">
+        <button id="startVoiceButton" onclick="startVoiceSearch()">🎤</button>
+    </div>
+
+    <!-- Dropdown Filters Below Search Bar -->
+    <div class="filters-container" style="margin-top: 1rem;">
+        <select id="cityFilter" class="filter-dropdown" onchange="filterCards()">
+            <option value="">Select City</option>
+            {% for city in cities %}
+                <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+        </select>
+
+        <select id="stateFilter" class="filter-dropdown" onchange="filterCards()">
+            <option value="">Select State</option>
+            {% for state in states %}
+                <option value="{{ state }}">{{ state }}</option>
+            {% endfor %}
+        </select>
+
+        <select id="countryFilter" class="filter-dropdown" onchange="filterCards()">
+            <option value="">Select Country</option>
+            {% for country in countries %}
+                <option value="{{ country }}">{{ country }}</option>
+            {% endfor %}
+        </select>
     </div>
 
     <div id="voiceModal" class="modal">
@@ -24,17 +48,22 @@
         </div>
     </div>
 
+    <!-- Cards Section -->
     <div class="card-container">
         {% for place in places %}
         <div class="card" onclick="window.location.href='{% url 'get_place' place.id %}'">
-            <img src="{{MEDIA_URL}}/{{place.front_image}}" alt="{{ place.name }}">
+            <img src="{{place.front_image.url}}" alt="{{ place.name }}">
             <h2>{{ place.name }}</h2>
+            <!-- Hidden city, state, and country for search functionality -->
+            <p class="city" style="display: none;">{{ place.city }}</p>
+            <p class="state" style="display: none;">{{ place.state }}</p>
+            <p class="country" style="display: none;">{{ place.country }}</p>
         </div>
         {% endfor %}
     </div>
-    </div>
+</div>
 
-    <div id="placeDetailsModal" class="modal">
+<div id="placeDetailsModal" class="modal">
     <div class="modal-content">
         <h2 id="placeName"></h2>
         <img id="placeImage" alt="Place Image" style="width: 100%; height: 150px; object-fit: cover;">
@@ -42,70 +71,87 @@
         <p id="placeDescription"></p>
         <button class="close-btn" onclick="closePlaceDetailsModal()">Close</button>
     </div>
-    </div>
-{% endblock %}
+</div>
 
+{% endblock %}
 
 {% comment %} JAVASCRIPT {% endcomment %}
 {% block javascript %}
 <script>
     function filterCards() {
-        const searchValue = document.getElementById('searchBar').value.toLowerCase();
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            const titleElement = card.querySelector('h2');
-            const descriptionElement = card.querySelector('p');
-            const cardContent = 
-                (titleElement ? titleElement.textContent.toLowerCase() : '') +
-                ' ' +
-                (descriptionElement ? descriptionElement.textContent.toLowerCase() : '');
-            card.style.display = cardContent.includes(searchValue) ? '' : 'none';
-        });
-    }
+    const searchValue = document.getElementById('searchBar').value.toLowerCase();
+    const cityFilter = document.getElementById('cityFilter').value.toLowerCase();
+    const stateFilter = document.getElementById('stateFilter').value.toLowerCase();
+    const countryFilter = document.getElementById('countryFilter').value.toLowerCase();
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach(card => {
+        const titleElement = card.querySelector('h2');
+        const cityElement = card.querySelector('.city');
+        const stateElement = card.querySelector('.state');
+        const countryElement = card.querySelector('.country');
 
+        const titleContent = titleElement ? titleElement.textContent.toLowerCase() : '';
+        const cityContent = cityElement ? cityElement.textContent.toLowerCase() : '';
+        const stateContent = stateElement ? stateElement.textContent.toLowerCase() : '';
+        const countryContent = countryElement ? countryElement.textContent.toLowerCase() : '';
+        
+        const matchesSearch = titleContent.includes(searchValue);
+        const matchesCity = cityFilter ? cityContent.includes(cityFilter) : true;
+        const matchesState = stateFilter ? stateContent.includes(stateFilter) : true;
+        const matchesCountry = countryFilter ? countryContent.includes(countryFilter) : true;
+
+        // Show or hide card based on filters
+        if (matchesSearch && matchesCity && matchesState && matchesCountry) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
     function startVoiceSearch() {
-        const modal = document.getElementById('voiceModal');
-        const closeBtn = document.getElementById('closeModal');
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        modal.style.display = 'flex';
-        recognition.lang = 'en-US';
-        recognition.start();
-        recognition.onresult = function (event) {
-            const transcript = event.results[0][0].transcript;
-            document.getElementById('searchBar').value = transcript;
-            filterCards();
-            fetch('/search_voice/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ query: transcript }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    console.log(`Voice input processed: ${data.query}`);
-                } else {
-                    console.error('Error:', data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-            modal.style.display = 'none';
-        };
-        recognition.onerror = function (event) {
-            console.error('Speech recognition error:', event.error);
-            modal.style.display = 'none';
-        };
-        recognition.onspeechend = function () {
-            recognition.stop();
-        };
-        closeBtn.onclick = function () {
-            modal.style.display = 'none';
-            recognition.abort();
-        };
-    }
+            const modal = document.getElementById('voiceModal');
+            const closeBtn = document.getElementById('closeModal');
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            modal.style.display = 'flex';
+            recognition.lang = 'en-US';
+            recognition.start();
+            recognition.onresult = function (event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('searchBar').value = transcript;
+                filterCards();
+                fetch('/search_voice/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: transcript }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        console.log(`Voice input processed: ${data.query}`);
+                    } else {
+                        console.error('Error:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+                modal.style.display = 'none';
+            };
+            recognition.onerror = function (event) {
+                console.error('Speech recognition error:', event.error);
+                modal.style.display = 'none';
+            };
+            recognition.onspeechend = function () {
+                recognition.stop();
+            };
+            closeBtn.onclick = function () {
+                modal.style.display = 'none';
+                recognition.abort();
+            };
+        }
     function openPlaceDetails(placeName, placeLocation, placeDescription, placeImage) {
         const modal = document.getElementById('placeDetailsModal');
         document.getElementById('placeName').textContent = placeName;
@@ -114,6 +160,7 @@
         document.getElementById('placeImage').src = placeImage;
         modal.style.display = 'flex';
     }
+
     function closePlaceDetailsModal() {
         document.getElementById('placeDetailsModal').style.display = 'none';
     }

@@ -5,6 +5,10 @@ body {
     padding: 0;
     background-color: #f8f9fa;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Ensure the body takes full height of the viewport */
 }
 
 /* Section Styling */
@@ -18,7 +22,36 @@ body {
     overflow: hidden;
 }
 
-/* Header Styling */
+.content {
+    flex-grow: 1;
+    /* Allows the main content to expand and push the footer down */
+}
+
+/* Footer Styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    width: 100%;
+    position: relative;
+    /* Ensures footer is not fixed */
+    margin-top: auto;
+    /* Pushes footer below content */
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0 5px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Other Styling (Unchanged Sections) */
 .profile-header {
     display: flex;
     justify-content: space-between;
@@ -169,7 +202,6 @@ btn-edit-profile {
     color: #0056b3;
 }
 
-
 .hotel-info {
     margin-top: 20px;
     padding: 15px;
@@ -226,28 +258,4 @@ btn-edit-profile {
 .contact-info strong {
     font-weight: bold;
     color: #222;
-}
-
-/* Footer Styles - Fixed to Bottom */
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 14px;
-    z-index: 1000;
-}
-
-footer a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0 5px;
-}
-
-footer a:hover {
-    text-decoration: underline;
 }

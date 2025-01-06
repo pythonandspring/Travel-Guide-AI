@@ -10,7 +10,7 @@
     <div class="header">
         <h1>Doctors</h1>
         <!-- Button to trigger the popup -->
-        <a href="#" class="add-doctor-btn" onclick="openPopup()">Add Doctor</a>
+        <a href="#" class="add-doctor-btn action-btn edit-btn btn btn-primary" onclick="openPopup()">Add Doctor</a>
     </div>
 
     <table>
@@ -37,8 +37,9 @@
                 <td>{{ doctor.get_weekly_closed_on_display }}</td>
                 <td>{{ doctor.open_time }}</td>
                 <td>
-                    <a href="{% url 'guide_edit_doctor' doctor.id %}" class="action-btn edit-btn">Edit</a>
-                    <a href="{% url 'delete_doctor' doctor.id %}" class="action-btn delete-btn">Delete</a>
+                    <a href="{% url 'guide_edit_doctor' doctor.id %}" class="action-btn edit-btn btn btn-primary">Edit</a>
+                    <br>
+                    <a href="{% url 'delete_doctor' doctor.id %}" class="action-btn delete-btn btn btn-danger">Delete</a>
                 </td>
             </tr>
             {% empty %}

@@ -1,69 +1,102 @@
 /* General Body and Background */
 body {
-    background-color: #f4f7fc; /* Soft light background for a professional feel */
+    background-color: #f4f7fc;
+    /* Soft light background for a professional feel */
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Ensure the body takes full height */
 }
 
-/* Fixed Footer */
-footer {
-    position: fixed;
-    bottom: 0;
+/* Sticky Header */
+header {
+    position: sticky;
+    top: 0;
     width: 100%;
-    background-color: #333;
+    z-index: 100;
+    /* Ensure header stays above content */
+    background-color: #343a40;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Optional shadow for header */
+    padding: 10px 0;
+    /* Reduced padding for smaller height */
+}
+
+/* Logo in the Header */
+header .row img {
+    border-radius: 8px;
+    /* Reduced border radius for a less round logo */
+    width: 50px;
+    /* Adjust logo size */
+    height: auto;
+}
+
+/* Content area that expands to fill space between header and footer */
+.content {
+    flex-grow: 1;
+    /* Content fills remaining space */
+    padding: 20px;
+    /* Inner spacing for the content */
+    background-color: white;
+    /* Ensure a distinct background */
+    border-radius: 15px;
+    /* Rounded corners */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    /* Shadow for depth */
+    margin: 10px;
+    /* Space around the content block */
+    border: 1px solid #e0e0e0;
+    /* Optional border for a subtle outline */
+}
+
+/* Footer at the bottom */
+footer {
+    background-color: #343a40;
     color: white;
     text-align: center;
-    padding: 10px;
-    z-index: 10;
+    padding: 15px 0;
+    /* Increased padding for a little more space in footer */
+    width: 100%;
+    margin-top: auto;
+    /* Push the footer to the bottom */
+    background-image: linear-gradient(to right, #555, #343a40);
+    /* Gradient for texture */
 }
 
-
-/* Flex layout for header row */
-header .row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+/* Footer Text Styling */
+footer .text-light {
+    font-size: 0.9rem;
+    font-weight: 300;
+    /* Light weight for a softer appearance */
+    line-height: 1.5;
+    /* Added line-height for better spacing */
 }
 
-/* Grouping logo and title together */
-header .row img,
-header .row .col h3 {
-    display: inline-block;
-    vertical-align: middle;
-    margin: 0;
+footer a {
+    font-size: 0.9rem;
+    margin: 0 10px;
+    text-decoration: none;
+    color: white;
+    font-weight: 400;
+    /* Slightly heavier for the links */
 }
 
-/* Spacing between logo and title */
-header .row img {
-    margin-right: 10px;
+footer a:hover {
+    text-decoration: underline;
 }
 
-/* Full width for the navigation section */
-header .col.px-3 {
-    flex: 1;
-    max-width: 70%; /* Allow more space for navigation */
-    /* right: -100px; */
+/* Optional: Adjustments for responsiveness */
+@media (max-width: 768px) {
+    header .d-flex {
+        flex-direction: column;
+        /* Stack nav items vertically on smaller screens */
+    }
+
+    header .col {
+        text-align: center;
+        /* Center align text in the header for mobile */
+    }
 }
-
-/* Navigation container to prevent wrapping */
-header .col.px-3 .d-flex {
-    flex-wrap: nowrap; /* Prevent stacking */
-    justify-content: center; /* Center the navigation */
-    gap: 15px; /* Space between links */
-}
-
-/* Adjust link padding for single-line fit */
-header .col.px-3 .d-flex a {
-    padding: 0 8px;
-    font-size: 1.1rem; /* Adjust font size if needed */
-    white-space: nowrap; /* Prevent line breaks */
-}
-
-
-/* Content Padding for Body */
-.content {
-    padding-bottom: 60px; /* Added space for footer */
-}
-
-

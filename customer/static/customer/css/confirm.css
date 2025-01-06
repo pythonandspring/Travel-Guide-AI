@@ -1,0 +1,78 @@
+/* confirm.css */
+
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Background */
+div[style*="background: url"] {
+    background-size: cover;
+    background-position: center center;
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* Register Container */
+.register-container {
+    background-color: rgba(255, 255, 255, 0.8); /* Slight white overlay for readability */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Heading */
+h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form input, form button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+form input:focus, form button:focus {
+    border-color: #007BFF; /* Highlight on focus */
+    outline: none;
+}
+
+/* Submit Button */
+form button {
+    background-color: #007BFF;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Error Message */
+.error-message {
+    color: red; /* Red color for error messages */
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}

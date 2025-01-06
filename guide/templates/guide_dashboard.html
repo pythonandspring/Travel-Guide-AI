@@ -3,149 +3,187 @@
 
 {% block styling %}
     <link rel="stylesheet" href="{% static 'guide/css/guide_dashboard.css' %}">
+    <style>
+        /* Ensuring that the background image covers the full viewport */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .profile-container {
+            background: url('{% static 'accommodation/css/img.jpg' %}') no-repeat center center;
+            background-size: cover;
+            min-height: 100vh; /* Ensure it covers full height */
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .profile {
+            background: rgba(255, 255, 255, 0.9); /* Light white background to contrast text */
+            padding: 40px;
+            border-radius: 8px;
+            margin: 30px auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 1200px;
+            flex-grow: 1;
+        }
+
+        .profile-header {
+            background: linear-gradient(90deg, #2a5298, #1e3c72);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .btn-primary, .btn-success {
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .btn-primary:hover, .btn-success:hover {
+            transform: scale(1.05);
+        }
+
+        .guide-info, .doctors-info {
+            background-color: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .guide-info h3 {
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .guide-info .list-group-item strong {
+            color: #0072ff;
+        }
+
+        .doctors-info h3 {
+            background: linear-gradient(90deg, #34e89e, #0f3443);
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f4f7fb;
+        }
+
+        .table-striped tbody tr:nth-of-type(even) {
+            background-color: #ffffff;
+        }
+
+        h2, h3 {
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        footer {
+            background: #2a5298;
+            color: white;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer a {
+            color: #dcdcdc;
+        }
+
+        footer a:hover {
+            color: #ffffff;
+        }
+    </style>
 {% endblock styling %}
 
 {% block content %}
-<section class="profile">
-  <!-- Guide Header -->
-  <div class="profile-header">
-    <h2>Welcome, {{ guide.name }}</h2>
-
-    <div class="logout">
-      <form method="post" action="{% url 'guide_logout' %}">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-      </form>
-    </div>
-
-    <a href="{% url 'guide_edit_profile' %}" class="btn-edit-profile">Edit Profile</a>
-  </div>
-
-  <!-- Guide Information -->
-  <div class="guide-info">
-    <h3>Guide Information</h3>
-    <p><strong>Name:</strong> {{ guide.name }}</p>
-    <p><strong>Email:</strong> {{ guide.email }}</p>
-    <p><strong>Phone:</strong> {{ guide.phone }}</p>
-    <p><strong>Address:</strong> {{ guide.address }}</p>
-    <p><strong>Country:</strong> {{ guide.country }}</p>
-    <p><strong>State:</strong> {{ guide.state }}</p>
-    <p><strong>City:</strong> {{ guide.city }}</p>
-    <p><strong>Place:</strong> {{ guide.place }}</p>
-    <p><strong>Role:</strong> {{ guide.is_super_guide|yesno:"Super Guide,Guide" }}</p>
-  </div>
-
-  <!-- Doctor Information -->
-  {% if guide.is_super_guide %}
-    <div class="doctors-info">
-      <h3>Doctor Details</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Speciality</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Weekly Closed On</th>
-            <th>Service Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for doctor in guide.doctors.all %}
-          <tr>
-            <td>{{ doctor.name }}</td>
-            <td>{{ doctor.speciality }}</td>
-            <td>{{ doctor.phone }}</td>
-            <td>{{ doctor.email }}</td>
-            <td>{{ doctor.address }}</td>
-            <td>{{ doctor.weekly_closed_on|default:"Not Closed" }}</td>
-            <td>{{ doctor.open_time }}</td>
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="7">No doctors related to this guide.</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  {% endif %}
-    
-</section>
-const guideDashboardTemplate = `
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="{% static 'guide/css/guide_dashboard.css' %}">
-</head>
-<body>
-    <section class="profile">
+<div class="profile-container">
+    <section class="profile container my-1">
         <!-- Guide Header -->
-        <div class="profile-header">
-            <h2>Welcome, {{ guide.name }}</h2>
-            <div class="logout">
-                <form method="post" action="{% url 'guide_logout' %}">
+        <div class="profile-header text-center mb-1">
+            <h2 class="mb-1">Welcome, {{ guide.name }}</h2>
+            <div class="d-flex justify-content-center gap-3">
+                <form method="post" action="{% url 'guide_logout' %}" class="d-inline">
                     {% csrf_token %}
-                    <button type="submit">Logout</button>
+                    <button type="submit" class="btn btn-danger">Logout</button>
                 </form>
+                <a href="{% url 'guide_edit_profile' %}" class="btn btn-success">Edit Profile</a>
             </div>
-            <a href="{% url 'guide_edit_profile' %}" class="btn-edit-profile">Edit Profile</a>
         </div>
 
         <!-- Guide Information -->
-        <div class="guide-info">
+        <div class="guide-info card shadow-sm p-4 mb-5">
             <h3>Guide Information</h3>
-            <p><strong>Name:</strong> {{ guide.name }}</p>
-            <p><strong>Email:</strong> {{ guide.email }}</p>
-            <p><strong>Phone:</strong> {{ guide.phone }}</p>
-            <p><strong>Address:</strong> {{ guide.address }}</p>
-            <p><strong>Country:</strong> {{ guide.country }}</p>
-            <p><strong>State:</strong> {{ guide.state }}</p>
-            <p><strong>City:</strong> {{ guide.city }}</p>
-            <p><strong>Place:</strong> {{ guide.place }}</p>
-            <p><strong>Role:</strong> {{ guide.is_super_guide ? 'Super Guide' : 'Guide' }}</p>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Name:</strong> {{ guide.name }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ guide.email }}</li>
+                <li class="list-group-item"><strong>Phone:</strong> {{ guide.phone }}</li>
+                <li class="list-group-item"><strong>Address:</strong> {{ guide.address }}</li>
+                <li class="list-group-item"><strong>Country:</strong> {{ guide.country }}</li>
+                <li class="list-group-item"><strong>State:</strong> {{ guide.state }}</li>
+                <li class="list-group-item"><strong>City:</strong> {{ guide.city }}</li>
+                <li class="list-group-item"><strong>Place:</strong> {{ guide.place }}</li>
+                <li class="list-group-item"><strong>Role:</strong> 
+                    <span class="badge {{ guide.is_super_guide|yesno:'bg-primary,bg-success' }}">
+                        {{ guide.is_super_guide|yesno:"Super Guide,Guide" }}
+                    </span>
+                </li>
+            </ul>
         </div>
 
         <!-- Doctor Information -->
         {% if guide.is_super_guide %}
-        <div class="doctors-info">
+        <div class="doctors-info card shadow-sm p-4">
             <h3>Doctor Details</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Speciality</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Address</th>
-                        <th>Weekly Closed On</th>
-                        <th>Service Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for doctor in guide.doctors.all %}
-                    <tr>
-                        <td>{{ doctor.name }}</td>
-                        <td>{{ doctor.speciality }}</td>
-                        <td>{{ doctor.phone }}</td>
-                        <td>{{ doctor.email }}</td>
-                        <td>{{ doctor.address }}</td>
-                        <td>{{ doctor.weekly_closed_on || "Not Closed" }}</td>
-                        <td>{{ doctor.open_time }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="7">No doctors related to this guide.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Speciality</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Weekly Closed On</th>
+                            <th scope="col">Service Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for doctor in guide.doctors.all %}
+                        <tr>
+                            <td>{{ doctor.name }}</td>
+                            <td>{{ doctor.speciality }}</td>
+                            <td>{{ doctor.phone }}</td>
+                            <td>{{ doctor.email }}</td>
+                            <td>{{ doctor.address }}</td>
+                            <td>{{ doctor.weekly_closed_on|default:"Not Closed" }}</td>
+                            <td>{{ doctor.open_time }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">No doctors related to this guide.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
         {% endif %}
     </section>
-</body>
-</html>
-`;
-
+</div>
 {% endblock %}

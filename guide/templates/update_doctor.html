@@ -13,56 +13,64 @@
         background: rgba(0, 0, 0, 0.5); /* Dark background to highlight the popup */
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
+        padding-top: 60px; /* Space for navbar */
         z-index: 9999; /* Ensure it stays on top of other content */
+        overflow-y: auto; /* Allow scrolling if content exceeds height */
     }
 
     /* Popup box */
     .popup {
         background: #fff;
-        padding: 20px;
+        padding: 15px 20px;
         border-radius: 8px;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-        max-width: 600px;
+        max-width: 500px;
         width: 100%;
         box-sizing: border-box;
+        overflow-y: auto;
+        max-height: 80vh; /* Limit the height of the popup */
     }
 
     .popup h2 {
         margin-top: 0;
-        font-size: 1.5rem;
+        font-size: 1.25rem;
+        text-align: center;
     }
 
     .form-group {
-        margin-bottom: 15px;
+        margin-bottom: 12px;
     }
 
     .form-group label {
         display: block;
         font-weight: bold;
+        margin-bottom: 5px;
     }
 
     .form-group input,
-    .form-group select {
+    .form-group select,
+    .form-group textarea {
         width: 100%;
         padding: 8px;
         margin-top: 5px;
-        font-size: 1rem;
+        font-size: 0.9rem;
         border-radius: 4px;
         border: 1px solid #ccc;
+        box-sizing: border-box;
     }
 
     .form-actions {
         display: flex;
         justify-content: space-between;
-        margin-top: 20px;
+        margin-top: 15px;
     }
 
     .form-actions .btn {
-        padding: 10px 20px;
+        padding: 8px 15px;
         border: none;
         border-radius: 4px;
-        font-size: 1rem;
+        font-size: 0.9rem;
         cursor: pointer;
     }
 
@@ -77,24 +85,52 @@
     }
 
     .helper-text {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         color: #888;
+        margin-top: 5px;
     }
 
     .error-message p {
         color: red;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+    }
+
+    /* Navbar styling */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        padding: 10px;
+        color: white;
+        z-index: 10000; /* Navbar above the popup */
+    }
+
+    /* Footer styling */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        padding: 10px;
+        color: white;
+        text-align: center;
+        z-index: 10000; /* Footer above content */
     }
 </style>
 {% endblock styling %}
 
 {% block content %}
+
+<!-- Popup -->
 <div class="popup-container">
     <div class="popup">
         <h2>Update Doctor Details</h2>
         <form method="POST" action="{% url 'guide_edit_doctor' doctor_obj.id %}">
             {% csrf_token %}
-        
+
             <!-- Name Field -->
             <div class="form-group">
                 <label for="id_name">Name</label>
@@ -108,7 +144,7 @@
                 {% endif %}
                 <p class="helper-text">Enter the doctor's name.</p>
             </div>
-        
+
             <!-- Speciality Field -->
             <div class="form-group">
                 <label for="id_speciality">Speciality</label>
@@ -122,7 +158,7 @@
                 {% endif %}
                 <p class="helper-text">Enter the doctor's speciality.</p>
             </div>
-        
+
             <!-- Phone Field -->
             <div class="form-group">
                 <label for="id_phone">Phone</label>
@@ -136,7 +172,7 @@
                 {% endif %}
                 <p class="helper-text">Enter the doctor's phone number.</p>
             </div>
-        
+
             <!-- Email Field -->
             <div class="form-group">
                 <label for="id_email">Email</label>
@@ -150,7 +186,7 @@
                 {% endif %}
                 <p class="helper-text">Enter the doctor's email address.</p>
             </div>
-        
+
             <!-- Address Field -->
             <div class="form-group">
                 <label for="id_address">Address</label>
@@ -164,7 +200,7 @@
                 {% endif %}
                 <p class="helper-text">Enter the doctor's address.</p>
             </div>
-        
+
             <!-- Weekly Closed On Field -->
             <div class="form-group">
                 <label for="id_weekly_closed_on">Weekly Closed On</label>
@@ -187,7 +223,7 @@
                 {% endif %}
                 <p class="helper-text">Select the day of the week the doctor is closed.</p>
             </div>
-        
+
             <!-- Open Time Field -->
             <div class="form-group">
                 <label for="id_open_time">Service Time</label>
@@ -203,7 +239,6 @@
                 <p class="helper-text">Enter the service time in a valid format (e.g., 10 AM - 2 PM).</p>
             </div>
 
-        
             <div class="form-actions">
                 <button type="submit" class="btn submit-btn">Update Doctor</button>
                 <button type="button" class="btn cancel-btn" onclick="closePopup()">Cancel</button>
@@ -212,10 +247,12 @@
     </div>
 </div>
 
+
 <script>
     function closePopup() {
         // Redirect to the doctors list page to close the popup
         window.location.href = "{% url 'get_doctors' %}";
     }
 </script>
+
 {% endblock content %}
