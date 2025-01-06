@@ -8,7 +8,6 @@ from guide.models import Place, Guide, Image, Doctor
 from accommodation.models import Hotel, HotelImage
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
-from channels.layers import get_channel_layer
 
 
 def home(request):
