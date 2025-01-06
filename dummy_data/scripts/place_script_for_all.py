@@ -1,6 +1,5 @@
 import pymysql
 import sqlite3
-
 import csv
 
 # Configuration for databases

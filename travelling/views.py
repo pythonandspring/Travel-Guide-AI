@@ -8,8 +8,8 @@ from guide.models import Place, Guide, Image, Doctor
 from accommodation.models import Hotel, HotelImage
 from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
-from channels.layers import get_channel_layer
-from chat.models import GuideRequest
+# from channels.layers import get_channel_layer
+
 
 def home(request):
     if request.session.get('super_guide_id') or request.session.get('guide_id'):
@@ -28,14 +28,20 @@ def home(request):
         return render(request, 'home.html')
 
 
-
 def agentRegistration(request):
-    if request.method == 'POST':
-        form = request.POST.get('agentRegistration')
-        messages.success(request, 'Agent Registration request has been sent!')
-        return redirect('agentRegistration')
-    
-    return render(request, 'agentRegistration.html')
+    if (request.session.get('super_guide_id') or request.session.get('guide_id')) and request.session.get('is_login'):
+        return redirect('guide_dashboard')
+    elif (request.session.get('is_logged_in')):
+        return redirect('hotel_dashboard')
+    elif (request.user.is_authenticated):
+        return redirect('profile')
+    else:
+        if request.method == 'POST':
+            form = request.POST.get('agentRegistration')
+            messages.success(request, 'Agent Registration request has been sent!')
+            return redirect('agentRegistration')
+        
+        return render(request, 'agentRegistration.html')
 
 
 def gallery(request):
@@ -78,30 +84,19 @@ def get_place(request, place_id):
     hotels = Hotel.objects.filter(place=place.name)
     guides = Guide.objects.filter(place=place.name)
 
-    # Check for pending guide requests
-    has_pending_request = (
-        GuideRequest.objects.filter(user=request.user, status='pending').exists()
-        if request.user.is_authenticated else False
-    )
-
-    # Render the template with the context
-    return render(request, 'place.html', {
-        'place_exist': True,
-        'place': place,
-        'MEDIA_URL': settings.MEDIA_URL,
-        'images': images,
-        'hotels': hotels,
-        'guides': guides,
-        'user': request.user,
-        'has_pending_request': has_pending_request
-    })
+    if place:
+        request.session['place_exist'] = True
+        return render(request, 'place.html', {'place_exist': True, 'place': place, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides, 'user':request.user})
+    else:
+        request.session['place_exist'] = False
+        messages.error(request, f"doesn't exist in database now.")
+        return render(request, 'place.html', {'place_exist': False, 'MEDIA_URL': settings.MEDIA_URL, 'images': images, 'hotels': hotels, 'guides': guides, 'user': request.user})
 
 
 @login_required
 def get_hotel_details(request, hotel_id):
     hotel = Hotel.objects.get(id=hotel_id)
     images = HotelImage.objects.filter(hotel_id=hotel.id)
-    print(images)
     return render(request, 'hotel_details.html', {'hotel':hotel, 'images':images})
 
 
@@ -210,7 +205,7 @@ def update_guide_status(request, guide_id):
     guide.save()
 
     # Get the channel layer and send a message to the WebSocket consumer
-    channel_layer = get_channel_layer()
+    # channel_layer = get_channel_layer()
     channel_layer.group_send(
         'guide_updates_group',
         {

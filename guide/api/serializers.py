@@ -2,7 +2,14 @@ from rest_framework import serializers
 from guide.models import Place, Image, Guide, Doctor
 
 
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = ['id', 'place', 'image']
+
+
 class PlaceSerializer(serializers.ModelSerializer):
+    images = ImageSerializer(many=True)
     class Meta:
         model = Place
         fields = [
@@ -13,34 +20,7 @@ class PlaceSerializer(serializers.ModelSerializer):
             'by_road_distances_from_nearest_cities', 'weekly_closed_on', 'special_closed_dates',
             'week_days_opening_time', 'week_days_closing_time', 'weekends_opening_time',
             'weekends_closing_time', 'images'
-   ]
-
-
-
-class ImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Image
-        fields = ['id', 'place', 'image']
-
-
-
-class GuideSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Guide
-        fields = [
-            "name",
-            "email",
-            "phone",
-            "password",
-            "address",
-            "is_occupied",
-            "is_super_guide",
-            "country",
-            "state",
-            "city",
-            "place"
         ]
-
 
 
 class DoctorSerializer(serializers.ModelSerializer):
@@ -55,4 +35,26 @@ class DoctorSerializer(serializers.ModelSerializer):
             "address",
             "weekly_closed_on",
             "open_time"
+        ]
+
+
+class GuideSerializer(serializers.ModelSerializer):
+    doctors = DoctorSerializer(many=True)
+
+    class Meta:
+        model = Guide
+        fields = [
+            "id",
+            "name",
+            "email",
+            "phone",
+            "password",
+            "address",
+            "is_occupied",
+            "is_super_guide",
+            "country",
+            "state",
+            "city",
+            "place",
+            "doctors",
         ]

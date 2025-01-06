@@ -28,7 +28,6 @@
                         <a class="text-light text-decoration-none" href="{% url 'home' %}">Home</a>
                         <a class="text-light text-decoration-none" href="{% url 'gallery' %}">Gallery</a>
                         {% if request.session.is_logged_in %}
-                            <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Bookings</a>
                             <a class="text-light text-decoration-none" href="{% url 'available_rooms' %}">Rooms Availability</a>
                             <a class="text-light text-decoration-none" href="{% url 'hotel_images' %}">Hotel Images</a>
                             <a class="text-light text-decoration-none" href="{% url 'hotel_dashboard' %}">Dashboard</a>

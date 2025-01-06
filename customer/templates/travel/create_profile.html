@@ -11,7 +11,7 @@
                 <h2 class="fw-bold mb-0">Create Your Profile</h2>
             </div>
             <div class="card-body p-5">
-                <form method="POST" enctype="multipart/form-data" id="edit-profile-form" onsubmit="return validateForm()">
+               <form method="POST" enctype="multipart/form-data" id="edit-profile-form" onsubmit="return validateForm()">
                     {% csrf_token %}
                     <div class="mb-4">
                         <label for="first_name" class="form-label fw-semibold">Username:</label>
@@ -26,10 +26,9 @@
                             id="first_name" 
                             name="first_name" 
                             class="form-control border-0 shadow-sm" 
-                            value="{{ form.first_name.value}}" 
+                            value="{{ form.first_name.value|default:'' }}" 
                             placeholder="Enter your first name">
                         <div id="first-name-error" class="invalid-feedback"></div>
-                        <!-- Backend validation -->
                         {% for error in form.first_name.errors %}
                         <div class="invalid-feedback">{{ error }}</div>
                         {% endfor %}
@@ -43,10 +42,9 @@
                             id="last_name" 
                             name="last_name" 
                             class="form-control border-0 shadow-sm" 
-                            value="{{ form.last_name.value}}" 
+                            value="{{ form.last_name.value|default:'' }}" 
                             placeholder="Enter your last name">
                         <div id="last-name-error" class="invalid-feedback"></div>
-                        <!-- Backend validation -->
                         {% for error in form.last_name.errors %}
                         <div class="invalid-feedback">{{ error }}</div>
                         {% endfor %}
@@ -61,10 +59,8 @@
                             id="email" 
                             name="email" 
                             class="form-control border-0 shadow-sm" 
-                            value="{{ user.email}}" 
-                            placeholder="Enter your first name">
+                            value="{{ user.email|default:'' }}">
                         <div id="email-error" class="invalid-feedback"></div>
-                        <!-- Backend validation -->
                         {% for error in form.email.errors %}
                         <div class="invalid-feedback">{{ error }}</div>
                         {% endfor %}
@@ -78,10 +74,9 @@
                             id="location" 
                             name="location" 
                             class="form-control border-0 shadow-sm" 
-                            value="{{ form.location.value}}" 
+                            value="{{ form.location.value|default:'' }}" 
                             placeholder="Enter your location">
                         <div id="location-error" class="invalid-feedback"></div>
-                        <!-- Backend validation -->
                         {% for error in form.location.errors %}
                         <div class="invalid-feedback">{{ error }}</div>
                         {% endfor %}
@@ -95,9 +90,8 @@
                             id="birth_date" 
                             name="birth_date" 
                             class="form-control border-0 shadow-sm" 
-                            value="{{ form.birth_date.value}}">
+                            value="{{ form.birth_date.value|default:'' }}">
                         <div id="birth-date-error" class="invalid-feedback"></div>
-                        <!-- Backend validation -->
                         {% for error in form.birth_date.errors %}
                         <div class="invalid-feedback">{{ error }}</div>
                         {% endfor %}
@@ -111,10 +105,9 @@
                             id="travel_preferences" 
                             name="travel_preferences" 
                             class="form-control border-0 shadow-sm" 
-                            placeholder="Enter preferences separated by spaces" 
-                            value="{{ form.travel_preferences.value|default:'' }}">
+                            value="{{ form.travel_preferences.value|default:'' }}" 
+                            placeholder="Enter preferences separated by spaces">
                         <div id="travel-preferences-error" class="text-danger mt-2" style="font-size: 0.9rem;"></div>
-                        <!-- Backend validation -->
                         {% for error in form.travel_preferences.errors %}
                         <div class="invalid-feedback">{{ error }}</div>
                         {% endfor %}
@@ -128,10 +121,9 @@
                             id="favorite_destinations" 
                             name="favorite_destinations" 
                             class="form-control border-0 shadow-sm" 
-                            value="{{ form.favorite_destinations.value}}" 
+                            value="{{ form.favorite_destinations.value|default:'' }}" 
                             placeholder="Enter your favorite destinations">
                         <div id="favorite-destinations-error" class="invalid-feedback"></div>
-                        <!-- Backend validation -->
                         {% for error in form.favorite_destinations.errors %}
                         <div class="invalid-feedback">{{ error }}</div>
                         {% endfor %}
@@ -145,10 +137,9 @@
                             id="languages_spoken" 
                             name="languages_spoken" 
                             class="form-control border-0 shadow-sm" 
-                            value="{{ form.languages_spoken.value}}" 
+                            value="{{ form.languages_spoken.value|default:'' }}" 
                             placeholder="Enter languages you speak">
                         <div id="languages-spoken-error" class="invalid-feedback"></div>
-                        <!-- Backend validation -->
                         {% for error in form.languages_spoken.errors %}
                         <div class="invalid-feedback">{{ error }}</div>
                         {% endfor %}
@@ -162,10 +153,9 @@
                             id="budget_range" 
                             name="budget_range" 
                             class="form-control border-0 shadow-sm" 
-                            value="{{ form.budget_range.value}}" 
+                            value="{{ form.budget_range.value|default:'' }}" 
                             placeholder="Enter your budget range">
                         <div id="budget-range-error" class="invalid-feedback"></div>
-                        <!-- Backend validation -->
                         {% for error in form.budget_range.errors %}
                         <div class="invalid-feedback">{{ error }}</div>
                         {% endfor %}
@@ -179,10 +169,9 @@
                             id="interests" 
                             name="interests" 
                             class="form-control border-0 shadow-sm" 
-                            value="{{ form.interests.value}}" 
+                            value="{{ form.interests.value|default:'' }}" 
                             placeholder="Enter your interests">
                         <div id="interests-error" class="invalid-feedback"></div>
-                        <!-- Backend validation -->
                         {% for error in form.interests.errors %}
                         <div class="invalid-feedback">{{ error }}</div>
                         {% endfor %}
@@ -199,6 +188,7 @@
                             class="btn btn-outline-secondary w-100 ms-2 shadow-sm">Cancel</a>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>

@@ -59,10 +59,17 @@
                 <p class="item-super-guide">
                     <strong>Super Guide:</strong> {{ guide.is_super_guide|yesno:"Yes,No" }}
                 </p>
-                <p class="item-location">
-                    <strong>Location:</strong> 
-                    {{ guide.place }}, {{ guide.city }}, {{ guide.state }}, {{ guide.country }}
-                </p>
+                <p class="item-location d-flex align-items-center" style="font-size: 1.1rem; color: #555;">
+                <strong style="color: #333; font-weight: bold; margin-right: 5px;">
+                    <i class="bi bi-geo-alt-fill" style="color: #6c63ff; margin-right: 5px;"></i> Location:
+                </strong>
+                <span>
+                    <span style="color: #6c63ff; font-weight: bold;">{{ guide.place }}</span>, 
+                    {{ guide.city }}, 
+                    {{ guide.state }}, 
+                    {{ guide.country }}
+                </span>
+            </p>
             </div>
         </div>
         {% endfor %}
