@@ -1,3 +1,4 @@
+{% extends 'guide_tem/base.html' %}
 {% load static %}
 
 {% block styling %}
@@ -5,16 +6,16 @@
 <style>
     /* Popup container */
     .popup-container {
-        position: fixed; /* Fixed positioning to stay on the screen */
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.5); /* Dark background to highlight the popup */
+        background: rgba(0, 0, 0, 0.5);
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 9999; /* Ensure it stays on top of other content */
+        z-index: 9999;
     }
 
     /* Popup box */
@@ -23,8 +24,10 @@
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-        max-width: 600px;
-        width: 100%;
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh; /* Restrict maximum height */
+        overflow-y: auto; /* Enable scrolling if content exceeds height */
         box-sizing: border-box;
     }
 
@@ -40,14 +43,16 @@
     .form-group label {
         display: block;
         font-weight: bold;
+        font-size: 0.9rem;
     }
 
     .form-group input,
+    .form-group textarea,
     .form-group select {
         width: 100%;
         padding: 8px;
         margin-top: 5px;
-        font-size: 1rem;
+        font-size: 0.85rem;
         border-radius: 4px;
         border: 1px solid #ccc;
     }
@@ -59,10 +64,10 @@
     }
 
     .form-actions .btn {
-        padding: 10px 20px;
+        padding: 8px 15px;
         border: none;
         border-radius: 4px;
-        font-size: 1rem;
+        font-size: 0.9rem;
         cursor: pointer;
     }
 
@@ -77,13 +82,13 @@
     }
 
     .helper-text {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         color: #888;
     }
 
-    .error-message p {
+    .error-message {
         color: red;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 </style>
 {% endblock styling %}
@@ -99,7 +104,7 @@
             <div class="form-group">
                 <label for="id_name">Name</label>
                 <input type="text" name="name" id="id_name" class="form-control" value="{{ doctor_form.name.value }}">
-                <div id="name-error" class="error-message" style="color: red;"></div>
+                <div id="name-error" class="error-message"></div>
                 <p class="helper-text">Enter the full name of the doctor.</p>
             </div>
 
@@ -107,7 +112,7 @@
             <div class="form-group">
                 <label for="id_speciality">Speciality</label>
                 <input type="text" name="speciality" id="id_speciality" class="form-control" value="{{ doctor_form.speciality.value }}">
-                <div id="speciality-error" class="error-message" style="color: red;"></div>
+                <div id="speciality-error" class="error-message"></div>
                 <p class="helper-text">Enter the doctor's area of specialization.</p>
             </div>
 
@@ -115,7 +120,7 @@
             <div class="form-group">
                 <label for="id_phone">Phone</label>
                 <input type="tel" name="phone" id="id_phone" class="form-control" value="{{ doctor_form.phone.value }}">
-                <div id="phone-error" class="error-message" style="color: red;"></div>
+                <div id="phone-error" class="error-message"></div>
                 <p class="helper-text">Enter a valid phone number.</p>
             </div>
 
@@ -123,7 +128,7 @@
             <div class="form-group">
                 <label for="id_email">Email</label>
                 <input type="email" name="email" id="id_email" class="form-control" value="{{ doctor_form.email.value }}">
-                <div id="email-error" class="error-message" style="color: red;"></div>
+                <div id="email-error" class="error-message"></div>
                 <p class="helper-text">Enter a valid email address.</p>
             </div>
 
@@ -131,7 +136,7 @@
             <div class="form-group">
                 <label for="id_address">Address</label>
                 <textarea name="address" id="id_address" class="form-control">{{ doctor_form.address.value }}</textarea>
-                <div id="address-error" class="error-message" style="color: red;"></div>
+                <div id="address-error" class="error-message"></div>
                 <p class="helper-text">Enter the address of the doctor's clinic or hospital.</p>
             </div>
 
@@ -148,7 +153,7 @@
                     <option value="SAT" {% if doctor_form.weekly_closed_on.value == 'SAT' %}selected{% endif %}>Saturday</option>
                     <option value="SUN" {% if doctor_form.weekly_closed_on.value == 'SUN' %}selected{% endif %}>Sunday</option>
                 </select>
-                <div id="weekly-closed-on-error" class="error-message" style="color: red;"></div>
+                <div id="weekly-closed-on-error" class="error-message"></div>
                 <p class="helper-text">Select the day the doctor is unavailable.</p>
             </div>
 
@@ -157,7 +162,7 @@
                 <label for="id_open_time">Service Time</label>
                 <input type="text" name="open_time" id="id_open_time" class="form-control"
                     placeholder="e.g., 10 AM - 2 PM" value="{{ doctor_form.open_time.value }}">
-                <div id="open-time-error" class="error-message" style="color: red;"></div>
+                <div id="open-time-error" class="error-message"></div>
                 <p class="helper-text">Enter the service time in a valid format (e.g., 10 AM - 2 PM).</p>
             </div>
 
@@ -202,6 +207,4 @@
         window.location.href = "{% url 'get_doctors' %}";
     }
 </script>
-
-
 {% endblock content %}
