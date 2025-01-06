@@ -37,3 +37,4 @@ djangorestframework
 pymysql
 psycopg2
 drf-nested-routers
+channels
