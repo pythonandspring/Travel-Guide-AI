@@ -1,0 +1,46 @@
+name,email,password,phone,address,is_occupied,is_super_guide,country,state ,city,place,profile_image
+Naveen Kumar,naveen.kumar1@gmail.com, abcdefg@,9059109173,"Residential Block A, Sunrise Park, Vijayawada, Andhra Pradesh, India",0,0,India,Andhra Pradesh,Vijayawada,Sunrise Park,N/A
+Arun,arun1@gmail.com,jksksdjd$2,8142980429,"Residential Quarters, Near The Taj Mahal, Agra, Uttar Pradesh, India",0,0,India,Uttar Pradesh,Agra,The Taj Mahal,N/A
+Varma,varma1@gmail.com,32shdsiuoi*,9223932892,"Flat No. 12, Qutub Residency, New Delhi, Delhi, India",0,0,India,Delhi,New Delhi,Qutub Minar,N/A
+shankar,shankar1@gmail.com,sdkjsdjk',8012933203,"House No. 45, Near India Gate, New Delhi, Delhi, India",0,0,India,Delhi,New Delhi,India Gate,N/A
+sunil,sunil1@gmail.com,/basllasd7,7923239823,"Red Fort Apartments, Chandni Chowk, New Delhi, Delhi, India",0,0,India,Delhi,New Delhi,Red Fort,N/A
+aravind,aravind1@gmail.com,*dsjdjflsjf',9839239832,"Seaside View, Gateway of India Road, Mumbai, Maharashtra, India",0,0,India,Maharashtra,Mumbai,Gateway of India,N/A
+Venkat,venkat1@gmail.com,dsksdfl?,9183832843,"Victoria Residency, Victoria Park, Kolkata, West Bengal, India",0,0,India,West Bengal,Kolkata,Victoria Memorial,N/A
+Hussain,hussain1@gmail.com,kdeower},8478220322,"Palace View Quarters, Mysore Palace Road, Mysore, Karnataka, India",0,0,India,Karnataka,Mysore,Mysore Palace,N/A
+sagar,sagar1@gmail.com,wopiw$#,9032302392,"Golden Residency, Golden Temple Lane, Amritsar, Punjab, India",0,0,India,Punjab,Amritsar,Golden Temple,N/A
+Univ,univ1@gmail.com,kajqwio<.,9233985302,"Jaipur Heights, Near Chichen Itza, Jaipur, Rajasthan, India",0,0,India,Rajasthan,Jaipur,Chichen Itza,N/A
+jasmin,jasmin1@gmail.com,chicago*12,9398238321,"Lotus Apartments, Near The Lotus Temple, New Delhi, Delhi, India",0,0,India,Delhi,New Delhi,The Lotus Temple,N/A
+Rose,rose1@gmail.com,jdksieu&,9304310232,"Heritage Block, Near Charminar, Hyderabad, Telangana, India",0,0,India,Telangana,Hyderabad,Charminar,N/A
+Nagarjuna,nagarjuna1@gmail.com,pwiewdj+3,8924711821,"Elephant Residency, Near Elephant Falls, Shillong, Meghalaya, India",0,0,India,Meghalaya,Shillong,Elephant Falls,N/A
+Arjun,arjun1@gmail.com,"ldsljala""1",8922912812,"Stupa Quarters, Near Sanchi Stupa, Sanchi, Madhya Pradesh, India",0,0,India,Madhya Pradesh,Sanchi,Sanchi Stupa,N/A
+Ram,ram1@gmail.com,lasdj1*k},9238238119,"Riverside Flats, Near Rishikesh Market, Rishikesh, Uttarakhand, India",0,0,India,Uttarakhand,Rishikesh,Rishikesh,N/A
+Rangaiah,rangaiah1@example.com,9a3f1d7b,9876543210,"Sunrise Park, Vijayawada, Andhra Pradesh, India, Near Riverfront, Close to the City Center",0,0,India,Andhra Pradesh,Vijayawada,Sunrise Park,N/A
+Srinivas,srinivas1@example.com,3e2c8b1a,9876543211,"The Taj Mahal, Agra, Uttar Pradesh, India, South Gate, Opposite the Entrance",0,0,India,Uttar Pradesh,Agra,The Taj Mahal,N/A
+Ramu,ramu1@example.com,1a7e5b4c,9876543212,"Qutub Minar, New Delhi, Delhi, India, Mehrauli, Landmark near Qutub Minar Complex",0,0,India,Delhi,New Delhi,Qutub Minar,N/A
+Suresh,suresh1@example.com,4d9f0b3e,9876543213,"India Gate, New Delhi, Delhi, India, Rajpath, Adjacent to the National Stadium",0,0,India,Delhi,New Delhi,India Gate,N/A
+Venkat,venkat2@example.com,2c5a7d8f,9876543214,"Red Fort, New Delhi, Delhi, India, Chandni Chowk, Near Jama Masjid",0,0,India,Delhi,New Delhi,Red Fort,N/A
+Rajesh,rajesh1@example.com,8e4b1c9d,9876543215,"Gateway of India, Mumbai, Maharashtra, India, Colaba, Facing the Arabian Sea",0,0,India,Maharashtra,Mumbai,Gateway of India,N/A
+Anil,anil1@example.com,7b3e6c5a,9876543216,"Victoria Memorial, Kolkata, West Bengal, India, Alipore, Near the Botanical Gardens",0,0,India,West Bengal,Kolkata,Victoria Memorial,N/A
+Ravi,ravi1@example.com,9a1f2d8b,9876543217,"Mysore Palace, Mysore, Karnataka, India, Sayyaji Rao Road, Opposite the Public Gardens",0,0,India,Karnataka,Mysore,Mysore Palace,N/A
+Kiran,kiran1@example.com,6d7a4f2b,9876543218,"Golden Temple, Amritsar, Punjab, India, Harmandir Sahib, Near Amritsar Railway Station",0,0,India,Punjab,Amritsar,Golden Temple,N/A
+Mahesh,mahesh1@example.com,5e9a7c3d,9876543219,"Chichen Itza, Jaipur, Rajasthan, India, Near Central Park, Adjacent to the City Palace",0,0,India,Rajasthan,Jaipur,Chichen Itza,N/A
+Rangaiah,rangaiah2@example.com,2f7e3d5c,9876543220,"Sunrise Park, Vijayawada, Andhra Pradesh, India, Riverside Area, Next to the Mall",0,0,India,Andhra Pradesh,Vijayawada,Sunrise Park,N/A
+Srinivas,srinivas2@example.com,7a1e4c3b,9876543221,"The Taj Mahal, Agra, Uttar Pradesh, India, East Gate, Close to Taj Nature Walk",0,0,India,Uttar Pradesh,Agra,The Taj Mahal,N/A
+Ramu,ramu2@example.com,3d8e9a2f,9876543222,"Qutub Minar, New Delhi, Delhi, India, Mehrauli, Near the Metro Station",0,0,India,Delhi,New Delhi,Qutub Minar,N/A
+Suresh,suresh2@example.com,9f5c8b4e,9876543223,"India Gate, New Delhi, Delhi, India, Central Delhi, Adjacent to the Parliament House",0,0,India,Delhi,New Delhi,India Gate,N/A
+Venkat,venkat3@example.com,4d1b7a6f,9876543224,"Red Fort, New Delhi, Delhi, India, Old Delhi, Near the Red Fort Museum",0,0,India,Delhi,New Delhi,Red Fort,N/A
+Rajesh,rajesh2@example.com,5e8b3d9a,9876543225,"Gateway of India, Mumbai, Maharashtra, India, Colaba, Near Apollo Bunder",0,0,India,Maharashtra,Mumbai,Gateway of India,N/A
+Anil,anil2@example.com,2f9d1a7b,9876543226,"Victoria Memorial, Kolkata, West Bengal, India, Queen’s Park, Opposite Victoria Memorial Hall",0,0,India,West Bengal,Kolkata,Victoria Memorial,N/A
+Ravi,ravi2@example.com,7e3a1c9b,9876543227,"Mysore Palace, Mysore, Karnataka, India, Chamundi Hill Road, Near the Palace Museum",0,0,India,Karnataka,Mysore,Mysore Palace,N/A
+Kiran,kiran2@example.com,6f2a4b7c,9876543228,"Golden Temple, Amritsar, Punjab, India, Golden Temple Road, Near Guru Nanak Dev University",0,0,India,Punjab,Amritsar,Golden Temple,N/A
+Mahesh,mahesh2@example.com,3d7e5a9f,9876543229,"Chichen Itza, Jaipur, Rajasthan, India, Near Amer Fort, Close to Jaipur Zoo",0,0,India,Rajasthan,Jaipur,Chichen Itza,N/A
+Rangaiah,rangaiah3@example.com,6a4e2b5d,9876543230,"Sunrise Park, Vijayawada, Andhra Pradesh, India, Park Road, Near River View Hotel",0,0,India,Andhra Pradesh,Vijayawada,Sunrise Park,N/A
+Srinivas,srinivas3@example.com,1e7b8c4f,9876543231,"The Taj Mahal, Agra, Uttar Pradesh, India, West Gate, Next to Taj Viewpoint",0,0,India,Uttar Pradesh,Agra,The Taj Mahal,N/A
+Ramu,ramu3@example.com,3b7f9e2d,9876543232,"Qutub Minar, New Delhi, Delhi, India, DLF Phase 1, Near the Archaeological Garden",0,0,India,Delhi,New Delhi,Qutub Minar,N/A
+Suresh,suresh3@example.com,9e4c1f7d,9876543233,"India Gate, New Delhi, Delhi, India, Connaught Place, Near the National War Memorial",0,0,India,Delhi,New Delhi,India Gate,N/A
+Venkat,venkat4@example.com,7c9b4d8a,9876543234,"Red Fort, New Delhi, Delhi, India, Old Delhi, Behind Chandni Chowk Market",0,0,India,Delhi,New Delhi,Red Fort,N/A
+Rajesh,rajesh3@example.com,6d3f2e5b,9876543235,"Gateway of India, Mumbai, Maharashtra, India, Colaba Causeway, Near Marine Drive",0,0,India,Maharashtra,Mumbai,Gateway of India,N/A
+Anil,anil3@example.com,2e1b3d9f,9876543236,"Victoria Memorial, Kolkata, West Bengal, India, Kolkata South, Opposite Eden Gardens",0,0,India,West Bengal,Kolkata,Victoria Memorial,N/A
+Ravi,ravi3@example.com,4d8f2c5b,9876543237,"Mysore Palace, Mysore, Karnataka, India, Lalitha Mahal, Near the Bus Station",0,0,India,Karnataka,Mysore,Mysore Palace,N/A
+Kiran,kiran3@example.com,1f9b7e3a,9876543238,"Golden Temple, Amritsar, Punjab, India, Holy City, Near Amritsar Airport",0,0,India,Punjab,Amritsar,Golden Temple,N/A
+Mahesh,mahesh3@example.com,5e4a9c7f,9876543239,"Chichen Itza, Jaipur, Rajasthan, India, Near Hawa Mahal, Adjacent to City Palace",0,0,India,Rajasthan,Jaipur,Chichen Itza,N/A
