@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_nested.routers import NestedDefaultRouter
 from customer.api.views import ProfileViewSet, UserViewSet
 
-
+# update
 # Base router for UserViewSet
 router = DefaultRouter()
 router.register(r'user', UserViewSet, basename='user')

@@ -4,7 +4,7 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from guide.models import Place, Image, Guide, Doctor
 from .serializers import PlaceSerializer, ImageSerializer, GuideSerializer, DoctorSerializer
-
+# update
 
 class PlaceViewSet(ModelViewSet):
     queryset = Place.objects.all()

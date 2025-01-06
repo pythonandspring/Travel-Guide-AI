@@ -3,7 +3,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import PlaceViewSet, ImageViewSet, GuideViewSet, DoctorViewSet
 
-
+# update
 class GuideConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'guide'

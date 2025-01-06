@@ -13,3 +13,6 @@ class HotelRoomViewSet(ModelViewSet):
 class HotelImageViewSet(ModelViewSet):
     queryset = HotelImage.objects.all()
     serializer_class = HotelImageSerializer
+
+# update
+

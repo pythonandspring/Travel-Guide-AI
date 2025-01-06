@@ -17,6 +17,8 @@ class HotelRoomSerializer(serializers.ModelSerializer):
         ]
 
 
+# update
+
 class HotelSerializer(serializers.ModelSerializer):
     rooms = HotelRoomSerializer(many=True)
     images = HotelImageSerializer(many=True)

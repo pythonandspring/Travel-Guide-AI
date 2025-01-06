@@ -22,6 +22,7 @@ class UserViewSet(viewsets.ModelViewSet):
         serialized_profiles = ProfileSerializer(profiles, many=True).data
         return Response(serialized_profiles)
 
+# update
 
 class ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
