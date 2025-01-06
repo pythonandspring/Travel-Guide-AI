@@ -42,12 +42,16 @@ def is_login(view_func):
 def is_super_guide(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
-        if request.session.get('super_guide_id') and request.session.get('is_login'):
+        if (request.session.get('super_guide_id') or request.session.get('guide_id')) and request.session.get('is_login'):
             try:
                 guide_id =request.session.get('super_guide_id')
                 guide = Guide.objects.get(id=guide_id)
             except Guide.DoesNotExist:
-                return redirect('guide_login')
+                # try:
+                #     guide_id = request.session.get('guide_id')
+                #     guide = Guide.objects.get(id=guide_id)
+                # except Guide.DoesNotExist:
+                return redirect('guide_dashboard')
             return view_func(request, guide_info=guide, *args, **kwargs)
         else:
             return redirect('guide_login')

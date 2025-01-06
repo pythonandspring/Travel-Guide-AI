@@ -26,8 +26,8 @@
 
     <div class="card-container">
         {% for place in places %}
-        <div class="card" onclick="openPlaceDetails('{{ place.name|escapejs }}', '{{ place.location|escapejs }}', '{{ place.description|escapejs }}', '{% static place.image %}')">
-            <img src="{% static place.image %}" alt="{{ place.name }}">
+        <div class="card" onclick="window.location.href='{% url 'get_place' place.id %}'">
+            <img src="{{MEDIA_URL}}/{{place.front_image}}" alt="{{ place.name }}">
             <h2>{{ place.name }}</h2>
         </div>
         {% endfor %}
