@@ -11,7 +11,7 @@ from guide.models import Place
 from django.conf import settings
 
 # Define the folder where images are stored
-image_folder = os.path.join(settings.MEDIA_ROOT, 'front_images')
+image_folder = os.path.join(settings.BASE_DIR, 'dummy_data/front_images')
 
 # Ensure the folder exists
 if not os.path.exists(image_folder):

@@ -36,4 +36,4 @@ pandas==2.2.3
 djangorestframework
 pymysql
 psycopg2
-Pillow
+drf-nested-routers

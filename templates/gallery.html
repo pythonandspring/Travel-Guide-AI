@@ -109,7 +109,49 @@
         }
     });
 }
-
+    function startVoiceSearch() {
+            const modal = document.getElementById('voiceModal');
+            const closeBtn = document.getElementById('closeModal');
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            modal.style.display = 'flex';
+            recognition.lang = 'en-US';
+            recognition.start();
+            recognition.onresult = function (event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('searchBar').value = transcript;
+                filterCards();
+                fetch('/search_voice/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: transcript }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        console.log(`Voice input processed: ${data.query}`);
+                    } else {
+                        console.error('Error:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+                modal.style.display = 'none';
+            };
+            recognition.onerror = function (event) {
+                console.error('Speech recognition error:', event.error);
+                modal.style.display = 'none';
+            };
+            recognition.onspeechend = function () {
+                recognition.stop();
+            };
+            closeBtn.onclick = function () {
+                modal.style.display = 'none';
+                recognition.abort();
+            };
+        }
     function openPlaceDetails(placeName, placeLocation, placeDescription, placeImage) {
         const modal = document.getElementById('placeDetailsModal');
         document.getElementById('placeName').textContent = placeName;

@@ -15,10 +15,10 @@ django.setup()
 from accommodation.models import Hotel, HotelImage  # Import your models from the 'accommodation' app
 
 # Debugging: Ensure MEDIA_ROOT is correct
-print(f"MEDIA_ROOT is: {settings.MEDIA_ROOT}")
+print(f"MEDIA_ROOT is: {settings.BASE_DIR}")
 
 # Define the image folder path
-image_folder = os.path.join(settings.MEDIA_ROOT, 'hotel_images')
+image_folder = os.path.join(settings.BASE_DIR, 'dummy_data/hotel_images')
 
 # Debugging: Ensure the image folder exists
 if not os.path.exists(image_folder):

@@ -122,9 +122,9 @@ class Place(models.Model):
 
 
 class Image(models.Model):
-    place = models.ForeignKey(Place, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=place_image_upload_to)
-    
+    place = models.ForeignKey(
+        Place, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='place_images/')
 
     def __str__(self):
         return f"Image for {self.place.name}"

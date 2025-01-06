@@ -303,24 +303,6 @@ Email: {{ guide.email }}
                         View
                     </a>
                     <br>
-                    <!-- Conditional Button -->
-                    {% if not guide.is_occupied %}
-                    <!-- Connect Form for Request -->
-                    <form action="{% url 'send_request' guide.id %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="guide_id" value="{{ guide.id }}">
-                        <!-- Remove user_id since it's not necessary -->
-                        <button type="submit" class="btn btn-success" style="padding: 8px 15px; text-decoration: none; font-weight: bold;">
-                            Connect
-                        </button>
-                    </form>
-                    {% else %}
-                        <button class="btn btn-danger" 
-                                style="padding: 8px 15px; cursor: not-allowed; font-weight: bold;" 
-                                disabled>
-                            Occupied
-                        </button>
-                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

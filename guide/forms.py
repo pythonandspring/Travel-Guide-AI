@@ -135,8 +135,9 @@ class PlaceImageForm(forms.ModelForm):
     def save(self, commit=True):
         instance = super().save(commit=False)
 
+        # Ensure that the `hotel` field gets populated correctly
         try:
-            instance.hotel = Place.objects.get(id=self.place_id)
+            instance.place = Place.objects.get(id=self.place_id)
         except Place.DoesNotExist:
             raise ValueError("The specified place does not exist.")
 

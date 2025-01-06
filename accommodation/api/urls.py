@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import HotelViewSet, HotelRoomViewSet, HotelImageViewSet
 
+# update
 
 router = DefaultRouter()
 router.register(r'hotels', HotelViewSet)

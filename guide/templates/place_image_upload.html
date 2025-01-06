@@ -1,13 +1,103 @@
 {% load static %}
+
+<style>
+    .upload-form {
+        max-width: 500px;
+        margin: 30px auto;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .upload-form h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-label {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-top: 8px;
+        box-sizing: border-box;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+        border: none;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+    .cancel-link {
+        color: white;
+        text-decoration: none;
+    }
+
+    .cancel-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
 <div class="upload-form">
-    <form method="POST" enctype="multipart/form-data" action="{% url 'add_place_image' %}">
+    <h2>Upload a New Image</h2>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'add_place_image' %}" class="upload-form-content">
         {% csrf_token %}
-        <label for="name">Image Name:</label>
-        <input type="text" id="name" name="name" placeholder="Enter image name" required><br>
-        <button type="submit" onclick="refreshPage()">Upload</button>
-        <br>
-        <h1>{{place.id}}</h1>
-        <br>
-        {% comment %} <button><a href="{% url 'get_images' place_id %}">cancel</a></button> {% endcomment %}
+        
+        <!-- Select Image -->
+        <div class="form-group">
+            <label for="image" class="form-label">Select Image:</label>
+            <input type="file" id="image" name="image" class="form-control" required>
+        </div>
+        
+        <!-- Buttons -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">Upload</button>
+            <button type="button" class="btn btn-danger"><a href="{% url 'get_images' place_id %}" class="cancel-link">Cancel</a></button>
+        </div>
     </form>
 </div>
+
+
+

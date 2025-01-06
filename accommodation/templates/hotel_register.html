@@ -206,7 +206,7 @@
             {% endif %}
         </div>
         
-        <div class="form-group special_closed_dates">
+        {% comment %} <div class="form-group special_closed_dates">
             <label for="{{ form.special_closed_dates.id_for_label }}">{{ form.special_closed_dates.label }}:</label>
             {{ form.special_closed_dates }}
             <div id="error_id_special_closed_dates" class="error-message"></div>
@@ -218,12 +218,12 @@
                 </div>
             {% endif %}
         </div>
-        
+         {% endcomment %}
+         
         <div class="form-group week_days_opening_time">
             <label for="{{ form.week_days_opening_time.id_for_label }}">{{ form.week_days_opening_time.label }}:</label>
             <input type="time" name="week_days_opening_time" id="{{ form.week_days_opening_time.id_for_label }}" value="{{ form.week_days_opening_time.value }}">
             <div id="error_id_week_days_opening_time" class="error-message"></div>
-            <input type="time" name="week_days_opening_time" id="{{ form.week_days_opening_time.id_for_label }} checking" value="{{ form.week_days_opening_time.value }}">
             {% if form.week_days_opening_time.errors %}
                 <div class="error-message" >
                     {% for error in form.week_days_opening_time.errors %}
