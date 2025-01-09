@@ -4,7 +4,6 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 
-
 def send_confirmation_email(to_email, user_type, username, additional_info):
     subject = ''
     message = ''
@@ -86,5 +85,3 @@ def send_confirmation_email(to_email, user_type, username, additional_info):
         fail_silently=False,
     )
 
-from travelling.filter_data.get_data import get_cities
-print(get_cities())

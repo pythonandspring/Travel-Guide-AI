@@ -37,3 +37,4 @@ djangorestframework
 pymysql
 Pillow
 psycopg2
+drf-nested-routers
